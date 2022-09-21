@@ -20,14 +20,12 @@ public class FlyMovement : MonoBehaviour
     private CinemachineTransposer _virtualCameraTransposer;
 
     public Animator flyAnimator;
-    private readonly float _deceleration = 5f;
-    private readonly float acceleration = 2f;
-    private readonly float maxMovSpeed = 1f;
-    private readonly float speedMultiplier = 10f;
+    private readonly float acceleration = .035f;
+    private readonly float speedMultiplier = 7f;
 
 
     private Vector2 _inputDirection;
-    private Vector2 _movVector;
+    private Vector2 _inputDirectionTo;
     private float _hSpeed;
     private float _vSpeed;
 
@@ -63,8 +61,7 @@ public class FlyMovement : MonoBehaviour
     private void Start()
     {
         _myRigidbody = GetComponent<Rigidbody>();
-        _movVector = Vector2.zero;
-        _inputDirection = Vector2.zero;
+        _inputDirectionTo = Vector2.zero;
         flyAnimator = GetComponentInChildren<Animator>();
         virtualCamera = GameObject.Find("VirtualCamera")
             .GetComponent<CinemachineVirtualCamera>();
@@ -78,36 +75,36 @@ public class FlyMovement : MonoBehaviour
 
         if (_speedBoost > 1) _speedBoost -= Time.deltaTime;
 
-        _hSpeed += _inputDirection.x * acceleration * Time.deltaTime;
-        _hSpeed = Mathf.Clamp(_hSpeed, -maxMovSpeed, maxMovSpeed);
+        _hSpeed += (_inputDirectionTo.x - _hSpeed) * acceleration * Time.deltaTime * 60f;
+        _vSpeed += (_inputDirectionTo.y - _vSpeed) * acceleration * Time.deltaTime * 60f;
+        _inputDirection = new Vector2(_hSpeed, _vSpeed);
+
+        _myRigidbody.velocity = new Vector3(_inputDirection.x * speedMultiplier * _speedBoost,
+            _inputDirection.y * speedMultiplier * _speedBoost, 0);
 
 
-        _vSpeed += _inputDirection.y * acceleration * Time.deltaTime;
-        _vSpeed = Mathf.Clamp(_vSpeed, -maxMovSpeed, maxMovSpeed);
-        _movVector = new Vector2(_hSpeed, _vSpeed);
-
-        _myRigidbody.velocity = new Vector3(_movVector.x * speedMultiplier * _speedBoost,
-            _movVector.y * speedMultiplier * _speedBoost, 0);
-
-
-        flyAnimator.SetFloat(FlyAnimSpeedH, _movVector.x * _isFacingRight);
-        flyAnimator.SetFloat(FlyAnimSpeedV, _movVector.y);
+        flyAnimator.SetFloat(FlyAnimSpeedH, _inputDirection.x * _isFacingRight);
+        flyAnimator.SetFloat(FlyAnimSpeedV, _inputDirection.y);
 
         CalculateCameraOffset();
 
-        if (_inputDirection == Vector2.zero)
+        /*
+
+        if (_inputDirectionTo == Vector2.zero)
         {
             _hSpeed -= _hSpeed * _deceleration * Time.deltaTime;
             _vSpeed -= _vSpeed * _deceleration * Time.deltaTime;
         }
+        
+        */
 
-        if (_hSpeed >= maxMovSpeed / 2 || _isDashing)
+        if (_hSpeed >= .5f / 2 || _isDashing)
         {
             if (_isFacingRight != 1)
                 _timeBackwards += Time.deltaTime;
 
 
-            if (_timeBackwards > TimeToSwitch || (_isDashing && _isFacingRight != 1 && _inputDirection.x > 0))
+            if (_timeBackwards > TimeToSwitch || (_isDashing && _isFacingRight != 1 && _inputDirectionTo.x > 0))
             {
                 my3DModel.transform.DORotate(new Vector3(0, 90, 0), 0.5f);
                 _timeBackwards = 0;
@@ -116,12 +113,12 @@ public class FlyMovement : MonoBehaviour
         }
 
 
-        if (_hSpeed <= -maxMovSpeed / 2 || _isDashing)
+        if (_hSpeed <= -.5f / 2 || _isDashing)
         {
             if (_isFacingRight == 1)
                 _timeBackwards += Time.deltaTime;
 
-            if (_timeBackwards > TimeToSwitch || (_isDashing && _isFacingRight == 1 && _inputDirection.x < 0))
+            if (_timeBackwards > TimeToSwitch || (_isDashing && _isFacingRight == 1 && _inputDirectionTo.x < 0))
             {
                 my3DModel.transform.DORotate(new Vector3(0, 270, 0), 0.5f);
                 _timeBackwards = 0;
@@ -144,9 +141,9 @@ public class FlyMovement : MonoBehaviour
         }
         else
         {
-            _movVector = Vector2.Reflect(_movVector, collision.contacts[0].normal);
-            _hSpeed = _movVector.x * .5f;
-            _vSpeed = _movVector.y * .5f;
+            _inputDirection = Vector2.Reflect(_inputDirection, collision.contacts[0].normal);
+            _hSpeed = _inputDirection.x * .5f;
+            _vSpeed = _inputDirection.y * .5f;
         }
     }
 
@@ -175,7 +172,7 @@ public class FlyMovement : MonoBehaviour
 
     public void Move(InputAction.CallbackContext context)
     {
-        _inputDirection = context.ReadValue<Vector2>();
+        _inputDirectionTo = context.ReadValue<Vector2>();
     }
 
 
@@ -198,9 +195,11 @@ public class FlyMovement : MonoBehaviour
     {
         _closeUpOffsetTo = 1f;
         _closeUpOffset = 0;
-
         _dashCooldown = dashCooldownMax;
         _speedBoost = _speedBoostMax;
+        _inputDirection = _inputDirectionTo;
+        _hSpeed = _inputDirection.x;
+        _vSpeed = _inputDirection.y;
         _isDashing = true;
     }
 
@@ -215,11 +214,11 @@ public class FlyMovement : MonoBehaviour
         _vertCameraOffsetTo = _vSpeed * 1.5f;
         _vertCameraOffset += (_vertCameraOffsetTo - _vertCameraOffset) * Time.deltaTime * 2f;
 
-        _zoomCameraOffsetTo = _movVector.magnitude * 5f;
+        _zoomCameraOffsetTo = _inputDirection.magnitude * 5f;
         _zoomCameraOffset += (_zoomCameraOffsetTo - _zoomCameraOffset) * Time.deltaTime * 0.7f;
 
         _virtualCameraTransposer.m_FollowOffset =
-            new Vector3(_horCameraOffset, _vertCameraOffset, -8f - _movVector.magnitude + _closeUpOffset * 2.5f);
+            new Vector3(_horCameraOffset, _vertCameraOffset, -7f - _inputDirection.magnitude + _closeUpOffset * 2.5f);
 
         _closeUpOffset += (_closeUpOffsetTo - _closeUpOffset) * Time.deltaTime * 3f;
 
