@@ -46,7 +46,7 @@ public class CoinScript : MonoBehaviour
     private void OnDestroy()
     {
         LevelManager.coinList.Remove(gameObject);
-        PlayerInteractionHandler.OnScoreChange?.Invoke(1);
+        PlayerInteractionHandler.OnScoreChanged?.Invoke(1);
         DOTween.Kill(coin);
         DOTween.Kill(transform);
     }

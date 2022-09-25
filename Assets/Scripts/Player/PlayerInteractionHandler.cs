@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Events;
@@ -9,8 +10,8 @@ public class PlayerInteractionHandler : MonoBehaviour
     [SerializeField] private PlayerCamera pC;
     [SerializeField] private STATS stats;
 
-    public static UnityAction<int, int> OnPlayerHealthChange;
-    public static UnityAction<int> OnScoreChange;
+    public static UnityAction<int, int> OnPlayerHealthChanged;
+    public static UnityAction<int> OnScoreChanged;
 
     private Vector3 _vertSqueeze = new(0, 0.5f, 0);
     private Vector3 _horSqueeze = new(0.5f, 0, 0);
@@ -19,7 +20,13 @@ public class PlayerInteractionHandler : MonoBehaviour
 
     private void Start()
     {
-        OnPlayerHealthChange?.Invoke(stats.ST_Health, stats.ST_MaxHealth);
+        StartCoroutine(StartHealth());
+    }
+
+    private IEnumerator StartHealth()
+    {
+        yield return new WaitForSeconds(.2f);
+        OnPlayerHealthChanged?.Invoke(stats.ST_Health, stats.ST_MaxHealth);
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -51,7 +58,7 @@ public class PlayerInteractionHandler : MonoBehaviour
                 else
                 {
                     pM.frozen = .1f;
-                    OnScoreChange?.Invoke(otherStats.ST_Reward);
+                    OnScoreChanged?.Invoke(otherStats.ST_Reward);
                 }
 
                 otherStats.TakeDamage(stats.ST_Damage);
@@ -70,7 +77,7 @@ public class PlayerInteractionHandler : MonoBehaviour
 
 
                     stats.TakeDamage(otherStats.ST_Damage);
-                    OnPlayerHealthChange?.Invoke(stats.ST_Health, stats.ST_MaxHealth);
+                    OnPlayerHealthChanged?.Invoke(stats.ST_Health, stats.ST_MaxHealth);
 
                     FreezeFrameScript.FreezeFrames(0.3f);
                     FreezeFrameScript.DistortView(0.3f);
@@ -97,5 +104,31 @@ public class PlayerInteractionHandler : MonoBehaviour
             if (coin != null && coin.isFollowing == 0)
                 coin.Collect(transform);
         }
+
+        if (collision.gameObject.CompareTag("Meta"))
+        {
+            if (pM.frozen > 0) return;
+
+            pM.frozen = 15f;
+            pM.my3DModel.transform.DOShakePosition(5f, .3f);
+            pM.my3DModel.transform.DOLocalRotate(new Vector3(0, 0, 360), .3f, RotateMode.FastBeyond360)
+                .SetLoops(-1, LoopType.Incremental).SetEase(Ease.Linear);
+
+
+            pM.DisablePlayer();
+            transform.DOMove(collision.transform.position, 1f).SetEase(Ease.InQuart).onComplete += () =>
+            {
+                transform.DOScale(Vector3.zero, .5f).SetEase(Ease.InQuart).onComplete += () =>
+                {
+                    LevelManager.StartLevelTransition?.Invoke();
+                };
+            };
+        }
+    }
+
+    private void OnDisable()
+    {
+        DOTween.Kill(transform);
+        DOTween.Kill(pM.my3DModel.transform);
     }
 }

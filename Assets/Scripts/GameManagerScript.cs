@@ -8,7 +8,6 @@ using UnityEngine.SceneManagement;
 
 public class GameManagerScript : MonoBehaviour
 {
-    //create singleton
     public static GameManagerScript Instance;
 
     private float _updateFPS = .1f;
@@ -17,7 +16,6 @@ public class GameManagerScript : MonoBehaviour
     // Level and level transition management
     public static UnityAction StartLevelTransition;
 
-    // Start is called before the first frame update
     private void Start()
     {
         //singleton code
@@ -25,9 +23,10 @@ public class GameManagerScript : MonoBehaviour
             Instance = this;
         else
             Destroy(gameObject);
+
+        DontDestroyOnLoad(transform.root.gameObject);
     }
 
-    // Update is called once per frame
     private void Update()
     {
         if (Instance._updateFPS >= 0)
@@ -45,6 +44,12 @@ public class GameManagerScript : MonoBehaviour
     public static void RestartLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        PlayerInteractionHandler.OnScoreChange?.Invoke(0);
+        PlayerInteractionHandler.OnScoreChanged?.Invoke(0);
+    }
+
+    public static void LoadNextLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        PlayerInteractionHandler.OnScoreChanged?.Invoke(0);
     }
 }

@@ -1,34 +1,61 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using DG.Tweening;
 
 public class LevelTransitionScript : MonoBehaviour
 {
+    public static LevelTransitionScript Instance;
+
+    [SerializeField] private RawImage fadeImage;
+    private RenderTexture _renderTexture;
+
     private void StartTransition()
     {
+        StartCoroutine(CoroutineScreenshot());
     }
 
     private void OnEnable()
     {
-        throw new NotImplementedException();
+        LevelManager.StartLevelTransition += StartTransition;
     }
 
-    /*
+    private void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(gameObject);
+
+
+        DontDestroyOnLoad(transform.root.gameObject);
+    }
+
+    private void OnDisable()
+    {
+        LevelManager.StartLevelTransition -= StartTransition;
+    }
+
+
     private IEnumerator CoroutineScreenshot()
     {
-        
         yield return new WaitForEndOfFrame();
-        int width = Screen.width;
-        int height = Screen.height;
-        
-        Texture2D screenshotTexture = new Texture2D(width, height, TextureFormat.ARGB32, false);
-        Rect rect = new Rect(0, 0, width, height);
-        
-        screenshotTexture.ReadPixels(rect, 0, 0);
-        screenshotTexture.Apply();
-        
-        byte[] byteArray screenshotTexture.EncodeToPNG("Screenshot.png");      
+
+        _renderTexture = new RenderTexture(Screen.width, Screen.height, 0);
+        ScreenCapture.CaptureScreenshotIntoRenderTexture(_renderTexture);
+
+        fadeImage.material.SetTexture("_screenshot", _renderTexture);
+        fadeImage.gameObject.SetActive(true);
+
+
+        DOVirtual.Float(0, 1f, 3.5f, value => fadeImage.material.SetFloat("_maskSize", value)).SetEase(Ease.InCirc)
+            .onComplete += () =>
+        {
+            fadeImage.gameObject.SetActive(false);
+            _renderTexture.Release();
+        };
+
+        GameManagerScript.LoadNextLevel();
     }
-    */
 }

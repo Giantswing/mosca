@@ -27,7 +27,7 @@ public class LevelManager : MonoBehaviour
 
     private void OnEnable()
     {
-        PlayerInteractionHandler.OnScoreChange += UpdateScore;
+        PlayerInteractionHandler.OnScoreChanged += UpdateScore;
     }
 
     private void Start()

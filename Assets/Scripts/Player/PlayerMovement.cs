@@ -18,7 +18,7 @@ public class PlayerMovement : MonoBehaviour
     private static readonly int FlyAnimSpeedV = Animator.StringToHash("FlyAnimSpeedV");
 
 
-    [SerializeField] private GameObject my3DModel;
+    public GameObject my3DModel;
 
     public Animator flyAnimator;
     private readonly float acceleration = .035f;
@@ -26,11 +26,13 @@ public class PlayerMovement : MonoBehaviour
 
 
     [HideInInspector] public Vector2 inputDirection;
-    private Vector2 _inputDirectionTo;
+    [HideInInspector] public Vector2 inputDirectionTo;
     [HideInInspector] public float hSpeed;
     [HideInInspector] public float vSpeed;
 
     private Rigidbody _myRigidbody;
+
+    private bool imDisabled = false;
 
 
     //DASH /////////////////////
@@ -51,13 +53,15 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         _myRigidbody = GetComponent<Rigidbody>();
-        _inputDirectionTo = Vector2.zero;
+        inputDirectionTo = Vector2.zero;
         flyAnimator = GetComponentInChildren<Animator>();
     }
 
     // Update is called once per frame
     private void Update()
     {
+        if (imDisabled) return;
+
         frozen -= Time.deltaTime;
 
         if (_timerToDoubleDash > 0)
@@ -67,8 +71,8 @@ public class PlayerMovement : MonoBehaviour
 
         if (_speedBoost > 1) _speedBoost -= Time.deltaTime;
 
-        hSpeed += (_inputDirectionTo.x - hSpeed) * acceleration * Time.deltaTime * 60f;
-        vSpeed += (_inputDirectionTo.y - vSpeed) * acceleration * Time.deltaTime * 60f;
+        hSpeed += (inputDirectionTo.x - hSpeed) * acceleration * Time.deltaTime * 60f;
+        vSpeed += (inputDirectionTo.y - vSpeed) * acceleration * Time.deltaTime * 60f;
         inputDirection = new Vector2(hSpeed, vSpeed);
 
 
@@ -92,7 +96,7 @@ public class PlayerMovement : MonoBehaviour
                 _timeBackwards += Time.deltaTime;
 
 
-            if ((_timeBackwards > TimeToSwitch || (isDashing && isFacingRight != 1 && _inputDirectionTo.x > 0)) &&
+            if ((_timeBackwards > TimeToSwitch || (isDashing && isFacingRight != 1 && inputDirectionTo.x > 0)) &&
                 !_doubleDash)
             {
                 my3DModel.transform.DOLocalRotate(new Vector3(0, 0, 0), 0.5f);
@@ -107,7 +111,7 @@ public class PlayerMovement : MonoBehaviour
             if (isFacingRight == 1)
                 _timeBackwards += Time.deltaTime;
 
-            if ((_timeBackwards > TimeToSwitch || (isDashing && isFacingRight == 1 && _inputDirectionTo.x < 0)) &&
+            if ((_timeBackwards > TimeToSwitch || (isDashing && isFacingRight == 1 && inputDirectionTo.x < 0)) &&
                 !_doubleDash)
             {
                 my3DModel.transform.DOLocalRotate(new Vector3(0, 180, 0), 0.5f);
@@ -149,12 +153,13 @@ public class PlayerMovement : MonoBehaviour
 
     public void Move(InputAction.CallbackContext context)
     {
-        _inputDirectionTo = context.ReadValue<Vector2>();
+        inputDirectionTo = context.ReadValue<Vector2>();
     }
 
 
     public void Dash(InputAction.CallbackContext context)
     {
+        if (imDisabled) return;
         if (!isDashing && _timerToDoubleDash <= 0)
             flyAnimator.SetBool(IsDashing, true);
         else if (_timerToDoubleDash > 0)
@@ -169,7 +174,7 @@ public class PlayerMovement : MonoBehaviour
         pC.closeUpOffsetTo = 1f;
         pC.closeUpOffset = 0;
         _speedBoost = _speedBoostMax;
-        inputDirection = _inputDirectionTo;
+        inputDirection = inputDirectionTo;
         hSpeed = inputDirection.x;
         vSpeed = inputDirection.y;
         isDashing = true;
@@ -202,4 +207,14 @@ public class PlayerMovement : MonoBehaviour
     }
 
     /******************************************************************/
+
+    public void DisablePlayer()
+    {
+        hSpeed = 0;
+        vSpeed = 0;
+        inputDirection = Vector2.zero;
+        inputDirectionTo = Vector2.zero;
+        _myRigidbody.velocity = Vector3.zero;
+        imDisabled = true;
+    }
 }

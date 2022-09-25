@@ -19,7 +19,7 @@ public class HealthContainer : MonoBehaviour
 
     private void Awake()
     {
-        PlayerInteractionHandler.OnPlayerHealthChange += PlayerHealthChanged;
+        PlayerInteractionHandler.OnPlayerHealthChanged += PlayerHealthChange;
     }
 
     private void Start()
@@ -35,10 +35,10 @@ public class HealthContainer : MonoBehaviour
 
     private void OnDisable()
     {
-        PlayerInteractionHandler.OnPlayerHealthChange -= PlayerHealthChanged;
+        PlayerInteractionHandler.OnPlayerHealthChanged -= PlayerHealthChange;
     }
 
-    private void PlayerHealthChanged(int health, int maxHealth)
+    private void PlayerHealthChange(int health, int maxHealth)
     {
         for (var i = 0; i < _maxHeartCointainersUI; i++)
             if (i < maxHealth)
