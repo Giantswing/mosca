@@ -10,20 +10,21 @@ public class MetaScript : MonoBehaviour
     public Material openMaterial;
     private Renderer _myRenderer;
     public bool isOpen = false;
-    void Start()
+
+    private void Start()
     {
         _myRenderer = GetComponent<Renderer>();
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
     }
 
     public void OpenWin()
     {
         isOpen = true;
-        _myRenderer.material = openMaterial;
+        if (_myRenderer != null)
+            _myRenderer.material = openMaterial;
     }
 }

@@ -61,7 +61,7 @@ ModelImporter:
       curves: []
       events:
       - time: 0.17857143
-        functionName: StartDashActiveFrames
+        functionName: StartDashBoost
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
@@ -69,6 +69,13 @@ ModelImporter:
         messageOptions: 0
       - time: 0.5895346
         functionName: StopDashBoost
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.4452381
+        functionName: AllowDoubleDash
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0

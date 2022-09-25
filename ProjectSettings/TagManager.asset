@@ -7,6 +7,7 @@ TagManager:
   - Coin
   - Meta
   - Breakable
+  - Enemy
   layers:
   - Default
   - TransparentFX

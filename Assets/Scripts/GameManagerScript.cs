@@ -1,29 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class GameManagerScript : MonoBehaviour
 {
     //create singleton
     public static GameManagerScript Instance;
 
+    private float _updateFPS = .1f;
+    [SerializeField] private TextMeshProUGUI fpsText;
 
-    //CREATE LIST OF COINS
-    public static List<GameObject> coinList = new();
-    private int _coinsToWin;
-    public static int score = 0;
-    public GameObject winScreen;
-
-    public TextMeshProUGUI scoreText;
-
-    public MetaScript myMeta;
+    // Level and level transition management
+    public static UnityAction StartLevelTransition;
 
     // Start is called before the first frame update
     private void Start()
     {
-        coinList.AddRange(GameObject.FindGameObjectsWithTag("Coin"));
-
         //singleton code
         if (Instance == null)
             Instance = this;
@@ -34,18 +30,21 @@ public class GameManagerScript : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+        if (Instance._updateFPS >= 0)
+        {
+            Instance._updateFPS -= Time.deltaTime;
+            if (Instance._updateFPS < 0)
+            {
+                fpsText.SetText(Mathf.Round(1f / Time.unscaledDeltaTime).ToString());
+                Instance._updateFPS = .1f;
+            }
+        }
     }
 
-    public static void AddScore(int scoreToAdd)
-    {
-        score += scoreToAdd;
-        Instance.scoreText.text = score.ToString();
 
-        if (coinList.Count == 0) Instance.myMeta.OpenWin();
-    }
-
-    public static void WinGame()
+    public static void RestartLevel()
     {
-        Instance.winScreen.SetActive(true);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        PlayerInteractionHandler.OnScoreChange?.Invoke(0);
     }
 }

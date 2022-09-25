@@ -153,6 +153,7 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
+    Android: com.DefaultCompany.Mosca
     Standalone: com.DefaultCompany.Mosca
   buildNumber:
     Standalone: 0
@@ -701,8 +702,20 @@ PlayerSettings:
   webGLThreadsSupport: 0
   webGLDecompressionFallback: 0
   scriptingDefineSymbols:
-    Android: AMPLIFY_SHADER_EDITOR
-    Standalone: AMPLIFY_SHADER_EDITOR
+    Android: AMPLIFY_SHADER_EDITOR;PROBUILDER_EXPERIMENTAL_FEATURES
+    CloudRendering: PROBUILDER_EXPERIMENTAL_FEATURES
+    EmbeddedLinux: PROBUILDER_EXPERIMENTAL_FEATURES
+    GameCoreXboxOne: PROBUILDER_EXPERIMENTAL_FEATURES
+    Lumin: PROBUILDER_EXPERIMENTAL_FEATURES
+    Nintendo Switch: PROBUILDER_EXPERIMENTAL_FEATURES
+    PS4: PROBUILDER_EXPERIMENTAL_FEATURES
+    PS5: PROBUILDER_EXPERIMENTAL_FEATURES
+    Stadia: PROBUILDER_EXPERIMENTAL_FEATURES
+    Standalone: AMPLIFY_SHADER_EDITOR;PROBUILDER_EXPERIMENTAL_FEATURES
+    WebGL: PROBUILDER_EXPERIMENTAL_FEATURES
+    Windows Store Apps: PROBUILDER_EXPERIMENTAL_FEATURES
+    XboxOne: PROBUILDER_EXPERIMENTAL_FEATURES
+    tvOS: PROBUILDER_EXPERIMENTAL_FEATURES
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend: {}

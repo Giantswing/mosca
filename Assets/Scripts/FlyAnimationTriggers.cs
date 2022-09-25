@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class FlyAnimationTriggers : MonoBehaviour
 {
-    [SerializeField] private FlyMovement flyMovement;
+    [SerializeField] private PlayerMovement flyMovement;
 
     // Start is called before the first frame update
     private void Start()
     {
-        flyMovement = GetComponentInParent<FlyMovement>();
+        flyMovement = GetComponentInParent<PlayerMovement>();
     }
 
     public void StopDashBoost()
@@ -17,8 +17,25 @@ public class FlyAnimationTriggers : MonoBehaviour
         flyMovement.StopDashBoost();
     }
 
-    public void StartDashActiveFrames()
+
+    public void StartDashBoost()
     {
         flyMovement.StartDashBoost();
+    }
+
+
+    public void StartDoubleDash()
+    {
+        flyMovement.StartDoubleDash();
+    }
+
+    public void StopDoubleDash()
+    {
+        flyMovement.StopDoubleDash();
+    }
+
+    public void AllowDoubleDash()
+    {
+        flyMovement.AllowDoubleDash();
     }
 }
