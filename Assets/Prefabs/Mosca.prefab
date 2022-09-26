@@ -1651,7 +1651,7 @@ GameObject:
   - component: {fileID: 7181058524826200371}
   m_Layer: 0
   m_Name: Mosca
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1973,6 +1973,7 @@ MonoBehaviour:
   my3DModel: {fileID: 2299378218407283694}
   flyAnimator: {fileID: 0}
   inputDirection: {x: 0, y: 0}
+  inputDirectionTo: {x: 0, y: 0}
   hSpeed: 0
   vSpeed: 0
   isDashing: 0

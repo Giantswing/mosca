@@ -14,7 +14,7 @@ public class LevelManager : MonoBehaviour
     private int _coinsToWin;
 
     private int _score = 0;
-    public TextMeshProUGUI scoreText;
+    private TextMeshProUGUI _scoreText;
     private Tween _scorePunchTween;
 
     private GameObject portal;
@@ -23,37 +23,33 @@ public class LevelManager : MonoBehaviour
     // Level and level transition management
     [SerializeField] private LevelRules levelRules;
 
-    public static UnityAction StartLevelTransition;
+    public static UnityAction<Vector3> StartLevelTransition;
+    public static UnityAction<string> UpdateScoreUI;
 
     private void OnEnable()
     {
         PlayerInteractionHandler.OnScoreChanged += UpdateScore;
-    }
-
-    private void Start()
-    {
         _score = 0;
         coinList.AddRange(GameObject.FindGameObjectsWithTag("Coin"));
-        _scorePunchTween = scoreText.transform.DOPunchScale(Vector3.one * .5f, .5f, 1, 1);
         _coinsToWin = coinList.Count;
         portal = GameObject.FindGameObjectWithTag("Meta");
         portal.SetActive(false);
     }
 
+    private void OnDisable()
+    {
+        PlayerInteractionHandler.OnScoreChanged -= UpdateScore;
+    }
+
+    private void Start()
+    {
+        UpdateScoreUI?.Invoke(_score.ToString() + "/" + _coinsToWin.ToString());
+    }
+
     private void UpdateScore(int scoreChange)
     {
         _score += scoreChange;
-        _scorePunchTween.Play();
-
-
-        scoreText.transform.DOPunchScale(Vector3.one * .1f, .2f).onComplete += () =>
-        {
-            scoreText.transform.localScale = Vector3.one;
-        };
-
-
-        scoreText.SetText(_score.ToString() + "/" + _coinsToWin.ToString());
-
+        UpdateScoreUI?.Invoke(_score.ToString() + "/" + _coinsToWin.ToString());
         CheckWin();
     }
 

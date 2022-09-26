@@ -120,7 +120,7 @@ public class PlayerInteractionHandler : MonoBehaviour
             {
                 transform.DOScale(Vector3.zero, .5f).SetEase(Ease.InQuart).onComplete += () =>
                 {
-                    LevelManager.StartLevelTransition?.Invoke();
+                    LevelManager.StartLevelTransition?.Invoke(collision.transform.position);
                 };
             };
         }

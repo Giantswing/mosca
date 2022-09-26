@@ -9,6 +9,9 @@ public class FollowObjectScript : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
+        if (_whoToFollow == null)
+            _whoToFollow = GameObject.FindGameObjectsWithTag("Player")[0].transform;
+
         transform.position = _whoToFollow.position;
     }
 

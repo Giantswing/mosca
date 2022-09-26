@@ -10,9 +10,6 @@ public class GameManagerScript : MonoBehaviour
 {
     public static GameManagerScript Instance;
 
-    private float _updateFPS = .1f;
-    [SerializeField] private TextMeshProUGUI fpsText;
-
     // Level and level transition management
     public static UnityAction StartLevelTransition;
 
@@ -24,20 +21,8 @@ public class GameManagerScript : MonoBehaviour
         else
             Destroy(gameObject);
 
+        //Application.targetFrameRate = 25;
         DontDestroyOnLoad(transform.root.gameObject);
-    }
-
-    private void Update()
-    {
-        if (Instance._updateFPS >= 0)
-        {
-            Instance._updateFPS -= Time.deltaTime;
-            if (Instance._updateFPS < 0)
-            {
-                fpsText.SetText(Mathf.Round(1f / Time.unscaledDeltaTime).ToString());
-                Instance._updateFPS = .1f;
-            }
-        }
     }
 
 

@@ -10,26 +10,23 @@ public class FreezeFrameScript : MonoBehaviour
     private static FreezeFrameScript Instance;
     private bool _isFrozen = false;
     private float _timeScaleTo = 1f;
-    [SerializeField] private Volume _volume;
     private LensDistortion lensDistortion;
     private float _distortionIntensity = 0f;
     private float _distortionIntensityTo = 0f;
+    private Volume _volume;
 
     private void Start()
     {
+        _volume = GetComponent<Volume>();
+
         _isFrozen = false;
         _volume.profile.TryGet(out lensDistortion);
 
 
         if (Instance != null)
-        {
             Destroy(gameObject);
-        }
         else
-        {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
     }
 
     public static void FreezeFrames(float duration)

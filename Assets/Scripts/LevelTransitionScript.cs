@@ -10,10 +10,16 @@ public class LevelTransitionScript : MonoBehaviour
 
     [SerializeField] private RawImage fadeImage;
     private RenderTexture _renderTexture;
+    private Camera _camera;
 
-    private void StartTransition()
+    private void Start()
     {
-        StartCoroutine(CoroutineScreenshot());
+        _camera = Camera.main;
+    }
+
+    private void StartTransition(Vector3 portalPosition)
+    {
+        StartCoroutine(CoroutineScreenshot(portalPosition));
     }
 
     private void OnEnable()
@@ -38,7 +44,7 @@ public class LevelTransitionScript : MonoBehaviour
     }
 
 
-    private IEnumerator CoroutineScreenshot()
+    private IEnumerator CoroutineScreenshot(Vector3 portalPosition)
     {
         yield return new WaitForEndOfFrame();
 
@@ -49,7 +55,14 @@ public class LevelTransitionScript : MonoBehaviour
         fadeImage.gameObject.SetActive(true);
 
 
-        DOVirtual.Float(0, 1f, 3.5f, value => fadeImage.material.SetFloat("_maskSize", value)).SetEase(Ease.InCirc)
+        //var portalPositionOnScreen = _camera.WorldToScreenPoint(portalPosition);
+        var portalPositionOnScreen = _camera.WorldToViewportPoint(portalPosition);
+
+        fadeImage.material.SetFloat("_XPos", portalPositionOnScreen.x);
+        fadeImage.material.SetFloat("_YPos", portalPositionOnScreen.y);
+
+
+        DOVirtual.Float(0, 1f, 1.5f, value => fadeImage.material.SetFloat("_maskSize", value)).SetEase(Ease.InCirc)
             .onComplete += () =>
         {
             fadeImage.gameObject.SetActive(false);
