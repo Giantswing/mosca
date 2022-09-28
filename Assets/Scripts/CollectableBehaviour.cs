@@ -1,33 +1,70 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-public class CoinScript : MonoBehaviour
+public class CollectableBehaviour : MonoBehaviour
 {
-    [SerializeField] private AnimationCurve curve;
-    [SerializeField] private Transform coin;
+    private bool _isShrinking = false;
+    private Tweener _tweener;
 
+    [HideInInspector] public int isFollowing = 0;
     private Transform _whoToFollow;
 
-    //get dotween animation
-    private Tweener _tweener;
-    public int isFollowing = 0;
-    private float _deathTimer;
-    private bool _isShrinking = false;
+    [SerializeField] private Transform displayObject;
+    [SerializeField] private Collider myCollider;
 
-    // Start is called before the first frame update
-    private void Start()
+
+    private bool hasAddedScore = false;
+
+    [HideInInspector]
+    public enum PickUpAnimation
     {
-        coin.DOLocalRotate(new Vector3(360, 0, 0), 2f, RotateMode.FastBeyond360)
-            .SetLoops(-1, LoopType.Incremental).SetEase(Ease.Linear);
-
-        //populate tween
+        Rotatable
     }
 
-    // Update is called once per frame
+    public PickUpAnimation pickUpAnimation;
+
+    [HideInInspector]
+    public enum PickUp
+    {
+        Coin
+    }
+
+    public PickUp pickUp;
+
+    public int scoreValue = 1;
+
+
+    public void AddToScore()
+    {
+        LevelManager.ScoreToWin += scoreValue;
+        hasAddedScore = true;
+    }
+
+    private void Start()
+    {
+        if (!hasAddedScore) AddToScore();
+
+        switch (pickUpAnimation)
+        {
+            case PickUpAnimation.Rotatable:
+                displayObject.DOLocalRotate(new Vector3(0, 360, 0), 2f, RotateMode.FastBeyond360)
+                    .SetLoops(-1, LoopType.Incremental).SetEase(Ease.Linear);
+                break;
+        }
+
+        myCollider.enabled = false;
+        StartCoroutine(AllowCollection());
+    }
+
+    private IEnumerator AllowCollection()
+    {
+        yield return new WaitForSeconds(0.5f);
+        myCollider.enabled = true;
+    }
+
+
     private void Update()
     {
         if (isFollowing == 2)
@@ -45,10 +82,10 @@ public class CoinScript : MonoBehaviour
 
     private void OnDestroy()
     {
-        LevelManager.coinList.Remove(gameObject);
-        PlayerInteractionHandler.OnScoreChanged?.Invoke(1);
-        DOTween.Kill(coin);
+        if (pickUp == PickUp.Coin) LevelManager.OnScoreChanged?.Invoke(scoreValue);
+
         DOTween.Kill(transform);
+        DOTween.Kill(displayObject);
     }
 
     public void Collect(Transform follow)
@@ -75,6 +112,7 @@ public class CoinScript : MonoBehaviour
         var tempPosition = tempTransform.position;
         var awayDirection = (tempPosition - follow.position).normalized;
         var position = tempPosition + awayDirection * 2;
+
         _tweener = transform.DOMove(_whoToFollow.position, .2f, false).SetEase(Ease.OutCubic);
         isFollowing = 2;
         _tweener.Play();

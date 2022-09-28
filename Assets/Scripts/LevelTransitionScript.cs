@@ -11,11 +11,13 @@ public class LevelTransitionScript : MonoBehaviour
     [SerializeField] private RawImage fadeImage;
     private RenderTexture _renderTexture;
     private Camera _camera;
+    private Tween _maskSizeTween;
+    private Tween _testTween;
+    private static readonly int MaskSize = Shader.PropertyToID("_maskSize");
+    private static readonly int XPos = Shader.PropertyToID("_XPos");
+    private static readonly int YPos = Shader.PropertyToID("_YPos");
+    private static readonly int Screenshot = Shader.PropertyToID("_screenshot");
 
-    private void Start()
-    {
-        _camera = Camera.main;
-    }
 
     private void StartTransition(Vector3 portalPosition)
     {
@@ -25,6 +27,8 @@ public class LevelTransitionScript : MonoBehaviour
     private void OnEnable()
     {
         LevelManager.StartLevelTransition += StartTransition;
+
+        _camera = Camera.main;
     }
 
     private void Awake()
@@ -51,24 +55,38 @@ public class LevelTransitionScript : MonoBehaviour
         _renderTexture = new RenderTexture(Screen.width, Screen.height, 0);
         ScreenCapture.CaptureScreenshotIntoRenderTexture(_renderTexture);
 
-        fadeImage.material.SetTexture("_screenshot", _renderTexture);
+        fadeImage.material.SetTexture(Screenshot, _renderTexture);
         fadeImage.gameObject.SetActive(true);
 
 
-        //var portalPositionOnScreen = _camera.WorldToScreenPoint(portalPosition);
+        if (_camera == null)
+            _camera = Camera.main;
+
         var portalPositionOnScreen = _camera.WorldToViewportPoint(portalPosition);
 
-        fadeImage.material.SetFloat("_XPos", portalPositionOnScreen.x);
-        fadeImage.material.SetFloat("_YPos", portalPositionOnScreen.y);
+        fadeImage.material.SetFloat(XPos, portalPositionOnScreen.x);
+        fadeImage.material.SetFloat(YPos, portalPositionOnScreen.y);
 
 
-        DOVirtual.Float(0, 1f, 1.5f, value => fadeImage.material.SetFloat("_maskSize", value)).SetEase(Ease.InCirc)
-            .onComplete += () =>
+        fadeImage.material.SetFloat(MaskSize, 0);
+
+        _maskSizeTween = DOTween.To(() => fadeImage.material.GetFloat(MaskSize),
+                x => fadeImage.material.SetFloat(MaskSize, x), 40f, 1.5f)
+            .SetEase(Ease.InCirc).SetAutoKill(false).Pause();
+
+        _maskSizeTween.onComplete += () =>
         {
             fadeImage.gameObject.SetActive(false);
             _renderTexture.Release();
         };
 
-        GameManagerScript.LoadNextLevel();
+        _maskSizeTween.onPlay += () =>
+        {
+            fadeImage.gameObject.SetActive(true);
+            GameManagerScript.LoadNextLevel();
+        };
+
+
+        _maskSizeTween.Restart();
     }
 }

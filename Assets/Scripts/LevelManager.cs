@@ -10,14 +10,14 @@ using UnityEngine.SceneManagement;
 public class LevelManager : MonoBehaviour
 {
     //CREATE LIST OF COINS
-    public static List<GameObject> coinList = new();
-    private int _coinsToWin;
+    public static int ScoreToWin = 0;
 
     private int _score = 0;
     private TextMeshProUGUI _scoreText;
     private Tween _scorePunchTween;
 
     private GameObject portal;
+    public static UnityAction<int> OnScoreChanged;
 
 
     // Level and level transition management
@@ -28,28 +28,45 @@ public class LevelManager : MonoBehaviour
 
     private void OnEnable()
     {
-        PlayerInteractionHandler.OnScoreChanged += UpdateScore;
+        OnScoreChanged += UpdateScore;
         _score = 0;
-        coinList.AddRange(GameObject.FindGameObjectsWithTag("Coin"));
-        _coinsToWin = coinList.Count;
+        ScoreToWin = 0;
+
+        /*
+        var rewards = GameObject.FindGameObjectsWithTag("Collectable");
+        foreach (var reward in rewards)
+        {
+            var rewardComponent = reward.GetComponent<CollectableBehaviour>();
+            _scoreToWin += rewardComponent.scoreValue;
+        }
+        */
+
         portal = GameObject.FindGameObjectWithTag("Meta");
         portal.SetActive(false);
     }
 
     private void OnDisable()
     {
-        PlayerInteractionHandler.OnScoreChanged -= UpdateScore;
+        OnScoreChanged -= UpdateScore;
     }
 
     private void Start()
     {
-        UpdateScoreUI?.Invoke(_score.ToString() + "/" + _coinsToWin.ToString());
+        StartCoroutine(StartScore());
+    }
+
+    private IEnumerator StartScore()
+    {
+        yield return new WaitForSecondsRealtime(.2f);
+        UpdateScoreUI?.Invoke(_score.ToString() + "/" + ScoreToWin.ToString());
+        LevelIntroScript.SetLevelRules(levelRules);
     }
 
     private void UpdateScore(int scoreChange)
     {
         _score += scoreChange;
-        UpdateScoreUI?.Invoke(_score.ToString() + "/" + _coinsToWin.ToString());
+
+        UpdateScoreUI?.Invoke(_score.ToString() + "/" + ScoreToWin.ToString());
         CheckWin();
     }
 
@@ -57,13 +74,14 @@ public class LevelManager : MonoBehaviour
     {
         var transitionLevel = false;
 
-        if (levelRules.winByCoins) transitionLevel = coinList.Count == 0 ? true : false;
+        if (levelRules.winByScore) transitionLevel = _score == ScoreToWin ? true : false;
 
         if (transitionLevel) OpenPortal();
     }
 
     private void OpenPortal()
     {
-        portal.SetActive(true);
+        if (portal != null)
+            portal.SetActive(true);
     }
 }

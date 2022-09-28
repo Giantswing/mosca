@@ -11,7 +11,6 @@ public class PlayerInteractionHandler : MonoBehaviour
     [SerializeField] private STATS stats;
 
     public static UnityAction<int, int> OnPlayerHealthChanged;
-    public static UnityAction<int> OnScoreChanged;
 
     private Vector3 _vertSqueeze = new(0, 0.5f, 0);
     private Vector3 _horSqueeze = new(0.5f, 0, 0);
@@ -43,7 +42,7 @@ public class PlayerInteractionHandler : MonoBehaviour
         var otherStats = collision.gameObject.GetComponent<STATS>();
         if (otherStats != null && otherStats.ST_Invincibility == false && otherStats.ST_Team != stats.ST_Team)
         {
-            if (pM.isDashing)
+            if (pM.isDashing && otherStats.ST_MaxHealth != 999)
             {
                 if (otherStats.ST_Health - stats.ST_Damage > 0)
                 {
@@ -58,7 +57,7 @@ public class PlayerInteractionHandler : MonoBehaviour
                 else
                 {
                     pM.frozen = .1f;
-                    OnScoreChanged?.Invoke(otherStats.ST_Reward);
+                    LevelManager.OnScoreChanged?.Invoke(otherStats.ST_Reward);
                 }
 
                 otherStats.TakeDamage(stats.ST_Damage);
@@ -74,6 +73,7 @@ public class PlayerInteractionHandler : MonoBehaviour
                     pM.inputDirection = Vector2.Reflect(pM.inputDirection, collision.contacts[0].normal);
                     pM.hSpeed = pM.inputDirection.x * 2f;
                     pM.vSpeed = pM.inputDirection.y * 2f;
+                    pM.inputDirectionTo = pM.inputDirection;
 
 
                     stats.TakeDamage(otherStats.ST_Damage);
@@ -84,25 +84,35 @@ public class PlayerInteractionHandler : MonoBehaviour
                     pM.frozen = .08f;
                     pC.closeUpOffset = .35f;
                     pC.closeUpOffsetTo = 1f;
+
+                    var spikeBall = collision.gameObject.GetComponent<SpikeBallEnemy>();
+                    if (spikeBall != null)
+                        spikeBall.GotHit();
                 }
             }
         }
         else if (otherStats == null)
         {
+            if (pM.inputDirection.magnitude <= 0.85f) return;
+
+            EffectHandler.SpawnFX((int)EffectHandler.EffectType.Clash, collision.contacts[0].point, Vector3.zero,
+                Vector3.zero, 0);
+
+
             pM.inputDirection = Vector2.Reflect(pM.inputDirection, collision.contacts[0].normal);
-            pM.hSpeed = pM.inputDirection.x * .5f;
-            pM.vSpeed = pM.inputDirection.y * .5f;
+            pM.hSpeed = pM.inputDirection.x * 1.5f;
+            pM.vSpeed = pM.inputDirection.y * 1.5f;
         }
     }
 
     private void OnTriggerEnter(Collider collision)
     {
-        if (collision.gameObject.CompareTag("Coin"))
+        if (collision.gameObject.CompareTag("Collectable"))
         {
-            var coin = collision.gameObject.GetComponent<CoinScript>();
+            var collectable = collision.gameObject.GetComponent<CollectableBehaviour>();
 
-            if (coin != null && coin.isFollowing == 0)
-                coin.Collect(transform);
+            if (collectable != null && collectable.isFollowing == 0)
+                collectable.Collect(transform);
         }
 
         if (collision.gameObject.CompareTag("Meta"))

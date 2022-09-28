@@ -15,23 +15,19 @@ public class ScoreCounterScript : MonoBehaviour
     {
         LevelManager.UpdateScoreUI += UpdateScoreUI;
         _scoreText = GetComponent<TextMeshProUGUI>();
-        _scorePunchTween = _scoreText.transform.DOPunchScale(Vector3.one * .5f, .5f, 1, 1);
     }
 
     private void OnDisable()
     {
         LevelManager.UpdateScoreUI -= UpdateScoreUI;
-        DOTween.Kill(_scoreText.transform);
+        _scorePunchTween.Kill();
     }
 
     private void UpdateScoreUI(string scoreText)
     {
-        _scorePunchTween.Play();
-
-        _scoreText.transform.DOPunchScale(Vector3.one * .1f, .2f).onComplete += () =>
-        {
-            _scoreText.transform.localScale = Vector3.one;
-        };
+        _scorePunchTween = _scoreText.transform.DOPunchScale(Vector3.one * .05f, .5f, 1, 1).SetAutoKill(false).Pause();
+        _scorePunchTween.onComplete += () => _scoreText.transform.localScale = Vector3.one;
+        _scorePunchTween.Restart();
 
         _scoreText.SetText(scoreText);
     }

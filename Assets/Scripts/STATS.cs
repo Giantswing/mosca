@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 
 public class STATS : MonoBehaviour
@@ -16,6 +17,7 @@ public class STATS : MonoBehaviour
     public bool ST_Invincibility;
     [SerializeField] private int ST_InvincibilityTimer;
     public int ST_Reward;
+    public UnityEvent ST_DeathEvent;
 
     private void Start()
     {
@@ -25,7 +27,7 @@ public class STATS : MonoBehaviour
     public void TakeDamage(int dmg)
     {
         ST_Health -= dmg;
-        print(string.Concat("GameObject ", gameObject.name, " took ", dmg, " damage"));
+        //print(string.Concat("GameObject ", gameObject.name, " took ", dmg, " damage"));
 
         if (ST_Health <= 0) Die();
         else
@@ -42,8 +44,13 @@ public class STATS : MonoBehaviour
     private void Die()
     {
         if (ST_Team == 1)
+        {
             GameManagerScript.RestartLevel();
+        }
         else
+        {
+            ST_DeathEvent?.Invoke();
             Destroy(gameObject);
+        }
     }
 }

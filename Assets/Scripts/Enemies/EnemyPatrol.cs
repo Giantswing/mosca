@@ -48,6 +48,11 @@ public class EnemyPatrol : MonoBehaviour
             _currentPatrolPoint = 0;
     }
 
+    private void OnDisable()
+    {
+        DOTween.Kill(transform);
+    }
+
     private IEnumerator WaitPatrol()
     {
         yield return new WaitForSecondsRealtime(patrolPoints[_currentPatrolPoint].waitTime);

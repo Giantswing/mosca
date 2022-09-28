@@ -8,6 +8,7 @@ TagManager:
   - Meta
   - Breakable
   - Enemy
+  - Collectable
   layers:
   - Default
   - TransparentFX

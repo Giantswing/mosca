@@ -21,7 +21,7 @@ public class PlayerMovement : MonoBehaviour
     public GameObject my3DModel;
 
     public Animator flyAnimator;
-    private readonly float acceleration = .035f;
+    private readonly float acceleration = .1f;
     private readonly float speedMultiplier = 7f;
 
 

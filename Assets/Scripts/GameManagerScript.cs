@@ -23,18 +23,24 @@ public class GameManagerScript : MonoBehaviour
 
         //Application.targetFrameRate = 25;
         DontDestroyOnLoad(transform.root.gameObject);
+
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            QualitySettings.vSyncCount = 0;
+            Application.targetFrameRate = 45;
+        }
     }
 
 
     public static void RestartLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        PlayerInteractionHandler.OnScoreChanged?.Invoke(0);
+        LevelManager.OnScoreChanged?.Invoke(0);
     }
 
     public static void LoadNextLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-        PlayerInteractionHandler.OnScoreChanged?.Invoke(0);
+        LevelManager.OnScoreChanged?.Invoke(0);
     }
 }
