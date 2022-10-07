@@ -7,6 +7,11 @@ using UnityEngine.Events;
 
 public class STATS : MonoBehaviour
 {
+    [SerializeField] private Renderer _renderer;
+    [SerializeField] private Material normalMaterial;
+    [SerializeField] private Material invincibilityMaterial;
+
+
     public float ST_Speed;
     public int ST_Health;
     public int ST_MaxHealth;
@@ -15,13 +20,24 @@ public class STATS : MonoBehaviour
     public int ST_Team; //0 => Neutral, 1 => Player, 2 => Enemy
 
     public bool ST_Invincibility;
-    [SerializeField] private int ST_InvincibilityTimer;
+    public bool ST_CanDoDmg = false;
+    [SerializeField] private float ST_InvincibilityTimer;
     public int ST_Reward;
     public UnityEvent ST_DeathEvent;
+
+
+    private bool HasInvincibilityMaterial = false;
 
     private void Start()
     {
         ST_MaxHealth = ST_Health;
+
+
+        if (ST_InvincibilityTimer > 0)
+        {
+            normalMaterial = _renderer.sharedMaterial;
+            HasInvincibilityMaterial = true;
+        }
     }
 
     public void TakeDamage(int dmg)
@@ -29,9 +45,29 @@ public class STATS : MonoBehaviour
         ST_Health -= dmg;
         //print(string.Concat("GameObject ", gameObject.name, " took ", dmg, " damage"));
 
-        if (ST_Health <= 0) Die();
+        if (ST_Health <= 0)
+        {
+            Die();
+        }
         else
+        {
             StartCoroutine(MakeInvincible());
+            if (HasInvincibilityMaterial)
+                StartCoroutine(InvincibleEffect());
+        }
+    }
+
+    private IEnumerator InvincibleEffect()
+    {
+        var repeat = 4;
+
+        for (var i = 0; i < repeat; i++)
+        {
+            _renderer.sharedMaterial = invincibilityMaterial;
+            yield return new WaitForSeconds(ST_InvincibilityTimer / repeat);
+            _renderer.sharedMaterial = normalMaterial;
+            yield return new WaitForSeconds(ST_InvincibilityTimer / repeat);
+        }
     }
 
     private IEnumerator MakeInvincible()
@@ -45,7 +81,7 @@ public class STATS : MonoBehaviour
     {
         if (ST_Team == 1)
         {
-            GameManagerScript.RestartLevel();
+            LevelManager.RestartLevel();
         }
         else
         {

@@ -1,11 +1,17 @@
 using Cinemachine;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
 public class PlayerCamera : MonoBehaviour
 {
     [SerializeField] private PlayerMovement pM;
     [SerializeField] private CinemachineVirtualCamera virtualCamera;
     private CinemachineTransposer _virtualCameraTransposer;
+
+    public static UnityAction<bool> OnMapToggle;
+
+    private bool _mapOpen = false;
 
 
     //CAMERA OFFSETS ////////
@@ -46,6 +52,15 @@ public class PlayerCamera : MonoBehaviour
 
         _virtualCameraTransposer.m_FollowOffset =
             new Vector3(_horCameraOffset, _vertCameraOffset, -7f - _zoomCameraOffset);
+    }
+
+    public void ToggleMap(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            _mapOpen = !_mapOpen;
+            OnMapToggle?.Invoke(_mapOpen);
+        }
     }
 
     private void Update()

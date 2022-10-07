@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 3697613617283955799}
   m_Layer: 0
   m_Name: spike-blob
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -115,10 +115,14 @@ MonoBehaviour:
   ST_Health: 999
   ST_MaxHealth: 999
   ST_Damage: 1
-  ST_Team: 0
+  ST_Team: 2
   ST_Invincibility: 0
+  ST_CanDoDmg: 1
   ST_InvincibilityTimer: 0
   ST_Reward: 0
+  ST_DeathEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &3697613617283955799
 MonoBehaviour:
   m_ObjectHideFlags: 0

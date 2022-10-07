@@ -32,15 +32,6 @@ public class LevelManager : MonoBehaviour
         _score = 0;
         ScoreToWin = 0;
 
-        /*
-        var rewards = GameObject.FindGameObjectsWithTag("Collectable");
-        foreach (var reward in rewards)
-        {
-            var rewardComponent = reward.GetComponent<CollectableBehaviour>();
-            _scoreToWin += rewardComponent.scoreValue;
-        }
-        */
-
         portal = GameObject.FindGameObjectWithTag("Meta");
         portal.SetActive(false);
     }
@@ -53,6 +44,12 @@ public class LevelManager : MonoBehaviour
     private void Start()
     {
         StartCoroutine(StartScore());
+
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            QualitySettings.vSyncCount = 0;
+            Application.targetFrameRate = 45;
+        }
     }
 
     private IEnumerator StartScore()
@@ -83,5 +80,17 @@ public class LevelManager : MonoBehaviour
     {
         if (portal != null)
             portal.SetActive(true);
+    }
+
+    public static void RestartLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        OnScoreChanged?.Invoke(0);
+    }
+
+    public static void LoadNextLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        OnScoreChanged?.Invoke(0);
     }
 }

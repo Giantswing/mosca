@@ -16,6 +16,8 @@ public class PlayerInteractionHandler : MonoBehaviour
     private Vector3 _horSqueeze = new(0.5f, 0, 0);
     private Vector3 _squeeze;
 
+    private STATS _otherStats;
+    private Vector3 _reflectDir;
 
     private void Start()
     {
@@ -33,76 +35,7 @@ public class PlayerInteractionHandler : MonoBehaviour
         transform.DOShakeScale(.2f, (Math.Abs(pM.hSpeed) + Math.Abs(pM.vSpeed)) * .65f).onComplete +=
             () => transform.DOScale(Vector3.one, .2f);
 
-        /*
-        _squeeze = Vector3.one - Vector3.right * .5f;
-        transform.DOScale(_squeeze, .1f).SetEase(Ease.Linear)
-            .OnComplete(() => transform.DOScale(Vector3.one, .1f).SetEase(Ease.OutBounce));
-        */
-
-        var otherStats = collision.gameObject.GetComponent<STATS>();
-        if (otherStats != null && otherStats.ST_Invincibility == false && otherStats.ST_Team != stats.ST_Team)
-        {
-            if (pM.isDashing && otherStats.ST_MaxHealth != 999)
-            {
-                if (otherStats.ST_Health - stats.ST_Damage > 0)
-                {
-                    pM.inputDirection = Vector2.Reflect(pM.inputDirection, collision.contacts[0].normal);
-                    pM.hSpeed = pM.inputDirection.x * 1f;
-                    pM.vSpeed = pM.inputDirection.y * 1f;
-
-                    var otherShakeStrength = (Math.Abs(pM.hSpeed) + Math.Abs(pM.vSpeed)) * .65f;
-                    otherStats.transform.DOShakeScale(.2f, otherShakeStrength);
-                    otherStats.transform.DOShakePosition(.2f, otherShakeStrength);
-                }
-                else
-                {
-                    pM.frozen = .1f;
-                    LevelManager.OnScoreChanged?.Invoke(otherStats.ST_Reward);
-                }
-
-                otherStats.TakeDamage(stats.ST_Damage);
-
-                FreezeFrameScript.DistortView(0.3f);
-                pC.closeUpOffset = .35f;
-                pC.closeUpOffsetTo = 1f;
-            }
-            else
-            {
-                if (otherStats.ST_Damage > 0)
-                {
-                    pM.inputDirection = Vector2.Reflect(pM.inputDirection, collision.contacts[0].normal);
-                    pM.hSpeed = pM.inputDirection.x * 2f;
-                    pM.vSpeed = pM.inputDirection.y * 2f;
-                    pM.inputDirectionTo = pM.inputDirection;
-
-
-                    stats.TakeDamage(otherStats.ST_Damage);
-                    OnPlayerHealthChanged?.Invoke(stats.ST_Health, stats.ST_MaxHealth);
-
-                    FreezeFrameScript.FreezeFrames(0.3f);
-                    FreezeFrameScript.DistortView(0.3f);
-                    pM.frozen = .08f;
-                    pC.closeUpOffset = .35f;
-                    pC.closeUpOffsetTo = 1f;
-
-                    var spikeBall = collision.gameObject.GetComponent<SpikeBallEnemy>();
-                    if (spikeBall != null)
-                        spikeBall.GotHit();
-                }
-            }
-        }
-        else if (otherStats == null)
-        {
-            if (pM.inputDirection.magnitude <= 0.85f) return;
-
-            EffectHandler.SpawnFX((int)EffectHandler.EffectType.Clash, collision.contacts[0].point, Vector3.zero,
-                Vector3.zero, 0);
-
-
-            pM.inputDirection = Vector2.Reflect(pM.inputDirection, collision.contacts[0].normal);
-            pM.hSpeed = pM.inputDirection.x * 1.5f;
-            pM.vSpeed = pM.inputDirection.y * 1.5f;
-        }
+        CheckDMG(collision);
     }
 
     private void OnTriggerEnter(Collider collision)
@@ -115,7 +48,7 @@ public class PlayerInteractionHandler : MonoBehaviour
                 collectable.Collect(transform);
         }
 
-        if (collision.gameObject.CompareTag("Meta"))
+        else if (collision.gameObject.CompareTag("Meta"))
         {
             if (pM.frozen > 0) return;
 
@@ -134,7 +67,86 @@ public class PlayerInteractionHandler : MonoBehaviour
                 };
             };
         }
+
+        else if (collision.gameObject.CompareTag("SecretWall"))
+        {
+            var other = collision.GetComponent<SecretWallScript>();
+            other.Disappear();
+        }
     }
+
+    private void CheckDMG(Collision collision)
+    {
+        _reflectDir = (collision.transform.position - transform.position).normalized;
+        _otherStats = collision.gameObject.GetComponent<STATS>();
+        if (_otherStats != null && _otherStats.ST_Invincibility == false && _otherStats.ST_Team != stats.ST_Team)
+        {
+            if (pM.isDashing && _otherStats.ST_MaxHealth != 999) //if i'm dashing and the enemy is not invulnerable
+            {
+                if (_otherStats.ST_Health - stats.ST_Damage > 0) //if the enemy wont directly die from the attack
+                {
+                    //pM.inputDirection = Vector2.Reflect(pM.inputDirection, collision.contacts[0].normal);
+                    pM.inputDirection = -_reflectDir;
+                    pM.hSpeed = pM.inputDirection.x * 1f;
+                    pM.vSpeed = pM.inputDirection.y * 1f;
+
+                    var otherShakeStrength = (Math.Abs(pM.hSpeed) + Math.Abs(pM.vSpeed)) * .65f;
+                    _otherStats.transform.DOShakeScale(.2f, otherShakeStrength);
+                    _otherStats.transform.DOShakePosition(.2f, otherShakeStrength);
+                }
+                else //if the enemy dies
+                {
+                    pM.frozen = .1f;
+                    LevelManager.OnScoreChanged?.Invoke(_otherStats.ST_Reward);
+                }
+
+                _otherStats.TakeDamage(stats.ST_Damage);
+
+                FreezeFrameScript.DistortView(0.3f);
+                pC.closeUpOffset = .35f;
+                pC.closeUpOffsetTo = 1f;
+            }
+            else
+            {
+                if (stats.ST_Invincibility == false && _otherStats.ST_Damage > 0 &&
+                    _otherStats.ST_CanDoDmg) //if im not dashing and the enemy can attack
+                {
+                    pM.inputDirection = -_reflectDir;
+                    pM.hSpeed = pM.inputDirection.x * 5f;
+                    pM.vSpeed = pM.inputDirection.y * 5f;
+                    pM.inputDirectionTo = pM.inputDirection;
+
+
+                    stats.TakeDamage(_otherStats.ST_Damage);
+                    OnPlayerHealthChanged?.Invoke(stats.ST_Health, stats.ST_MaxHealth);
+
+                    FreezeFrameScript.FreezeFrames(0.3f);
+                    FreezeFrameScript.DistortView(0.3f);
+                    pM.frozen = .08f;
+                    pC.closeUpOffset = .35f;
+                    pC.closeUpOffsetTo = 1f;
+
+                    var spikeBall = collision.gameObject.GetComponent<SpikeBallEnemy>();
+                    if (spikeBall != null)
+                        spikeBall.GotHit();
+                }
+            }
+        }
+        else if (_otherStats == null)
+        {
+            if (pM.inputDirection.magnitude <= 0.85f) return;
+
+            EffectHandler.SpawnFX((int)EffectHandler.EffectType.Clash, collision.contacts[0].point, Vector3.zero,
+                Vector3.zero, 0);
+
+
+            pM.inputDirection = Vector2.Reflect(pM.inputDirection, collision.contacts[0].normal);
+            //pM.inputDirection = -_reflectDir;
+            pM.hSpeed = pM.inputDirection.x * 1.5f;
+            pM.vSpeed = pM.inputDirection.y * 1.5f;
+        }
+    }
+
 
     private void OnDisable()
     {

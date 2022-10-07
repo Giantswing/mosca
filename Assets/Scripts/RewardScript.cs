@@ -32,22 +32,27 @@ public class RewardScript : MonoBehaviour
         _position = transform.position;
         spawnedRewards = new List<GameObject>();
 
-        foreach (var reward in rewards)
-        foreach (var i in Enumerable.Range(0, reward.count))
+        for (var index = 0; index < rewards.Count; index++)
         {
-            var rewardObject = Instantiate(reward.rewardPrefab, _position, Quaternion.identity);
-            spawnedRewards.Add(rewardObject);
+            var reward = rewards[index];
 
-            var collectableComponent = rewardObject.GetComponent<CollectableBehaviour>();
-            if (collectableComponent != null)
-                rewardObject.GetComponent<CollectableBehaviour>().AddToScore();
+            for (var i = 0; i < reward.count; i++)
+            {
+                var rewardObject = Instantiate(reward.rewardPrefab, _position, Quaternion.identity);
+                spawnedRewards.Add(rewardObject);
 
-            rewardObject.SetActive(false);
+                var collectableComponent = rewardObject.GetComponent<CollectableBehaviour>();
+                if (collectableComponent != null)
+                    rewardObject.GetComponent<CollectableBehaviour>().AddToScore();
+
+                rewardObject.SetActive(false);
+            }
         }
     }
 
     public void SpawnReward()
     {
+        _position = transform.position;
         for (var index = 0; index < spawnedRewards.Count; index++)
         {
             var reward = spawnedRewards[index];

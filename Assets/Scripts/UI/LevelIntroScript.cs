@@ -6,10 +6,14 @@ using UnityEngine;
 
 public class LevelIntroScript : MonoBehaviour
 {
-    private CanvasGroup canvasGroup;
-    [SerializeField] private GameObject[] children;
+    [SerializeField] private CanvasGroup canvasGroup;
+
+    [SerializeField] private GameObject transitionImage;
     [SerializeField] private TextMeshProUGUI levelText;
     [SerializeField] private TextMeshProUGUI levelRequisites;
+
+    [SerializeField] private LevelTransitionScript levelTransitionScript;
+
     private LevelRules levelRules;
 
     [SerializeField] private float fadeDuration = 2f;
@@ -17,26 +21,34 @@ public class LevelIntroScript : MonoBehaviour
 
     public static LevelIntroScript Instance;
 
-    private void Start()
+    private void OnEnable()
     {
         Instance = this;
+        StartIntroScene();
+    }
+
+    public void StartIntroScene()
+    {
         var sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
         levelText.SetText(sceneName);
-
-        foreach (var child in children) child.SetActive(true);
-
+        levelText.gameObject.SetActive(true);
         levelRequisites.gameObject.SetActive(false);
+        transitionImage.SetActive(true);
+
         StartCoroutine(IntroScene());
     }
 
     private IEnumerator IntroScene()
     {
-        canvasGroup = GetComponent<CanvasGroup>();
-
         yield return new WaitForSecondsRealtime(fadeDelay);
 
         DOTween.To(() => canvasGroup.alpha, x => canvasGroup.alpha = x, 0, fadeDuration).onComplete =
-            () => Destroy(gameObject);
+            () =>
+            {
+                levelTransitionScript.ReverseTransition(Vector3.zero);
+                levelText.gameObject.SetActive(false);
+                levelRequisites.gameObject.SetActive(false);
+            };
     }
 
     public static void SetLevelRules(LevelRules levelRules)
