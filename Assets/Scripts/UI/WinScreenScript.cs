@@ -9,6 +9,7 @@ using UnityEngine.InputSystem;
 
 public class WinScreenScript : MonoBehaviour
 {
+    [SerializeField] private GameObject firstSelected;
     [SerializeField] private UIAnimator _uiAnimator;
 
     [SerializeField] private TextMeshProUGUI levelNameText, scoreText, timeText;
@@ -52,11 +53,13 @@ public class WinScreenScript : MonoBehaviour
 
     private void StartWinScreenAnimation()
     {
+        GetComponent<PlayerInput>().enabled = true;
         levelNameText.SetText(LevelManager.LevelData().sceneName);
         scoreText.SetText(LevelManager.GetScore().ToString() + "/" + LevelManager.LevelData().totalScore);
         timeText.SetText(LevelManager.LevelTime.ToString("F1") + "s/" + LevelManager.LevelData().timeToWin + "s");
 
-        _uiAnimator.StartAnimation(_children, singleDuration, singleDelay, singleSpawnCurve);
+        _uiAnimator.StartAnimation(_children, singleDuration, singleDelay, singleSpawnCurve,
+            () => { EventSystemScript.ChangeFirstSelected(firstSelected); });
     }
 
     private void HideWinScreenAnimation(string menuAction)

@@ -34,6 +34,8 @@ public class PlayerMovement : MonoBehaviour
 
     private bool imDisabled = false;
 
+    private PlayerInput _playerInput;
+
 
     //DASH /////////////////////
 
@@ -70,6 +72,11 @@ public class PlayerMovement : MonoBehaviour
     private void DisableMovement()
     {
         GetComponent<PlayerInput>().enabled = false;
+    }
+
+    private void EnableMovement()
+    {
+        GetComponent<PlayerInput>().enabled = true;
     }
 
     // Update is called once per frame

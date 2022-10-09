@@ -29,6 +29,7 @@ public class LevelManager : MonoBehaviour
     public static UnityAction LevelCompleted;
 
     [SerializeField] private GameObject winScreen;
+    [SerializeField] private PortalPopUpScript portalPopUp;
 
     public static float LevelTime { get; private set; }
 
@@ -87,7 +88,13 @@ public class LevelManager : MonoBehaviour
     private void CheckWin()
     {
         var transitionLevel = _score >= levelData.scoreToWin ? true : false;
-        if (transitionLevel) OpenPortal();
+        if (transitionLevel)
+        {
+            portalPopUp.gameObject.SetActive(true);
+            portalPopUp.portalTransform = portal.transform;
+            //portalPopUp.ShowPopUp();
+            OpenPortal();
+        }
     }
 
     private void OpenPortal()
@@ -117,7 +124,6 @@ public class LevelManager : MonoBehaviour
 
     public static void ShowPopUp()
     {
-        
     }
 
     public static LevelSO LevelData()

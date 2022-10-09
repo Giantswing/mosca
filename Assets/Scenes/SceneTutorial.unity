@@ -3212,22 +3212,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 877099723518319442, guid: 2099896f223a9d04bade5b1d4584ae28, type: 3}
-      propertyPath: fadeDelay
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 2029582741292810023, guid: 2099896f223a9d04bade5b1d4584ae28, type: 3}
-      propertyPath: m_fontAsset
+    - target: {fileID: 7628942260040224429, guid: 2099896f223a9d04bade5b1d4584ae28, type: 3}
+      propertyPath: levelData
       value: 
-      objectReference: {fileID: 11400000, guid: 80ebebed2523bf241a257218909f81fc, type: 2}
-    - target: {fileID: 2029582741292810023, guid: 2099896f223a9d04bade5b1d4584ae28, type: 3}
-      propertyPath: m_hasFontAssetChanged
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5714214754287318074, guid: 2099896f223a9d04bade5b1d4584ae28, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: 712dedd5bf638d546a1d326932dc3909, type: 2}
     - target: {fileID: 7628942260136016472, guid: 2099896f223a9d04bade5b1d4584ae28, type: 3}
       propertyPath: m_Name
       value: --SYSTEM
@@ -3276,14 +3264,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7628942260422253541, guid: 2099896f223a9d04bade5b1d4584ae28, type: 3}
-      propertyPath: m_fontAsset
-      value: 
-      objectReference: {fileID: 11400000, guid: 80ebebed2523bf241a257218909f81fc, type: 2}
-    - target: {fileID: 7628942260422253541, guid: 2099896f223a9d04bade5b1d4584ae28, type: 3}
-      propertyPath: m_sharedMaterial
-      value: 
-      objectReference: {fileID: 7273758760290613601, guid: 80ebebed2523bf241a257218909f81fc, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2099896f223a9d04bade5b1d4584ae28, type: 3}
 --- !u!4 &1270975032 stripped

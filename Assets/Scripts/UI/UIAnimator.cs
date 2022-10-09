@@ -6,14 +6,19 @@ using UnityEngine;
 
 public class UIAnimator : MonoBehaviour
 {
-    public void StartAnimation(RectTransform[] children, float duration, float delay, AnimationCurve curve)
+    public void StartAnimation(RectTransform[] children, float duration, float delay, AnimationCurve curve,
+        Action onComplete)
     {
         for (var i = 0; i < children.Length; i++)
         {
             children[i].gameObject.SetActive(true);
 
-            children[i].GetComponent<RectTransform>().DOScale(0, duration).From().SetDelay(delay * i)
-                .SetEase(curve);
+            if (i < children.Length - 1)
+                children[i].GetComponent<RectTransform>().DOScale(0, duration).From().SetDelay(delay * i)
+                    .SetEase(curve);
+            else
+                children[i].GetComponent<RectTransform>().DOScale(0, duration).From().SetDelay(delay * i)
+                    .SetEase(curve).OnComplete(() => onComplete?.Invoke());
         }
     }
 
