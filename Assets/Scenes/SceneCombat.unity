@@ -2137,9 +2137,21 @@ PrefabInstance:
     m_TransformParent: {fileID: 2042931791}
     m_Modifications:
     - target: {fileID: 4361510537731124130, guid: 1df46075e7a5459439f71607c4299b5a, type: 3}
+      propertyPath: rewards.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4361510537731124130, guid: 1df46075e7a5459439f71607c4299b5a, type: 3}
       propertyPath: rewards.Array.data[0].count
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 4361510537731124130, guid: 1df46075e7a5459439f71607c4299b5a, type: 3}
+      propertyPath: rewards.Array.data[1].count
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4361510537731124130, guid: 1df46075e7a5459439f71607c4299b5a, type: 3}
+      propertyPath: rewards.Array.data[1].rewardPrefab
+      value: 
+      objectReference: {fileID: 3581354328258126474, guid: b15c17abd94991d46809c7af526998d1, type: 3}
     - target: {fileID: 5931146525139728677, guid: 1df46075e7a5459439f71607c4299b5a, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -4859,6 +4871,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7628942260040224429, guid: 2099896f223a9d04bade5b1d4584ae28, type: 3}
+      propertyPath: levelData
+      value: 
+      objectReference: {fileID: 11400000, guid: 8f39f72eb90fcad4d9a4a90bc62f52cf, type: 2}
     - target: {fileID: 7628942260136016472, guid: 2099896f223a9d04bade5b1d4584ae28, type: 3}
       propertyPath: m_Name
       value: --SYSTEM

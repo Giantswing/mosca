@@ -10,7 +10,7 @@ public class PlayerMovement : MonoBehaviour
     [HideInInspector] public float frozen = 0;
 
     private float _modelRotation = 0;
-    private const float TimeToSwitch = .7f;
+    private const float TimeToSwitch = .35f;
     [HideInInspector] public int isFacingRight = 1;
     private float _timeBackwards;
 
@@ -55,6 +55,21 @@ public class PlayerMovement : MonoBehaviour
         _myRigidbody = GetComponent<Rigidbody>();
         inputDirectionTo = Vector2.zero;
         flyAnimator = GetComponentInChildren<Animator>();
+    }
+
+    private void OnEnable()
+    {
+        LevelManager.LevelCompleted += DisableMovement;
+    }
+
+    private void OnDisable()
+    {
+        LevelManager.LevelCompleted -= DisableMovement;
+    }
+
+    private void DisableMovement()
+    {
+        GetComponent<PlayerInput>().enabled = false;
     }
 
     // Update is called once per frame

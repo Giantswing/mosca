@@ -9,33 +9,39 @@ public class LevelIntroScript : MonoBehaviour
     [SerializeField] private CanvasGroup canvasGroup;
 
     [SerializeField] private GameObject transitionImage;
-    [SerializeField] private TextMeshProUGUI levelText;
-    [SerializeField] private TextMeshProUGUI levelRequisites;
+    [SerializeField] private TextMeshProUGUI levelNameText;
+    [SerializeField] private TextMeshProUGUI levelObjectivesText;
+
 
     [SerializeField] private LevelTransitionScript levelTransitionScript;
-
-    private LevelRules levelRules;
 
     [SerializeField] private float fadeDuration = 2f;
     [SerializeField] private float fadeDelay = 2f;
 
-    public static LevelIntroScript Instance;
-
-    private void OnEnable()
+    private void Start()
     {
-        Instance = this;
         StartIntroScene();
     }
 
     public void StartIntroScene()
     {
-        var sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
-        levelText.SetText(sceneName);
-        levelText.gameObject.SetActive(true);
-        levelRequisites.gameObject.SetActive(false);
-        transitionImage.SetActive(true);
+        if (levelNameText != null)
+        {
+            levelNameText.SetText(LevelManager.LevelData().sceneName);
+            levelObjectivesText.SetText(
+                "Win <color=red>at least</color> " + LevelManager.LevelData().scoreToWin +
+                " points\nBonus time: " + LevelManager.LevelData().timeToWin + " seconds");
+            levelNameText.gameObject.SetActive(true);
+            levelObjectivesText.gameObject.SetActive(true);
+            transitionImage.SetActive(true);
 
-        StartCoroutine(IntroScene());
+            StartCoroutine(IntroScene());
+        }
+        else
+        {
+            transitionImage.SetActive(true);
+            levelTransitionScript.ReverseTransition(Vector3.zero);
+        }
     }
 
     private IEnumerator IntroScene()
@@ -46,16 +52,8 @@ public class LevelIntroScript : MonoBehaviour
             () =>
             {
                 levelTransitionScript.ReverseTransition(Vector3.zero);
-                levelText.gameObject.SetActive(false);
-                levelRequisites.gameObject.SetActive(false);
+                levelNameText.gameObject.SetActive(false);
+                levelObjectivesText.gameObject.SetActive(false);
             };
-    }
-
-    public static void SetLevelRules(LevelRules levelRules)
-    {
-        Instance.levelRequisites.gameObject.SetActive(true);
-
-        if (levelRules.winByScore)
-            Instance.levelRequisites.SetText("Win at least " + LevelManager.ScoreToWin + " points");
     }
 }

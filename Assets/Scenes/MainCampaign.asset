@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aceb20ace69202f48ba61a3af8275e96, type: 3}
+  m_Name: MainCampaign
+  m_EditorClassIdentifier: 
+  levelSelectionScene:
+    sceneAsset: {fileID: 102900000, guid: 9febcf6a309bde64faf4276b51254633, type: 3}
+    sceneName: Scenes/_levelSelection
+  level:
+  - {fileID: 11400000, guid: 697ea232bf5c0514b99945810d3e3e43, type: 2}
+  - {fileID: 11400000, guid: 8f39f72eb90fcad4d9a4a90bc62f52cf, type: 2}

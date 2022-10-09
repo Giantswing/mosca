@@ -41,9 +41,11 @@ public class RewardScript : MonoBehaviour
                 var rewardObject = Instantiate(reward.rewardPrefab, _position, Quaternion.identity);
                 spawnedRewards.Add(rewardObject);
 
+                /*
                 var collectableComponent = rewardObject.GetComponent<CollectableBehaviour>();
                 if (collectableComponent != null)
                     rewardObject.GetComponent<CollectableBehaviour>().AddToScore();
+                */
 
                 rewardObject.SetActive(false);
             }

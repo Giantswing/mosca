@@ -6,6 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using Utilities;
 
 public class LevelManager : MonoBehaviour
 {
@@ -19,16 +20,26 @@ public class LevelManager : MonoBehaviour
     private GameObject portal;
     public static UnityAction<int> OnScoreChanged;
 
+    [SerializeField] private LevelSO levelData;
+    [SerializeField] private CampaignSO campaignData;
 
-    // Level and level transition management
-    [SerializeField] private LevelRules levelRules;
+    public static LevelManager Instance { get; private set; }
 
     public static UnityAction<Vector3> StartLevelTransition;
-    public static UnityAction<string> UpdateScoreUI;
+    public static UnityAction LevelCompleted;
+
+    [SerializeField] private GameObject winScreen;
+
+    public static float LevelTime { get; private set; }
 
     private void OnEnable()
     {
         OnScoreChanged += UpdateScore;
+    }
+
+    private void Awake()
+    {
+        Instance = this;
         _score = 0;
         ScoreToWin = 0;
 
@@ -43,36 +54,39 @@ public class LevelManager : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(StartScore());
-
         if (Application.platform == RuntimePlatform.Android)
         {
             QualitySettings.vSyncCount = 0;
             Application.targetFrameRate = 45;
         }
+
+        winScreen.SetActive(true);
+
+        //StartCoroutine(TestCoroutine());
     }
 
-    private IEnumerator StartScore()
+
+    private IEnumerator TestCoroutine()
     {
-        yield return new WaitForSecondsRealtime(.2f);
-        UpdateScoreUI?.Invoke(_score.ToString() + "/" + ScoreToWin.ToString());
-        LevelIntroScript.SetLevelRules(levelRules);
+        yield return new WaitForSeconds(1f);
+        LevelCompleted?.Invoke();
+    }
+
+
+    private void Update()
+    {
+        LevelTime += Time.deltaTime;
     }
 
     private void UpdateScore(int scoreChange)
     {
         _score += scoreChange;
-
-        UpdateScoreUI?.Invoke(_score.ToString() + "/" + ScoreToWin.ToString());
         CheckWin();
     }
 
     private void CheckWin()
     {
-        var transitionLevel = false;
-
-        if (levelRules.winByScore) transitionLevel = _score == ScoreToWin ? true : false;
-
+        var transitionLevel = _score >= levelData.scoreToWin ? true : false;
         if (transitionLevel) OpenPortal();
     }
 
@@ -90,7 +104,29 @@ public class LevelManager : MonoBehaviour
 
     public static void LoadNextLevel()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        var nextLevelIndex = Instance.campaignData.GetLevelIndex(Instance.levelData);
+
+        SceneManager.LoadScene(Instance.campaignData.level[nextLevelIndex + 1].scene);
         OnScoreChanged?.Invoke(0);
+    }
+
+    public static void GoToMenu()
+    {
+        SceneManager.LoadScene(Instance.campaignData.levelSelectionScene);
+    }
+
+    public static void ShowPopUp()
+    {
+        
+    }
+
+    public static LevelSO LevelData()
+    {
+        return Instance.levelData;
+    }
+
+    public static int GetScore()
+    {
+        return Instance._score;
     }
 }

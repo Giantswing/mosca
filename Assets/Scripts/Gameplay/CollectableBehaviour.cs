@@ -14,8 +14,7 @@ public class CollectableBehaviour : MonoBehaviour
     [SerializeField] private Transform displayObject;
     [SerializeField] private Collider myCollider;
 
-
-    private bool hasAddedScore = false;
+    //private bool hasAddedScore = false;
 
     [HideInInspector]
     public enum PickUpAnimation
@@ -35,16 +34,17 @@ public class CollectableBehaviour : MonoBehaviour
 
     public int scoreValue = 1;
 
-
+/*
     public void AddToScore()
     {
         LevelManager.ScoreToWin += scoreValue;
         hasAddedScore = true;
     }
+    */
 
     private void Start()
     {
-        if (!hasAddedScore) AddToScore();
+        //if (!hasAddedScore) AddToScore();
 
         switch (pickUpAnimation)
         {

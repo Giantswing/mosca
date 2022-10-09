@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 916468251326428844}
   - component: {fileID: 916468251326428834}
-  - component: {fileID: 916468251326428835}
   m_Layer: 0
   m_Name: LevelManager
   m_TagString: Untagged
@@ -45,18 +44,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a18c25b4e8eeeac49a2e3bcf42791cf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelRules: {fileID: 916468251326428835}
---- !u!114 &916468251326428835
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 916468251326428845}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5eb1e318951baa479c82ca81a5c0761, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  winByCoins: 1
-  winByEnemies: 0
