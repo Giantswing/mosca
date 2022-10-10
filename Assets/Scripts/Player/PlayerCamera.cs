@@ -36,7 +36,7 @@ public class PlayerCamera : MonoBehaviour
     private void CalculateCameraOffset()
     {
         _horCameraOffsetTo = pM.hSpeed + 3f * pM.isFacingRight;
-        _horCameraOffset += (_horCameraOffsetTo - _horCameraOffset) * Time.deltaTime * 2f;
+        _horCameraOffset += (_horCameraOffsetTo - _horCameraOffset) * Time.deltaTime * 1f;
 
         _vertCameraOffsetTo = pM.vSpeed * 2.5f;
         _vertCameraOffset += (_vertCameraOffsetTo - _vertCameraOffset) * Time.deltaTime * 2f;
