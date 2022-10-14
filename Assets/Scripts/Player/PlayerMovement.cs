@@ -2,6 +2,7 @@ using System;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Utilities;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -36,6 +37,8 @@ public class PlayerMovement : MonoBehaviour
 
     private PlayerInput _playerInput;
 
+    [SerializeField] private Collider dashCollider;
+
 
     //DASH /////////////////////
 
@@ -61,15 +64,15 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnEnable()
     {
-        LevelManager.LevelCompleted += DisableMovement;
+        LevelManager.StartLevelTransition += DisableMovement;
     }
 
     private void OnDisable()
     {
-        LevelManager.LevelCompleted -= DisableMovement;
+        LevelManager.StartLevelTransition -= DisableMovement;
     }
 
-    private void DisableMovement()
+    private void DisableMovement(int levelTransitionState, SceneField levelToLoad)
     {
         GetComponent<PlayerInput>().enabled = false;
     }
@@ -200,6 +203,8 @@ public class PlayerMovement : MonoBehaviour
         hSpeed = inputDirection.x;
         vSpeed = inputDirection.y;
         isDashing = true;
+
+        dashCollider.enabled = true;
     }
 
     public void StartDoubleDash()
@@ -207,6 +212,8 @@ public class PlayerMovement : MonoBehaviour
         StartDashBoost();
         _doubleDash = true;
         _speedBoost = _speedBoostMax * 1.5f;
+
+        dashCollider.enabled = true;
     }
 
     public void StopDashBoost()
@@ -214,6 +221,8 @@ public class PlayerMovement : MonoBehaviour
         isDashing = false;
         _speedBoost = 1;
         flyAnimator.SetBool(IsDashing, false);
+
+        dashCollider.enabled = true;
     }
 
     public void StopDoubleDash()
@@ -221,6 +230,8 @@ public class PlayerMovement : MonoBehaviour
         StopDashBoost();
         flyAnimator.SetBool(IsDoubleDashing, false);
         _doubleDash = false;
+
+        dashCollider.enabled = true;
     }
 
     public void AllowDoubleDash()

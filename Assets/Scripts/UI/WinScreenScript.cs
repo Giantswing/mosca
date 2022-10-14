@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using UnityEngine.InputSystem;
+using Utilities;
 
 public class WinScreenScript : MonoBehaviour
 {
@@ -14,8 +15,8 @@ public class WinScreenScript : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI levelNameText, scoreText, timeText;
     [SerializeField] private RawImage winScreenImage, winScreenBG;
-    [SerializeField] private RawImage[] starsImage;
-    [SerializeField] private Sprite starFilled, starEmpty;
+    [SerializeField] private Image[] starsImage;
+    [SerializeField] private Sprite starFilled, starEmpty, starNew;
     [SerializeField] private RectTransform scoreParent, timeParent, starsParent;
 
     private WaitForSecondsRealtime wait_sm = new(.2f);
@@ -34,12 +35,12 @@ public class WinScreenScript : MonoBehaviour
 
     private void OnEnable()
     {
-        LevelManager.LevelCompleted += StartWinScreenAnimation;
+        LevelManager.StartLevelTransition += StartWinScreenAnimation;
     }
 
     private void OnDisable()
     {
-        LevelManager.LevelCompleted -= StartWinScreenAnimation;
+        LevelManager.StartLevelTransition -= StartWinScreenAnimation;
     }
 
     private void Start()
@@ -51,12 +52,45 @@ public class WinScreenScript : MonoBehaviour
         gameObject.SetActive(true);
     }
 
-    private void StartWinScreenAnimation()
+    private void StartWinScreenAnimation(int levelTransitionState, SceneField levelToLoad)
     {
-        GetComponent<PlayerInput>().enabled = true;
+        if (levelTransitionState == (int)LevelManager.LevelTransitionState.NextLevel)
+            StartCoroutine(StartWinScreenAnimationRoutine());
+    }
+
+    private IEnumerator StartWinScreenAnimationRoutine()
+    {
+        yield return new WaitForSeconds(.5f);
+
         levelNameText.SetText(LevelManager.LevelData().sceneName);
         scoreText.SetText(LevelManager.GetScore().ToString() + "/" + LevelManager.LevelData().totalScore);
         timeText.SetText(LevelManager.LevelTime.ToString("F1") + "s/" + LevelManager.LevelData().timeToWin + "s");
+
+        var currentStarsInLevel = LevelManager.LevelData().stars;
+        var starsWonInLevel = 0;
+
+        if (LevelManager.GetScore() >= LevelManager.LevelData().scoreToWin)
+            starsWonInLevel++;
+
+        if (LevelManager.GetScore() == LevelManager.LevelData().totalScore)
+            starsWonInLevel++;
+
+        if (LevelManager.LevelTime < LevelManager.LevelData().timeToWin)
+            starsWonInLevel++;
+
+
+        for (var i = 1; i <= 3; i++)
+        {
+            starsImage[i - 1].sprite = starEmpty;
+
+            if (starsWonInLevel >= i)
+                starsImage[i - 1].sprite = starNew;
+
+            if (currentStarsInLevel >= i)
+                starsImage[i - 1].sprite = starFilled;
+        }
+
+        LevelManager.LevelData().stars = starsWonInLevel;
 
         _uiAnimator.StartAnimation(_children, singleDuration, singleDelay, singleSpawnCurve,
             () => { EventSystemScript.ChangeFirstSelected(firstSelected); });
@@ -83,6 +117,7 @@ public class WinScreenScript : MonoBehaviour
             }
         });
     }
+
 
     public void ButtonRestartLevel()
     {

@@ -37,7 +37,8 @@ public class EnemyPatrol : MonoBehaviour
             Vector3.Distance(transform.position, _startPosition + patrolPoints[_currentPatrolPoint].offset);
 
         transform.DOMove(_startPosition + patrolPoints[_currentPatrolPoint].offset,
-            distanceToNextPoint / stats.ST_Speed * .5f).onComplete += () => { StartCoroutine(WaitPatrol()); };
+                distanceToNextPoint / stats.ST_Speed * .5f).SetEase(Ease.InOutQuad).onComplete +=
+            () => { StartCoroutine(WaitPatrol()); };
     }
 
     private void IteratePatrolPoint()

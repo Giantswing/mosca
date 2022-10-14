@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using Utilities;
 
 public class LevelTransitionScript : MonoBehaviour
 {
@@ -28,12 +29,7 @@ public class LevelTransitionScript : MonoBehaviour
         LevelManager.StartLevelTransition -= StartTransition;
     }
 
-    private void StartTransition(Vector3 portalPosition)
-    {
-        StartCoroutine(TransitionCoroutine(portalPosition));
-    }
-
-    private IEnumerator TransitionCoroutine(Vector3 portalPosition)
+    private void StartTransition(int WinState, SceneField levelToLoad)
     {
         transitionImage.gameObject.SetActive(true);
         if (_camera == null)
@@ -41,16 +37,25 @@ public class LevelTransitionScript : MonoBehaviour
 
         transitionImage.material.SetFloat(CompareValue, 0);
         DOTween.To(() => transitionImage.material.GetFloat(CompareValue),
-                x => transitionImage.material.SetFloat(CompareValue, x), 0.55f, 2.5f)
-            .SetAutoKill(false);
-
+                x => transitionImage.material.SetFloat(CompareValue, x), 0.55f, 1f)
+            .SetAutoKill(false).onComplete += () =>
+        {
+            if (WinState == (int)LevelManager.LevelTransitionState.SpecificLevel)
+                LevelManager.LoadSpecificLevel(levelToLoad);
+            if (WinState == (int)LevelManager.LevelTransitionState.Restart)
+                LevelManager.RestartLevel();
+        };
+        /*
         yield return new WaitForSeconds(.5f);
 
         LevelManager.LevelCompleted?.Invoke();
+        */
     }
 
     public void ReverseTransition(Vector3 portalPosition)
     {
+        GC.Collect();
+
         if (_camera == null)
             _camera = Camera.main;
 

@@ -23,10 +23,20 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private LevelSO levelData;
     [SerializeField] private CampaignSO campaignData;
 
+    private bool _isPortalOpen = false;
+
+    public enum LevelTransitionState
+    {
+        Restart,
+        NextLevel,
+        SpecificLevel
+    }
+
     public static LevelManager Instance { get; private set; }
 
-    public static UnityAction<Vector3> StartLevelTransition;
-    public static UnityAction LevelCompleted;
+    public static UnityAction<int, SceneField> StartLevelTransition;
+
+    //public static UnityAction LevelCompleted<bool ShowWinScreen, SceneField levelToLoad>;
 
     [SerializeField] private GameObject winScreen;
     [SerializeField] private PortalPopUpScript portalPopUp;
@@ -43,9 +53,6 @@ public class LevelManager : MonoBehaviour
         Instance = this;
         _score = 0;
         ScoreToWin = 0;
-
-        portal = GameObject.FindGameObjectWithTag("Meta");
-        portal.SetActive(false);
     }
 
     private void OnDisable()
@@ -55,11 +62,16 @@ public class LevelManager : MonoBehaviour
 
     private void Start()
     {
+        portal = GameObject.FindGameObjectWithTag("Meta");
+        portal.SetActive(false);
+
         if (Application.platform == RuntimePlatform.Android)
         {
             QualitySettings.vSyncCount = 0;
-            Application.targetFrameRate = 45;
+            Application.targetFrameRate = 60;
         }
+
+        //Application.targetFrameRate = 30;
 
         winScreen.SetActive(true);
 
@@ -67,11 +79,13 @@ public class LevelManager : MonoBehaviour
     }
 
 
+    /*
     private IEnumerator TestCoroutine()
     {
         yield return new WaitForSeconds(1f);
         LevelCompleted?.Invoke();
     }
+    */
 
 
     private void Update()
@@ -87,12 +101,14 @@ public class LevelManager : MonoBehaviour
 
     private void CheckWin()
     {
+        if (_isPortalOpen) return;
+
         var transitionLevel = _score >= levelData.scoreToWin ? true : false;
         if (transitionLevel)
         {
+            _isPortalOpen = true;
             portalPopUp.gameObject.SetActive(true);
             portalPopUp.portalTransform = portal.transform;
-            //portalPopUp.ShowPopUp();
             OpenPortal();
         }
     }
@@ -105,6 +121,7 @@ public class LevelManager : MonoBehaviour
 
     public static void RestartLevel()
     {
+        LevelTime = 0;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         OnScoreChanged?.Invoke(0);
     }
@@ -115,6 +132,11 @@ public class LevelManager : MonoBehaviour
 
         SceneManager.LoadScene(Instance.campaignData.level[nextLevelIndex + 1].scene);
         OnScoreChanged?.Invoke(0);
+    }
+
+    public static void LoadSpecificLevel(SceneField scene)
+    {
+        SceneManager.LoadScene(scene);
     }
 
     public static void GoToMenu()

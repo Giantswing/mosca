@@ -1641,6 +1641,7 @@ GameObject:
   - component: {fileID: 2299378220093821933}
   - component: {fileID: 2299378218369729366}
   - component: {fileID: 2462846326598937567}
+  - component: {fileID: 1107495973379938926}
   - component: {fileID: 7181058524826200383}
   - component: {fileID: 7181058524826200370}
   - component: {fileID: 7504400481516356274}
@@ -1685,7 +1686,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 120
   m_CollisionDetection: 1
 --- !u!96 &2299378218369729366
 TrailRenderer:
@@ -1808,6 +1809,19 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.35
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!135 &1107495973379938926
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7181058524826200382}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Radius: 0.35
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!135 &7181058524826200383
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1848,6 +1862,7 @@ MonoBehaviour:
   ST_DeathEvent:
     m_PersistentCalls:
       m_Calls: []
+  dmgDirection: {x: 0, y: 0, z: 0}
 --- !u!114 &7504400481516356274
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1921,6 +1936,46 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 431a5c67-d69b-41a6-8656-3cdd63aee98a
     m_ActionName: Gameplay/Map[/Keyboard/tab]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 185236e7-e1f4-413c-9eeb-b0018e63971e
+    m_ActionName: UI/Navigate[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: c114d5f2-8058-4f9a-bc60-24b7ea6605ae
+    m_ActionName: UI/Submit[/Keyboard/enter]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: ea56189d-0816-4e45-a691-f70c1ec9ae3c
+    m_ActionName: UI/Cancel[/Keyboard/escape]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 81fd2f09-de10-4d8d-a82e-1d6736ae534a
+    m_ActionName: UI/Point[/Mouse/position,/Pen/position]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 7b03e3da-e130-4925-9815-0052c97f4296
+    m_ActionName: UI/Click[/Mouse/leftButton,/Pen/tip]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 3b51891e-3fa2-4aa6-af6f-0933d56ff2a0
+    m_ActionName: UI/ScrollWheel[/Mouse/scroll]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: a047d9c8-6280-4d84-a5b7-9189760d0eec
+    m_ActionName: UI/MiddleClick[/Mouse/middleButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: c4ddbc70-88f8-45f7-bf79-7d50ab30226d
+    m_ActionName: UI/RightClick[/Mouse/rightButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: f895d86d-5d21-4309-a11f-9112b465c771
+    m_ActionName: UI/TrackedDevicePosition
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 0a2a8da7-940f-44a7-83f1-aea7e309ddec
+    m_ActionName: UI/TrackedDeviceOrientation
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Gameplay
@@ -1947,6 +2002,7 @@ MonoBehaviour:
   inputDirectionTo: {x: 0, y: 0}
   hSpeed: 0
   vSpeed: 0
+  dashCollider: {fileID: 1107495973379938926}
   isDashing: 0
 --- !u!114 &7181058524826200374
 MonoBehaviour:
@@ -1963,6 +2019,7 @@ MonoBehaviour:
   pM: {fileID: 7181058524826200369}
   pC: {fileID: 7181058524826200371}
   stats: {fileID: 7181058524826200370}
+  dashCollider: {fileID: 1107495973379938926}
 --- !u!114 &7181058524826200371
 MonoBehaviour:
   m_ObjectHideFlags: 0

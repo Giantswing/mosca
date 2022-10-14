@@ -19,6 +19,8 @@ public class PlayerInteractionHandler : MonoBehaviour
     private STATS _otherStats;
     private Vector3 _reflectDir;
 
+    [SerializeField] private Collider dashCollider;
+
     private void Start()
     {
         StartCoroutine(StartHealth());
@@ -36,6 +38,9 @@ public class PlayerInteractionHandler : MonoBehaviour
             () => transform.DOScale(Vector3.one, .2f);
 
         CheckDMG(collision);
+
+        if (dashCollider.enabled)
+            dashCollider.enabled = false;
     }
 
     private void OnTriggerEnter(Collider collision)
@@ -63,7 +68,8 @@ public class PlayerInteractionHandler : MonoBehaviour
             {
                 transform.DOScale(Vector3.zero, .5f).SetEase(Ease.InQuart).onComplete += () =>
                 {
-                    LevelManager.StartLevelTransition?.Invoke(collision.transform.position);
+                    LevelManager.StartLevelTransition?.Invoke((int)LevelManager.LevelTransitionState.NextLevel,
+                        null);
                 };
             };
         }
@@ -100,7 +106,7 @@ public class PlayerInteractionHandler : MonoBehaviour
                     LevelManager.OnScoreChanged?.Invoke(_otherStats.ST_Reward);
                 }
 
-                _otherStats.TakeDamage(stats.ST_Damage);
+                _otherStats.TakeDamage(stats.ST_Damage, transform.position);
 
                 FreezeFrameScript.DistortView(0.3f);
                 pC.closeUpOffset = .35f;
@@ -117,7 +123,7 @@ public class PlayerInteractionHandler : MonoBehaviour
                     pM.inputDirectionTo = pM.inputDirection;
 
 
-                    stats.TakeDamage(_otherStats.ST_Damage);
+                    stats.TakeDamage(_otherStats.ST_Damage, _otherStats.transform.position);
                     OnPlayerHealthChanged?.Invoke(stats.ST_Health, stats.ST_MaxHealth);
 
                     FreezeFrameScript.FreezeFrames(0.3f);

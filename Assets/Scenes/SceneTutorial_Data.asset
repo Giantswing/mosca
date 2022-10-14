@@ -19,7 +19,7 @@ MonoBehaviour:
   totalScore: 85
   scoreToWin: 60
   timeToWin: 45
-  stars: 0
+  stars: 2
   scoreToStars:
   - 60
   - 85

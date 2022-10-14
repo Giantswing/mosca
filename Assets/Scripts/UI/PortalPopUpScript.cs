@@ -19,12 +19,16 @@ public class PortalPopUpScript : MonoBehaviour
     private Camera _mainCamera;
     [SerializeField] private float padding;
 
+    private float scaleTo;
+
+
     private void OnEnable()
     {
         _mainCamera = Camera.main;
         isIcon = false;
         popUpRect.DOScale(0, 0.5f).From();
         StartCoroutine(ChangeState());
+        scaleTo = 1f;
     }
 
     private IEnumerator ChangeState()
@@ -51,7 +55,7 @@ public class PortalPopUpScript : MonoBehaviour
             if (!isHidden)
             {
                 isHidden = true;
-                popUpRect.DOScale(1.5f, 0.1f);
+                popUpRect.DOScale(scaleTo, 0.1f);
             }
         }
         else

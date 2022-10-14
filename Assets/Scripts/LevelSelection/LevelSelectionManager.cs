@@ -39,7 +39,10 @@ public class LevelSelectionManager : MonoBehaviour
             _levelButtonScript = levelButton.GetComponent<LevelButton>();
             _levelButtonScript.levelIndex = i;
             _levelButtonScript.levelData = level;
+            _levelButtonScript.campaignData = campaign;
+
             _levelButtonScript.UpdateData();
+
             _buttons.Add(levelButton.GetComponent<RectTransform>());
         }
 

@@ -9,10 +9,13 @@ public class LevelButton : MonoBehaviour
 {
     public LevelSO levelData;
     public int levelIndex;
+    public CampaignSO campaignData;
 
     [SerializeField] private TextMeshProUGUI levelIndexText, levelNameText;
-    [SerializeField] private RawImage[] levelStars;
+    [SerializeField] private Image[] levelStars;
     [SerializeField] private RawImage levelLock;
+
+    [SerializeField] private Sprite starEmpty, starFilled;
 
     private void OnValidate()
     {
@@ -35,27 +38,26 @@ public class LevelButton : MonoBehaviour
         levelIndexText.text = "#" + levelIndex.ToString();
         levelNameText.text = levelData.sceneName;
 
-        /*
-        for (int i = 0; i < levelStars.Length; i++)
-        {
-            if (i < levelData.levelStars)
-            {
-                levelStars[i].gameObject.SetActive(true);
-            }
-            else
-            {
-                levelStars[i].gameObject.SetActive(false);
-            }
-        }
+        levelLock.gameObject.SetActive(false);
 
-        if (levelData.levelIndex > PlayerPrefs.GetInt("levelReached", 1))
+        if (levelIndex > 0)
+            if (campaignData.level[levelIndex - 1].stars == 0)
+                levelLock.gameObject.SetActive(true);
+
+
+        for (var i = 0; i < levelStars.Length; i++)
+            if (i < levelData.stars)
+                levelStars[i].sprite = starEmpty;
+            else
+                levelStars[i].sprite = starFilled;
+    }
+
+    public void LaunchLevel()
+    {
+        if (levelLock.gameObject.activeSelf == false)
         {
-            levelLock.gameObject.SetActive(true);
+            print("launching level");
+            LevelManager.StartLevelTransition((int)LevelManager.LevelTransitionState.SpecificLevel, levelData.scene);
         }
-        else
-        {
-            levelLock.gameObject.SetActive(false);
-        }
-        */
     }
 }

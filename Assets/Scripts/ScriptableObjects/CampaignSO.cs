@@ -13,4 +13,14 @@ public class CampaignSO : ScriptableObject
     {
         return this.level.IndexOf(level);
     }
+
+    public List<LevelSO> GetLevels()
+    {
+        return level;
+    }
+
+    public void ResetAllStars()
+    {
+        for (var i = 0; i < level.Count; i++) level[i].stars = 0;
+    }
 }

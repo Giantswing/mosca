@@ -25,8 +25,9 @@ public class STATS : MonoBehaviour
     public int ST_Reward;
     public UnityEvent ST_DeathEvent;
 
-
     private bool HasInvincibilityMaterial = false;
+
+    [HideInInspector] public Vector3 dmgDirection;
 
     private void Start()
     {
@@ -40,10 +41,10 @@ public class STATS : MonoBehaviour
         }
     }
 
-    public void TakeDamage(int dmg)
+    public void TakeDamage(int dmg, Vector3 originDmgPos)
     {
         ST_Health -= dmg;
-        //print(string.Concat("GameObject ", gameObject.name, " took ", dmg, " damage"));
+        dmgDirection = originDmgPos;
 
         if (ST_Health <= 0)
         {
@@ -80,13 +81,9 @@ public class STATS : MonoBehaviour
     private void Die()
     {
         if (ST_Team == 1)
-        {
-            LevelManager.RestartLevel();
-        }
+            LevelManager.StartLevelTransition((int)LevelManager.LevelTransitionState.Restart, null);
+        //LevelManager.RestartLevel();
         else
-        {
             ST_DeathEvent?.Invoke();
-            Destroy(gameObject);
-        }
     }
 }
