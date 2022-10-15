@@ -31,6 +31,15 @@
                     "processors": "",
                     "interactions": "Press",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "TouchInput",
+                    "type": "Value",
+                    "id": "6d1a4921-1274-4a19-9148-f8eb596f7ae3",
+                    "expectedControlType": "Touch",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -207,6 +216,17 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "Map",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2f241612-acf2-4ed4-bd7e-a2ee0843a7ab",
+                    "path": "<Touchscreen>/primaryTouch",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Touchscreen",
+                    "action": "TouchInput",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -747,6 +767,17 @@
             "devices": [
                 {
                     "devicePath": "<Gamepad>",
+                    "isOptional": true,
+                    "isOR": false
+                }
+            ]
+        },
+        {
+            "name": "Touchscreen",
+            "bindingGroup": "Touchscreen",
+            "devices": [
+                {
+                    "devicePath": "<Touchscreen>",
                     "isOptional": true,
                     "isOR": false
                 }

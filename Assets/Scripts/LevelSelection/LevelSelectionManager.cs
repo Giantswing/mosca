@@ -32,9 +32,9 @@ public class LevelSelectionManager : MonoBehaviour
     {
         _camera = Camera.main;
 
-        for (var i = 0; i < campaign.level.Count; i++)
+        for (var i = 0; i < campaign.levels.Count; i++)
         {
-            var level = campaign.level[i];
+            var level = campaign.levels[i];
             var levelButton = Instantiate(levelButtonPrefab, levelContainer);
             _levelButtonScript = levelButton.GetComponent<LevelButton>();
             _levelButtonScript.levelIndex = i;

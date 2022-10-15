@@ -41,7 +41,7 @@ public class LevelButton : MonoBehaviour
         levelLock.gameObject.SetActive(false);
 
         if (levelIndex > 0)
-            if (campaignData.level[levelIndex - 1].stars == 0)
+            if (campaignData.levels[levelIndex - 1].stars == 0)
                 levelLock.gameObject.SetActive(true);
 
 

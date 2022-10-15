@@ -12,9 +12,6 @@ EditorBuildSettings:
     path: Assets/Scenes/SceneCombat.unity
     guid: a4a286f94728ca14280ccb174c7fb149
   - enabled: 1
-    path: Assets/Scenes/SceneTest.unity
-    guid: 00448f540ae50b542ba22205225dd00e
-  - enabled: 1
     path: Assets/Scenes/SceneSecrets 1.unity
     guid: b66b1b95505bf62439d0cf73c89d1506
   - enabled: 1

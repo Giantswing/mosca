@@ -5,12 +5,13 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using Utilities;
 
 public class WinScreenScript : MonoBehaviour
 {
-    [SerializeField] private GameObject firstSelected;
+    private GameObject _firstSelected;
     [SerializeField] private UIAnimator _uiAnimator;
 
     [SerializeField] private TextMeshProUGUI levelNameText, scoreText, timeText;
@@ -18,6 +19,8 @@ public class WinScreenScript : MonoBehaviour
     [SerializeField] private Image[] starsImage;
     [SerializeField] private Sprite starFilled, starEmpty, starNew;
     [SerializeField] private RectTransform scoreParent, timeParent, starsParent;
+    [SerializeField] private GameObject nextLevelButton;
+    [SerializeField] private GameObject levelSelectionButton;
 
     private WaitForSecondsRealtime wait_sm = new(.2f);
     private WaitForSecondsRealtime wait_md = new(.35f);
@@ -31,7 +34,7 @@ public class WinScreenScript : MonoBehaviour
     [SerializeField] private AnimationCurve singleSpawnCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
 
     [SerializeField] private RectTransform[] _children;
-    [SerializeField] private Button[] _buttons;
+
 
     private void OnEnable()
     {
@@ -45,6 +48,16 @@ public class WinScreenScript : MonoBehaviour
 
     private void Start()
     {
+        if (LevelManager.isThisLastLevel())
+        {
+            nextLevelButton.SetActive(false);
+            _firstSelected = levelSelectionButton;
+        }
+        else
+        {
+            _firstSelected = nextLevelButton;
+        }
+
         _children = GetComponentsInChildren<RectTransform>();
 
         for (var i = 0; i < _children.Length; i++) _children[i].gameObject.SetActive(false);
@@ -92,8 +105,13 @@ public class WinScreenScript : MonoBehaviour
 
         LevelManager.LevelData().stars = starsWonInLevel;
 
+        /*
         _uiAnimator.StartAnimation(_children, singleDuration, singleDelay, singleSpawnCurve,
             () => { EventSystemScript.ChangeFirstSelected(firstSelected); });
+            */
+
+        _uiAnimator.StartAnimation(_children, singleDuration, singleDelay, singleSpawnCurve,
+            () => { EventSystemScript.ChangeFirstSelected(_firstSelected); });
     }
 
     private void HideWinScreenAnimation(string menuAction)

@@ -48,6 +48,8 @@ public class STATS : MonoBehaviour
 
         if (ST_Health <= 0)
         {
+            ST_CanDoDmg = false;
+            ST_Damage = 0;
             Die();
         }
         else

@@ -1,7 +1,4 @@
-using System;
-using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using Utilities;
 
 [CreateAssetMenu(fileName = "Level Rules", menuName = "Mosca/Level", order = 1)]

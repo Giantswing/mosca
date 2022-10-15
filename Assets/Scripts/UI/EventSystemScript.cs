@@ -14,7 +14,6 @@ public class EventSystemScript : MonoBehaviour
 
     public static void ChangeFirstSelected(GameObject obj)
     {
-        print("ChangeFirstSelected");
         var eventSystem = EventSystem.current;
         eventSystem.SetSelectedGameObject(obj, new BaseEventData(eventSystem));
     }

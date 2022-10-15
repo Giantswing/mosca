@@ -10,6 +10,7 @@ public class FlySwatterScript : MonoBehaviour
     [SerializeField] private Animator _animator;
     private bool _isAttacking = false;
     private static readonly int IsAttacking = Animator.StringToHash("isAttacking");
+    private readonly WaitForSeconds _coolDownTime = new(1f);
 
     private void Start()
     {
@@ -42,7 +43,13 @@ public class FlySwatterScript : MonoBehaviour
 
     public void EndAttack()
     {
+        _animator.SetBool(IsAttacking, false);
+        StartCoroutine(AttackCooldown());
+    }
+
+    private IEnumerator AttackCooldown()
+    {
+        yield return _coolDownTime;
         _isAttacking = false;
-        _animator.SetBool(IsAttacking, _isAttacking);
     }
 }

@@ -17,11 +17,11 @@ public class FlyOnDeathBehaviour : MonoBehaviour
 
         if (_stats == null) Destroy(gameObject);
 
-        var dir = (_stats.dmgDirection - transform.position).normalized;
+        var dir = (transform.position - _stats.dmgDirection).normalized;
 
         DOTween.Kill(transform);
 
-        GetComponent<Rigidbody>().velocity = transform.position - dir * 9f;
+        GetComponent<Rigidbody>().velocity = dir * 14f;
 
         transform.rotation = quaternion.identity;
 

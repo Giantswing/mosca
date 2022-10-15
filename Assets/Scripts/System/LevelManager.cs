@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using TMPro;
+using Unity.Jobs;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -53,6 +54,8 @@ public class LevelManager : MonoBehaviour
         Instance = this;
         _score = 0;
         ScoreToWin = 0;
+        var sceneName = "Scenes/" + SceneManager.GetActiveScene().name;
+        if (levelData == null) levelData = campaignData.GetCurrentLevel(sceneName);
     }
 
     private void OnDisable()
@@ -71,11 +74,8 @@ public class LevelManager : MonoBehaviour
             Application.targetFrameRate = 60;
         }
 
-        //Application.targetFrameRate = 30;
 
         winScreen.SetActive(true);
-
-        //StartCoroutine(TestCoroutine());
     }
 
 
@@ -130,7 +130,7 @@ public class LevelManager : MonoBehaviour
     {
         var nextLevelIndex = Instance.campaignData.GetLevelIndex(Instance.levelData);
 
-        SceneManager.LoadScene(Instance.campaignData.level[nextLevelIndex + 1].scene);
+        SceneManager.LoadScene(Instance.campaignData.levels[nextLevelIndex + 1].scene);
         OnScoreChanged?.Invoke(0);
     }
 
@@ -156,5 +156,13 @@ public class LevelManager : MonoBehaviour
     public static int GetScore()
     {
         return Instance._score;
+    }
+
+    public static bool isThisLastLevel()
+    {
+        if (Instance.campaignData.GetLevelIndex(Instance.levelData) == Instance.campaignData.levels.Count - 1)
+            return true;
+        else
+            return false;
     }
 }
