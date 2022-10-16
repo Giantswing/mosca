@@ -26,9 +26,10 @@ public class PortalPopUpScript : MonoBehaviour
     {
         _mainCamera = Camera.main;
         isIcon = false;
+        scaleTo = .75F;
+        popUpRect.localScale *= scaleTo;
         popUpRect.DOScale(0, 0.5f).From();
         StartCoroutine(ChangeState());
-        scaleTo = 1f;
     }
 
     private IEnumerator ChangeState()

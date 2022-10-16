@@ -4902,10 +4902,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 7628942260040224429, guid: 2099896f223a9d04bade5b1d4584ae28, type: 3}
-      propertyPath: levelData
-      value: 
-      objectReference: {fileID: 11400000, guid: 8f39f72eb90fcad4d9a4a90bc62f52cf, type: 2}
     - target: {fileID: 7628942260136016472, guid: 2099896f223a9d04bade5b1d4584ae28, type: 3}
       propertyPath: m_Name
       value: --SYSTEM

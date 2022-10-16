@@ -46,6 +46,11 @@ public class LevelSelectionManager : MonoBehaviour
             _buttons.Add(levelButton.GetComponent<RectTransform>());
         }
 
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            QualitySettings.vSyncCount = 0;
+            Application.targetFrameRate = 60;
+        }
 
         if (Application.platform == RuntimePlatform.Android) _isAndroid = true;
 

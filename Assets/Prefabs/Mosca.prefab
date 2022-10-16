@@ -1851,8 +1851,8 @@ MonoBehaviour:
   normalMaterial: {fileID: 0}
   invincibilityMaterial: {fileID: 2100000, guid: 226adf9a21da1ea4493948e9726d7789, type: 2}
   ST_Speed: 0
-  ST_Health: 2
-  ST_MaxHealth: 2
+  ST_Health: 3
+  ST_MaxHealth: 3
   ST_Damage: 1
   ST_Team: 1
   ST_Invincibility: 0

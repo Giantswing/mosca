@@ -64,7 +64,7 @@ public class RewardScript : MonoBehaviour
                 reward.transform.position = _position;
                 float randomDir2D = Random.Range(0, 360);
                 var randomDir3D = new Vector3(Mathf.Cos(randomDir2D), Mathf.Sin(randomDir2D), 0);
-                reward.transform.DOMove(_position + randomDir3D * Random.Range(1f, 2.5f), 0.5f).SetAutoKill(true);
+                reward.transform.DOMove(_position + randomDir3D * Random.Range(.8F, 1.5F), 0.5f).SetAutoKill(true);
             }
         }
     }
