@@ -12,15 +12,12 @@ public class HealthContainer : MonoBehaviour
 
 
     [SerializeField] private GameObject heartContainerPrefab;
+    [SerializeField] private SmartData.SmartInt.IntReader playerHealth;
+    [SerializeField] private SmartData.SmartInt.IntReader playerMaxHealth;
 
     private List<GameObject> _heartContainers = new();
     private int _maxHeartCointainersUI = 10;
 
-
-    private void Awake()
-    {
-        PlayerInteractionHandler.OnPlayerHealthChanged += PlayerHealthChange;
-    }
 
     private void Start()
     {
@@ -30,26 +27,23 @@ public class HealthContainer : MonoBehaviour
             _heartContainers[i].GetComponent<RectTransform>().anchoredPosition = new Vector2(i * 50, 0);
             _heartContainers[i].SetActive(false);
         }
+
+        PlayerHealthChange();
     }
 
 
-    private void OnDisable()
-    {
-        PlayerInteractionHandler.OnPlayerHealthChanged -= PlayerHealthChange;
-    }
-
-    private void PlayerHealthChange(int health, int maxHealth)
+    public void PlayerHealthChange()
     {
         for (var i = 0; i < _maxHeartCointainersUI; i++)
-            if (i < maxHealth)
+            if (i < playerMaxHealth)
             {
                 _heartContainers[i].SetActive(true);
-                if (i < health)
+                if (i < playerHealth)
                     _heartContainers[i].GetComponent<Image>().sprite = fullHeartContainerSprite;
                 else
                     _heartContainers[i].GetComponent<Image>().sprite = emptyHeartContainerSprite;
 
-                if (i == health)
+                if (i == playerHealth)
                     _heartContainers[i].transform.DOPunchScale(Vector3.one * .4f, .2f);
             }
             else

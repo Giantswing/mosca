@@ -1851,7 +1851,20 @@ MonoBehaviour:
   normalMaterial: {fileID: 0}
   invincibilityMaterial: {fileID: 2100000, guid: 226adf9a21da1ea4493948e9726d7789, type: 2}
   ST_Speed: 0
-  ST_Health: 3
+  ST_Health:
+    _owner: {fileID: 7181058524826200382}
+    _ownerName: Mosca
+    _propertyPath: ST_Health
+    _autoListen: 0
+    _multiIndex: 0
+    _refType: 2
+    _value: 0
+    _smartConst: {fileID: 0}
+    _smartVar: {fileID: 11400000, guid: a05947b7778e59c4792416e35f202dd5, type: 2}
+    _smartMulti: {fileID: 0}
+    _onUpdate:
+      m_PersistentCalls:
+        m_Calls: []
   ST_MaxHealth: 3
   ST_Damage: 1
   ST_Team: 1

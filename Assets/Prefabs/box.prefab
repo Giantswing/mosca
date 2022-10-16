@@ -200,7 +200,20 @@ MonoBehaviour:
   normalMaterial: {fileID: 0}
   invincibilityMaterial: {fileID: 0}
   ST_Speed: 0
-  ST_Health: 0
+  ST_Health:
+    _owner: {fileID: 6414386990272127903}
+    _ownerName: Box (2)
+    _propertyPath: ST_Health
+    _autoListen: 0
+    _multiIndex: 0
+    _refType: 0
+    _value: 1
+    _smartConst: {fileID: 0}
+    _smartVar: {fileID: 0}
+    _smartMulti: {fileID: 0}
+    _onUpdate:
+      m_PersistentCalls:
+        m_Calls: []
   ST_MaxHealth: 0
   ST_Damage: 0
   ST_Team: 0

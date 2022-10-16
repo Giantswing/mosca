@@ -2095,6 +2095,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7210952257326279685, guid: da22c02a65605a34daa362c3ba402d6a, type: 3}
   m_PrefabInstance: {fileID: 761227707}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &768701919 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7181058524826200382, guid: 86175a2550f9e0c47840fccd955d116d, type: 3}
+  m_PrefabInstance: {fileID: 2299378219510975178}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &785199173
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2806,6 +2811,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3581354328258126474, guid: b15c17abd94991d46809c7af526998d1, type: 3}
       propertyPath: m_Name
+      value: spike-blob (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3697613617283955797, guid: b15c17abd94991d46809c7af526998d1, type: 3}
+      propertyPath: ST_Health._ownerName
       value: spike-blob (1)
       objectReference: {fileID: 0}
     - target: {fileID: 4249241244444817456, guid: b15c17abd94991d46809c7af526998d1, type: 3}
@@ -4344,6 +4353,10 @@ PrefabInstance:
       propertyPath: patrolPoints.Array.data[1].offset.y
       value: 0.31
       objectReference: {fileID: 0}
+    - target: {fileID: 9104996455489809031, guid: 931188d0c5f2103439b2c1de90dede4e, type: 3}
+      propertyPath: ST_Health._ownerName
+      value: MosquitoEnemy (1)
+      objectReference: {fileID: 0}
     - target: {fileID: 9104996455489809032, guid: 931188d0c5f2103439b2c1de90dede4e, type: 3}
       propertyPath: m_Name
       value: MosquitoEnemy (1)
@@ -5517,6 +5530,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 160464761}
     m_Modifications:
+    - target: {fileID: 4894665001899906161, guid: f16745acc6a7d614e8278cd6d2e39035, type: 3}
+      propertyPath: ST_Health._ownerName
+      value: Fly-Swatter (4)
+      objectReference: {fileID: 0}
     - target: {fileID: 4929170687895337738, guid: f16745acc6a7d614e8278cd6d2e39035, type: 3}
       propertyPath: m_RootOrder
       value: 11
@@ -5691,6 +5708,18 @@ PrefabInstance:
     - target: {fileID: 6893528672082903378, guid: 86175a2550f9e0c47840fccd955d116d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7181058524826200370, guid: 86175a2550f9e0c47840fccd955d116d, type: 3}
+      propertyPath: ST_Health._owner
+      value: 
+      objectReference: {fileID: 768701919}
+    - target: {fileID: 7181058524826200370, guid: 86175a2550f9e0c47840fccd955d116d, type: 3}
+      propertyPath: ST_Health._ownerName
+      value: Mosca
+      objectReference: {fileID: 0}
+    - target: {fileID: 7181058524826200370, guid: 86175a2550f9e0c47840fccd955d116d, type: 3}
+      propertyPath: ST_Health._propertyPath
+      value: ST_Health
       objectReference: {fileID: 0}
     - target: {fileID: 7181058524826200382, guid: 86175a2550f9e0c47840fccd955d116d, type: 3}
       propertyPath: m_Name

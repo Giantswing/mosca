@@ -13,6 +13,9 @@ public class PlayerMovement : MonoBehaviour
 
     [HideInInspector] public float frozen = 0;
 
+    public static PlayerMovement instance;
+    private Transform _transform;
+
     private float _modelRotation = 0;
     private const float TimeToSwitch = .35f;
     [HideInInspector] public int isFacingRight = 1;
@@ -74,9 +77,11 @@ public class PlayerMovement : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
+        instance = this;
         _myRigidbody = GetComponent<Rigidbody>();
         inputDirectionTo = Vector2.zero;
         flyAnimator = GetComponentInChildren<Animator>();
+        _transform = transform;
     }
 
     private void OnEnable()
@@ -97,6 +102,11 @@ public class PlayerMovement : MonoBehaviour
     private void EnableMovement()
     {
         GetComponent<PlayerInput>().enabled = true;
+    }
+
+    public static Transform ReturnPlayerTransform()
+    {
+        return instance._transform;
     }
 
     // Update is called once per frame

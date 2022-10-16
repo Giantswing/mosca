@@ -13,7 +13,7 @@ public class STATS : MonoBehaviour
 
 
     public float ST_Speed;
-    public int ST_Health;
+    public SmartData.SmartInt.IntWriter ST_Health;
     public int ST_MaxHealth;
 
     public int ST_Damage;
@@ -31,7 +31,7 @@ public class STATS : MonoBehaviour
 
     private void Start()
     {
-        ST_MaxHealth = ST_Health;
+        //ST_MaxHealth = ST_Health;
 
 
         if (ST_InvincibilityTimer > 0)
@@ -43,7 +43,7 @@ public class STATS : MonoBehaviour
 
     public void TakeDamage(int dmg, Vector3 originDmgPos)
     {
-        ST_Health -= dmg;
+        ST_Health.value -= dmg;
         dmgDirection = originDmgPos;
 
         if (ST_Health <= 0)

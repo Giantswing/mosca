@@ -10,8 +10,6 @@ public class PlayerInteractionHandler : MonoBehaviour
     [SerializeField] private PlayerCamera pC;
     [SerializeField] private STATS stats;
 
-    public static UnityAction<int, int> OnPlayerHealthChanged;
-
     private Vector3 _vertSqueeze = new(0, 0.5f, 0);
     private Vector3 _horSqueeze = new(0.5f, 0, 0);
     private Vector3 _squeeze;
@@ -20,17 +18,6 @@ public class PlayerInteractionHandler : MonoBehaviour
     private Vector3 _reflectDir;
 
     [SerializeField] private Collider dashCollider;
-
-    private void Start()
-    {
-        StartCoroutine(StartHealth());
-    }
-
-    private IEnumerator StartHealth()
-    {
-        yield return new WaitForSeconds(.2f);
-        OnPlayerHealthChanged?.Invoke(stats.ST_Health, stats.ST_MaxHealth);
-    }
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -124,7 +111,6 @@ public class PlayerInteractionHandler : MonoBehaviour
 
 
                     stats.TakeDamage(_otherStats.ST_Damage, _otherStats.transform.position);
-                    OnPlayerHealthChanged?.Invoke(stats.ST_Health, stats.ST_MaxHealth);
 
                     FreezeFrameScript.FreezeFrames(0.3f);
                     FreezeFrameScript.DistortView(0.3f);

@@ -99,15 +99,16 @@ public class CollectableBehaviour : MonoBehaviour
             var awayPosition = transform.position + awayDirection * 1.4f;
 
 
-            transform.DOMove(awayPosition, .25f, false).SetEase(Ease.InOutCubic).onComplete += () =>
-            {
-                StartFollowingPlayer(follow);
-            };
+            transform.DOMove(awayPosition, Random.Range(0.15F, 0.25F), false).SetEase(Ease.InOutCubic).onComplete +=
+                () => { StartFollowingPlayer(follow); };
         }
     }
 
-    private void StartFollowingPlayer(Transform follow)
+    public void StartFollowingPlayer(Transform follow)
     {
+        isFollowing = 1;
+        _whoToFollow = follow;
+
         var tempTransform = transform;
         var tempPosition = tempTransform.position;
         var awayDirection = (tempPosition - follow.position).normalized;

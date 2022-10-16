@@ -111,8 +111,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fd8e5d50ba833f4786e10b760bb1498, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _renderer: {fileID: 0}
+  normalMaterial: {fileID: 0}
+  invincibilityMaterial: {fileID: 0}
   ST_Speed: 0
-  ST_Health: 999
+  ST_Health:
+    _owner: {fileID: 3581354328258126474}
+    _ownerName: spike-blob (7)
+    _propertyPath: ST_Health
+    _autoListen: 0
+    _multiIndex: 0
+    _refType: 0
+    _value: 999
+    _smartConst: {fileID: 0}
+    _smartVar: {fileID: 0}
+    _smartMulti: {fileID: 0}
+    _onUpdate:
+      m_PersistentCalls:
+        m_Calls: []
   ST_MaxHealth: 999
   ST_Damage: 1
   ST_Team: 2
@@ -123,6 +139,7 @@ MonoBehaviour:
   ST_DeathEvent:
     m_PersistentCalls:
       m_Calls: []
+  dmgDirection: {x: 0, y: 0, z: 0}
 --- !u!114 &3697613617283955799
 MonoBehaviour:
   m_ObjectHideFlags: 0
