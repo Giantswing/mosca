@@ -7,7 +7,12 @@ public class PlayerCamera : MonoBehaviour
 {
     [SerializeField] private PlayerMovement pM;
     [SerializeField] private CinemachineVirtualCamera virtualCamera;
+
+    [SerializeField] private float defaultCameraZOffset = -7f;
+    [SerializeField] private float defaultCameraTrackingHorInfluence = 0.2f;
+
     private CinemachineTransposer _virtualCameraTransposer;
+    private CinemachineComposer _virtualCameraComposer;
 
     public static UnityAction<bool> OnMapToggle;
 
@@ -31,12 +36,13 @@ public class PlayerCamera : MonoBehaviour
         virtualCamera = GameObject.Find("VirtualCamera")
             .GetComponent<CinemachineVirtualCamera>();
         _virtualCameraTransposer = virtualCamera.GetCinemachineComponent<CinemachineTransposer>();
+        _virtualCameraComposer = virtualCamera.GetCinemachineComponent<CinemachineComposer>();
     }
 
     private void CalculateCameraOffset()
     {
         _horCameraOffsetTo = pM.hSpeed + 3f * pM.isFacingRight;
-        _horCameraOffset += (_horCameraOffsetTo - _horCameraOffset) * Time.deltaTime * 1f;
+        _horCameraOffset += (_horCameraOffsetTo - _horCameraOffset) * Time.deltaTime * 0.5f;
 
         _vertCameraOffsetTo = pM.vSpeed * 2.5f;
         _vertCameraOffset += (_vertCameraOffsetTo - _vertCameraOffset) * Time.deltaTime * 2f;
@@ -51,7 +57,10 @@ public class PlayerCamera : MonoBehaviour
             closeUpOffsetTo -= Time.deltaTime * 2f;
 
         _virtualCameraTransposer.m_FollowOffset =
-            new Vector3(_horCameraOffset, _vertCameraOffset, -7f - _zoomCameraOffset);
+            new Vector3(_horCameraOffset, _vertCameraOffset, defaultCameraZOffset - _zoomCameraOffset);
+
+        _virtualCameraComposer.m_TrackedObjectOffset =
+            new Vector3(_horCameraOffset * defaultCameraTrackingHorInfluence, _vertCameraOffset, 0);
     }
 
     public void ToggleMap(InputAction.CallbackContext context)

@@ -280,6 +280,7 @@ public class PlayerMovement : MonoBehaviour
         pC.closeUpOffsetTo = 1f;
         pC.closeUpOffset = 0;
         _speedBoost = _speedBoostMax;
+        inputDirectionTo = inputDirection.normalized;
         inputDirection = inputDirectionTo;
         hSpeed = inputDirection.x;
         vSpeed = inputDirection.y;

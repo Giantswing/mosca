@@ -5882,6 +5882,10 @@ PrefabInstance:
       value: MainCamera
       objectReference: {fileID: 0}
     - target: {fileID: 589124997974348854, guid: a4228700af2164b41a017f47d4137366, type: 3}
+      propertyPath: field of view
+      value: 57
+      objectReference: {fileID: 0}
+    - target: {fileID: 589124997974348854, guid: a4228700af2164b41a017f47d4137366, type: 3}
       propertyPath: m_BackGroundColor.b
       value: 0.94117653
       objectReference: {fileID: 0}
@@ -7689,6 +7693,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7010919196973483029, guid: 1b7a214668de6494e885a1dd943bd75e, type: 3}
       propertyPath: m_Follow
+      value: 
+      objectReference: {fileID: 264104518}
+    - target: {fileID: 7010919196973483029, guid: 1b7a214668de6494e885a1dd943bd75e, type: 3}
+      propertyPath: m_LookAt
       value: 
       objectReference: {fileID: 264104518}
     - target: {fileID: 7010919196973483030, guid: 1b7a214668de6494e885a1dd943bd75e, type: 3}

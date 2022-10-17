@@ -4,6 +4,7 @@ using UnityEditor;
 
 public class InspectorLockToggle
 {
+#if UNITY_EDITOR
     [MenuItem("Tools/Toggle Lock #w")]
     private static void ToggleInspectorLock() // Inspector must be inspecting something to be locked
     {
@@ -21,4 +22,5 @@ public class InspectorLockToggle
             inspectorToBeLocked.Repaint();
         }
     }
+#endif
 }

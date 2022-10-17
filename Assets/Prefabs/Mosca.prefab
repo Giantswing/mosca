@@ -2078,8 +2078,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pM: {fileID: 7181058524826200369}
   virtualCamera: {fileID: 0}
-  closeUpOffset: 0
-  closeUpOffsetTo: 0
+  defaultCameraZOffset: -8.88
+  defaultCameraTrackingHorInfluence: 1.5
+  closeUpOffset: -0.008879498
+  closeUpOffsetTo: -0.0088795135
 --- !u!1 &7637503022230142458
 GameObject:
   m_ObjectHideFlags: 0

@@ -49,7 +49,7 @@ public class HealthContainer : MonoBehaviour
                     _heartContainers[i].GetComponent<Image>().sprite = emptyHeartContainerSprite;
 
                 if (i == playerHealth)
-                    _heartContainers[i].transform.DOPunchScale(Vector3.one * .4f, .2f);
+                    _heartContainers[i - 1].transform.DOPunchScale(Vector3.one * .6f, .2f);
             }
             else
             {
