@@ -1,5 +1,19 @@
 {
   "dependencies": {
+    "com.baracuda.runtime-monitoring": {
+      "version": "file:com.baracuda.runtime-monitoring",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "com.baracuda.thread-dispatcher": "5.0.0"
+      }
+    },
+    "com.baracuda.thread-dispatcher": {
+      "version": "file:com.baracuda.thread-dispatcher",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
     "com.coffee.softmask-for-ugui": {
       "version": "file:C:/Users/Alex/Downloads/SoftMaskForUGUI-1.0.2",
       "depth": 0,

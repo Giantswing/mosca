@@ -117,7 +117,7 @@ MonoBehaviour:
   ST_Speed: 0
   ST_Health:
     _owner: {fileID: 3581354328258126474}
-    _ownerName: spike-blob (7)
+    _ownerName: spike-blob
     _propertyPath: ST_Health
     _autoListen: 0
     _multiIndex: 0

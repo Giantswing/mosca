@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _description: 
   _decorators: []
-  _resetOnSceneChange: 0
+  _resetOnSceneChange: 1
   _dataType: 1
   _value: 3
   _runtimeValue: 3

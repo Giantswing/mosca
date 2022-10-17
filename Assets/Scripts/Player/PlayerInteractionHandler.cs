@@ -9,6 +9,7 @@ public class PlayerInteractionHandler : MonoBehaviour
     [SerializeField] private PlayerMovement pM;
     [SerializeField] private PlayerCamera pC;
     [SerializeField] private STATS stats;
+    [SerializeField] private SmartData.SmartEvent.EventDispatcher onPlayerHealthChanged;
 
     private Vector3 _vertSqueeze = new(0, 0.5f, 0);
     private Vector3 _horSqueeze = new(0.5f, 0, 0);
@@ -111,6 +112,7 @@ public class PlayerInteractionHandler : MonoBehaviour
 
 
                     stats.TakeDamage(_otherStats.ST_Damage, _otherStats.transform.position);
+                    onPlayerHealthChanged.Dispatch();
 
                     FreezeFrameScript.FreezeFrames(0.3f);
                     FreezeFrameScript.DistortView(0.3f);

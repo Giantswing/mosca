@@ -160,6 +160,18 @@ MonoBehaviour:
     _onUpdate:
       m_PersistentCalls:
         m_Calls: []
+  onCollect:
+    _owner: {fileID: 7158309797407360645}
+    _ownerName: Poop
+    _propertyPath: onCollect
+    _autoListen: 0
+    _multiIndex: 0
+    _smartEvent: {fileID: 11400000, guid: 12a1f3967d4cb1144acf06395f0107ad, type: 2}
+    _smartMulti: {fileID: 0}
+    _useMulti: 0
+    _onEvent:
+      m_PersistentCalls:
+        m_Calls: []
   pickUpAnimation: 0
   pickUp: 1
   scoreValue: 0

@@ -12,11 +12,12 @@ public class HealthContainer : MonoBehaviour
 
 
     [SerializeField] private GameObject heartContainerPrefab;
+
     [SerializeField] private SmartData.SmartInt.IntWriter playerHealth;
     [SerializeField] private SmartData.SmartInt.IntWriter playerMaxHealth;
 
     private List<GameObject> _heartContainers = new();
-    private int _maxHeartCointainersUI = 10;
+    private int _maxHeartCointainersUI = 5;
 
 
     private void Start()
@@ -36,6 +37,7 @@ public class HealthContainer : MonoBehaviour
     {
         if (playerHealth.value > playerMaxHealth.value)
             playerHealth.value = playerMaxHealth.value;
+
 
         for (var i = 0; i < _maxHeartCointainersUI; i++)
             if (i < playerMaxHealth)

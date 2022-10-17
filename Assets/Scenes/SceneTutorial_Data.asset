@@ -16,11 +16,11 @@ MonoBehaviour:
     sceneAsset: {fileID: 102900000, guid: 9fc0d4010bbf28b4594072e72b8655ab, type: 3}
     sceneName: Scenes/SceneTutorial
   sceneName: Tutorial
-  totalScore: 61
-  scoreToWin: 50
+  totalScore: 46
+  scoreToWin: 35
   timeToWin: 45
-  stars: 0
+  stars: 2
   scoreToStars:
-  - 50
+  - 35
+  - 46
   - 61
-  - 76

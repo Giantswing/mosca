@@ -146,6 +146,20 @@ MonoBehaviour:
   isFollowing: 0
   displayObject: {fileID: 8974165903882334732}
   myCollider: {fileID: 7176709904404189598}
+  playerHealth:
+    _owner: {fileID: 8023622830044985023}
+    _ownerName: coin (5)
+    _propertyPath: playerHealth
+    _autoListen: 0
+    _multiIndex: 0
+    _refType: 0
+    _value: 0
+    _smartConst: {fileID: 0}
+    _smartVar: {fileID: 0}
+    _smartMulti: {fileID: 0}
+    _onUpdate:
+      m_PersistentCalls:
+        m_Calls: []
   pickUpAnimation: 0
   pickUp: 0
   scoreValue: 1

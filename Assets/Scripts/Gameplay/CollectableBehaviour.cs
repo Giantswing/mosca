@@ -14,6 +14,7 @@ public class CollectableBehaviour : MonoBehaviour
     [SerializeField] private Transform displayObject;
     [SerializeField] private Collider myCollider;
     [SerializeField] private SmartData.SmartInt.IntWriter playerHealth;
+    [SerializeField] private SmartData.SmartEvent.EventDispatcher onCollect;
 
     //private bool hasAddedScore = false;
 
@@ -85,7 +86,11 @@ public class CollectableBehaviour : MonoBehaviour
     private void OnDestroy()
     {
         if (pickUp == PickUp.Coin) LevelManager.OnScoreChanged?.Invoke(scoreValue);
-        if (pickUp == PickUp.Poop) playerHealth.value++;
+        if (pickUp == PickUp.Poop)
+        {
+            playerHealth.value++;
+            onCollect.Dispatch();
+        }
 
         DOTween.Kill(transform);
         DOTween.Kill(displayObject);
