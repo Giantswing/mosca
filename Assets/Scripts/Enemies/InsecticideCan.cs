@@ -6,6 +6,9 @@ using UnityEngine;
 
 public class InsecticideCan : MonoBehaviour
 {
+    [SerializeField] private SimpleAudioEvent gasLeak;
+    [SerializeField] private AudioSource audioSource;
+
     [SerializeField] private float timeBetweenBursts, burstDuration;
     [SerializeField] private float particleTimer;
     [SerializeField] private Collider damageCollider;
@@ -52,6 +55,7 @@ public class InsecticideCan : MonoBehaviour
             damageCollider.enabled = false;
             _currentBurstDuration = 0;
             _currentBurstTimeBetweenBurst = 0;
+            audioSource.Stop();
         }
 
         if (_currentBurstTimeBetweenBurst >= timeBetweenBursts)
@@ -59,6 +63,7 @@ public class InsecticideCan : MonoBehaviour
             isBursting = true;
             _currentBurstTimeBetweenBurst = 0;
             StartCoroutine(StartDamageColliderRoutine());
+            gasLeak.Play(audioSource, transform.position);
             transform.DOShakePosition(burstDuration, 0.1f, 10, 90, false, true);
         }
 

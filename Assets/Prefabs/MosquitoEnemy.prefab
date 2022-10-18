@@ -81,13 +81,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fd8e5d50ba833f4786e10b760bb1498, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deathSoundEvent: {fileID: 0}
+  playDeathSound: 0
+  hitSoundEvent: {fileID: 11400000, guid: 14d863d64f65b3745aec184bd208ccef, type: 2}
+  playHitSound: 1
   _renderer: {fileID: 2020998861784347837}
   normalMaterial: {fileID: 0}
   invincibilityMaterial: {fileID: 2100000, guid: 226adf9a21da1ea4493948e9726d7789, type: 2}
   ST_Speed: 2
   ST_Health:
     _owner: {fileID: 9104996455489809032}
-    _ownerName: MosquitoEnemy
+    _ownerName: MosquitoEnemy (1)
     _propertyPath: ST_Health
     _autoListen: 0
     _multiIndex: 0
@@ -174,7 +178,7 @@ MonoBehaviour:
   patrolPoints:
   - offset: {x: 0, y: 0, z: 0}
     waitTime: 0
-  - offset: {x: 4.86, y: 3.18, z: 0}
+  - offset: {x: 5.79, y: 0.31, z: 0}
     waitTime: 0
 --- !u!114 &5440256830388789495
 MonoBehaviour:

@@ -7,7 +7,15 @@ using UnityEngine.Events;
 
 public class STATS : MonoBehaviour
 {
-    [SerializeField] private Renderer _renderer;
+    [Header("Sound")] [SerializeField] private SimpleAudioEvent deathSoundEvent;
+    [SerializeField] private bool playDeathSound = false;
+
+    [Space(5)] [Header("Sound")] [SerializeField]
+    private SimpleAudioEvent hitSoundEvent;
+
+    [SerializeField] private bool playHitSound = false;
+
+    [Space(10)] [SerializeField] private Renderer _renderer;
     [SerializeField] private Material normalMaterial;
     [SerializeField] private Material invincibilityMaterial;
 
@@ -43,6 +51,11 @@ public class STATS : MonoBehaviour
 
     public void TakeDamage(int dmg, Vector3 originDmgPos)
     {
+        if (ST_Invincibility) return;
+
+        if (playHitSound)
+            GlobalAudioManager.PlaySound(hitSoundEvent, transform.position);
+
         ST_Health.value -= dmg;
         dmgDirection = originDmgPos;
 
@@ -62,7 +75,7 @@ public class STATS : MonoBehaviour
 
     private IEnumerator InvincibleEffect()
     {
-        var repeat = 4;
+        var repeat = 8;
 
         for (var i = 0; i < repeat; i++)
         {
@@ -83,9 +96,15 @@ public class STATS : MonoBehaviour
     private void Die()
     {
         if (ST_Team == 1)
+        {
             LevelManager.StartLevelTransition((int)LevelManager.LevelTransitionState.Restart, null);
+        }
         //LevelManager.RestartLevel();
         else
+        {
             ST_DeathEvent?.Invoke();
+            if (playDeathSound)
+                GlobalAudioManager.PlaySound(deathSoundEvent, transform.position);
+        }
     }
 }

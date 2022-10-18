@@ -10,6 +10,7 @@ using TouchPhase = UnityEngine.InputSystem.TouchPhase;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private PlayerCamera pC;
+    [SerializeField] private PlayerSoundManager pS;
 
     [HideInInspector] public float frozen = 0;
 
@@ -58,6 +59,7 @@ public class PlayerMovement : MonoBehaviour
     private float _touchDeltaY;
     private float maxTouchDistance;
     private float _touchMagnitude;
+    [SerializeField] private float touchMultiplier = 1f;
     private float _touchFixSpeed = .5f;
 
     //DASH /////////////////////
@@ -212,6 +214,7 @@ public class PlayerMovement : MonoBehaviour
     public void Dash(InputAction.CallbackContext context)
     {
         if (imDisabled) return;
+
         if (!isDashing && _timerToDoubleDash <= 0)
             flyAnimator.SetBool(IsDashing, true);
         else if (_timerToDoubleDash > 0)
@@ -237,7 +240,10 @@ public class PlayerMovement : MonoBehaviour
 
             _touchCurrentPos = touchContext.position;
 
-            _touchMagnitude = Mathf.Lerp(0, 1, (_touchCurrentPos - _touchStartingPos).magnitude / maxTouchDistance);
+            _touchMagnitude = Mathf.Lerp(0, touchMultiplier,
+                (_touchCurrentPos - _touchStartingPos).magnitude / maxTouchDistance);
+            _touchMagnitude = Mathf.Clamp01(_touchMagnitude);
+
             var finalTouchMovement = (_touchCurrentPos - _touchStartingPos).normalized * _touchMagnitude;
 
             inputDirectionTo = finalTouchMovement;
@@ -280,22 +286,27 @@ public class PlayerMovement : MonoBehaviour
         pC.closeUpOffsetTo = 1f;
         pC.closeUpOffset = 0;
         _speedBoost = _speedBoostMax;
-        inputDirectionTo = inputDirection.normalized;
         inputDirection = inputDirectionTo;
         hSpeed = inputDirection.x;
         vSpeed = inputDirection.y;
         isDashing = true;
+        pS.PlayDashSound();
 
         dashCollider.enabled = true;
     }
 
     public void StartDoubleDash()
     {
-        StartDashBoost();
-        _doubleDash = true;
+        pC.closeUpOffsetTo = 1f;
+        pC.closeUpOffset = 0;
         _speedBoost = _speedBoostMax * 1.5f;
+        inputDirection = inputDirectionTo;
+        hSpeed = inputDirection.x;
+        vSpeed = inputDirection.y;
+        isDashing = true;
 
         dashCollider.enabled = true;
+        _doubleDash = true;
     }
 
     public void StopDashBoost()

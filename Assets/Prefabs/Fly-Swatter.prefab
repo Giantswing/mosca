@@ -400,6 +400,7 @@ MonoBehaviour:
   stats: {fileID: 4894665001899906161}
   dmgCollider: {fileID: 4894665001899906162}
   _animator: {fileID: 4894665001899906061}
+  hitSound: {fileID: 11400000, guid: b5ef505c3a75f204d9ba347f758f9a7a, type: 2}
 --- !u!114 &4894665001899906161
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -412,13 +413,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fd8e5d50ba833f4786e10b760bb1498, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deathSoundEvent: {fileID: 0}
+  playDeathSound: 0
   _renderer: {fileID: 0}
   normalMaterial: {fileID: 0}
   invincibilityMaterial: {fileID: 0}
   ST_Speed: 0
   ST_Health:
     _owner: {fileID: 5705003218547024304}
-    _ownerName: Fly-Swatter
+    _ownerName: Fly-Swatter (1)
     _propertyPath: ST_Health
     _autoListen: 0
     _multiIndex: 0

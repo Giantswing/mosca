@@ -5,4 +5,5 @@ Flugi 0.1.3
 -Added the "poop" reward, when picked up it heals 1 heart to the player
 -Added new enemy: insecticide can
 -New dynamic camera angles
+-Sounds for: moving, colliding, breaking boxes, healing, fly swatter hit, collecting ring
 -Standard bugfixes and optimizations

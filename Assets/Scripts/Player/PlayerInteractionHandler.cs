@@ -3,11 +3,14 @@ using System.Collections;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
 public class PlayerInteractionHandler : MonoBehaviour
 {
     [SerializeField] private PlayerMovement pM;
     [SerializeField] private PlayerCamera pC;
+    [SerializeField] private PlayerSoundManager pS;
+
     [SerializeField] private STATS stats;
     [SerializeField] private SmartData.SmartEvent.EventDispatcher onPlayerHealthChanged;
 
@@ -133,6 +136,8 @@ public class PlayerInteractionHandler : MonoBehaviour
             EffectHandler.SpawnFX((int)EffectHandler.EffectType.Clash, collision.contacts[0].point, Vector3.zero,
                 Vector3.zero, 0);
 
+            pS.PlayWallHitSound();
+
 
             pM.inputDirection = Vector2.Reflect(pM.inputDirection, collision.contacts[0].normal);
             //pM.inputDirection = -_reflectDir;
@@ -146,5 +151,12 @@ public class PlayerInteractionHandler : MonoBehaviour
     {
         DOTween.Kill(transform);
         DOTween.Kill(pM.my3DModel.transform);
+    }
+
+
+    public void QuitGame(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+            Application.Quit();
     }
 }

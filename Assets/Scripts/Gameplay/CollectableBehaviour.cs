@@ -16,6 +16,8 @@ public class CollectableBehaviour : MonoBehaviour
     [SerializeField] private SmartData.SmartInt.IntWriter playerHealth;
     [SerializeField] private SmartData.SmartEvent.EventDispatcher onCollect;
 
+    [Space(10)] [SerializeField] private SimpleAudioEvent collectSound;
+
     //private bool hasAddedScore = false;
 
     [HideInInspector]
@@ -78,7 +80,7 @@ public class CollectableBehaviour : MonoBehaviour
             if (distance < .6f && _isShrinking == false)
             {
                 _isShrinking = true;
-                transform.DOScale(0, .2f).OnComplete(() => Destroy(gameObject));
+                transform.DOScale(0, .1f).OnComplete(() => Destroy(gameObject));
             }
         }
     }
@@ -86,12 +88,14 @@ public class CollectableBehaviour : MonoBehaviour
     private void OnDestroy()
     {
         if (pickUp == PickUp.Coin) LevelManager.OnScoreChanged?.Invoke(scoreValue);
+
         if (pickUp == PickUp.Poop)
         {
             playerHealth.value++;
             onCollect.Dispatch();
         }
 
+        GlobalAudioManager.PlaySound(collectSound, transform.position);
         DOTween.Kill(transform);
         DOTween.Kill(displayObject);
     }
@@ -107,7 +111,7 @@ public class CollectableBehaviour : MonoBehaviour
             var awayPosition = transform.position + awayDirection * 1.4f;
 
 
-            transform.DOMove(awayPosition, Random.Range(0.15F, 0.25F), false).SetEase(Ease.InOutCubic).onComplete +=
+            transform.DOMove(awayPosition, Random.Range(0.15F, 0.35F), false).SetEase(Ease.InOutCubic).onComplete +=
                 () => { StartFollowingPlayer(follow); };
         }
     }

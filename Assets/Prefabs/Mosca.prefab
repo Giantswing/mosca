@@ -1648,6 +1648,9 @@ GameObject:
   - component: {fileID: 7181058524826200369}
   - component: {fileID: 7181058524826200374}
   - component: {fileID: 7181058524826200371}
+  - component: {fileID: 4461781237300609191}
+  - component: {fileID: 4630742217596603289}
+  - component: {fileID: 4630742217596603301}
   m_Layer: 0
   m_Name: Mosca
   m_TagString: Player
@@ -1847,6 +1850,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fd8e5d50ba833f4786e10b760bb1498, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deathSoundEvent: {fileID: 0}
+  playDeathSound: 0
+  hitSoundEvent: {fileID: 11400000, guid: 14d863d64f65b3745aec184bd208ccef, type: 2}
+  playHitSound: 1
   _renderer: {fileID: 5909556201325315508}
   normalMaterial: {fileID: 0}
   invincibilityMaterial: {fileID: 2100000, guid: 226adf9a21da1ea4493948e9726d7789, type: 2}
@@ -1870,7 +1877,7 @@ MonoBehaviour:
   ST_Team: 1
   ST_Invincibility: 0
   ST_CanDoDmg: 1
-  ST_InvincibilityTimer: 0.5
+  ST_InvincibilityTimer: 1
   ST_Reward: 0
   ST_DeathEvent:
     m_PersistentCalls:
@@ -2005,6 +2012,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 6d1a4921-1274-4a19-9148-f8eb596f7ae3
     m_ActionName: Gameplay/TouchInput
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7181058524826200374}
+        m_TargetAssemblyTypeName: PlayerInteractionHandler, Assembly-CSharp
+        m_MethodName: QuitGame
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: fe885504-f300-4665-80af-248075a24969
+    m_ActionName: Gameplay/ExitGame[/Keyboard/escape,/DualSenseGamepadHID/start,/XInputControllerWindows/start]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Gameplay
@@ -2023,6 +2046,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pC: {fileID: 7181058524826200371}
+  pS: {fileID: 4461781237300609191}
   frozen: 0
   isFacingRight: 1
   my3DModel: {fileID: 2299378218407283694}
@@ -2035,6 +2059,7 @@ MonoBehaviour:
   maxTouchDistanceScreen: 0.113
   cornerPadding: 10
   maxHorTouchDistance: 0.168
+  touchMultiplier: 1.3
   isDashing: 0
 --- !u!114 &7181058524826200374
 MonoBehaviour:
@@ -2050,6 +2075,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pM: {fileID: 7181058524826200369}
   pC: {fileID: 7181058524826200371}
+  pS: {fileID: 4461781237300609191}
   stats: {fileID: 7181058524826200370}
   onPlayerHealthChanged:
     _owner: {fileID: 7181058524826200382}
@@ -2082,6 +2108,215 @@ MonoBehaviour:
   defaultCameraTrackingHorInfluence: 1.5
   closeUpOffset: -0.008879498
   closeUpOffsetTo: -0.0088795135
+--- !u!114 &4461781237300609191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7181058524826200382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df325cc446757ad468d7be2487255a54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flyDashSound: {fileID: 11400000, guid: 53c35963576a65b4cbcb58e12d27c459, type: 2}
+  flyWallHitSound: {fileID: 11400000, guid: bb33dffbecc045a4b87a71592d7a8106, type: 2}
+  flyIdleSound: {fileID: 4630742217596603289}
+  flySounds: {fileID: 4630742217596603301}
+  pM: {fileID: 7181058524826200369}
+--- !u!82 &4630742217596603289
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7181058524826200382}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 2a1840c1228d2434a86d603da1b465d4, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 0.505
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!82 &4630742217596603301
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7181058524826200382}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &7637503022230142458
 GameObject:
   m_ObjectHideFlags: 0

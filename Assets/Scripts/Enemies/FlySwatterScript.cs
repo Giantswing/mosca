@@ -8,6 +8,8 @@ public class FlySwatterScript : MonoBehaviour
     [SerializeField] private STATS stats;
     [SerializeField] private Collider dmgCollider;
     [SerializeField] private Animator _animator;
+    [SerializeField] private SimpleAudioEvent hitSound;
+
     private bool _isAttacking = false;
     private static readonly int IsAttacking = Animator.StringToHash("isAttacking");
     private readonly WaitForSeconds _coolDownTime = new(1f);
@@ -29,6 +31,7 @@ public class FlySwatterScript : MonoBehaviour
 
     public void StartDMG()
     {
+        GlobalAudioManager.PlaySound(hitSound, transform.position);
         dmgCollider.enabled = true;
         stats.ST_CanDoDmg = true;
         EffectHandler.SpawnFX((int)EffectHandler.EffectType.Clash, dmgCollider.bounds.center, Vector3.zero,

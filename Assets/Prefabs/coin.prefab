@@ -148,7 +148,7 @@ MonoBehaviour:
   myCollider: {fileID: 7176709904404189598}
   playerHealth:
     _owner: {fileID: 8023622830044985023}
-    _ownerName: coin (5)
+    _ownerName: coin (4)
     _propertyPath: playerHealth
     _autoListen: 0
     _multiIndex: 0
@@ -160,6 +160,19 @@ MonoBehaviour:
     _onUpdate:
       m_PersistentCalls:
         m_Calls: []
+  onCollect:
+    _owner: {fileID: 8023622830044985023}
+    _ownerName: coin (4)
+    _propertyPath: onCollect
+    _autoListen: 0
+    _multiIndex: 0
+    _smartEvent: {fileID: 0}
+    _smartMulti: {fileID: 0}
+    _useMulti: 0
+    _onEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  collectSound: {fileID: 11400000, guid: c8d43bb10d4d1014c824d3a1b89256e8, type: 2}
   pickUpAnimation: 0
   pickUp: 0
   scoreValue: 1
