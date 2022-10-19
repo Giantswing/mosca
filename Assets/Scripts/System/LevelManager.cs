@@ -36,6 +36,7 @@ public class LevelManager : MonoBehaviour
     public static LevelManager Instance { get; private set; }
 
     public static UnityAction<int, SceneField> StartLevelTransition;
+    public static UnityAction<float> UpdateTimer;
 
     //public static UnityAction LevelCompleted<bool ShowWinScreen, SceneField levelToLoad>;
 
@@ -43,6 +44,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private PortalPopUpScript portalPopUp;
 
     public static float LevelTime { get; private set; }
+    private float _timeReset = 0f;
 
     private void OnEnable()
     {
@@ -79,6 +81,7 @@ public class LevelManager : MonoBehaviour
 
 
         winScreen.SetActive(true);
+        UpdateTimer?.Invoke(LevelTime);
     }
 
 
@@ -94,6 +97,13 @@ public class LevelManager : MonoBehaviour
     private void Update()
     {
         LevelTime += Time.deltaTime;
+
+        _timeReset += Time.deltaTime;
+        if (_timeReset >= 1f)
+        {
+            UpdateTimer?.Invoke(LevelTime);
+            _timeReset = 0f;
+        }
     }
 
     private void UpdateScore(int scoreChange)
