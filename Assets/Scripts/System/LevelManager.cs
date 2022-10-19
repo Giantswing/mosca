@@ -56,6 +56,9 @@ public class LevelManager : MonoBehaviour
         ScoreToWin = 0;
         var sceneName = "Scenes/" + SceneManager.GetActiveScene().name;
         if (levelData == null) levelData = campaignData.GetCurrentLevel(sceneName);
+
+
+        SaveLoadSystem.LoadGame();
     }
 
     private void OnDisable()
@@ -144,19 +147,22 @@ public class LevelManager : MonoBehaviour
         SceneManager.LoadScene(Instance.campaignData.levelSelectionScene);
     }
 
-    public static void ShowPopUp()
-    {
-    }
 
     public static LevelSO LevelData()
     {
         return Instance.levelData;
     }
 
+    public static CampaignSO CampaignData()
+    {
+        return Instance.campaignData;
+    }
+
     public static int GetScore()
     {
         return Instance._score;
     }
+
 
     public static bool isThisLastLevel()
     {

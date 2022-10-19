@@ -105,6 +105,8 @@ public class WinScreenScript : MonoBehaviour
 
         LevelManager.LevelData().stars = starsWonInLevel;
 
+        SaveLoadSystem.SaveGame();
+
         /*
         _uiAnimator.StartAnimation(_children, singleDuration, singleDelay, singleSpawnCurve,
             () => { EventSystemScript.ChangeFirstSelected(firstSelected); });

@@ -30,6 +30,7 @@ public class LevelSelectionManager : MonoBehaviour
 
     private void Start()
     {
+        SaveLoadSystem.LoadGame();
         _camera = Camera.main;
 
         for (var i = 0; i < campaign.levels.Count; i++)

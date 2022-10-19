@@ -6,4 +6,6 @@ Flugi 0.1.3
 -Added new enemy: insecticide can
 -New dynamic camera angles
 -Sounds for: moving, colliding, breaking boxes, healing, fly swatter hit, collecting ring
+-Progress gets automatically saved after every level!
+-PC Only: exit game pressing escape or start on a gamepad (amazing i know)
 -Standard bugfixes and optimizations

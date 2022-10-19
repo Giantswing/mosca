@@ -2013,19 +2013,7 @@ MonoBehaviour:
     m_ActionId: 6d1a4921-1274-4a19-9148-f8eb596f7ae3
     m_ActionName: Gameplay/TouchInput
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7181058524826200374}
-        m_TargetAssemblyTypeName: PlayerInteractionHandler, Assembly-CSharp
-        m_MethodName: QuitGame
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: fe885504-f300-4665-80af-248075a24969
     m_ActionName: Gameplay/ExitGame[/Keyboard/escape,/DualSenseGamepadHID/start,/XInputControllerWindows/start]
   m_NeverAutoSwitchControlSchemes: 0
