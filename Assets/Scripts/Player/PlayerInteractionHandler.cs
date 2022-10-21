@@ -10,6 +10,7 @@ public class PlayerInteractionHandler : MonoBehaviour
     [SerializeField] private PlayerMovement pM;
     [SerializeField] private PlayerCamera pC;
     [SerializeField] private PlayerSoundManager pS;
+    [SerializeField] private GameObject playerPickupArea;
 
     [SerializeField] private STATS stats;
     [SerializeField] private SmartData.SmartEvent.EventDispatcher onPlayerHealthChanged;
@@ -22,13 +23,21 @@ public class PlayerInteractionHandler : MonoBehaviour
     private Vector3 _reflectDir;
 
     [SerializeField] private Collider dashCollider;
+    [SerializeField] private float lastBumpTime;
+
+    private void Start()
+    {
+        var obj = Instantiate(playerPickupArea);
+        var pickupArea = obj.GetComponent<PlayerPickupArea>();
+
+        pickupArea.player = gameObject.transform;
+        pickupArea.pI = this;
+        pickupArea.pM = pM;
+    }
 
     private void OnCollisionEnter(Collision collision)
     {
-        transform.DOShakeScale(.2f, (Math.Abs(pM.hSpeed) + Math.Abs(pM.vSpeed)) * .65f).onComplete +=
-            () => transform.DOScale(Vector3.one, .2f);
-
-        CheckDMG(collision);
+        CheckDmg(collision);
 
         if (dashCollider.enabled)
             dashCollider.enabled = false;
@@ -36,43 +45,42 @@ public class PlayerInteractionHandler : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
-        if (collision.gameObject.CompareTag("Collectable"))
+        //cache collision tag
+        var tag = collision.tag;
+
+        switch (tag)
         {
-            var collectable = collision.gameObject.GetComponent<CollectableBehaviour>();
+            case "Meta":
+                if (pM.frozen > 0) return;
 
-            if (collectable != null && collectable.isFollowing == 0)
-                collectable.Collect(transform);
-        }
-
-        else if (collision.gameObject.CompareTag("Meta"))
-        {
-            if (pM.frozen > 0) return;
-
-            pM.frozen = 15f;
-            pM.my3DModel.transform.DOShakePosition(5f, .3f);
-            pM.my3DModel.transform.DOLocalRotate(new Vector3(0, 0, 360), .3f, RotateMode.FastBeyond360)
-                .SetLoops(-1, LoopType.Incremental).SetEase(Ease.Linear);
+                pM.frozen = 15f;
+                pM.my3DModel.transform.DOShakePosition(5f, .3f);
+                pM.my3DModel.transform.DOLocalRotate(new Vector3(0, 0, 360), .3f, RotateMode.FastBeyond360)
+                    .SetLoops(-1, LoopType.Incremental).SetEase(Ease.Linear);
 
 
-            pM.DisablePlayer();
-            transform.DOMove(collision.transform.position, 1f).SetEase(Ease.InQuart).onComplete += () =>
-            {
-                transform.DOScale(Vector3.zero, .5f).SetEase(Ease.InQuart).onComplete += () =>
+                pM.DisablePlayer();
+                transform.DOMove(collision.transform.position, 1f).SetEase(Ease.InQuart).onComplete += () =>
                 {
-                    LevelManager.StartLevelTransition?.Invoke((int)LevelManager.LevelTransitionState.NextLevel,
-                        null);
+                    transform.DOScale(Vector3.zero, .5f).SetEase(Ease.InQuart).onComplete += () =>
+                    {
+                        LevelManager.StartLevelTransition?.Invoke((int)LevelManager.LevelTransitionState.NextLevel,
+                            null);
+                    };
                 };
-            };
-        }
-
-        else if (collision.gameObject.CompareTag("SecretWall"))
-        {
-            var other = collision.GetComponent<SecretWallScript>();
-            other.Disappear();
+                break;
+            case "SecretWall":
+                var other = collision.GetComponent<SecretWallScript>();
+                other.Disappear();
+                break;
+            case "Wind":
+                var wind = collision.GetComponent<WindFxScript>();
+                pM.windForceTo += wind.moveDir * wind.force * 15f;
+                break;
         }
     }
 
-    private void CheckDMG(Collision collision)
+    private void CheckDmg(Collision collision)
     {
         _reflectDir = (collision.transform.position - transform.position).normalized;
         _otherStats = collision.gameObject.GetComponent<STATS>();
@@ -131,7 +139,13 @@ public class PlayerInteractionHandler : MonoBehaviour
         }
         else if (_otherStats == null)
         {
-            if (pM.inputDirection.magnitude <= 0.85f) return;
+            //if (pM.ReturnVelocity().magnitude < 3f || pM.lastBumpTime > 0) return;
+
+            if (pM.lastBumpTime > 0) return;
+            pM.lastBumpTime = .5f;
+
+            transform.DOShakeScale(.2f, (Math.Abs(pM.hSpeed) + Math.Abs(pM.vSpeed)) * .65f).onComplete +=
+                () => transform.DOScale(Vector3.one, .2f);
 
             EffectHandler.SpawnFX((int)EffectHandler.EffectType.Clash, collision.contacts[0].point, Vector3.zero,
                 Vector3.zero, 0);

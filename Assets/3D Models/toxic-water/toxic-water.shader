@@ -1,19 +1,22 @@
 // Made with Amplify Shader Editor
 // Available at the Unity Asset Store - http://u3d.as/y3X 
-Shader "WobblyShader"
+Shader "toxic-water"
 {
 	Properties
 	{
 		[HideInInspector] _AlphaCutoff("Alpha Cutoff ", Range(0, 1)) = 0.5
 		[HideInInspector] _EmissionColor("Emission Color", Color) = (1,1,1,1)
-		[ASEBegin]_albedoTex("albedoTex", 2D) = "white" {}
-		_normalTex("normalTex", 2D) = "bump" {}
-		_metalic("metalic", Range( 0 , 1)) = 0
-		_smoothness("smoothness", Range( 0 , 1)) = 0
+		[ASEBegin]_TextureSample0("Texture Sample 0", 2D) = "white" {}
+		_Opacity("Opacity", Range( 0 , 1)) = 0.5882353
+		_Color("Color", Color) = (0.01023496,0.4339623,0.08859549,1)
 		_TextureSample1("Texture Sample 1", 2D) = "white" {}
-		_wobbleSpeed("wobbleSpeed", Range( 0 , 1)) = 0.1
-		[ASEEnd]_wobbleStrenght("wobbleStrenght", Range( 0 , 2)) = 0.5
-		[HideInInspector] _texcoord( "", 2D ) = "white" {}
+		_Smoothness("Smoothness", Range( 0 , 1)) = 1
+		_Speed("Speed", Range( 0 , 3)) = 1.941176
+		_Brighten("Brighten", Range( 0 , 1)) = 0.1954102
+		_Contrast("Contrast", Range( 0 , 5)) = 1.795882
+		_WaveStrength("WaveStrength", Range( 0 , 1)) = 0.02
+		_Tiling("Tiling", Vector) = (0,0,0,0)
+		[ASEEnd]_FresnelColor("FresnelColor", Color) = (0.04025563,0.9433962,0,1)
 
 		[HideInInspector]_QueueOffset("_QueueOffset", Float) = 0
         [HideInInspector]_QueueControl("_QueueControl", Float) = -1
@@ -41,9 +44,9 @@ Shader "WobblyShader"
 
 		
 		
-		Tags { "RenderPipeline"="UniversalPipeline" "RenderType"="Opaque" "Queue"="Geometry" }
+		Tags { "RenderPipeline"="UniversalPipeline" "RenderType"="Transparent" "Queue"="Transparent" }
 		Cull Back
-		ZWrite On
+		ZWrite Off
 		ZTest LEqual
 		Offset 0 , 0
 		AlphaToMask Off
@@ -165,13 +168,14 @@ Shader "WobblyShader"
 			Name "Forward"
 			Tags { "LightMode"="UniversalForward" }
 			
-			Blend One Zero, One Zero
+			Blend SrcAlpha OneMinusSrcAlpha, One OneMinusSrcAlpha
 			ColorMask RGBA
 			
 
 			HLSLPROGRAM
 
 			#define _NORMAL_DROPOFF_TS 1
+			#pragma multi_compile_instancing
 			#pragma multi_compile _ LOD_FADE_CROSSFADE
 			#pragma multi_compile_fog
 			#define ASE_FOG 1
@@ -220,8 +224,8 @@ Shader "WobblyShader"
 			    #define ENABLE_TERRAIN_PERPIXEL_NORMAL
 			#endif
 
-			#define ASE_NEEDS_VERT_POSITION
-			#pragma multi_compile_instancing
+			#define ASE_NEEDS_FRAG_WORLD_VIEW_DIR
+			#define ASE_NEEDS_FRAG_WORLD_NORMAL
 
 
 			struct VertexInput
@@ -259,7 +263,16 @@ Shader "WobblyShader"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-						#ifdef _TRANSMISSION_ASE
+			float4 _Color;
+			float4 _FresnelColor;
+			float2 _Tiling;
+			float _Contrast;
+			float _Speed;
+			float _Brighten;
+			float _WaveStrength;
+			float _Smoothness;
+			float _Opacity;
+			#ifdef _TRANSMISSION_ASE
 				float _TransmissionShadow;
 			#endif
 			#ifdef _TRANSLUCENCY_ASE
@@ -280,18 +293,15 @@ Shader "WobblyShader"
 			#endif
 			CBUFFER_END
 			sampler2D _TextureSample1;
-			sampler2D _albedoTex;
-			sampler2D _normalTex;
-			UNITY_INSTANCING_BUFFER_START(WobblyShader)
-				UNITY_DEFINE_INSTANCED_PROP(float4, _normalTex_ST)
-				UNITY_DEFINE_INSTANCED_PROP(float, _wobbleSpeed)
-				UNITY_DEFINE_INSTANCED_PROP(float, _wobbleStrenght)
-				UNITY_DEFINE_INSTANCED_PROP(float, _metalic)
-				UNITY_DEFINE_INSTANCED_PROP(float, _smoothness)
-			UNITY_INSTANCING_BUFFER_END(WobblyShader)
+			sampler2D _TextureSample0;
 
 
-			
+			float4 CalculateContrast( float contrastValue, float4 colorTarget )
+			{
+				float t = 0.5 * ( 1.0 - contrastValue );
+				return mul( float4x4( contrastValue,0,0,t, 0,contrastValue,0,t, 0,0,contrastValue,t, 0,0,0,1 ), colorTarget );
+			}
+
 			VertexOutput VertexFunction( VertexInput v  )
 			{
 				VertexOutput o = (VertexOutput)0;
@@ -299,10 +309,11 @@ Shader "WobblyShader"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
-				float2 texCoord11 = v.texcoord.xy * float2( 1,1 ) + float2( 0,0 );
-				float _wobbleSpeed_Instance = UNITY_ACCESS_INSTANCED_PROP(WobblyShader,_wobbleSpeed);
-				float mulTime20 = _TimeParameters.x * _wobbleSpeed_Instance;
-				float _wobbleStrenght_Instance = UNITY_ACCESS_INSTANCED_PROP(WobblyShader,_wobbleStrenght);
+				float2 appendResult38 = (float2(_Speed , 0.0));
+				float2 texCoord11 = v.texcoord.xy * _Tiling + float2( 0,0 );
+				float2 panner37 = ( 1.0 * _Time.y * appendResult38 + texCoord11);
+				float4 temp_output_40_0 = ( CalculateContrast(_Contrast,tex2Dlod( _TextureSample1, float4( panner37, 0, 0.0) )) + _Brighten );
+				float4 appendResult47 = (float4(0.0 , ( temp_output_40_0 * _WaveStrength ).r , 0.0 , 0.0));
 				
 				o.ase_texcoord8.xy = v.texcoord.xy;
 				
@@ -313,7 +324,7 @@ Shader "WobblyShader"
 				#else
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
-				float3 vertexValue = ( ( tex2Dlod( _TextureSample1, float4( ( texCoord11 + mulTime20 ), 0, 0.0) ) * _wobbleStrenght_Instance ) * float4( v.vertex.xyz , 0.0 ) ).rgb;
+				float3 vertexValue = appendResult47.xyz;
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.vertex.xyz = vertexValue;
 				#else
@@ -505,23 +516,23 @@ Shader "WobblyShader"
 	
 				WorldViewDirection = SafeNormalize( WorldViewDirection );
 
-				float2 texCoord11 = IN.ase_texcoord8.xy * float2( 1,1 ) + float2( 0,0 );
+				float2 appendResult38 = (float2(_Speed , 0.0));
+				float2 texCoord11 = IN.ase_texcoord8.xy * _Tiling + float2( 0,0 );
+				float2 panner37 = ( 1.0 * _Time.y * appendResult38 + texCoord11);
+				float4 temp_output_40_0 = ( CalculateContrast(_Contrast,tex2D( _TextureSample1, panner37 )) + _Brighten );
+				float fresnelNdotV52 = dot( WorldNormal, WorldViewDirection );
+				float fresnelNode52 = ( 0.0 + 0.45 * pow( 1.0 - fresnelNdotV52, 4.62 ) );
 				
-				float4 _normalTex_ST_Instance = UNITY_ACCESS_INSTANCED_PROP(WobblyShader,_normalTex_ST);
-				float2 uv_normalTex = IN.ase_texcoord8.xy * _normalTex_ST_Instance.xy + _normalTex_ST_Instance.zw;
+				float2 texCoord50 = IN.ase_texcoord8.xy * float2( 1,1 ) + float2( 0,0 );
 				
-				float _metalic_Instance = UNITY_ACCESS_INSTANCED_PROP(WobblyShader,_metalic);
-				
-				float _smoothness_Instance = UNITY_ACCESS_INSTANCED_PROP(WobblyShader,_smoothness);
-				
-				float3 Albedo = tex2D( _albedoTex, texCoord11 ).rgb;
-				float3 Normal = UnpackNormalScale( tex2D( _normalTex, uv_normalTex ), 1.0f );
+				float3 Albedo = ( ( _Color * temp_output_40_0 ) + ( fresnelNode52 * _FresnelColor ) ).rgb;
+				float3 Normal = tex2D( _TextureSample0, texCoord50 ).rgb;
 				float3 Emission = 0;
 				float3 Specular = 0.5;
-				float Metallic = _metalic_Instance;
-				float Smoothness = _smoothness_Instance;
+				float Metallic = 0;
+				float Smoothness = _Smoothness;
 				float Occlusion = 1;
-				float Alpha = 1;
+				float Alpha = _Opacity;
 				float AlphaClipThreshold = 0.5;
 				float AlphaClipThresholdShadow = 0.5;
 				float3 BakedGI = 0;
@@ -725,16 +736,18 @@ Shader "WobblyShader"
 		Pass
 		{
 			
-			Name "DepthOnly"
-			Tags { "LightMode"="DepthOnly" }
+			Name "ShadowCaster"
+			Tags { "LightMode"="ShadowCaster" }
 
 			ZWrite On
-			ColorMask 0
+			ZTest LEqual
 			AlphaToMask Off
+			ColorMask 0
 
 			HLSLPROGRAM
 			
 			#define _NORMAL_DROPOFF_TS 1
+			#pragma multi_compile_instancing
 			#pragma multi_compile _ LOD_FADE_CROSSFADE
 			#pragma multi_compile_fog
 			#define ASE_FOG 1
@@ -745,8 +758,10 @@ Shader "WobblyShader"
 			#pragma vertex vert
 			#pragma fragment frag
 
-			#define SHADERPASS SHADERPASS_DEPTHONLY
-        
+			#pragma multi_compile _ _CASTING_PUNCTUAL_LIGHT_SHADOW
+
+			#define SHADERPASS SHADERPASS_SHADOWCASTER
+
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Texture.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
@@ -755,9 +770,7 @@ Shader "WobblyShader"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
 
-			#define ASE_NEEDS_VERT_POSITION
-			#pragma multi_compile_instancing
-
+			
 
 			struct VertexInput
 			{
@@ -782,7 +795,16 @@ Shader "WobblyShader"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-						#ifdef _TRANSMISSION_ASE
+			float4 _Color;
+			float4 _FresnelColor;
+			float2 _Tiling;
+			float _Contrast;
+			float _Speed;
+			float _Brighten;
+			float _WaveStrength;
+			float _Smoothness;
+			float _Opacity;
+			#ifdef _TRANSMISSION_ASE
 				float _TransmissionShadow;
 			#endif
 			#ifdef _TRANSLUCENCY_ASE
@@ -803,13 +825,311 @@ Shader "WobblyShader"
 			#endif
 			CBUFFER_END
 			sampler2D _TextureSample1;
-			UNITY_INSTANCING_BUFFER_START(WobblyShader)
-				UNITY_DEFINE_INSTANCED_PROP(float, _wobbleSpeed)
-				UNITY_DEFINE_INSTANCED_PROP(float, _wobbleStrenght)
-			UNITY_INSTANCING_BUFFER_END(WobblyShader)
 
+
+			float4 CalculateContrast( float contrastValue, float4 colorTarget )
+			{
+				float t = 0.5 * ( 1.0 - contrastValue );
+				return mul( float4x4( contrastValue,0,0,t, 0,contrastValue,0,t, 0,0,contrastValue,t, 0,0,0,1 ), colorTarget );
+			}
+
+			float3 _LightDirection;
+			float3 _LightPosition;
+
+			VertexOutput VertexFunction( VertexInput v )
+			{
+				VertexOutput o;
+				UNITY_SETUP_INSTANCE_ID(v);
+				UNITY_TRANSFER_INSTANCE_ID(v, o);
+				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( o );
+
+				float2 appendResult38 = (float2(_Speed , 0.0));
+				float2 texCoord11 = v.ase_texcoord.xy * _Tiling + float2( 0,0 );
+				float2 panner37 = ( 1.0 * _Time.y * appendResult38 + texCoord11);
+				float4 temp_output_40_0 = ( CalculateContrast(_Contrast,tex2Dlod( _TextureSample1, float4( panner37, 0, 0.0) )) + _Brighten );
+				float4 appendResult47 = (float4(0.0 , ( temp_output_40_0 * _WaveStrength ).r , 0.0 , 0.0));
+				
+				#ifdef ASE_ABSOLUTE_VERTEX_POS
+					float3 defaultVertexValue = v.vertex.xyz;
+				#else
+					float3 defaultVertexValue = float3(0, 0, 0);
+				#endif
+				float3 vertexValue = appendResult47.xyz;
+				#ifdef ASE_ABSOLUTE_VERTEX_POS
+					v.vertex.xyz = vertexValue;
+				#else
+					v.vertex.xyz += vertexValue;
+				#endif
+
+				v.ase_normal = v.ase_normal;
+
+				float3 positionWS = TransformObjectToWorld( v.vertex.xyz );
+				#if defined(ASE_NEEDS_FRAG_WORLD_POSITION)
+				o.worldPos = positionWS;
+				#endif
+				float3 normalWS = TransformObjectToWorldDir(v.ase_normal);
+
+
+			#if _CASTING_PUNCTUAL_LIGHT_SHADOW
+				float3 lightDirectionWS = normalize(_LightPosition - positionWS);
+			#else
+				float3 lightDirectionWS = _LightDirection;
+			#endif
+
+				float4 clipPos = TransformWorldToHClip(ApplyShadowBias(positionWS, normalWS, lightDirectionWS));
+			
+			#if UNITY_REVERSED_Z
+				clipPos.z = min(clipPos.z, UNITY_NEAR_CLIP_VALUE);
+			#else
+				clipPos.z = max(clipPos.z, UNITY_NEAR_CLIP_VALUE);
+			#endif
+
+
+				#if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR) && defined(ASE_NEEDS_FRAG_SHADOWCOORDS)
+					VertexPositionInputs vertexInput = (VertexPositionInputs)0;
+					vertexInput.positionWS = positionWS;
+					vertexInput.positionCS = clipPos;
+					o.shadowCoord = GetShadowCoord( vertexInput );
+				#endif
+				o.clipPos = clipPos;
+				return o;
+			}
+
+			#if defined(TESSELLATION_ON)
+			struct VertexControl
+			{
+				float4 vertex : INTERNALTESSPOS;
+				float3 ase_normal : NORMAL;
+				float4 ase_texcoord : TEXCOORD0;
+
+				UNITY_VERTEX_INPUT_INSTANCE_ID
+			};
+
+			struct TessellationFactors
+			{
+				float edge[3] : SV_TessFactor;
+				float inside : SV_InsideTessFactor;
+			};
+
+			VertexControl vert ( VertexInput v )
+			{
+				VertexControl o;
+				UNITY_SETUP_INSTANCE_ID(v);
+				UNITY_TRANSFER_INSTANCE_ID(v, o);
+				o.vertex = v.vertex;
+				o.ase_normal = v.ase_normal;
+				o.ase_texcoord = v.ase_texcoord;
+				return o;
+			}
+
+			TessellationFactors TessellationFunction (InputPatch<VertexControl,3> v)
+			{
+				TessellationFactors o;
+				float4 tf = 1;
+				float tessValue = _TessValue; float tessMin = _TessMin; float tessMax = _TessMax;
+				float edgeLength = _TessEdgeLength; float tessMaxDisp = _TessMaxDisp;
+				#if defined(ASE_FIXED_TESSELLATION)
+				tf = FixedTess( tessValue );
+				#elif defined(ASE_DISTANCE_TESSELLATION)
+				tf = DistanceBasedTess(v[0].vertex, v[1].vertex, v[2].vertex, tessValue, tessMin, tessMax, GetObjectToWorldMatrix(), _WorldSpaceCameraPos );
+				#elif defined(ASE_LENGTH_TESSELLATION)
+				tf = EdgeLengthBasedTess(v[0].vertex, v[1].vertex, v[2].vertex, edgeLength, GetObjectToWorldMatrix(), _WorldSpaceCameraPos, _ScreenParams );
+				#elif defined(ASE_LENGTH_CULL_TESSELLATION)
+				tf = EdgeLengthBasedTessCull(v[0].vertex, v[1].vertex, v[2].vertex, edgeLength, tessMaxDisp, GetObjectToWorldMatrix(), _WorldSpaceCameraPos, _ScreenParams, unity_CameraWorldClipPlanes );
+				#endif
+				o.edge[0] = tf.x; o.edge[1] = tf.y; o.edge[2] = tf.z; o.inside = tf.w;
+				return o;
+			}
+
+			[domain("tri")]
+			[partitioning("fractional_odd")]
+			[outputtopology("triangle_cw")]
+			[patchconstantfunc("TessellationFunction")]
+			[outputcontrolpoints(3)]
+			VertexControl HullFunction(InputPatch<VertexControl, 3> patch, uint id : SV_OutputControlPointID)
+			{
+			   return patch[id];
+			}
+
+			[domain("tri")]
+			VertexOutput DomainFunction(TessellationFactors factors, OutputPatch<VertexControl, 3> patch, float3 bary : SV_DomainLocation)
+			{
+				VertexInput o = (VertexInput) 0;
+				o.vertex = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
+				o.ase_normal = patch[0].ase_normal * bary.x + patch[1].ase_normal * bary.y + patch[2].ase_normal * bary.z;
+				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
+				#if defined(ASE_PHONG_TESSELLATION)
+				float3 pp[3];
+				for (int i = 0; i < 3; ++i)
+					pp[i] = o.vertex.xyz - patch[i].ase_normal * (dot(o.vertex.xyz, patch[i].ase_normal) - dot(patch[i].vertex.xyz, patch[i].ase_normal));
+				float phongStrength = _TessPhongStrength;
+				o.vertex.xyz = phongStrength * (pp[0]*bary.x + pp[1]*bary.y + pp[2]*bary.z) + (1.0f-phongStrength) * o.vertex.xyz;
+				#endif
+				UNITY_TRANSFER_INSTANCE_ID(patch[0], o);
+				return VertexFunction(o);
+			}
+			#else
+			VertexOutput vert ( VertexInput v )
+			{
+				return VertexFunction( v );
+			}
+			#endif
+
+			#if defined(ASE_EARLY_Z_DEPTH_OPTIMIZE)
+				#define ASE_SV_DEPTH SV_DepthLessEqual  
+			#else
+				#define ASE_SV_DEPTH SV_Depth
+			#endif
+
+			half4 frag(	VertexOutput IN 
+						#ifdef ASE_DEPTH_WRITE_ON
+						,out float outputDepth : ASE_SV_DEPTH
+						#endif
+						 ) : SV_TARGET
+			{
+				UNITY_SETUP_INSTANCE_ID( IN );
+				UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX( IN );
+				
+				#if defined(ASE_NEEDS_FRAG_WORLD_POSITION)
+				float3 WorldPosition = IN.worldPos;
+				#endif
+				float4 ShadowCoords = float4( 0, 0, 0, 0 );
+
+				#if defined(ASE_NEEDS_FRAG_SHADOWCOORDS)
+					#if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR)
+						ShadowCoords = IN.shadowCoord;
+					#elif defined(MAIN_LIGHT_CALCULATE_SHADOWS)
+						ShadowCoords = TransformWorldToShadowCoord( WorldPosition );
+					#endif
+				#endif
+
+				
+				float Alpha = _Opacity;
+				float AlphaClipThreshold = 0.5;
+				float AlphaClipThresholdShadow = 0.5;
+				#ifdef ASE_DEPTH_WRITE_ON
+				float DepthValue = 0;
+				#endif
+
+				#ifdef _ALPHATEST_ON
+					#ifdef _ALPHATEST_SHADOW_ON
+						clip(Alpha - AlphaClipThresholdShadow);
+					#else
+						clip(Alpha - AlphaClipThreshold);
+					#endif
+				#endif
+
+				#ifdef LOD_FADE_CROSSFADE
+					LODDitheringTransition( IN.clipPos.xyz, unity_LODFade.x );
+				#endif
+
+				#ifdef ASE_DEPTH_WRITE_ON
+					outputDepth = DepthValue;
+				#endif
+				return 0;
+			}
+
+			ENDHLSL
+		}
+
+		
+		Pass
+		{
+			
+			Name "DepthOnly"
+			Tags { "LightMode"="DepthOnly" }
+
+			ZWrite On
+			ColorMask 0
+			AlphaToMask Off
+
+			HLSLPROGRAM
+			
+			#define _NORMAL_DROPOFF_TS 1
+			#pragma multi_compile_instancing
+			#pragma multi_compile _ LOD_FADE_CROSSFADE
+			#pragma multi_compile_fog
+			#define ASE_FOG 1
+			#define _NORMALMAP 1
+			#define ASE_SRP_VERSION 999999
 
 			
+			#pragma vertex vert
+			#pragma fragment frag
+
+			#define SHADERPASS SHADERPASS_DEPTHONLY
+        
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Texture.hlsl"
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/TextureStack.hlsl"
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
+			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
+
+			
+
+			struct VertexInput
+			{
+				float4 vertex : POSITION;
+				float3 ase_normal : NORMAL;
+				float4 ase_texcoord : TEXCOORD0;
+				UNITY_VERTEX_INPUT_INSTANCE_ID
+			};
+
+			struct VertexOutput
+			{
+				float4 clipPos : SV_POSITION;
+				#if defined(ASE_NEEDS_FRAG_WORLD_POSITION)
+				float3 worldPos : TEXCOORD0;
+				#endif
+				#if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR) && defined(ASE_NEEDS_FRAG_SHADOWCOORDS)
+				float4 shadowCoord : TEXCOORD1;
+				#endif
+				
+				UNITY_VERTEX_INPUT_INSTANCE_ID
+				UNITY_VERTEX_OUTPUT_STEREO
+			};
+
+			CBUFFER_START(UnityPerMaterial)
+			float4 _Color;
+			float4 _FresnelColor;
+			float2 _Tiling;
+			float _Contrast;
+			float _Speed;
+			float _Brighten;
+			float _WaveStrength;
+			float _Smoothness;
+			float _Opacity;
+			#ifdef _TRANSMISSION_ASE
+				float _TransmissionShadow;
+			#endif
+			#ifdef _TRANSLUCENCY_ASE
+				float _TransStrength;
+				float _TransNormal;
+				float _TransScattering;
+				float _TransDirect;
+				float _TransAmbient;
+				float _TransShadow;
+			#endif
+			#ifdef TESSELLATION_ON
+				float _TessPhongStrength;
+				float _TessValue;
+				float _TessMin;
+				float _TessMax;
+				float _TessEdgeLength;
+				float _TessMaxDisp;
+			#endif
+			CBUFFER_END
+			sampler2D _TextureSample1;
+
+
+			float4 CalculateContrast( float contrastValue, float4 colorTarget )
+			{
+				float t = 0.5 * ( 1.0 - contrastValue );
+				return mul( float4x4( contrastValue,0,0,t, 0,contrastValue,0,t, 0,0,contrastValue,t, 0,0,0,1 ), colorTarget );
+			}
+
 			VertexOutput VertexFunction( VertexInput v  )
 			{
 				VertexOutput o = (VertexOutput)0;
@@ -817,17 +1137,18 @@ Shader "WobblyShader"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
-				float2 texCoord11 = v.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
-				float _wobbleSpeed_Instance = UNITY_ACCESS_INSTANCED_PROP(WobblyShader,_wobbleSpeed);
-				float mulTime20 = _TimeParameters.x * _wobbleSpeed_Instance;
-				float _wobbleStrenght_Instance = UNITY_ACCESS_INSTANCED_PROP(WobblyShader,_wobbleStrenght);
+				float2 appendResult38 = (float2(_Speed , 0.0));
+				float2 texCoord11 = v.ase_texcoord.xy * _Tiling + float2( 0,0 );
+				float2 panner37 = ( 1.0 * _Time.y * appendResult38 + texCoord11);
+				float4 temp_output_40_0 = ( CalculateContrast(_Contrast,tex2Dlod( _TextureSample1, float4( panner37, 0, 0.0) )) + _Brighten );
+				float4 appendResult47 = (float4(0.0 , ( temp_output_40_0 * _WaveStrength ).r , 0.0 , 0.0));
 				
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.vertex.xyz;
 				#else
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
-				float3 vertexValue = ( ( tex2Dlod( _TextureSample1, float4( ( texCoord11 + mulTime20 ), 0, 0.0) ) * _wobbleStrenght_Instance ) * float4( v.vertex.xyz , 0.0 ) ).rgb;
+				float3 vertexValue = appendResult47.xyz;
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.vertex.xyz = vertexValue;
 				#else
@@ -960,7 +1281,7 @@ Shader "WobblyShader"
 				#endif
 
 				
-				float Alpha = 1;
+				float Alpha = _Opacity;
 				float AlphaClipThreshold = 0.5;
 				#ifdef ASE_DEPTH_WRITE_ON
 				float DepthValue = 0;
@@ -994,6 +1315,7 @@ Shader "WobblyShader"
 			HLSLPROGRAM
 			
 			#define _NORMAL_DROPOFF_TS 1
+			#pragma multi_compile_instancing
 			#pragma multi_compile _ LOD_FADE_CROSSFADE
 			#pragma multi_compile_fog
 			#define ASE_FOG 1
@@ -1017,8 +1339,8 @@ Shader "WobblyShader"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/MetaInput.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
 
-			#define ASE_NEEDS_VERT_POSITION
-			#pragma multi_compile_instancing
+			#define ASE_NEEDS_FRAG_WORLD_POSITION
+			#define ASE_NEEDS_VERT_NORMAL
 
 
 			struct VertexInput
@@ -1046,12 +1368,22 @@ Shader "WobblyShader"
 				float4 LightCoord : TEXCOORD3;
 				#endif
 				float4 ase_texcoord4 : TEXCOORD4;
+				float4 ase_texcoord5 : TEXCOORD5;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-						#ifdef _TRANSMISSION_ASE
+			float4 _Color;
+			float4 _FresnelColor;
+			float2 _Tiling;
+			float _Contrast;
+			float _Speed;
+			float _Brighten;
+			float _WaveStrength;
+			float _Smoothness;
+			float _Opacity;
+			#ifdef _TRANSMISSION_ASE
 				float _TransmissionShadow;
 			#endif
 			#ifdef _TRANSLUCENCY_ASE
@@ -1072,14 +1404,14 @@ Shader "WobblyShader"
 			#endif
 			CBUFFER_END
 			sampler2D _TextureSample1;
-			sampler2D _albedoTex;
-			UNITY_INSTANCING_BUFFER_START(WobblyShader)
-				UNITY_DEFINE_INSTANCED_PROP(float, _wobbleSpeed)
-				UNITY_DEFINE_INSTANCED_PROP(float, _wobbleStrenght)
-			UNITY_INSTANCING_BUFFER_END(WobblyShader)
 
 
-			
+			float4 CalculateContrast( float contrastValue, float4 colorTarget )
+			{
+				float t = 0.5 * ( 1.0 - contrastValue );
+				return mul( float4x4( contrastValue,0,0,t, 0,contrastValue,0,t, 0,0,contrastValue,t, 0,0,0,1 ), colorTarget );
+			}
+
 			VertexOutput VertexFunction( VertexInput v  )
 			{
 				VertexOutput o = (VertexOutput)0;
@@ -1087,22 +1419,27 @@ Shader "WobblyShader"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
-				float2 texCoord11 = v.texcoord0.xy * float2( 1,1 ) + float2( 0,0 );
-				float _wobbleSpeed_Instance = UNITY_ACCESS_INSTANCED_PROP(WobblyShader,_wobbleSpeed);
-				float mulTime20 = _TimeParameters.x * _wobbleSpeed_Instance;
-				float _wobbleStrenght_Instance = UNITY_ACCESS_INSTANCED_PROP(WobblyShader,_wobbleStrenght);
+				float2 appendResult38 = (float2(_Speed , 0.0));
+				float2 texCoord11 = v.texcoord0.xy * _Tiling + float2( 0,0 );
+				float2 panner37 = ( 1.0 * _Time.y * appendResult38 + texCoord11);
+				float4 temp_output_40_0 = ( CalculateContrast(_Contrast,tex2Dlod( _TextureSample1, float4( panner37, 0, 0.0) )) + _Brighten );
+				float4 appendResult47 = (float4(0.0 , ( temp_output_40_0 * _WaveStrength ).r , 0.0 , 0.0));
+				
+				float3 ase_worldNormal = TransformObjectToWorldNormal(v.ase_normal);
+				o.ase_texcoord5.xyz = ase_worldNormal;
 				
 				o.ase_texcoord4.xy = v.texcoord0.xy;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
 				o.ase_texcoord4.zw = 0;
+				o.ase_texcoord5.w = 0;
 				
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.vertex.xyz;
 				#else
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
-				float3 vertexValue = ( ( tex2Dlod( _TextureSample1, float4( ( texCoord11 + mulTime20 ), 0, 0.0) ) * _wobbleStrenght_Instance ) * float4( v.vertex.xyz , 0.0 ) ).rgb;
+				float3 vertexValue = appendResult47.xyz;
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.vertex.xyz = vertexValue;
 				#else
@@ -1241,12 +1578,20 @@ Shader "WobblyShader"
 					#endif
 				#endif
 
-				float2 texCoord11 = IN.ase_texcoord4.xy * float2( 1,1 ) + float2( 0,0 );
+				float2 appendResult38 = (float2(_Speed , 0.0));
+				float2 texCoord11 = IN.ase_texcoord4.xy * _Tiling + float2( 0,0 );
+				float2 panner37 = ( 1.0 * _Time.y * appendResult38 + texCoord11);
+				float4 temp_output_40_0 = ( CalculateContrast(_Contrast,tex2D( _TextureSample1, panner37 )) + _Brighten );
+				float3 ase_worldViewDir = ( _WorldSpaceCameraPos.xyz - WorldPosition );
+				ase_worldViewDir = normalize(ase_worldViewDir);
+				float3 ase_worldNormal = IN.ase_texcoord5.xyz;
+				float fresnelNdotV52 = dot( ase_worldNormal, ase_worldViewDir );
+				float fresnelNode52 = ( 0.0 + 0.45 * pow( 1.0 - fresnelNdotV52, 4.62 ) );
 				
 				
-				float3 Albedo = tex2D( _albedoTex, texCoord11 ).rgb;
+				float3 Albedo = ( ( _Color * temp_output_40_0 ) + ( fresnelNode52 * _FresnelColor ) ).rgb;
 				float3 Emission = 0;
-				float Alpha = 1;
+				float Alpha = _Opacity;
 				float AlphaClipThreshold = 0.5;
 
 				#ifdef _ALPHATEST_ON
@@ -1273,12 +1618,13 @@ Shader "WobblyShader"
 			Name "Universal2D"
 			Tags { "LightMode"="Universal2D" }
 
-			Blend One Zero, One Zero
+			Blend SrcAlpha OneMinusSrcAlpha, One OneMinusSrcAlpha
 			ColorMask RGBA
 
 			HLSLPROGRAM
 			
 			#define _NORMAL_DROPOFF_TS 1
+			#pragma multi_compile_instancing
 			#pragma multi_compile _ LOD_FADE_CROSSFADE
 			#pragma multi_compile_fog
 			#define ASE_FOG 1
@@ -1299,8 +1645,8 @@ Shader "WobblyShader"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
 			
-			#define ASE_NEEDS_VERT_POSITION
-			#pragma multi_compile_instancing
+			#define ASE_NEEDS_FRAG_WORLD_POSITION
+			#define ASE_NEEDS_VERT_NORMAL
 
 
 			struct VertexInput
@@ -1321,12 +1667,22 @@ Shader "WobblyShader"
 				float4 shadowCoord : TEXCOORD1;
 				#endif
 				float4 ase_texcoord2 : TEXCOORD2;
+				float4 ase_texcoord3 : TEXCOORD3;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-						#ifdef _TRANSMISSION_ASE
+			float4 _Color;
+			float4 _FresnelColor;
+			float2 _Tiling;
+			float _Contrast;
+			float _Speed;
+			float _Brighten;
+			float _WaveStrength;
+			float _Smoothness;
+			float _Opacity;
+			#ifdef _TRANSMISSION_ASE
 				float _TransmissionShadow;
 			#endif
 			#ifdef _TRANSLUCENCY_ASE
@@ -1347,14 +1703,14 @@ Shader "WobblyShader"
 			#endif
 			CBUFFER_END
 			sampler2D _TextureSample1;
-			sampler2D _albedoTex;
-			UNITY_INSTANCING_BUFFER_START(WobblyShader)
-				UNITY_DEFINE_INSTANCED_PROP(float, _wobbleSpeed)
-				UNITY_DEFINE_INSTANCED_PROP(float, _wobbleStrenght)
-			UNITY_INSTANCING_BUFFER_END(WobblyShader)
 
 
-			
+			float4 CalculateContrast( float contrastValue, float4 colorTarget )
+			{
+				float t = 0.5 * ( 1.0 - contrastValue );
+				return mul( float4x4( contrastValue,0,0,t, 0,contrastValue,0,t, 0,0,contrastValue,t, 0,0,0,1 ), colorTarget );
+			}
+
 			VertexOutput VertexFunction( VertexInput v  )
 			{
 				VertexOutput o = (VertexOutput)0;
@@ -1362,22 +1718,27 @@ Shader "WobblyShader"
 				UNITY_TRANSFER_INSTANCE_ID( v, o );
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( o );
 
-				float2 texCoord11 = v.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
-				float _wobbleSpeed_Instance = UNITY_ACCESS_INSTANCED_PROP(WobblyShader,_wobbleSpeed);
-				float mulTime20 = _TimeParameters.x * _wobbleSpeed_Instance;
-				float _wobbleStrenght_Instance = UNITY_ACCESS_INSTANCED_PROP(WobblyShader,_wobbleStrenght);
+				float2 appendResult38 = (float2(_Speed , 0.0));
+				float2 texCoord11 = v.ase_texcoord.xy * _Tiling + float2( 0,0 );
+				float2 panner37 = ( 1.0 * _Time.y * appendResult38 + texCoord11);
+				float4 temp_output_40_0 = ( CalculateContrast(_Contrast,tex2Dlod( _TextureSample1, float4( panner37, 0, 0.0) )) + _Brighten );
+				float4 appendResult47 = (float4(0.0 , ( temp_output_40_0 * _WaveStrength ).r , 0.0 , 0.0));
+				
+				float3 ase_worldNormal = TransformObjectToWorldNormal(v.ase_normal);
+				o.ase_texcoord3.xyz = ase_worldNormal;
 				
 				o.ase_texcoord2.xy = v.ase_texcoord.xy;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
 				o.ase_texcoord2.zw = 0;
+				o.ase_texcoord3.w = 0;
 				
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.vertex.xyz;
 				#else
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
-				float3 vertexValue = ( ( tex2Dlod( _TextureSample1, float4( ( texCoord11 + mulTime20 ), 0, 0.0) ) * _wobbleStrenght_Instance ) * float4( v.vertex.xyz , 0.0 ) ).rgb;
+				float3 vertexValue = appendResult47.xyz;
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.vertex.xyz = vertexValue;
 				#else
@@ -1502,11 +1863,19 @@ Shader "WobblyShader"
 					#endif
 				#endif
 
-				float2 texCoord11 = IN.ase_texcoord2.xy * float2( 1,1 ) + float2( 0,0 );
+				float2 appendResult38 = (float2(_Speed , 0.0));
+				float2 texCoord11 = IN.ase_texcoord2.xy * _Tiling + float2( 0,0 );
+				float2 panner37 = ( 1.0 * _Time.y * appendResult38 + texCoord11);
+				float4 temp_output_40_0 = ( CalculateContrast(_Contrast,tex2D( _TextureSample1, panner37 )) + _Brighten );
+				float3 ase_worldViewDir = ( _WorldSpaceCameraPos.xyz - WorldPosition );
+				ase_worldViewDir = normalize(ase_worldViewDir);
+				float3 ase_worldNormal = IN.ase_texcoord3.xyz;
+				float fresnelNdotV52 = dot( ase_worldNormal, ase_worldViewDir );
+				float fresnelNode52 = ( 0.0 + 0.45 * pow( 1.0 - fresnelNdotV52, 4.62 ) );
 				
 				
-				float3 Albedo = tex2D( _albedoTex, texCoord11 ).rgb;
-				float Alpha = 1;
+				float3 Albedo = ( ( _Color * temp_output_40_0 ) + ( fresnelNode52 * _FresnelColor ) ).rgb;
+				float Alpha = _Opacity;
 				float AlphaClipThreshold = 0.5;
 
 				half4 color = half4( Albedo, Alpha );
@@ -1535,6 +1904,7 @@ Shader "WobblyShader"
 			HLSLPROGRAM
 			
 			#define _NORMAL_DROPOFF_TS 1
+			#pragma multi_compile_instancing
 			#pragma multi_compile _ LOD_FADE_CROSSFADE
 			#pragma multi_compile_fog
 			#define ASE_FOG 1
@@ -1552,9 +1922,7 @@ Shader "WobblyShader"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
 
-			#define ASE_NEEDS_VERT_POSITION
-			#pragma multi_compile_instancing
-
+			
 
 			struct VertexInput
 			{
@@ -1582,7 +1950,16 @@ Shader "WobblyShader"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-						#ifdef _TRANSMISSION_ASE
+			float4 _Color;
+			float4 _FresnelColor;
+			float2 _Tiling;
+			float _Contrast;
+			float _Speed;
+			float _Brighten;
+			float _WaveStrength;
+			float _Smoothness;
+			float _Opacity;
+			#ifdef _TRANSMISSION_ASE
 				float _TransmissionShadow;
 			#endif
 			#ifdef _TRANSLUCENCY_ASE
@@ -1603,15 +1980,15 @@ Shader "WobblyShader"
 			#endif
 			CBUFFER_END
 			sampler2D _TextureSample1;
-			sampler2D _normalTex;
-			UNITY_INSTANCING_BUFFER_START(WobblyShader)
-				UNITY_DEFINE_INSTANCED_PROP(float4, _normalTex_ST)
-				UNITY_DEFINE_INSTANCED_PROP(float, _wobbleStrenght)
-				UNITY_DEFINE_INSTANCED_PROP(float, _wobbleSpeed)
-			UNITY_INSTANCING_BUFFER_END(WobblyShader)
+			sampler2D _TextureSample0;
 
 
-			
+			float4 CalculateContrast( float contrastValue, float4 colorTarget )
+			{
+				float t = 0.5 * ( 1.0 - contrastValue );
+				return mul( float4x4( contrastValue,0,0,t, 0,contrastValue,0,t, 0,0,contrastValue,t, 0,0,0,1 ), colorTarget );
+			}
+
 			VertexOutput VertexFunction( VertexInput v  )
 			{
 				VertexOutput o = (VertexOutput)0;
@@ -1619,10 +1996,11 @@ Shader "WobblyShader"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
-				float2 texCoord11 = v.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
-				float _wobbleSpeed_Instance = UNITY_ACCESS_INSTANCED_PROP(WobblyShader,_wobbleSpeed);
-				float mulTime20 = _TimeParameters.x * _wobbleSpeed_Instance;
-				float _wobbleStrenght_Instance = UNITY_ACCESS_INSTANCED_PROP(WobblyShader,_wobbleStrenght);
+				float2 appendResult38 = (float2(_Speed , 0.0));
+				float2 texCoord11 = v.ase_texcoord.xy * _Tiling + float2( 0,0 );
+				float2 panner37 = ( 1.0 * _Time.y * appendResult38 + texCoord11);
+				float4 temp_output_40_0 = ( CalculateContrast(_Contrast,tex2Dlod( _TextureSample1, float4( panner37, 0, 0.0) )) + _Brighten );
+				float4 appendResult47 = (float4(0.0 , ( temp_output_40_0 * _WaveStrength ).r , 0.0 , 0.0));
 				
 				o.ase_texcoord4.xy = v.ase_texcoord.xy;
 				
@@ -1633,7 +2011,7 @@ Shader "WobblyShader"
 				#else
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
-				float3 vertexValue = ( ( tex2Dlod( _TextureSample1, float4( ( texCoord11 + mulTime20 ), 0, 0.0) ) * _wobbleStrenght_Instance ) * float4( v.vertex.xyz , 0.0 ) ).rgb;
+				float3 vertexValue = appendResult47.xyz;
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.vertex.xyz = vertexValue;
 				#else
@@ -1776,11 +2154,10 @@ Shader "WobblyShader"
 					#endif
 				#endif
 
-				float4 _normalTex_ST_Instance = UNITY_ACCESS_INSTANCED_PROP(WobblyShader,_normalTex_ST);
-				float2 uv_normalTex = IN.ase_texcoord4.xy * _normalTex_ST_Instance.xy + _normalTex_ST_Instance.zw;
+				float2 texCoord50 = IN.ase_texcoord4.xy * float2( 1,1 ) + float2( 0,0 );
 				
-				float3 Normal = UnpackNormalScale( tex2D( _normalTex, uv_normalTex ), 1.0f );
-				float Alpha = 1;
+				float3 Normal = tex2D( _TextureSample0, texCoord50 ).rgb;
+				float Alpha = _Opacity;
 				float AlphaClipThreshold = 0.5;
 				#ifdef ASE_DEPTH_WRITE_ON
 				float DepthValue = 0;
@@ -1832,13 +2209,14 @@ Shader "WobblyShader"
 			Name "GBuffer"
 			Tags { "LightMode"="UniversalGBuffer" }
 			
-			Blend One Zero, One Zero
+			Blend SrcAlpha OneMinusSrcAlpha, One OneMinusSrcAlpha
 			ColorMask RGBA
 			
 
 			HLSLPROGRAM
 			
 			#define _NORMAL_DROPOFF_TS 1
+			#pragma multi_compile_instancing
 			#pragma multi_compile _ LOD_FADE_CROSSFADE
 			#pragma multi_compile_fog
 			#define ASE_FOG 1
@@ -1879,8 +2257,8 @@ Shader "WobblyShader"
 			    #define ENABLE_TERRAIN_PERPIXEL_NORMAL
 			#endif
 
-			#define ASE_NEEDS_VERT_POSITION
-			#pragma multi_compile_instancing
+			#define ASE_NEEDS_FRAG_WORLD_VIEW_DIR
+			#define ASE_NEEDS_FRAG_WORLD_NORMAL
 
 
 			struct VertexInput
@@ -1918,7 +2296,16 @@ Shader "WobblyShader"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-						#ifdef _TRANSMISSION_ASE
+			float4 _Color;
+			float4 _FresnelColor;
+			float2 _Tiling;
+			float _Contrast;
+			float _Speed;
+			float _Brighten;
+			float _WaveStrength;
+			float _Smoothness;
+			float _Opacity;
+			#ifdef _TRANSMISSION_ASE
 				float _TransmissionShadow;
 			#endif
 			#ifdef _TRANSLUCENCY_ASE
@@ -1939,18 +2326,15 @@ Shader "WobblyShader"
 			#endif
 			CBUFFER_END
 			sampler2D _TextureSample1;
-			sampler2D _albedoTex;
-			sampler2D _normalTex;
-			UNITY_INSTANCING_BUFFER_START(WobblyShader)
-				UNITY_DEFINE_INSTANCED_PROP(float4, _normalTex_ST)
-				UNITY_DEFINE_INSTANCED_PROP(float, _wobbleSpeed)
-				UNITY_DEFINE_INSTANCED_PROP(float, _wobbleStrenght)
-				UNITY_DEFINE_INSTANCED_PROP(float, _metalic)
-				UNITY_DEFINE_INSTANCED_PROP(float, _smoothness)
-			UNITY_INSTANCING_BUFFER_END(WobblyShader)
+			sampler2D _TextureSample0;
 
 
-			
+			float4 CalculateContrast( float contrastValue, float4 colorTarget )
+			{
+				float t = 0.5 * ( 1.0 - contrastValue );
+				return mul( float4x4( contrastValue,0,0,t, 0,contrastValue,0,t, 0,0,contrastValue,t, 0,0,0,1 ), colorTarget );
+			}
+
 			VertexOutput VertexFunction( VertexInput v  )
 			{
 				VertexOutput o = (VertexOutput)0;
@@ -1958,10 +2342,11 @@ Shader "WobblyShader"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
-				float2 texCoord11 = v.texcoord.xy * float2( 1,1 ) + float2( 0,0 );
-				float _wobbleSpeed_Instance = UNITY_ACCESS_INSTANCED_PROP(WobblyShader,_wobbleSpeed);
-				float mulTime20 = _TimeParameters.x * _wobbleSpeed_Instance;
-				float _wobbleStrenght_Instance = UNITY_ACCESS_INSTANCED_PROP(WobblyShader,_wobbleStrenght);
+				float2 appendResult38 = (float2(_Speed , 0.0));
+				float2 texCoord11 = v.texcoord.xy * _Tiling + float2( 0,0 );
+				float2 panner37 = ( 1.0 * _Time.y * appendResult38 + texCoord11);
+				float4 temp_output_40_0 = ( CalculateContrast(_Contrast,tex2Dlod( _TextureSample1, float4( panner37, 0, 0.0) )) + _Brighten );
+				float4 appendResult47 = (float4(0.0 , ( temp_output_40_0 * _WaveStrength ).r , 0.0 , 0.0));
 				
 				o.ase_texcoord8.xy = v.texcoord.xy;
 				
@@ -1972,7 +2357,7 @@ Shader "WobblyShader"
 				#else
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
-				float3 vertexValue = ( ( tex2Dlod( _TextureSample1, float4( ( texCoord11 + mulTime20 ), 0, 0.0) ) * _wobbleStrenght_Instance ) * float4( v.vertex.xyz , 0.0 ) ).rgb;
+				float3 vertexValue = appendResult47.xyz;
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.vertex.xyz = vertexValue;
 				#else
@@ -2162,23 +2547,23 @@ Shader "WobblyShader"
 	
 				WorldViewDirection = SafeNormalize( WorldViewDirection );
 
-				float2 texCoord11 = IN.ase_texcoord8.xy * float2( 1,1 ) + float2( 0,0 );
+				float2 appendResult38 = (float2(_Speed , 0.0));
+				float2 texCoord11 = IN.ase_texcoord8.xy * _Tiling + float2( 0,0 );
+				float2 panner37 = ( 1.0 * _Time.y * appendResult38 + texCoord11);
+				float4 temp_output_40_0 = ( CalculateContrast(_Contrast,tex2D( _TextureSample1, panner37 )) + _Brighten );
+				float fresnelNdotV52 = dot( WorldNormal, WorldViewDirection );
+				float fresnelNode52 = ( 0.0 + 0.45 * pow( 1.0 - fresnelNdotV52, 4.62 ) );
 				
-				float4 _normalTex_ST_Instance = UNITY_ACCESS_INSTANCED_PROP(WobblyShader,_normalTex_ST);
-				float2 uv_normalTex = IN.ase_texcoord8.xy * _normalTex_ST_Instance.xy + _normalTex_ST_Instance.zw;
+				float2 texCoord50 = IN.ase_texcoord8.xy * float2( 1,1 ) + float2( 0,0 );
 				
-				float _metalic_Instance = UNITY_ACCESS_INSTANCED_PROP(WobblyShader,_metalic);
-				
-				float _smoothness_Instance = UNITY_ACCESS_INSTANCED_PROP(WobblyShader,_smoothness);
-				
-				float3 Albedo = tex2D( _albedoTex, texCoord11 ).rgb;
-				float3 Normal = UnpackNormalScale( tex2D( _normalTex, uv_normalTex ), 1.0f );
+				float3 Albedo = ( ( _Color * temp_output_40_0 ) + ( fresnelNode52 * _FresnelColor ) ).rgb;
+				float3 Normal = tex2D( _TextureSample0, texCoord50 ).rgb;
 				float3 Emission = 0;
 				float3 Specular = 0.5;
-				float Metallic = _metalic_Instance;
-				float Smoothness = _smoothness_Instance;
+				float Metallic = 0;
+				float Smoothness = _Smoothness;
 				float Occlusion = 1;
-				float Alpha = 1;
+				float Alpha = _Opacity;
 				float AlphaClipThreshold = 0.5;
 				float AlphaClipThresholdShadow = 0.5;
 				float3 BakedGI = 0;
@@ -2310,6 +2695,7 @@ Shader "WobblyShader"
 			HLSLPROGRAM
         
 			#define _NORMAL_DROPOFF_TS 1
+			#pragma multi_compile_instancing
 			#pragma multi_compile _ LOD_FADE_CROSSFADE
 			#pragma multi_compile_fog
 			#define ASE_FOG 1
@@ -2333,9 +2719,7 @@ Shader "WobblyShader"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
         
-			#define ASE_NEEDS_VERT_POSITION
-			#pragma multi_compile_instancing
-
+			
 
 			struct VertexInput
 			{
@@ -2354,7 +2738,16 @@ Shader "WobblyShader"
 			};
         
 			CBUFFER_START(UnityPerMaterial)
-						#ifdef TESSELLATION_ON
+			float4 _Color;
+			float4 _FresnelColor;
+			float2 _Tiling;
+			float _Contrast;
+			float _Speed;
+			float _Brighten;
+			float _WaveStrength;
+			float _Smoothness;
+			float _Opacity;
+			#ifdef TESSELLATION_ON
 				float _TessPhongStrength;
 				float _TessValue;
 				float _TessMin;
@@ -2365,13 +2758,14 @@ Shader "WobblyShader"
 			CBUFFER_END
 
 			sampler2D _TextureSample1;
-			UNITY_INSTANCING_BUFFER_START(WobblyShader)
-				UNITY_DEFINE_INSTANCED_PROP(float, _wobbleSpeed)
-				UNITY_DEFINE_INSTANCED_PROP(float, _wobbleStrenght)
-			UNITY_INSTANCING_BUFFER_END(WobblyShader)
 
 
-			
+			float4 CalculateContrast( float contrastValue, float4 colorTarget )
+			{
+				float t = 0.5 * ( 1.0 - contrastValue );
+				return mul( float4x4( contrastValue,0,0,t, 0,contrastValue,0,t, 0,0,contrastValue,t, 0,0,0,1 ), colorTarget );
+			}
+
 			int _ObjectId;
 			int _PassValue;
 
@@ -2391,17 +2785,18 @@ Shader "WobblyShader"
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
 
-				float2 texCoord11 = v.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
-				float _wobbleSpeed_Instance = UNITY_ACCESS_INSTANCED_PROP(WobblyShader,_wobbleSpeed);
-				float mulTime20 = _TimeParameters.x * _wobbleSpeed_Instance;
-				float _wobbleStrenght_Instance = UNITY_ACCESS_INSTANCED_PROP(WobblyShader,_wobbleStrenght);
+				float2 appendResult38 = (float2(_Speed , 0.0));
+				float2 texCoord11 = v.ase_texcoord.xy * _Tiling + float2( 0,0 );
+				float2 panner37 = ( 1.0 * _Time.y * appendResult38 + texCoord11);
+				float4 temp_output_40_0 = ( CalculateContrast(_Contrast,tex2Dlod( _TextureSample1, float4( panner37, 0, 0.0) )) + _Brighten );
+				float4 appendResult47 = (float4(0.0 , ( temp_output_40_0 * _WaveStrength ).r , 0.0 , 0.0));
 				
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.vertex.xyz;
 				#else
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
-				float3 vertexValue = ( ( tex2Dlod( _TextureSample1, float4( ( texCoord11 + mulTime20 ), 0, 0.0) ) * _wobbleStrenght_Instance ) * float4( v.vertex.xyz , 0.0 ) ).rgb;
+				float3 vertexValue = appendResult47.xyz;
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.vertex.xyz = vertexValue;
 				#else
@@ -2498,7 +2893,7 @@ Shader "WobblyShader"
 			{
 				SurfaceDescription surfaceDescription = (SurfaceDescription)0;
 				
-				surfaceDescription.Alpha = 1;
+				surfaceDescription.Alpha = _Opacity;
 				surfaceDescription.AlphaClipThreshold = 0.5;
 
 
@@ -2527,6 +2922,7 @@ Shader "WobblyShader"
 			HLSLPROGRAM
 
 			#define _NORMAL_DROPOFF_TS 1
+			#pragma multi_compile_instancing
 			#pragma multi_compile _ LOD_FADE_CROSSFADE
 			#pragma multi_compile_fog
 			#define ASE_FOG 1
@@ -2552,9 +2948,7 @@ Shader "WobblyShader"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
         
-			#define ASE_NEEDS_VERT_POSITION
-			#pragma multi_compile_instancing
-
+			
 
 			struct VertexInput
 			{
@@ -2573,7 +2967,16 @@ Shader "WobblyShader"
 			};
         
 			CBUFFER_START(UnityPerMaterial)
-						#ifdef TESSELLATION_ON
+			float4 _Color;
+			float4 _FresnelColor;
+			float2 _Tiling;
+			float _Contrast;
+			float _Speed;
+			float _Brighten;
+			float _WaveStrength;
+			float _Smoothness;
+			float _Opacity;
+			#ifdef TESSELLATION_ON
 				float _TessPhongStrength;
 				float _TessValue;
 				float _TessMin;
@@ -2584,13 +2987,14 @@ Shader "WobblyShader"
 			CBUFFER_END
 
 			sampler2D _TextureSample1;
-			UNITY_INSTANCING_BUFFER_START(WobblyShader)
-				UNITY_DEFINE_INSTANCED_PROP(float, _wobbleSpeed)
-				UNITY_DEFINE_INSTANCED_PROP(float, _wobbleStrenght)
-			UNITY_INSTANCING_BUFFER_END(WobblyShader)
 
 
-			
+			float4 CalculateContrast( float contrastValue, float4 colorTarget )
+			{
+				float t = 0.5 * ( 1.0 - contrastValue );
+				return mul( float4x4( contrastValue,0,0,t, 0,contrastValue,0,t, 0,0,contrastValue,t, 0,0,0,1 ), colorTarget );
+			}
+
         
 			float4 _SelectionID;
 
@@ -2611,17 +3015,18 @@ Shader "WobblyShader"
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
 
-				float2 texCoord11 = v.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
-				float _wobbleSpeed_Instance = UNITY_ACCESS_INSTANCED_PROP(WobblyShader,_wobbleSpeed);
-				float mulTime20 = _TimeParameters.x * _wobbleSpeed_Instance;
-				float _wobbleStrenght_Instance = UNITY_ACCESS_INSTANCED_PROP(WobblyShader,_wobbleStrenght);
+				float2 appendResult38 = (float2(_Speed , 0.0));
+				float2 texCoord11 = v.ase_texcoord.xy * _Tiling + float2( 0,0 );
+				float2 panner37 = ( 1.0 * _Time.y * appendResult38 + texCoord11);
+				float4 temp_output_40_0 = ( CalculateContrast(_Contrast,tex2Dlod( _TextureSample1, float4( panner37, 0, 0.0) )) + _Brighten );
+				float4 appendResult47 = (float4(0.0 , ( temp_output_40_0 * _WaveStrength ).r , 0.0 , 0.0));
 				
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.vertex.xyz;
 				#else
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
-				float3 vertexValue = ( ( tex2Dlod( _TextureSample1, float4( ( texCoord11 + mulTime20 ), 0, 0.0) ) * _wobbleStrenght_Instance ) * float4( v.vertex.xyz , 0.0 ) ).rgb;
+				float3 vertexValue = appendResult47.xyz;
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.vertex.xyz = vertexValue;
 				#else
@@ -2718,7 +3123,7 @@ Shader "WobblyShader"
 			{
 				SurfaceDescription surfaceDescription = (SurfaceDescription)0;
 				
-				surfaceDescription.Alpha = 1;
+				surfaceDescription.Alpha = _Opacity;
 				surfaceDescription.AlphaClipThreshold = 0.5;
 
 
@@ -2747,43 +3152,65 @@ Shader "WobblyShader"
 }
 /*ASEBEGIN
 Version=18935
-0;0;2560;1379;1891.795;152.979;1;True;True
-Node;AmplifyShaderEditor.RangedFloatNode;26;-1351.863,561.0497;Inherit;False;InstancedProperty;_wobbleSpeed;wobbleSpeed;5;0;Create;True;0;0;0;False;0;False;0.1;0;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.TextureCoordinatesNode;11;-1148.33,128.5013;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SimpleTimeNode;20;-1016.027,572.3794;Inherit;True;1;0;FLOAT;0.1;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleAddOpNode;19;-761.0269,486.3794;Inherit;True;2;2;0;FLOAT2;0,0;False;1;FLOAT;0;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.RangedFloatNode;28;-608.7949,706.021;Inherit;False;InstancedProperty;_wobbleStrenght;wobbleStrenght;6;0;Create;True;0;0;0;False;0;False;0.5;0.5;0;2;0;1;FLOAT;0
-Node;AmplifyShaderEditor.SamplerNode;24;-527.5201,467.019;Inherit;True;Property;_TextureSample1;Texture Sample 1;4;0;Create;True;0;0;0;False;0;False;-1;c04797e6b825b414aa6efb9a3cde2769;c04797e6b825b414aa6efb9a3cde2769;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.PosVertexDataNode;21;-323.266,745.049;Inherit;False;0;0;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;27;-185.7949,575.021;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.RangedFloatNode;16;-408.4965,233.341;Inherit;False;InstancedProperty;_metalic;metalic;2;0;Create;True;0;0;0;False;0;False;0;0;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.SamplerNode;25;-446.8177,-261.6343;Inherit;True;Property;_normalTex;normalTex;1;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;bump;Auto;True;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;22;-48.22738,640.8345;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT3;0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.RangedFloatNode;17;-400.4965,339.341;Inherit;False;InstancedProperty;_smoothness;smoothness;3;0;Create;True;0;0;0;False;0;False;0;0;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.SamplerNode;10;-456.4592,-5.516297;Inherit;True;Property;_albedoTex;albedoTex;0;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;4;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;2;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;Meta;0;4;Meta;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;2;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Meta;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;1;374.6726,27.08427;Float;False;True;-1;2;UnityEditor.ShaderGraphLitGUI;0;2;WobblyShader;94348b07e5e8bab40bd6c8a1e3df54cd;True;Forward;0;1;Forward;19;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;2;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;True;1;1;False;-1;0;False;-1;1;1;False;-1;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;-1;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;False;False;False;True;1;LightMode=UniversalForward;False;False;0;Hidden/InternalErrorShader;0;0;Standard;40;Workflow;1;0;Surface;0;0;  Refraction Model;0;0;  Blend;0;0;Two Sided;1;0;Fragment Normal Space,InvertActionOnDeselection;0;0;Transmission;0;0;  Transmission Shadow;0.5,False,-1;0;Translucency;0;0;  Translucency Strength;1,False,-1;0;  Normal Distortion;0.5,False,-1;0;  Scattering;2,False,-1;0;  Direct;0.9,False,-1;0;  Ambient;0.1,False,-1;0;  Shadow;0.5,False,-1;0;Cast Shadows;0;637998604180480381;  Use Shadow Threshold;0;0;Receive Shadows;1;0;GPU Instancing;1;0;LOD CrossFade;1;0;Built-in Fog;1;0;_FinalColorxAlpha;0;0;Meta Pass;1;0;Override Baked GI;0;0;Extra Pre Pass;0;0;DOTS Instancing;0;0;Tessellation;0;0;  Phong;0;0;  Strength;0.5,False,-1;0;  Type;0;0;  Tess;16,False,-1;0;  Min;10,False,-1;0;  Max;25,False,-1;0;  Edge Length;16,False,-1;0;  Max Displacement;25,False,-1;0;Write Depth;0;0;  Early Z;0;0;Vertex Position,InvertActionOnDeselection;1;0;Debug Display;0;0;Clear Coat;0;0;0;10;False;True;False;True;True;True;True;True;True;True;False;;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;9;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;2;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ScenePickingPass;0;9;ScenePickingPass;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;2;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Picking;False;True;4;d3d11;glcore;gles;gles3;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;2;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;2;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ShadowCaster;0;2;ShadowCaster;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;2;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;False;False;True;False;False;False;False;0;False;-1;False;False;False;False;False;False;False;False;False;True;1;False;-1;True;3;False;-1;False;True;1;LightMode=ShadowCaster;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;7;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;2;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;GBuffer;0;7;GBuffer;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;2;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;True;1;1;False;-1;0;False;-1;1;1;False;-1;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;-1;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;False;False;False;True;1;LightMode=UniversalGBuffer;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;6;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;2;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;DepthNormals;0;6;DepthNormals;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;2;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;True;1;1;False;-1;0;False;-1;0;1;False;-1;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;False;-1;True;3;False;-1;False;True;1;LightMode=DepthNormals;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;8;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;2;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;SceneSelectionPass;0;8;SceneSelectionPass;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;2;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=SceneSelectionPass;False;True;4;d3d11;glcore;gles;gles3;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;0;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;2;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ExtraPrePass;0;0;ExtraPrePass;5;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;2;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;True;1;1;False;-1;0;False;-1;0;1;False;-1;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;True;True;True;True;0;False;-1;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;0;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;5;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;2;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;Universal2D;0;5;Universal2D;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;2;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;True;1;1;False;-1;0;False;-1;1;1;False;-1;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Universal2D;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;3;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;2;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;DepthOnly;0;3;DepthOnly;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;2;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;False;False;True;False;False;False;False;0;False;-1;False;False;False;False;False;False;False;False;False;True;1;False;-1;False;False;True;1;LightMode=DepthOnly;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
-WireConnection;20;0;26;0
-WireConnection;19;0;11;0
-WireConnection;19;1;20;0
-WireConnection;24;1;19;0
-WireConnection;27;0;24;0
-WireConnection;27;1;28;0
-WireConnection;22;0;27;0
-WireConnection;22;1;21;0
-WireConnection;10;1;11;0
-WireConnection;1;0;10;0
-WireConnection;1;1;25;0
-WireConnection;1;3;16;0
-WireConnection;1;4;17;0
-WireConnection;1;8;22;0
+2572;144;1920;1058;373.7201;858.4044;1;True;True
+Node;AmplifyShaderEditor.RangedFloatNode;39;-1803.008,-104.1458;Inherit;False;Property;_Speed;Speed;5;0;Create;True;0;0;0;False;0;False;1.941176;0;0;3;0;1;FLOAT;0
+Node;AmplifyShaderEditor.Vector2Node;49;-1982.083,153.3433;Inherit;False;Property;_Tiling;Tiling;9;0;Create;True;0;0;0;False;0;False;0,0;0,0;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
+Node;AmplifyShaderEditor.DynamicAppendNode;38;-1454.008,-61.14581;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.TextureCoordinatesNode;11;-1747.508,119.0447;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;2,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.PannerNode;37;-1269.008,23.85419;Inherit;True;3;0;FLOAT2;0,0;False;2;FLOAT2;-1.63,0;False;1;FLOAT;1;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.RangedFloatNode;30;-923.5148,204.3863;Inherit;False;Property;_Contrast;Contrast;7;0;Create;True;0;0;0;False;0;False;1.795882;1.795882;0;5;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SamplerNode;16;-958.2117,-31.49939;Inherit;True;Property;_TextureSample1;Texture Sample 1;3;0;Create;True;0;0;0;False;0;False;-1;e4a713bb609647e439a61f33abd700de;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.RangedFloatNode;41;-691.0078,317.8542;Inherit;False;Property;_Brighten;Brighten;6;0;Create;True;0;0;0;False;0;False;0.1954102;0.1954102;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleContrastOpNode;29;-622.5148,-39.61371;Inherit;True;2;1;COLOR;0,0,0,0;False;0;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.RangedFloatNode;43;-301.7163,219.9781;Inherit;False;Property;_WaveStrength;WaveStrength;8;0;Create;True;0;0;0;False;0;False;0.02;0.02;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleAddOpNode;40;-330.0078,-18.14581;Inherit;True;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;45;23.28369,29.97809;Inherit;True;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.BreakToComponentsNode;46;324.6021,-25.77014;Inherit;False;COLOR;1;0;COLOR;0,0,0,0;False;16;FLOAT;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT;5;FLOAT;6;FLOAT;7;FLOAT;8;FLOAT;9;FLOAT;10;FLOAT;11;FLOAT;12;FLOAT;13;FLOAT;14;FLOAT;15
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;33;-7.97311,-306.8709;Inherit;True;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.ColorNode;13;-527.9786,-437.7289;Inherit;False;Property;_Color;Color;2;0;Create;True;0;0;0;False;0;False;0.01023496,0.4339623,0.08859549,1;0.01023496,0.4339623,0.08859549,1;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;54;628.2799,-515.4044;Inherit;False;2;2;0;FLOAT;0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.FresnelNode;52;157.2799,-542.9486;Inherit;True;Standard;WorldNormal;ViewDir;False;False;5;0;FLOAT3;0,0,1;False;4;FLOAT3;0,0,0;False;1;FLOAT;0;False;2;FLOAT;0.45;False;3;FLOAT;4.62;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SamplerNode;12;169.8372,548.4042;Inherit;True;Property;_TextureSample0;Texture Sample 0;0;0;Create;True;0;0;0;False;0;False;-1;f3bb1fb3c9c1d6e4499e0981eab39b2f;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;55;295.2799,-736.4044;Inherit;False;Property;_FresnelColor;FresnelColor;10;0;Create;True;0;0;0;False;0;False;0.04025563,0.9433962,0,1;0,0,0,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.RangedFloatNode;14;-36.46764,301.4741;Inherit;False;Property;_Opacity;Opacity;1;0;Create;True;0;0;0;False;0;False;0.5882353;0;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleAddOpNode;53;753.9003,-282.9719;Inherit;True;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.DynamicAppendNode;47;462.6021,-11.77014;Inherit;False;FLOAT4;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT4;0
+Node;AmplifyShaderEditor.TextureCoordinatesNode;50;-211.1934,706.3185;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.RangedFloatNode;25;-99.51477,462.3863;Inherit;False;Property;_Smoothness;Smoothness;4;0;Create;True;0;0;0;False;0;False;1;0;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;5;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;Universal2D;0;5;Universal2D;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;2;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;True;1;5;False;-1;10;False;-1;1;1;False;-1;10;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Universal2D;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;7;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;GBuffer;0;7;GBuffer;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;2;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;True;1;5;False;-1;10;False;-1;1;1;False;-1;10;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;-1;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;False;False;False;True;1;LightMode=UniversalGBuffer;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;3;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;DepthOnly;0;3;DepthOnly;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;2;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;False;False;True;False;False;False;False;0;False;-1;False;False;False;False;False;False;False;False;False;True;1;False;-1;False;False;True;1;LightMode=DepthOnly;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;4;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;Meta;0;4;Meta;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;2;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Meta;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;1;1124.653,-87.38017;Float;False;True;-1;2;UnityEditor.ShaderGraphLitGUI;0;2;toxic-water;94348b07e5e8bab40bd6c8a1e3df54cd;True;Forward;0;1;Forward;19;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;2;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;3;RenderPipeline=UniversalPipeline;RenderType=Transparent=RenderType;Queue=Transparent=Queue=0;True;2;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;True;1;5;False;-1;10;False;-1;1;1;False;-1;10;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;-1;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;False;False;False;True;1;LightMode=UniversalForward;False;False;0;Hidden/InternalErrorShader;0;0;Standard;40;Workflow;1;0;Surface;1;638019632745078444;  Refraction Model;0;0;  Blend;0;0;Two Sided;1;0;Fragment Normal Space,InvertActionOnDeselection;0;0;Transmission;0;0;  Transmission Shadow;0.5,False,-1;0;Translucency;0;0;  Translucency Strength;1,False,-1;0;  Normal Distortion;0.5,False,-1;0;  Scattering;2,False,-1;0;  Direct;0.9,False,-1;0;  Ambient;0.1,False,-1;0;  Shadow;0.5,False,-1;0;Cast Shadows;1;0;  Use Shadow Threshold;0;0;Receive Shadows;1;0;GPU Instancing;1;0;LOD CrossFade;1;0;Built-in Fog;1;0;_FinalColorxAlpha;0;0;Meta Pass;1;0;Override Baked GI;0;0;Extra Pre Pass;0;0;DOTS Instancing;0;0;Tessellation;0;0;  Phong;0;0;  Strength;0.5,False,-1;0;  Type;0;0;  Tess;16,False,-1;0;  Min;10,False,-1;0;  Max;25,False,-1;0;  Edge Length;16,False,-1;0;  Max Displacement;25,False,-1;0;Write Depth;0;0;  Early Z;0;0;Vertex Position,InvertActionOnDeselection;1;0;Debug Display;0;0;Clear Coat;0;0;0;10;False;True;True;True;True;True;True;True;True;True;False;;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;0;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ExtraPrePass;0;0;ExtraPrePass;5;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;2;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;True;1;1;False;-1;0;False;-1;0;1;False;-1;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;True;True;True;True;0;False;-1;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;0;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;6;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;DepthNormals;0;6;DepthNormals;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;2;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;True;1;1;False;-1;0;False;-1;0;1;False;-1;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;False;-1;True;3;False;-1;False;True;1;LightMode=DepthNormals;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;2;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ShadowCaster;0;2;ShadowCaster;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;2;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;False;False;True;False;False;False;False;0;False;-1;False;False;False;False;False;False;False;False;False;True;1;False;-1;True;3;False;-1;False;True;1;LightMode=ShadowCaster;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;8;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;SceneSelectionPass;0;8;SceneSelectionPass;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;2;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=SceneSelectionPass;False;True;4;d3d11;glcore;gles;gles3;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;9;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ScenePickingPass;0;9;ScenePickingPass;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;2;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Picking;False;True;4;d3d11;glcore;gles;gles3;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
+WireConnection;38;0;39;0
+WireConnection;11;0;49;0
+WireConnection;37;0;11;0
+WireConnection;37;2;38;0
+WireConnection;16;1;37;0
+WireConnection;29;1;16;0
+WireConnection;29;0;30;0
+WireConnection;40;0;29;0
+WireConnection;40;1;41;0
+WireConnection;45;0;40;0
+WireConnection;45;1;43;0
+WireConnection;46;0;45;0
+WireConnection;33;0;13;0
+WireConnection;33;1;40;0
+WireConnection;54;0;52;0
+WireConnection;54;1;55;0
+WireConnection;12;1;50;0
+WireConnection;53;0;33;0
+WireConnection;53;1;54;0
+WireConnection;47;1;46;0
+WireConnection;1;0;53;0
+WireConnection;1;1;12;0
+WireConnection;1;4;25;0
+WireConnection;1;6;14;0
+WireConnection;1;8;47;0
 ASEEND*/
-//CHKSM=AF9C11894A7F899C0747415B4513BB54CA2D10AE
+//CHKSM=24D97E370C308EC7879E91309084340795FCE08C

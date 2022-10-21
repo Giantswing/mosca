@@ -32,19 +32,25 @@ public class PlayerMovement : MonoBehaviour
     private readonly float acceleration = .1f;
     private readonly float speedMultiplier = 7f;
 
+    [HideInInspector] public float lastBumpTime = 0;
+
 
     [HideInInspector] public Vector2 inputDirection;
     [HideInInspector] public Vector2 inputDirectionTo;
     [HideInInspector] public float hSpeed;
     [HideInInspector] public float vSpeed;
 
-    private Rigidbody _myRigidbody;
+    [SerializeField] private Rigidbody _myRigidbody;
 
     private bool imDisabled = false;
 
     private PlayerInput _playerInput;
 
     [SerializeField] private Collider dashCollider;
+
+    private Vector3 _windForce;
+    public Vector3 windForceTo;
+
 
     // MOBILE INPUT /////////////////////////
     public static UnityAction<Vector2, Vector2> onTouchInput;
@@ -80,7 +86,7 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         instance = this;
-        _myRigidbody = GetComponent<Rigidbody>();
+        //_myRigidbody = GetComponent<Rigidbody>();
         inputDirectionTo = Vector2.zero;
         flyAnimator = GetComponentInChildren<Animator>();
         _transform = transform;
@@ -111,10 +117,20 @@ public class PlayerMovement : MonoBehaviour
         return instance._transform;
     }
 
+    public Vector3 ReturnVelocity()
+    {
+        return _myRigidbody.velocity;
+    }
+
     // Update is called once per frame
     private void Update()
     {
         if (imDisabled) return;
+
+        lastBumpTime -= Time.deltaTime;
+
+        _windForce = Vector3.Lerp(_windForce, windForceTo, Time.deltaTime * 5);
+        windForceTo = Vector3.Lerp(windForceTo, Vector3.zero, Time.deltaTime * 5);
 
         frozen -= Time.deltaTime;
 
@@ -198,8 +214,8 @@ public class PlayerMovement : MonoBehaviour
     private void LateUpdate()
     {
         if (frozen <= 0)
-            _myRigidbody.velocity = new Vector3(inputDirection.x * speedMultiplier * _speedBoost,
-                inputDirection.y * speedMultiplier * _speedBoost, 0);
+            _myRigidbody.velocity = new Vector3(inputDirection.x * speedMultiplier * _speedBoost + _windForce.x,
+                inputDirection.y * speedMultiplier * _speedBoost + _windForce.y, 0);
     }
 
 

@@ -1640,9 +1640,9 @@ GameObject:
   - component: {fileID: 6893528672082903378}
   - component: {fileID: 2299378220093821933}
   - component: {fileID: 2299378218369729366}
+  - component: {fileID: 5400488531570919974}
   - component: {fileID: 2462846326598937567}
   - component: {fileID: 1107495973379938926}
-  - component: {fileID: 7181058524826200383}
   - component: {fileID: 7181058524826200370}
   - component: {fileID: 7504400481516356274}
   - component: {fileID: 7181058524826200369}
@@ -1799,6 +1799,19 @@ TrailRenderer:
   m_MinVertexDistance: 0.5
   m_Autodestruct: 0
   m_Emitting: 1
+--- !u!135 &5400488531570919974
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7181058524826200382}
+  m_Material: {fileID: 13400000, guid: 5057283b15fe753408c09f8a680992b5, type: 2}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!135 &2462846326598937567
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1806,11 +1819,11 @@ SphereCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7181058524826200382}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 5057283b15fe753408c09f8a680992b5, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.35
+  m_Radius: 0.43
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!135 &1107495973379938926
 SphereCollider:
@@ -1819,24 +1832,11 @@ SphereCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7181058524826200382}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 5057283b15fe753408c09f8a680992b5, type: 2}
   m_IsTrigger: 0
   m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.35
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!135 &7181058524826200383
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7181058524826200382}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 1.35
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &7181058524826200370
 MonoBehaviour:
@@ -2043,7 +2043,9 @@ MonoBehaviour:
   inputDirectionTo: {x: 0, y: 0}
   hSpeed: 0
   vSpeed: 0
+  _myRigidbody: {fileID: 2299378220093821933}
   dashCollider: {fileID: 1107495973379938926}
+  windForceTo: {x: 0, y: 0, z: 0}
   maxTouchDistanceScreen: 0.113
   cornerPadding: 10
   maxHorTouchDistance: 0.168
@@ -2064,6 +2066,7 @@ MonoBehaviour:
   pM: {fileID: 7181058524826200369}
   pC: {fileID: 7181058524826200371}
   pS: {fileID: 4461781237300609191}
+  playerPickupArea: {fileID: 2044022496740575611, guid: 28eb0f4732389544ab19213cf1e06ccb, type: 3}
   stats: {fileID: 7181058524826200370}
   onPlayerHealthChanged:
     _owner: {fileID: 7181058524826200382}
