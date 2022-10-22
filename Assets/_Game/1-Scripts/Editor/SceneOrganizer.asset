@@ -1,0 +1,76 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df9dba1ceba2ec54282159f9eda7f415, type: 3}
+  m_Name: SceneOrganizer
+  m_EditorClassIdentifier: 
+  organizeFolders:
+  - name: _01-PLAYER
+    objects:
+    - {fileID: 7181058524826200382, guid: 86175a2550f9e0c47840fccd955d116d, type: 3}
+    - {fileID: 2044022496740575611, guid: 28eb0f4732389544ab19213cf1e06ccb, type: 3}
+    objectsNames: []
+  - name: _02-ENEMIES
+    objects:
+    - {fileID: 3019289329273769044, guid: ae10e95d82e61394081db0c5cf8193b0, type: 3}
+    - {fileID: 5705003218547024304, guid: f16745acc6a7d614e8278cd6d2e39035, type: 3}
+    - {fileID: 9104996455489809032, guid: 931188d0c5f2103439b2c1de90dede4e, type: 3}
+    - {fileID: 7232556230658636973, guid: 3644be8e12c0e194390659f5d87bca7a, type: 3}
+    - {fileID: 3581354328258126474, guid: b15c17abd94991d46809c7af526998d1, type: 3}
+    objectsNames: []
+  - name: _03-SCENERY
+    objects:
+    - {fileID: 6414386990272127903, guid: 1df46075e7a5459439f71607c4299b5a, type: 3}
+    - {fileID: 3155901395702546916, guid: 3d46f5ff227fe7e4f9b5fc05d9dafca7, type: 3}
+    - {fileID: 2713798173642592655, guid: 449d924279571fe43b7c281914514499, type: 3}
+    - {fileID: 3455700863804286203, guid: ce967a72d65866c4f985637aa57762b2, type: 3}
+    objectsNames:
+    - Directional Light
+  - name: _03-COINS
+    objects:
+    - {fileID: 8023622830044985023, guid: da22c02a65605a34daa362c3ba402d6a, type: 3}
+    objectsNames: []
+  - name: _04-PICKUPS
+    objects:
+    - {fileID: 7158309797407360645, guid: 03b2b361136cb35449c766d9c98986be, type: 3}
+    objectsNames: []
+  - name: _05-CAMERA
+    objects:
+    - {fileID: 7197320075817121305, guid: a477841ad4a291548b767676b924e691, type: 3}
+    - {fileID: 589124997974348851, guid: a4228700af2164b41a017f47d4137366, type: 3}
+    - {fileID: 5137286470968119853, guid: 91bd773b815a7394e8c3557fe0b8f3c4, type: 3}
+    - {fileID: 5123453007864149827, guid: fadb89f157b3c6a4a9b1913b97dfeb47, type: 3}
+    - {fileID: 7010919196973483030, guid: 1b7a214668de6494e885a1dd943bd75e, type: 3}
+    objectsNames: []
+  - name: _06-SYSTEM
+    objects:
+    - {fileID: 8801562753903818942, guid: 3ef34e5bafc36be45a4d4123429ae674, type: 3}
+    - {fileID: 6805034309427531552, guid: b2db8d61d6b281c419d402d30082c018, type: 3}
+    - {fileID: 1248610793476433925, guid: cc1686ef196afd84285b547132b1b8ae, type: 3}
+    - {fileID: 8255479298120270298, guid: cc011d14f30a8a54abd3cf33dd56961c, type: 3}
+    - {fileID: 916468251326428845, guid: f92d484764437bf4ab8a59e92d2f2b50, type: 3}
+    - {fileID: 666284024849012792, guid: ab036a158c0709a4c97093f4e48f2368, type: 3}
+    - {fileID: 1783446688862618773, guid: 888d1a672c60ea346bf01fb09f3593a4, type: 3}
+    - {fileID: 4210419660606005315, guid: 97d7b863722ba0640a112c74c0e4825b, type: 3}
+    - {fileID: 1143740238223509595, guid: 9fd5666986a3ed7439f7d468cf2a033c, type: 3}
+    objectsNames: []
+  - name: _07-MOVERS
+    objects:
+    - {fileID: 2370041942362765062, guid: eb435e21c7b72624c84146be3bc5ab76, type: 3}
+    objectsNames: []
+  - name: _08-LEVEL
+    objects:
+    - {fileID: 2370041942362765062, guid: eb435e21c7b72624c84146be3bc5ab76, type: 3}
+    objectsNames:
+    - lvlmodel_
+  - name: --------RUNTIME OBJECTS--------
+    objects: []
+    objectsNames: []
