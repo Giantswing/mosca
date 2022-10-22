@@ -58,6 +58,8 @@ public class OrganizeScene : ScriptableObject
                 folders[index].transform.rotation = Quaternion.identity;
                 folders[index].transform.localScale = Vector3.one;
             }
+
+            //prevent folder from being selected in the editor
         }
 
         //Organize by dynamic names (prefab names)
@@ -66,7 +68,13 @@ public class OrganizeScene : ScriptableObject
             for (var i = 0; i < Instance.organizeFolders.Length; i++) //cycle through all folders
                 foreach (var obj in Instance.organizeFolders[i].objects) //cycle through all objects in the folder
                     if (selectedObj.name.Contains(obj.name))
+                    {
+                        //check if selectedObj has a parent
+                        if (selectedObj.transform.parent != null)
+                            if (selectedObj.transform.parent.name.Contains("Mover"))
+                                break;
                         selectedObj.transform.parent = folders[i].transform;
+                    }
 
         //Organize by static names (names in the inspector)
 
@@ -75,6 +83,13 @@ public class OrganizeScene : ScriptableObject
                 foreach (var obj in Instance.organizeFolders[i].objectsNames) //cycle through all objects in the folder
                     if (selectedObj.name.Contains(obj))
                         selectedObj.transform.parent = folders[i].transform;
+
+
+        //clear console
+        var assembly = Assembly.GetAssembly(typeof(ActiveEditorTracker));
+        var type = assembly.GetType("UnityEditor.LogEntries");
+        var method = type.GetMethod("Clear");
+        method.Invoke(new object(), null);
     }
 
 #endif

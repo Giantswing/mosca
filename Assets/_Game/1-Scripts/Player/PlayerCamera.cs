@@ -29,6 +29,12 @@ public class PlayerCamera : MonoBehaviour
     [HideInInspector] public float closeUpOffset = 0;
     [HideInInspector] public float closeUpOffsetTo = 0;
 
+    [Header("Camera Zone")] [Space(5)] [SerializeField]
+    private CameraZone currentCameraZone;
+
+    private Vector3 _cameraZoneOffset;
+    private float _cameraZoneZoom;
+
     /***********************************/
 
     private void Start()
@@ -39,16 +45,32 @@ public class PlayerCamera : MonoBehaviour
         _virtualCameraComposer = virtualCamera.GetCinemachineComponent<CinemachineComposer>();
     }
 
+    public void UpdateCameraZone(CameraZone newCameraZone)
+    {
+        currentCameraZone = newCameraZone;
+
+        if (newCameraZone != null)
+        {
+            _cameraZoneOffset = newCameraZone.cameraOffset;
+            _cameraZoneZoom = newCameraZone.cameraZoom;
+        }
+        else
+        {
+            _cameraZoneOffset = Vector3.zero;
+            _cameraZoneZoom = 0;
+        }
+    }
+
     private void CalculateCameraOffset()
     {
-        _horCameraOffsetTo = pM.hSpeed + 3f * pM.isFacingRight;
+        _horCameraOffsetTo = pM.hSpeed + 3f * pM.isFacingRight + _cameraZoneOffset.x;
         _horCameraOffset += (_horCameraOffsetTo - _horCameraOffset) * Time.deltaTime * 0.5f;
 
-        _vertCameraOffsetTo = pM.vSpeed * 2.5f;
+        _vertCameraOffsetTo = pM.vSpeed * 2.5f - _cameraZoneOffset.y;
         _vertCameraOffset += (_vertCameraOffsetTo - _vertCameraOffset) * Time.deltaTime * 2f;
 
 
-        _zoomCameraOffsetTo = pM.inputDirection.magnitude * 2.5f;
+        _zoomCameraOffsetTo = pM.inputDirection.magnitude * 2.5f + _cameraZoneZoom * -3f;
         _zoomCameraOffset += (_zoomCameraOffsetTo - _zoomCameraOffset) * Time.deltaTime * 0.7f;
 
         closeUpOffset += (closeUpOffsetTo - closeUpOffset) * Time.deltaTime * 1f;

@@ -77,7 +77,17 @@ public class PlayerInteractionHandler : MonoBehaviour
                 var wind = collision.GetComponent<WindFxScript>();
                 pM.windForceTo += wind.moveDir * wind.force * 15f;
                 break;
+            case "CameraZone":
+                var camZone = collision.GetComponent<CameraZone>();
+                pC.UpdateCameraZone(camZone);
+                break;
         }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("CameraZone"))
+            pC.UpdateCameraZone(null);
     }
 
     private void CheckDmg(Collision collision)

@@ -13,6 +13,10 @@ MonoBehaviour:
   m_Name: SceneOrganizer
   m_EditorClassIdentifier: 
   organizeFolders:
+  - name: _07-MOVERS
+    objects:
+    - {fileID: 2370041942362765062, guid: eb435e21c7b72624c84146be3bc5ab76, type: 3}
+    objectsNames: []
   - name: _01-PLAYER
     objects:
     - {fileID: 7181058524826200382, guid: 86175a2550f9e0c47840fccd955d116d, type: 3}
@@ -34,6 +38,7 @@ MonoBehaviour:
     - {fileID: 3455700863804286203, guid: ce967a72d65866c4f985637aa57762b2, type: 3}
     objectsNames:
     - Directional Light
+    - Cube
   - name: _03-COINS
     objects:
     - {fileID: 8023622830044985023, guid: da22c02a65605a34daa362c3ba402d6a, type: 3}
@@ -62,13 +67,8 @@ MonoBehaviour:
     - {fileID: 4210419660606005315, guid: 97d7b863722ba0640a112c74c0e4825b, type: 3}
     - {fileID: 1143740238223509595, guid: 9fd5666986a3ed7439f7d468cf2a033c, type: 3}
     objectsNames: []
-  - name: _07-MOVERS
-    objects:
-    - {fileID: 2370041942362765062, guid: eb435e21c7b72624c84146be3bc5ab76, type: 3}
-    objectsNames: []
   - name: _08-LEVEL
-    objects:
-    - {fileID: 2370041942362765062, guid: eb435e21c7b72624c84146be3bc5ab76, type: 3}
+    objects: []
     objectsNames:
     - lvlmodel_
   - name: --------RUNTIME OBJECTS--------
