@@ -9,13 +9,7 @@ EditorBuildSettings:
     path: Assets/_Game/3-Scenes/_levelSelection.unity
     guid: 9febcf6a309bde64faf4276b51254633
   - enabled: 1
-    path: Assets/_Game/3-Scenes/SceneCombat/SceneCombat.unity
-    guid: a4a286f94728ca14280ccb174c7fb149
-  - enabled: 1
-    path: Assets/_Game/3-Scenes/SceneSecrets/SceneSecrets 1.unity
-    guid: b66b1b95505bf62439d0cf73c89d1506
-  - enabled: 1
-    path: Assets/_Game/3-Scenes/SceneTutorial/SceneTutorial.unity
-    guid: 9fc0d4010bbf28b4594072e72b8655ab
+    path: Assets/_Game/3-Scenes/SceneTutorial/SceneTutorial-v2.unity
+    guid: 0a5a8cfb2a96bb34695afded1e9daa6a
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 6548e70ae255d6143ba245a2fff6f58d, type: 2}

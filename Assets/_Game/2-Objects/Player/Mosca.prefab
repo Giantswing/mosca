@@ -2039,12 +2039,14 @@ MonoBehaviour:
   isFacingRight: 1
   my3DModel: {fileID: 2299378218407283694}
   flyAnimator: {fileID: 0}
+  lastBumpTime: 0
   inputDirection: {x: 0, y: 0}
   inputDirectionTo: {x: 0, y: 0}
   hSpeed: 0
   vSpeed: 0
   _myRigidbody: {fileID: 2299378220093821933}
   dashCollider: {fileID: 1107495973379938926}
+  stats: {fileID: 7181058524826200370}
   windForceTo: {x: 0, y: 0, z: 0}
   maxTouchDistanceScreen: 0.113
   cornerPadding: 10
@@ -2081,6 +2083,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
   dashCollider: {fileID: 1107495973379938926}
+  lastBumpTime: 0
 --- !u!114 &7181058524826200371
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2095,10 +2098,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pM: {fileID: 7181058524826200369}
   virtualCamera: {fileID: 0}
-  defaultCameraZOffset: -8.88
+  defaultCameraZOffset: -8.4
   defaultCameraTrackingHorInfluence: 1.5
+  defaultCameraSideAngleStrength: 0.7
+  playerFollower: {fileID: 0}
   closeUpOffset: -0.008879498
   closeUpOffsetTo: -0.0088795135
+  currentCameraZone: {fileID: 0}
 --- !u!114 &4461781237300609191
 MonoBehaviour:
   m_ObjectHideFlags: 0

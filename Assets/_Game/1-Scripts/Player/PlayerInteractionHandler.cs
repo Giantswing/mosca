@@ -69,10 +69,6 @@ public class PlayerInteractionHandler : MonoBehaviour
                     };
                 };
                 break;
-            case "SecretWall":
-                var other = collision.GetComponent<SecretWallScript>();
-                other.Disappear();
-                break;
             case "Wind":
                 var wind = collision.GetComponent<WindFxScript>();
                 pM.windForceTo += wind.moveDir * wind.force * 15f;
@@ -92,7 +88,9 @@ public class PlayerInteractionHandler : MonoBehaviour
 
     private void CheckDmg(Collision collision)
     {
-        _reflectDir = (collision.transform.position - transform.position).normalized;
+        //_reflectDir = (collision.transform.position - transform.position).normalized;
+        _reflectDir = Vector3.Reflect(collision.contacts[0].normal, transform.position).normalized;
+
         _otherStats = collision.gameObject.GetComponent<STATS>();
         if (_otherStats != null && _otherStats.ST_Invincibility == false && _otherStats.ST_Team != stats.ST_Team)
         {

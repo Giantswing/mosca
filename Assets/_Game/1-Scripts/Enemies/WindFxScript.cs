@@ -50,7 +50,8 @@ public class WindFxScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("PickupArea") || other.CompareTag("Collectable") || other.CompareTag("Fan")) return;
+        if (other.CompareTag("PickupArea") || other.CompareTag("Collectable") || other.CompareTag("Fan") ||
+            other.CompareTag("CameraZone")) return;
 
         EndObj();
     }

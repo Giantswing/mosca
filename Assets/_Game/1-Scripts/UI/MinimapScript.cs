@@ -57,7 +57,7 @@ public class MinimapScript : MonoBehaviour
             _minimapPositionTo = _minimapOriginalPos;
             _minimapAnchorTo = _anchorTop;
             _minimapSizeTo = _minimapOriginalSize;
-            _minimapOpacityTo = .3f;
+            _minimapOpacityTo = .5f;
         }
 
         DOTween.To(() => rectTransform.anchoredPosition, x => rectTransform.anchoredPosition = x, _minimapPositionTo,

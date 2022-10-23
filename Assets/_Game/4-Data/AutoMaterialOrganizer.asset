@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 731d5a7b64adb2f4cba89376e8b7a455, type: 3}
+  m_Name: AutoMaterialOrganizer
+  m_EditorClassIdentifier: 
+  materialFolders:
+  - name: blend_interior
+    material: {fileID: 2100000, guid: 2d9789f7b0e425541bac92ce279cacb0, type: 2}
+  - name: blend_border
+    material: {fileID: 2100000, guid: f8fc288cef615134191409c038c1651d, type: 2}
+  defaultPhysicMaterial: {fileID: 13400000, guid: 5057283b15fe753408c09f8a680992b5, type: 2}

@@ -94,10 +94,10 @@ GameObject:
   - component: {fileID: 5931146525139728677}
   - component: {fileID: 7340992471921456768}
   - component: {fileID: 4757075040680346186}
-  - component: {fileID: -1145582433260992915}
   - component: {fileID: 8470181074721836011}
   - component: {fileID: 4361510537731124130}
   - component: {fileID: -5776067622110517566}
+  - component: {fileID: 474417256427825120}
   m_Layer: 0
   m_Name: Box
   m_TagString: Untagged
@@ -171,19 +171,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &-1145582433260992915
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6414386990272127903}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.02, y: 0.020000001, z: 0.020000001}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &8470181074721836011
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -198,6 +185,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   deathSoundEvent: {fileID: 11400000, guid: 3cfab892358c8b346ac553c78bfecb2e, type: 2}
   playDeathSound: 1
+  hitSoundEvent: {fileID: 0}
+  playHitSound: 0
   _renderer: {fileID: 0}
   normalMaterial: {fileID: 0}
   invincibilityMaterial: {fileID: 0}
@@ -280,3 +269,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FXIndex: 1
+--- !u!65 &474417256427825120
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6414386990272127903}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.020000001, y: 0.020000005, z: 0.020000005}
+  m_Center: {x: 0, y: 0, z: 0}

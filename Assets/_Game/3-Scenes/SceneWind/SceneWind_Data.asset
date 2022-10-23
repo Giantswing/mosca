@@ -16,11 +16,11 @@ MonoBehaviour:
     sceneAsset: {fileID: 102900000, guid: 4500aface69df154fafcfe0332485889, type: 3}
     sceneName: Scenes/SceneWind
   sceneName: Wind
-  totalScore: 0
-  scoreToWin: 0
-  timeToWin: 0
+  totalScore: 71
+  scoreToWin: 65
+  timeToWin: 200
   stars: 0
   scoreToStars:
-  - 0
-  - 0
-  - 15
+  - 65
+  - 71
+  - 86

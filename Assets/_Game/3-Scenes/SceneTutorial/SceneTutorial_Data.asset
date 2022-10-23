@@ -13,14 +13,14 @@ MonoBehaviour:
   m_Name: SceneTutorial_Data
   m_EditorClassIdentifier: 
   scene:
-    sceneAsset: {fileID: 102900000, guid: 9fc0d4010bbf28b4594072e72b8655ab, type: 3}
-    sceneName: Scenes/SceneTutorial
+    sceneAsset: {fileID: 102900000, guid: 0a5a8cfb2a96bb34695afded1e9daa6a, type: 3}
+    sceneName: _Game/3-Scenes/SceneTutorial/SceneTutorial-v2
   sceneName: Tutorial
-  totalScore: 46
-  scoreToWin: 35
-  timeToWin: 45
-  stars: 0
+  totalScore: 55
+  scoreToWin: 40
+  timeToWin: 55
+  stars: 2
   scoreToStars:
-  - 35
-  - 46
-  - 61
+  - 40
+  - 55
+  - 70

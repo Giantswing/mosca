@@ -3427,6 +3427,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7181058524826200371, guid: 86175a2550f9e0c47840fccd955d116d, type: 3}
+      propertyPath: playerFollower
+      value: 
+      objectReference: {fileID: 264104518}
     - target: {fileID: 7181058524826200382, guid: 86175a2550f9e0c47840fccd955d116d, type: 3}
       propertyPath: m_Name
       value: Mosca
@@ -3769,7 +3773,7 @@ RectTransform:
   - {fileID: 223932747}
   - {fileID: 483277688}
   m_Father: {fileID: 7628942258820383082}
-  m_RootOrder: 4
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
@@ -9214,9 +9218,9 @@ RectTransform:
   m_Children:
   - {fileID: 150574140325413925}
   - {fileID: 4904759535091840802}
+  - {fileID: 981078653}
   - {fileID: 7999524010262016848}
   - {fileID: 3051829608827642434}
-  - {fileID: 981078653}
   m_Father: {fileID: 439573052}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

@@ -13,7 +13,7 @@ public class OrganizeFolder
 }
 
 
-[CreateAssetMenu(fileName = "SceneOrganizer", menuName = "Utilites", order = 1)]
+[CreateAssetMenu(fileName = "SceneOrganizer", menuName = "Utilites/SceneOrganizer", order = 1)]
 public class OrganizeScene : ScriptableObject
 {
 #if UNITY_EDITOR

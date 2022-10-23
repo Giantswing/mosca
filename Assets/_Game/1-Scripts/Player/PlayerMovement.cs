@@ -47,6 +47,7 @@ public class PlayerMovement : MonoBehaviour
     private PlayerInput _playerInput;
 
     [SerializeField] private Collider dashCollider;
+    [SerializeField] private STATS stats;
 
     private Vector3 _windForce;
     public Vector3 windForceTo;
@@ -129,8 +130,16 @@ public class PlayerMovement : MonoBehaviour
 
         lastBumpTime -= Time.deltaTime;
 
-        _windForce = Vector3.Lerp(_windForce, windForceTo, Time.deltaTime * 5);
-        windForceTo = Vector3.Lerp(windForceTo, Vector3.zero, Time.deltaTime * 5);
+        if (stats.ST_Invincibility)
+        {
+            _windForce = Vector3.Lerp(_windForce, Vector3.zero, Time.deltaTime * 10f);
+            windForceTo = Vector3.Lerp(windForceTo, Vector3.zero, Time.deltaTime * 10f);
+        }
+        else
+        {
+            _windForce = Vector3.Lerp(_windForce, windForceTo, Time.deltaTime * 10f);
+            windForceTo = Vector3.Lerp(windForceTo, Vector3.zero, Time.deltaTime * 10f);
+        }
 
         frozen -= Time.deltaTime;
 

@@ -13,14 +13,11 @@ MonoBehaviour:
   m_Name: SceneOrganizer
   m_EditorClassIdentifier: 
   organizeFolders:
-  - name: _07-MOVERS
-    objects:
-    - {fileID: 2370041942362765062, guid: eb435e21c7b72624c84146be3bc5ab76, type: 3}
-    objectsNames: []
   - name: _01-PLAYER
     objects:
     - {fileID: 7181058524826200382, guid: 86175a2550f9e0c47840fccd955d116d, type: 3}
     - {fileID: 2044022496740575611, guid: 28eb0f4732389544ab19213cf1e06ccb, type: 3}
+    - {fileID: 5123453007864149827, guid: fadb89f157b3c6a4a9b1913b97dfeb47, type: 3}
     objectsNames: []
   - name: _02-ENEMIES
     objects:
@@ -36,6 +33,8 @@ MonoBehaviour:
     - {fileID: 3155901395702546916, guid: 3d46f5ff227fe7e4f9b5fc05d9dafca7, type: 3}
     - {fileID: 2713798173642592655, guid: 449d924279571fe43b7c281914514499, type: 3}
     - {fileID: 3455700863804286203, guid: ce967a72d65866c4f985637aa57762b2, type: 3}
+    - {fileID: 4319178847646054, guid: 42895a8fab61cd54e99985d431aa99cc, type: 3}
+    - {fileID: 3113702028230545252, guid: f4655f8c6f394be4eb959a86f86d54c2, type: 3}
     objectsNames:
     - Directional Light
     - Cube
@@ -52,7 +51,6 @@ MonoBehaviour:
     - {fileID: 7197320075817121305, guid: a477841ad4a291548b767676b924e691, type: 3}
     - {fileID: 589124997974348851, guid: a4228700af2164b41a017f47d4137366, type: 3}
     - {fileID: 5137286470968119853, guid: 91bd773b815a7394e8c3557fe0b8f3c4, type: 3}
-    - {fileID: 5123453007864149827, guid: fadb89f157b3c6a4a9b1913b97dfeb47, type: 3}
     - {fileID: 7010919196973483030, guid: 1b7a214668de6494e885a1dd943bd75e, type: 3}
     objectsNames: []
   - name: _06-SYSTEM
@@ -67,8 +65,13 @@ MonoBehaviour:
     - {fileID: 4210419660606005315, guid: 97d7b863722ba0640a112c74c0e4825b, type: 3}
     - {fileID: 1143740238223509595, guid: 9fd5666986a3ed7439f7d468cf2a033c, type: 3}
     objectsNames: []
+  - name: _07-MOVERS
+    objects:
+    - {fileID: 2370041942362765062, guid: eb435e21c7b72624c84146be3bc5ab76, type: 3}
+    objectsNames: []
   - name: _08-LEVEL
-    objects: []
+    objects:
+    - {fileID: 4206558954623024780, guid: 997a35e5f1bee984890dd7a40e0e3518, type: 3}
     objectsNames:
     - lvlmodel_
   - name: --------RUNTIME OBJECTS--------

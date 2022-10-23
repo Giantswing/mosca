@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,7 +8,7 @@ public class FollowObjectScript : MonoBehaviour
     [SerializeField] private Transform _whoToFollow;
 
     // Start is called before the first frame update
-    private void Start()
+    private void OnEnable()
     {
         if (_whoToFollow == null)
             _whoToFollow = GameObject.FindGameObjectsWithTag("Player")[0].transform;
@@ -19,5 +20,13 @@ public class FollowObjectScript : MonoBehaviour
     private void Update()
     {
         transform.position = Vector3.Lerp(transform.position, _whoToFollow.position, .65f);
+    }
+
+    private void OnValidate()
+    {
+        if (_whoToFollow == null)
+            _whoToFollow = GameObject.FindGameObjectsWithTag("Player")[0].transform;
+
+        transform.position = _whoToFollow.position;
     }
 }

@@ -6,5 +6,7 @@ public class CameraZone : MonoBehaviour
 {
     public Vector3 cameraOffset;
 
-    [Range(-1, 1)] public float cameraZoom;
+    [Range(-3, 3)] public float cameraZoom;
+
+    [Range(-2, 2)] public float sideAngleStrength = 1;
 }
