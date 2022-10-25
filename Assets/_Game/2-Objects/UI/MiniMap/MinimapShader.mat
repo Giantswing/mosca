@@ -43,7 +43,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _ColorMask: 15
-    - _Opacity: 0.5
+    - _Opacity: 0.50396997
     - _ShadowYOffset: 0.0048
     - _Stencil: 0
     - _StencilComp: 8

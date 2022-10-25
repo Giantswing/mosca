@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,6 +13,9 @@ public class TeleporterScript : MonoBehaviour
     [SerializeField] private float teleportDelay = 0.35f;
     [SerializeField] private bool main = true;
     [SerializeField] private ParticleSystem teleportParticles;
+    private BoxCollider _teleportCollider;
+    private Vector3 _originalSize;
+    private MeshRenderer _meshRenderer;
     private PlayerMovement _playerMovement;
     private WaitForSeconds _teleportDelayWait;
     private float _forceMultiplier = 2.5f;
@@ -34,6 +38,15 @@ public class TeleporterScript : MonoBehaviour
     private void Start()
     {
         _teleportDelayWait = new WaitForSeconds(teleportDelay);
+        _teleportCollider = GetComponent<BoxCollider>();
+        _meshRenderer = GetComponentInChildren<MeshRenderer>();
+        _originalSize = transform.localScale;
+
+        if (isOnlyExit)
+        {
+            _meshRenderer.enabled = false;
+            _teleportCollider.enabled = false;
+        }
     }
 
     public void Teleport(GameObject target)
@@ -92,9 +105,18 @@ public class TeleporterScript : MonoBehaviour
 
     private IEnumerator TeleportCooldownCoroutine(PlayerMovement playerMov)
     {
+        if (isOnlyExit)
+        {
+            transform.localScale = _originalSize;
+            _meshRenderer.enabled = true;
+            transform.DOScale(0, .65f).SetEase(Ease.InElastic).SetDelay(0.1f).onComplete +=
+                () => _meshRenderer.enabled = false;
+        }
+
         isEnabled = false;
         teleportSoundEvent.Play(teleportSoundSource);
         PlayParticles();
+        FreezeFrameScript.DistortView(0.2f);
         playerMov.GetComponent<PlayerInput>().enabled = false;
         yield return _teleportDelayWait;
         playerMov.GetComponent<PlayerInput>().enabled = true;
@@ -102,7 +124,7 @@ public class TeleporterScript : MonoBehaviour
         if (playerMov.inputDirectionTo != Vector2.zero)
             playerMov.inputDirectionTo = previousPlayerDirection;
 
-        isEnabled = true;
+        isEnabled = !isOnlyExit;
     }
 
     private void OnDrawGizmos()
