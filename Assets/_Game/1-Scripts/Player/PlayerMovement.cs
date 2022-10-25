@@ -17,6 +17,7 @@ public class PlayerMovement : MonoBehaviour
     public static PlayerMovement instance;
     private Transform _transform;
 
+
     private float _modelRotation = 0;
     private const float TimeToSwitch = .35f;
     [HideInInspector] public int isFacingRight = 1;
@@ -103,12 +104,12 @@ public class PlayerMovement : MonoBehaviour
         LevelManager.StartLevelTransition -= DisableMovement;
     }
 
-    private void DisableMovement(int levelTransitionState, SceneField levelToLoad)
+    public void DisableMovement(int levelTransitionState, SceneField levelToLoad)
     {
         GetComponent<PlayerInput>().enabled = false;
     }
 
-    private void EnableMovement()
+    public void EnableMovement()
     {
         GetComponent<PlayerInput>().enabled = true;
     }
@@ -150,24 +151,14 @@ public class PlayerMovement : MonoBehaviour
 
         if (_speedBoost > 1) _speedBoost -= Time.deltaTime;
 
-        hSpeed += (inputDirectionTo.x - hSpeed) * acceleration * Time.deltaTime * 60f;
-        vSpeed += (inputDirectionTo.y - vSpeed) * acceleration * Time.deltaTime * 60f;
+        hSpeed += (inputDirectionTo.x - hSpeed) * acceleration * Time.deltaTime * 50f;
+        vSpeed += (inputDirectionTo.y - vSpeed) * acceleration * Time.deltaTime * 50f;
         inputDirection = new Vector2(hSpeed, vSpeed);
 
 
         flyAnimator.SetFloat(FlyAnimSpeedH, inputDirection.x * isFacingRight);
         flyAnimator.SetFloat(FlyAnimSpeedV, inputDirection.y);
 
-
-        /*
-
-        if (_inputDirectionTo == Vector2.zero)
-        {
-            _hSpeed -= _hSpeed * _deceleration * Time.deltaTime;
-            _vSpeed -= _vSpeed * _deceleration * Time.deltaTime;
-        }
-        
-        */
 
         if (hSpeed >= .5f / 2 || isDashing)
         {

@@ -58,7 +58,7 @@ MonoBehaviour:
     - {fileID: 8801562753903818942, guid: 3ef34e5bafc36be45a4d4123429ae674, type: 3}
     - {fileID: 6805034309427531552, guid: b2db8d61d6b281c419d402d30082c018, type: 3}
     - {fileID: 1248610793476433925, guid: cc1686ef196afd84285b547132b1b8ae, type: 3}
-    - {fileID: 8255479298120270298, guid: cc011d14f30a8a54abd3cf33dd56961c, type: 3}
+    - {fileID: 896561693902473438, guid: cc011d14f30a8a54abd3cf33dd56961c, type: 3}
     - {fileID: 916468251326428845, guid: f92d484764437bf4ab8a59e92d2f2b50, type: 3}
     - {fileID: 666284024849012792, guid: ab036a158c0709a4c97093f4e48f2368, type: 3}
     - {fileID: 1783446688862618773, guid: 888d1a672c60ea346bf01fb09f3593a4, type: 3}
@@ -66,17 +66,38 @@ MonoBehaviour:
     - {fileID: 1143740238223509595, guid: 9fd5666986a3ed7439f7d468cf2a033c, type: 3}
     objectsNames: []
   - name: _07-MOVERS
-    objects: []
+    objects:
+    - {fileID: 2370041942362765062, guid: eb435e21c7b72624c84146be3bc5ab76, type: 3}
     objectsNames: []
   - name: _08-LEVEL
     objects:
     - {fileID: 4206558954623024780, guid: 997a35e5f1bee984890dd7a40e0e3518, type: 3}
     objectsNames:
     - lvlmodel_
+  - name: _09-TELEPORTERS
+    objects:
+    - {fileID: 952145512870900437, guid: 4b6a78115ea88f14795e8801dbcb5646, type: 3}
+    objectsNames: []
   - name: --------RUNTIME OBJECTS--------
     objects: []
     objectsNames: []
   allGameObjects:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}

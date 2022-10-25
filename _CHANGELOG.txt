@@ -13,4 +13,5 @@ Flugi 0.1.3
 -Added new "enemy": toxic water
 -New mechanic, mover, platforms and other objects can move and do patrols, useful for level design (Level 3)
 -Dynamic camera zones to guide player and give better angle for solving combat/platforming scenarios
--Standard bugfixes and optimizations
+-3 New levels
+-Tons of bugfixes and optimizations

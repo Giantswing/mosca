@@ -10,7 +10,8 @@ public class PlayerCamera : MonoBehaviour
     [SerializeField] private CinemachineVirtualCamera virtualCamera;
 
     [SerializeField] private float defaultCameraZOffset = -7f;
-    [SerializeField] private float defaultCameraTrackingHorInfluence = 0.2f;
+
+    //[SerializeField] private float defaultCameraTrackingHorInfluence = 0.2f;
     private CinemachineTransposer _virtualCameraTransposer;
     private CinemachineComposer _virtualCameraComposer;
 

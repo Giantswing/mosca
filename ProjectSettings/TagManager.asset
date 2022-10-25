@@ -14,6 +14,7 @@ TagManager:
   - PickupArea
   - Fan
   - CameraZone
+  - Teleport
   layers:
   - Default
   - TransparentFX

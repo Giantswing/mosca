@@ -77,6 +77,10 @@ public class PlayerInteractionHandler : MonoBehaviour
                 var camZone = collision.GetComponent<CameraZone>();
                 pC.UpdateCameraZone(camZone);
                 break;
+            case "Teleport":
+                var teleport = collision.GetComponent<TeleporterScript>();
+                teleport.Teleport(gameObject);
+                break;
         }
     }
 
