@@ -2051,7 +2051,7 @@ MonoBehaviour:
   maxTouchDistanceScreen: 0.113
   cornerPadding: 10
   maxHorTouchDistance: 0.168
-  touchMultiplier: 1.3
+  touchMultiplier: 1.1
   isDashing: 0
 --- !u!114 &7181058524826200374
 MonoBehaviour:

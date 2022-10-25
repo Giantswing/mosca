@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
+#if UNITY_EDITOR
 public class SelectParentUtility : EditorWindow
 {
     [MenuItem("Edit/Select Parent &c")]
@@ -12,3 +13,4 @@ public class SelectParentUtility : EditorWindow
         Selection.objects = newSelection.ToArray();
     }
 }
+#endif

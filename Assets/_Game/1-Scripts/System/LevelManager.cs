@@ -144,19 +144,20 @@ public class LevelManager : MonoBehaviour
     public static void LoadNextLevel()
     {
         var nextLevelIndex = Instance.campaignData.GetLevelIndex(Instance.levelData);
+        Debug.Log(Instance.campaignData.levels[nextLevelIndex + 1].scene.ToString());
 
-        SceneManager.LoadScene(Instance.campaignData.levels[nextLevelIndex + 1].scene);
+        SceneManager.LoadScene(Instance.campaignData.levels[nextLevelIndex + 1].scene, LoadSceneMode.Single);
         OnScoreChanged?.Invoke(0);
     }
 
     public static void LoadSpecificLevel(SceneField scene)
     {
-        SceneManager.LoadScene(scene);
+        SceneManager.LoadScene(scene, LoadSceneMode.Single);
     }
 
     public static void GoToMenu()
     {
-        SceneManager.LoadScene(Instance.campaignData.levelSelectionScene);
+        SceneManager.LoadScene(Instance.campaignData.levelSelectionScene, LoadSceneMode.Single);
     }
 
 

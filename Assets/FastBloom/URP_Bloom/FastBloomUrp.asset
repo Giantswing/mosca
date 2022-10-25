@@ -73,5 +73,5 @@ MonoBehaviour:
     BloomDiffusion: 0.283
     BloomColor: {r: 1, g: 1, b: 1, a: 1}
     BloomAmount: 8.01
-    BloomThreshold: 1.1
+    BloomThreshold: 1.6
     BloomSoftness: 0.457

@@ -17,10 +17,10 @@ MonoBehaviour:
     sceneName: _Game/3-Scenes/SceneCombat/SceneSquashed
   sceneName: Squashed
   totalScore: 96
-  scoreToWin: 75
+  scoreToWin: 1
   timeToWin: 80
-  stars: 0
+  stars: 2
   scoreToStars:
-  - 75
+  - 1
   - 96
   - 111

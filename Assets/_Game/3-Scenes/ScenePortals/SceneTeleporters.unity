@@ -278,6 +278,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4243245700478841620, guid: 4b6a78115ea88f14795e8801dbcb5646, type: 3}
+      propertyPath: isOnlyExit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4243245700478841620, guid: 4b6a78115ea88f14795e8801dbcb5646, type: 3}
       propertyPath: teleportDelay
       value: 0.2
       objectReference: {fileID: 0}
