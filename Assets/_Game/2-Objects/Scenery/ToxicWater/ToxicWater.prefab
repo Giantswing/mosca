@@ -29,9 +29,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3455700863804286203}
-  m_LocalRotation: {x: -0.00000009735359, y: 0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 48.54, y: 25.39, z: -0.97}
-  m_LocalScale: {x: 3.2892308, y: 1.625154, z: 1.6995136}
+  m_LocalScale: {x: 4.48737, y: 0.9974708, z: 1.9479823}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -98,8 +98,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 11.93472, y: 2.6, z: 1.82}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 12.1, y: 1.65, z: 1.82}
+  m_Center: {x: 0, y: 0.63, z: 0}
 --- !u!198 &2536780521975842129
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -290,7 +290,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.08235294, g: 0.6509804, b: 0.19607845, a: 1}
+      maxColor: {r: 0.08235294, g: 0.6509804, b: 0.19607845, a: 0.2627451}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -736,7 +736,7 @@ ParticleSystem:
     donutRadius: 0.2
     m_Position: {x: 0, y: 0.53, z: 0}
     m_Rotation: {x: 0, y: -90, z: 0}
-    m_Scale: {x: 1.74, y: 1.58, z: 12.5}
+    m_Scale: {x: 1.7, y: 1.58, z: 12.08}
     placementMode: 0
     m_MeshMaterialIndex: 0
     m_MeshNormalOffset: 0
@@ -2747,11 +2747,11 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
   NoiseModule:
-    enabled: 0
+    enabled: 1
     strength:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 0.1
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -4901,7 +4901,7 @@ MonoBehaviour:
   ST_Speed: 0
   ST_Health:
     _owner: {fileID: 3455700863804286203}
-    _ownerName: water_low
+    _ownerName: ToxicWater (1)
     _propertyPath: ST_Health
     _autoListen: 0
     _multiIndex: 0
@@ -4917,7 +4917,7 @@ MonoBehaviour:
   ST_Damage: 1
   ST_Team: 2
   ST_Invincibility: 0
-  ST_CanDoDmg: 0
+  ST_CanDoDmg: 1
   ST_InvincibilityTimer: 0
   ST_Reward: 0
   ST_DeathEvent:

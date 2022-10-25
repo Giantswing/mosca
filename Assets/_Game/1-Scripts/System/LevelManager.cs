@@ -56,7 +56,9 @@ public class LevelManager : MonoBehaviour
         Instance = this;
         _score = 0;
         ScoreToWin = 0;
-        var sceneName = "Scenes/" + SceneManager.GetActiveScene().name;
+
+        //var sceneName = "Scenes/" + SceneManager.GetActiveScene().name;
+        var sceneName = SceneManager.GetActiveScene().name;
         if (levelData == null) levelData = campaignData.GetCurrentLevel(sceneName);
 
 

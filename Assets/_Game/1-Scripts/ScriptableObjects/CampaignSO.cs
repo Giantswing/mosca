@@ -29,9 +29,16 @@ public class CampaignSO : ScriptableObject
     public LevelSO GetCurrentLevel(string sceneName)
     {
         var j = 0;
+
         for (var i = 0; i < levels.Count; i++)
-            if (levels[i].scene.SceneName == sceneName)
+        {
+            var levelSceneName = levels[i].scene.SceneName;
+            //select only the last part of the scene name
+            levelSceneName = levelSceneName.Substring(levelSceneName.LastIndexOf("/") + 1);
+
+            if (levelSceneName == sceneName)
                 j = i;
+        }
 
         return levels[j];
     }

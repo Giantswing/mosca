@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using AmplifyShaderEditor;
 using DG.Tweening;
 using UnityEngine;
 
@@ -14,15 +15,28 @@ public class MovePoint
 
 public class MoverScript : MonoBehaviour
 {
+    [SerializeField] private bool pingPong = false;
+    [SerializeField] private bool smoothMove = true;
+    private Ease ease;
+    private int _direction = 1;
+
+
     public List<MovePoint> MovePoints = new();
     private int _currentMovePoint = 0;
     private Vector3 _startPosition;
     private WaitForSeconds[] _waitTimes;
+    private bool _changedThisFrame = false;
+
 
     [SerializeField] private float moveSpeed = 1f;
 
     private void Start()
     {
+        if (smoothMove)
+            ease = Ease.InOutQuad;
+        else
+            ease = Ease.Linear;
+
         _startPosition = transform.position;
         _waitTimes = new WaitForSeconds[MovePoints.Count];
 
@@ -38,10 +52,44 @@ public class MoverScript : MonoBehaviour
 
     private void IterateMovePoint()
     {
-        if (_currentMovePoint < MovePoints.Count - 1)
-            _currentMovePoint++;
+        if (!pingPong)
+        {
+            if (_currentMovePoint < MovePoints.Count - 1)
+                _currentMovePoint++;
+            else
+                _currentMovePoint = 0;
+        }
         else
-            _currentMovePoint = 0;
+        {
+            _changedThisFrame = false;
+            if (_direction == 1)
+            {
+                if (_currentMovePoint < MovePoints.Count - 1)
+                {
+                    _currentMovePoint++;
+                }
+                else
+                {
+                    _currentMovePoint = MovePoints.Count - 2;
+                    _direction = -1;
+                    _changedThisFrame = true;
+                }
+            }
+
+            if (_direction == -1 && _changedThisFrame == false)
+            {
+                if (_currentMovePoint > 0)
+                {
+                    _currentMovePoint--;
+                }
+                else
+                {
+                    _currentMovePoint = 1;
+                    _direction = 1;
+                    _changedThisFrame = true;
+                }
+            }
+        }
     }
 
     private void Move()
@@ -50,7 +98,7 @@ public class MoverScript : MonoBehaviour
             Vector3.Distance(transform.position, _startPosition + MovePoints[_currentMovePoint].offset);
 
         transform.DOMove(_startPosition + MovePoints[_currentMovePoint].offset,
-                distanceToNextPoint / moveSpeed * .5f).SetEase(Ease.InOutQuad).onComplete +=
+                distanceToNextPoint / moveSpeed * .5f).SetEase(ease).onComplete +=
             () => { StartCoroutine(WaitMove()); };
     }
 
@@ -62,7 +110,7 @@ public class MoverScript : MonoBehaviour
     private IEnumerator WaitMove()
     {
         yield return _waitTimes[_currentMovePoint];
-        transform.DORotate(MovePoints[_currentMovePoint].rotation, .2f).SetEase(Ease.InOutQuad);
+        transform.DORotate(MovePoints[_currentMovePoint].rotation, .5f).SetEase(Ease.InOutQuad);
         IterateMovePoint();
         Move();
     }

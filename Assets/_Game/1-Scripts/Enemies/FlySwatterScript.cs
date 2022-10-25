@@ -12,7 +12,7 @@ public class FlySwatterScript : MonoBehaviour
 
     private bool _isAttacking = false;
     private static readonly int IsAttacking = Animator.StringToHash("isAttacking");
-    private readonly WaitForSeconds _coolDownTime = new(1f);
+    private readonly WaitForSeconds _coolDownTime = new(.6f);
 
     private void Start()
     {

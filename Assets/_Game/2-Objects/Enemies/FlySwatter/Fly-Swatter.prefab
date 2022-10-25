@@ -350,7 +350,7 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.15
+  m_Radius: 0.2
   m_Center: {x: 0.2, y: -0.3, z: 0}
 --- !u!135 &4894665001899906163
 SphereCollider:
@@ -363,7 +363,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.3
+  m_Radius: 0.2
   m_Center: {x: 0.2, y: -0.3, z: 0}
 --- !u!95 &4894665001899906061
 Animator:
@@ -415,13 +415,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   deathSoundEvent: {fileID: 0}
   playDeathSound: 0
+  hitSoundEvent: {fileID: 0}
+  playHitSound: 0
   _renderer: {fileID: 0}
   normalMaterial: {fileID: 0}
   invincibilityMaterial: {fileID: 0}
   ST_Speed: 0
   ST_Health:
     _owner: {fileID: 5705003218547024304}
-    _ownerName: Fly-Swatter (1)
+    _ownerName: Fly-Swatter (5)
     _propertyPath: ST_Health
     _autoListen: 0
     _multiIndex: 0

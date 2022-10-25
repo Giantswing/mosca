@@ -19,6 +19,7 @@ public class OrganizeScene : ScriptableObject
 #if UNITY_EDITOR
     [HideInInspector] public static OrganizeScene Instance;
     public OrganizeFolder[] organizeFolders;
+    public List<GameObject> allGameObjects = new();
 
 
     private void OnEnable()
@@ -29,11 +30,26 @@ public class OrganizeScene : ScriptableObject
     [MenuItem("Tools/Organize Scene #o")]
     private static void Organize()
     {
-        var allGameObjects = FindObjectsOfType<GameObject>(true);
+        Instance.allGameObjects.Clear();
+        var allTransformsInScene = FindObjectsOfType<Transform>(true);
 
-        if (allGameObjects.Length == 0)
+        //remove parent of all objects to folder
+        foreach (var folder in Instance.organizeFolders)
+        foreach (var transform in allTransformsInScene)
+            if (transform.parent != null && transform.parent.name == folder.name)
+                transform.parent = null;
+        //-----------------------------------------------------
+
+        foreach (var transform in allTransformsInScene)
+            if (transform.parent == null)
+            {
+                Instance.allGameObjects.Add(transform.gameObject);
+                Debug.Log("Added: " + transform.gameObject.name);
+            }
+
+        if (Instance.allGameObjects.Count == 0)
         {
-            Debug.Log("No objects selected");
+            Debug.Log("No objects in the scene!");
             return;
         }
 
@@ -42,7 +58,7 @@ public class OrganizeScene : ScriptableObject
         for (var index = 0; index < Instance.organizeFolders.Length; index++)
         {
             var foundFolder = false;
-            foreach (var obj in allGameObjects)
+            foreach (var obj in Instance.allGameObjects)
                 if (obj.name == Instance.organizeFolders[index].name)
                 {
                     folders[index] = obj;
@@ -53,39 +69,44 @@ public class OrganizeScene : ScriptableObject
             if (!foundFolder)
             {
                 var folder = Instance.organizeFolders[index];
-                folders[index] = new GameObject(folder.name);
-                folders[index].transform.position = Vector3.zero;
-                folders[index].transform.rotation = Quaternion.identity;
-                folders[index].transform.localScale = Vector3.one;
+                folders[index] = new GameObject(folder.name)
+                {
+                    transform =
+                    {
+                        position = Vector3.zero,
+                        rotation = Quaternion.identity,
+                        localScale = Vector3.one
+                    }
+                };
             }
 
-            //prevent folder from being selected in the editor
+            Instance.allGameObjects.Remove(folders[index]);
+            Debug.Log("Removed folder: " + folders[index].name);
         }
 
-        //Organize by dynamic names (prefab names)
 
-        foreach (var selectedObj in allGameObjects) //cycle through all objects
+        foreach (var selectedObj in Instance.allGameObjects) //cycle through all objects
             for (var i = 0; i < Instance.organizeFolders.Length; i++) //cycle through all folders
-                foreach (var obj in Instance.organizeFolders[i].objects) //cycle through all objects in the folder
-                    if (selectedObj.name.Contains(obj.name))
+                foreach (var folderObj in Instance.organizeFolders[i].objects) //cycle through all objects in the folder
+                    if (selectedObj.name.Contains(folderObj.name))
                     {
-                        //check if selectedObj has a parent
+                        //check if selectedObj has a mover parent
                         if (selectedObj.transform.parent != null)
                             if (selectedObj.transform.parent.name.Contains("Mover"))
                                 break;
+
                         selectedObj.transform.parent = folders[i].transform;
                     }
 
         //Organize by static names (names in the inspector)
 
-        foreach (var selectedObj in allGameObjects) //cycle through all objects
+        foreach (var selectedObj in Instance.allGameObjects) //cycle through all objects
             for (var i = 0; i < Instance.organizeFolders.Length; i++) //cycle through all folders
                 foreach (var obj in Instance.organizeFolders[i].objectsNames) //cycle through all objects in the folder
                     if (selectedObj.name.Contains(obj))
                         selectedObj.transform.parent = folders[i].transform;
 
 
-        //clear console
         var assembly = Assembly.GetAssembly(typeof(ActiveEditorTracker));
         var type = assembly.GetType("UnityEditor.LogEntries");
         var method = type.GetMethod("Clear");

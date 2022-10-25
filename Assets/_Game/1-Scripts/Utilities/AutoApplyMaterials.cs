@@ -63,12 +63,44 @@ public class AutoApplyMaterials : ScriptableObject
             {
                 renderer.sharedMaterials = materials;
                 renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
-
+                var boxCollider = renderer.gameObject.GetComponent<BoxCollider>();
                 var meshCollider = renderer.gameObject.GetComponent<MeshCollider>();
-                if (meshCollider == null) renderer.gameObject.AddComponent<MeshCollider>();
+                var meshFilter = renderer.GetComponent<MeshFilter>();
 
-                meshCollider.material = Instance.defaultPhysicMaterial;
-                meshCollider.convex = false;
+
+                //check the number of vertices
+
+                if (meshFilter != null)
+                {
+                    var mesh = meshFilter.sharedMesh;
+
+                    if (mesh != null)
+                    {
+                        var vertices = mesh.vertexCount;
+                        Debug.Log(renderer.gameObject.name + " has " + vertices + " vertices");
+                        if (vertices > 30)
+                        {
+                            if (meshCollider == null)
+                            {
+                                meshCollider = renderer.gameObject.AddComponent<MeshCollider>();
+                                meshCollider.material = Instance.defaultPhysicMaterial;
+                                meshCollider.convex = false;
+                            }
+
+                            if (boxCollider != null) DestroyImmediate(boxCollider);
+                        }
+                        else
+                        {
+                            if (meshCollider != null) DestroyImmediate(meshCollider);
+                            if (boxCollider == null)
+                            {
+                                boxCollider = renderer.gameObject.AddComponent<BoxCollider>();
+                                boxCollider.material = Instance.defaultPhysicMaterial;
+                            }
+                        }
+                    }
+                }
+
 
                 renderer.gameObject.layer = 7;
 

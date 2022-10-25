@@ -66,8 +66,7 @@ MonoBehaviour:
     - {fileID: 1143740238223509595, guid: 9fd5666986a3ed7439f7d468cf2a033c, type: 3}
     objectsNames: []
   - name: _07-MOVERS
-    objects:
-    - {fileID: 2370041942362765062, guid: eb435e21c7b72624c84146be3bc5ab76, type: 3}
+    objects: []
     objectsNames: []
   - name: _08-LEVEL
     objects:
@@ -77,3 +76,9 @@ MonoBehaviour:
   - name: --------RUNTIME OBJECTS--------
     objects: []
     objectsNames: []
+  allGameObjects:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}

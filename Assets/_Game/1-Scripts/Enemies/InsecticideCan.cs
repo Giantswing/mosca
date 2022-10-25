@@ -22,6 +22,10 @@ public class InsecticideCan : MonoBehaviour
 
     private WaitForSeconds _waitUntilDamageCollider;
 
+    [SerializeField] private float timeOffset = 0;
+    private WaitForSeconds _waitUntilTimeOffset;
+    private bool started = false;
+
     private void Start()
     {
         _currentBurstDuration = 0;
@@ -29,6 +33,20 @@ public class InsecticideCan : MonoBehaviour
         isBursting = false;
         _waitUntilDamageCollider = new WaitForSeconds(0.5f);
         damageCollider.enabled = false;
+        started = true;
+
+        if (timeOffset > 0)
+        {
+            started = false;
+            _waitUntilTimeOffset = new WaitForSeconds(timeOffset);
+            StartCoroutine(StartDelayCoroutine());
+        }
+    }
+
+    private IEnumerator StartDelayCoroutine()
+    {
+        yield return _waitUntilTimeOffset;
+        started = true;
     }
 
     private IEnumerator StartDamageColliderRoutine()
@@ -44,6 +62,8 @@ public class InsecticideCan : MonoBehaviour
 
     private void Update()
     {
+        if (!started) return;
+
         if (isBursting)
             _currentBurstDuration += Time.deltaTime;
         else

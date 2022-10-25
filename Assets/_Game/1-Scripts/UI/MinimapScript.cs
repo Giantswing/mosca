@@ -25,7 +25,7 @@ public class MinimapScript : MonoBehaviour
     private void Awake()
     {
         _anchorCenter = new Vector2(0.5f, 0.5f);
-        _anchorTop = new Vector2(0.5f, 1f);
+        _anchorTop = new Vector2(1f, 1f);
 
         _minimapOriginalPos = new Vector2(rectTransform.anchoredPosition.x, rectTransform.anchoredPosition.y);
         _minimapOriginalSize = rectTransform.sizeDelta.x;
