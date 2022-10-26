@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem.Interactions;
 using UnityEngine.SceneManagement;
-using Utilities;
+
 
 [CreateAssetMenu(fileName = "Campaign", menuName = "Mosca/Campaign", order = 1)]
 public class CampaignSO : ScriptableObject
@@ -32,7 +32,7 @@ public class CampaignSO : ScriptableObject
 
         for (var i = 0; i < levels.Count; i++)
         {
-            var levelSceneName = levels[i].scene.SceneName;
+            var levelSceneName = levels[i].scene.EditorSceneAsset.name;
             //select only the last part of the scene name
             levelSceneName = levelSceneName.Substring(levelSceneName.LastIndexOf("/") + 1);
 

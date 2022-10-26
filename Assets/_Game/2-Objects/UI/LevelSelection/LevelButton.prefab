@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1064929203858807136
 RectTransform:
   m_ObjectHideFlags: 0
@@ -139,7 +139,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 4c87dff1ac321bd4384ea05409b920af, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 118b7f5152e378c49a978e1170bfdde8, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -389,6 +389,32 @@ MonoBehaviour:
   levelLock: {fileID: 8845657557047355919}
   starEmpty: {fileID: 21300000, guid: 4c87dff1ac321bd4384ea05409b920af, type: 3}
   starFilled: {fileID: 21300000, guid: 118b7f5152e378c49a978e1170bfdde8, type: 3}
+  onLevelTransition:
+    _owner: {fileID: 7186360154864658977}
+    _ownerName: LevelButton
+    _propertyPath: onLevelTransition
+    _autoListen: 0
+    _multiIndex: 0
+    _smartEvent: {fileID: 11400000, guid: ec9f39c6c9736004f83f11db8d83416a, type: 2}
+    _smartMulti: {fileID: 0}
+    _useMulti: 0
+    _onEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  instanceLevelTransitionState:
+    _owner: {fileID: 7186360154864658977}
+    _ownerName: LevelButton
+    _propertyPath: instanceLevelTransitionState
+    _autoListen: 0
+    _multiIndex: 0
+    _refType: 2
+    _value: 0
+    _smartConst: {fileID: 0}
+    _smartVar: {fileID: 11400000, guid: b91bef6eebcd96442b105cbc2b05eb2c, type: 2}
+    _smartMulti: {fileID: 0}
+    _onUpdate:
+      m_PersistentCalls:
+        m_Calls: []
 --- !u!1 &7186360154968227641
 GameObject:
   m_ObjectHideFlags: 0
@@ -590,7 +616,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 4c87dff1ac321bd4384ea05409b920af, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 118b7f5152e378c49a978e1170bfdde8, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

@@ -17,6 +17,9 @@ public class LevelButton : MonoBehaviour
 
     [SerializeField] private Sprite starEmpty, starFilled;
 
+    [SerializeField] private SmartData.SmartEvent.EventDispatcher onLevelTransition;
+    [SerializeField] private SmartData.SmartInt.IntWriter instanceLevelTransitionState;
+
     private void OnValidate()
     {
         UpdateData();
@@ -56,8 +59,10 @@ public class LevelButton : MonoBehaviour
     {
         if (levelLock.gameObject.activeSelf == false)
         {
-            print("launching level");
-            LevelManager.StartLevelTransition((int)LevelManager.LevelTransitionState.SpecificLevel, levelData.scene);
+            print("Button: loading level " + levelData.sceneName);
+            instanceLevelTransitionState.value = (int)LevelLoader.LevelTransitionState.SpecificLevel;
+            LevelLoader.SceneToLoad = levelData.scene;
+            onLevelTransition.Dispatch();
         }
     }
 }

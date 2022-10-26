@@ -37,6 +37,9 @@ public class STATS : MonoBehaviour
 
     [HideInInspector] public Vector3 dmgDirection;
 
+    public SmartData.SmartEvent.EventDispatcher transitionEvent;
+    public SmartData.SmartInt.IntWriter transitionType;
+
     private void Start()
     {
         //ST_MaxHealth = ST_Health;
@@ -97,9 +100,9 @@ public class STATS : MonoBehaviour
     {
         if (ST_Team == 1)
         {
-            LevelManager.StartLevelTransition((int)LevelManager.LevelTransitionState.Restart, null);
+            transitionType.value = (int)LevelLoader.LevelTransitionState.Restart;
+            transitionEvent.Dispatch();
         }
-        //LevelManager.RestartLevel();
         else
         {
             ST_DeathEvent?.Invoke();

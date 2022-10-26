@@ -64,8 +64,8 @@ public class PlayerInteractionHandler : MonoBehaviour
                 {
                     transform.DOScale(Vector3.zero, .5f).SetEase(Ease.InQuart).onComplete += () =>
                     {
-                        LevelManager.StartLevelTransition?.Invoke((int)LevelManager.LevelTransitionState.NextLevel,
-                            null);
+                        stats.transitionType.value = (int)LevelLoader.LevelTransitionState.DontLoadYet;
+                        stats.transitionEvent.Dispatch();
                     };
                 };
                 break;

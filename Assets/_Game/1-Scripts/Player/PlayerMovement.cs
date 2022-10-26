@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
-using Utilities;
 using TouchPhase = UnityEngine.InputSystem.TouchPhase;
 
 public class PlayerMovement : MonoBehaviour
@@ -92,16 +91,6 @@ public class PlayerMovement : MonoBehaviour
         inputDirectionTo = Vector2.zero;
         flyAnimator = GetComponentInChildren<Animator>();
         _transform = transform;
-    }
-
-    private void OnEnable()
-    {
-        LevelManager.StartLevelTransition += DisableMovement;
-    }
-
-    private void OnDisable()
-    {
-        LevelManager.StartLevelTransition -= DisableMovement;
     }
 
     public void DisableMovement(int levelTransitionState, SceneField levelToLoad)

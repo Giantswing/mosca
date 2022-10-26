@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scene:
     sceneAsset: {fileID: 102900000, guid: 505d1d412699ac149a800b5ae654ea53, type: 3}
-    sceneName: _Game/3-Scenes/SceneCombat/SceneSquashed
+    required: 1
+    buildIndex: 2
   sceneName: Squashed
   totalScore: 96
   scoreToWin: 1

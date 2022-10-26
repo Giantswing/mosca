@@ -7,7 +7,7 @@ using UnityEngine.UI;
 using DG.Tweening;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
-using Utilities;
+
 
 public class WinScreenScript : MonoBehaviour
 {
@@ -35,20 +35,17 @@ public class WinScreenScript : MonoBehaviour
 
     [SerializeField] private RectTransform[] _children;
 
+    [Header("Level Loader Settings")] [Space(10)] [SerializeField]
+    private SmartData.SmartInt.IntWriter instanceLevelTransitionState;
 
-    private void OnEnable()
-    {
-        LevelManager.StartLevelTransition += StartWinScreenAnimation;
-    }
-
-    private void OnDisable()
-    {
-        LevelManager.StartLevelTransition -= StartWinScreenAnimation;
-    }
+    [SerializeField] private SmartData.SmartEvent.EventDispatcher onWinScreen;
+    [SerializeField] private SmartData.SmartBool.BoolWriter finishTransition;
+    [SerializeField] private CampaignSO campaignData;
+    private bool _alreadyInit = false;
 
     private void Start()
     {
-        if (LevelManager.isThisLastLevel())
+        if (LevelLoader.IsThisLastLevel())
         {
             nextLevelButton.SetActive(false);
             _firstSelected = levelSelectionButton;
@@ -65,10 +62,13 @@ public class WinScreenScript : MonoBehaviour
         gameObject.SetActive(true);
     }
 
-    private void StartWinScreenAnimation(int levelTransitionState, SceneField levelToLoad)
+    public void InitWinScreenAnimation()
     {
-        if (levelTransitionState == (int)LevelManager.LevelTransitionState.NextLevel)
+        if (instanceLevelTransitionState == (int)LevelLoader.LevelTransitionState.DontLoadYet && !_alreadyInit)
+        {
+            _alreadyInit = true;
             StartCoroutine(StartWinScreenAnimationRoutine());
+        }
     }
 
     private IEnumerator StartWinScreenAnimationRoutine()
@@ -118,24 +118,30 @@ public class WinScreenScript : MonoBehaviour
 
     private void HideWinScreenAnimation(string menuAction)
     {
-        _uiAnimator.ReverseAnimation(_children, singleHideDuration, singleHideDelay, Ease.OutQuad, () =>
+        switch (menuAction)
         {
-            switch (menuAction)
-            {
-                case "restart_level":
-                    DOTween.KillAll();
-                    LevelManager.RestartLevel();
-                    break;
-                case "go_to_menu":
-                    DOTween.KillAll();
-                    LevelManager.GoToMenu();
-                    break;
-                case "next_level":
-                    DOTween.KillAll();
-                    LevelManager.LoadNextLevel();
-                    break;
-            }
-        });
+            case "restart_level":
+                DOTween.KillAll();
+                print(menuAction);
+                instanceLevelTransitionState.value = (int)LevelLoader.LevelTransitionState.Restart;
+                break;
+            case "go_to_menu":
+                DOTween.KillAll();
+                print(menuAction);
+                instanceLevelTransitionState.value = (int)LevelLoader.LevelTransitionState.SpecificLevel;
+                LevelLoader.SceneToLoad = campaignData.levelSelectionScene;
+                break;
+            case "next_level":
+                DOTween.KillAll();
+                print(menuAction);
+                instanceLevelTransitionState.value = (int)LevelLoader.LevelTransitionState.NextLevel;
+                break;
+        }
+
+        onWinScreen.Dispatch();
+
+        _uiAnimator.ReverseAnimation(_children, singleHideDuration, singleHideDelay, Ease.OutQuad,
+            () => { finishTransition.value = true; });
     }
 
 

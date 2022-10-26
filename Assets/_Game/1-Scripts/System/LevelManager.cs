@@ -2,12 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using JetBrains.Annotations;
 using TMPro;
 using Unity.Jobs;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
-using Utilities;
 
 public class LevelManager : MonoBehaviour
 {
@@ -24,18 +24,11 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private LevelSO levelData;
     [SerializeField] private CampaignSO campaignData;
 
+    private AsyncOperation _asyncLoad;
+
     private bool _isPortalOpen = false;
 
-    public enum LevelTransitionState
-    {
-        Restart,
-        NextLevel,
-        SpecificLevel
-    }
-
     public static LevelManager Instance { get; private set; }
-
-    public static UnityAction<int, SceneField> StartLevelTransition;
     public static UnityAction<float> UpdateTimer;
 
     //public static UnityAction LevelCompleted<bool ShowWinScreen, SceneField levelToLoad>;
@@ -56,11 +49,8 @@ public class LevelManager : MonoBehaviour
         Instance = this;
         _score = 0;
         ScoreToWin = 0;
-
-        //var sceneName = "Scenes/" + SceneManager.GetActiveScene().name;
         var sceneName = SceneManager.GetActiveScene().name;
         if (levelData == null) levelData = campaignData.GetCurrentLevel(sceneName);
-
 
         SaveLoadSystem.LoadGame();
     }
@@ -134,33 +124,6 @@ public class LevelManager : MonoBehaviour
             portal.SetActive(true);
     }
 
-    public static void RestartLevel()
-    {
-        LevelTime = 0;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        OnScoreChanged?.Invoke(0);
-    }
-
-    public static void LoadNextLevel()
-    {
-        var nextLevelIndex = Instance.campaignData.GetLevelIndex(Instance.levelData);
-        Debug.Log(Instance.campaignData.levels[nextLevelIndex + 1].scene.ToString());
-
-        SceneManager.LoadScene(Instance.campaignData.levels[nextLevelIndex + 1].scene, LoadSceneMode.Single);
-        OnScoreChanged?.Invoke(0);
-    }
-
-    public static void LoadSpecificLevel(SceneField scene)
-    {
-        SceneManager.LoadScene(scene, LoadSceneMode.Single);
-    }
-
-    public static void GoToMenu()
-    {
-        SceneManager.LoadScene(Instance.campaignData.levelSelectionScene, LoadSceneMode.Single);
-    }
-
-
     public static LevelSO LevelData()
     {
         return Instance.levelData;
@@ -174,14 +137,5 @@ public class LevelManager : MonoBehaviour
     public static int GetScore()
     {
         return Instance._score;
-    }
-
-
-    public static bool isThisLastLevel()
-    {
-        if (Instance.campaignData.GetLevelIndex(Instance.levelData) == Instance.campaignData.levels.Count - 1)
-            return true;
-        else
-            return false;
     }
 }

@@ -80,7 +80,11 @@ public class CollectableBehaviour : MonoBehaviour
             if (distance < .6f && _isShrinking == false)
             {
                 _isShrinking = true;
-                transform.DOScale(0, .1f).OnComplete(() => Destroy(gameObject));
+                transform.DOScale(0, .1f).OnComplete(() =>
+                {
+                    GlobalAudioManager.PlaySound(collectSound, transform.position);
+                    Destroy(gameObject);
+                });
             }
         }
     }
@@ -95,7 +99,6 @@ public class CollectableBehaviour : MonoBehaviour
             onCollect.Dispatch();
         }
 
-        GlobalAudioManager.PlaySound(collectSound, transform.position);
         DOTween.Kill(transform);
         DOTween.Kill(displayObject);
     }

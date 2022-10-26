@@ -1651,6 +1651,7 @@ GameObject:
   - component: {fileID: 4461781237300609191}
   - component: {fileID: 4630742217596603289}
   - component: {fileID: 4630742217596603301}
+  - component: {fileID: 331005232900642300}
   m_Layer: 0
   m_Name: Mosca
   m_TagString: Player
@@ -1883,6 +1884,32 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   dmgDirection: {x: 0, y: 0, z: 0}
+  transitionEvent:
+    _owner: {fileID: 7181058524826200382}
+    _ownerName: Mosca
+    _propertyPath: transitionEvent
+    _autoListen: 0
+    _multiIndex: 0
+    _smartEvent: {fileID: 11400000, guid: ec9f39c6c9736004f83f11db8d83416a, type: 2}
+    _smartMulti: {fileID: 0}
+    _useMulti: 0
+    _onEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  transitionType:
+    _owner: {fileID: 7181058524826200382}
+    _ownerName: Mosca
+    _propertyPath: transitionType
+    _autoListen: 0
+    _multiIndex: 0
+    _refType: 2
+    _value: 0
+    _smartConst: {fileID: 0}
+    _smartVar: {fileID: 11400000, guid: b91bef6eebcd96442b105cbc2b05eb2c, type: 2}
+    _smartMulti: {fileID: 0}
+    _onUpdate:
+      m_PersistentCalls:
+        m_Calls: []
 --- !u!114 &7504400481516356274
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2313,6 +2340,42 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &331005232900642300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7181058524826200382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93f1e525436345d4897593aa0ab32e26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _data:
+  - _owner: {fileID: 7181058524826200382}
+    _ownerName: Mosca
+    _propertyPath: _data.Array.data[0]
+    _autoListen: 0
+    _multiIndex: 0
+    _smartEvent: {fileID: 11400000, guid: ec9f39c6c9736004f83f11db8d83416a, type: 2}
+    _smartMulti: {fileID: 0}
+    _useMulti: 0
+    _onEvent:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 7181058524826200369}
+          m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
+          m_MethodName: DisablePlayer
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &7637503022230142458
 GameObject:
   m_ObjectHideFlags: 0

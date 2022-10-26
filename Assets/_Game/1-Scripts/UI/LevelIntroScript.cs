@@ -25,6 +25,7 @@ public class LevelIntroScript : MonoBehaviour
     private IDisposable _tempInputSystem;
     private bool _isAndroid;
     private bool _allowSkipIntro;
+    [SerializeField] private SmartData.SmartBool.BoolReader showIntro;
 
     private void Start()
     {
@@ -38,23 +39,28 @@ public class LevelIntroScript : MonoBehaviour
         if (SceneManager.GetSceneByName("_levelSelection").isLoaded || _isAndroid)
             _allowSkipIntro = false;
 
+        /*
+
         if (_allowSkipIntro)
             _tempInputSystem = InputSystem.onAnyButtonPress.Call(
                 ctrl => { StopIntro(); });
+                */
     }
 
 
+    /*
     private void OnDisable()
     {
         if (_allowSkipIntro)
             if (Application.platform != RuntimePlatform.Android)
                 _tempInputSystem.Dispose();
     }
+    */
 
 
     public void StartIntroScene()
     {
-        if (levelNameText != null)
+        if (levelNameText != null && showIntro)
         {
             levelNameText.SetText(LevelManager.LevelData().sceneName);
             levelObjectivesText.SetText(

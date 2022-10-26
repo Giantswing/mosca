@@ -30,7 +30,7 @@ namespace UI
         {
             timerText.text = time.ToString("F0") + "/" + _timeMax;
 
-            if (time > _timeMaxFloat) timerText.color = Color.red;
+            timerText.color = time > _timeMaxFloat ? Color.red : Color.white;
         }
     }
 }
