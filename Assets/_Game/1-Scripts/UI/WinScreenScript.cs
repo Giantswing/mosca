@@ -7,7 +7,6 @@ using UnityEngine.UI;
 using DG.Tweening;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
-using Utilities;
 
 public class WinScreenScript : MonoBehaviour
 {

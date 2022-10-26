@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
-using Utilities;
 using TouchPhase = UnityEngine.InputSystem.TouchPhase;
 
 public class PlayerMovement : MonoBehaviour

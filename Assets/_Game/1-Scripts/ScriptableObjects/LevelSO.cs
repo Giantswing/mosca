@@ -1,5 +1,4 @@
 using UnityEngine;
-using Utilities;
 
 [CreateAssetMenu(fileName = "Level Rules", menuName = "Mosca/Level", order = 1)]
 public class LevelSO : ScriptableObject

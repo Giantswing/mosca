@@ -7,7 +7,7 @@ using Unity.Jobs;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
-using Utilities;
+
 
 public class LevelManager : MonoBehaviour
 {
@@ -146,18 +146,18 @@ public class LevelManager : MonoBehaviour
         var nextLevelIndex = Instance.campaignData.GetLevelIndex(Instance.levelData);
         Debug.Log(Instance.campaignData.levels[nextLevelIndex + 1].scene.ToString());
 
-        SceneManager.LoadScene(Instance.campaignData.levels[nextLevelIndex + 1].scene, LoadSceneMode.Single);
+        SceneManager.LoadScene(Instance.campaignData.levels[nextLevelIndex + 1].scene.BuildIndex, LoadSceneMode.Single);
         OnScoreChanged?.Invoke(0);
     }
 
     public static void LoadSpecificLevel(SceneField scene)
     {
-        SceneManager.LoadScene(scene, LoadSceneMode.Single);
+        SceneManager.LoadScene(scene.BuildIndex, LoadSceneMode.Single);
     }
 
     public static void GoToMenu()
     {
-        SceneManager.LoadScene(Instance.campaignData.levelSelectionScene, LoadSceneMode.Single);
+        SceneManager.LoadScene(Instance.campaignData.levelSelectionScene.BuildIndex, LoadSceneMode.Single);
     }
 
 
