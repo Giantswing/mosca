@@ -43,12 +43,12 @@ public class HealthContainer : MonoBehaviour
             if (i < playerMaxHealth)
             {
                 _heartContainers[i].SetActive(true);
-                if (i < playerHealth)
+                if (i < playerHealth.value)
                     _heartContainers[i].GetComponent<Image>().sprite = fullHeartContainerSprite;
                 else
                     _heartContainers[i].GetComponent<Image>().sprite = emptyHeartContainerSprite;
 
-                if (i == playerHealth)
+                if (i == playerHealth.value)
                     _heartContainers[i - 1].transform.DOPunchScale(Vector3.one * .6f, .2f);
             }
             else

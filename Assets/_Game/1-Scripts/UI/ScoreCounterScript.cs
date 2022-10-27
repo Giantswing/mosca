@@ -26,8 +26,8 @@ public class ScoreCounterScript : MonoBehaviour
 
     private void Start()
     {
-        _scoreMinMax.SetText("min  " + LevelManager.LevelData().scoreToWin.ToString() + "\nmax " +
-                             LevelManager.LevelData().totalScore.ToString());
+        _scoreMinMax.SetText("min  " + CurrentLevelHolder.GetCurrentLevel().scoreToWin.ToString() + "\nmax " +
+                             CurrentLevelHolder.GetCurrentLevel().totalScore.ToString());
 
         _scorePunchTween = _scoreText.transform.DOPunchScale(Vector3.one * .05f, .5f, 1, 1).SetAutoKill(false).Pause();
         _scorePunchTween.onComplete += () => _scoreText.transform.localScale = Vector3.one;

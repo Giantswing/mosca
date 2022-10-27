@@ -29,15 +29,18 @@ public class LevelManager : MonoBehaviour
     private bool _isPortalOpen = false;
 
     public static LevelManager Instance { get; private set; }
-    public static UnityAction<float> UpdateTimer;
 
     //public static UnityAction LevelCompleted<bool ShowWinScreen, SceneField levelToLoad>;
 
     [SerializeField] private GameObject winScreen;
     [SerializeField] private PortalPopUpScript portalPopUp;
 
-    public static float LevelTime { get; private set; }
+
+    [Header("Time info")] [SerializeField] private SmartData.SmartInt.IntWriter levelTimeInt;
+    [SerializeField] private SmartData.SmartFloat.FloatWriter levelTimeFloat;
+    [SerializeField] private SmartData.SmartFloat.FloatWriter levelMaxTime;
     private float _timeReset = 0f;
+
 
     private void OnEnable()
     {
@@ -49,9 +52,8 @@ public class LevelManager : MonoBehaviour
         Instance = this;
         _score = 0;
         ScoreToWin = 0;
-        var sceneName = SceneManager.GetActiveScene().name;
-        if (levelData == null) levelData = campaignData.GetCurrentLevel(sceneName);
-
+        if (levelData == null) levelData = CurrentLevelHolder.GetCurrentLevel();
+        campaignData.UpdateLevelInfo();
         SaveLoadSystem.LoadGame();
     }
 
@@ -71,9 +73,9 @@ public class LevelManager : MonoBehaviour
             Application.targetFrameRate = 60;
         }
 
-
         winScreen.SetActive(true);
-        UpdateTimer?.Invoke(LevelTime);
+
+        levelMaxTime.value = levelData.timeToWin;
     }
 
 
@@ -88,12 +90,12 @@ public class LevelManager : MonoBehaviour
 
     private void Update()
     {
-        LevelTime += Time.deltaTime;
-
+        levelTimeFloat.value += Time.deltaTime;
         _timeReset += Time.deltaTime;
+
         if (_timeReset >= 1f)
         {
-            UpdateTimer?.Invoke(LevelTime);
+            levelTimeInt.value += 1;
             _timeReset = 0f;
         }
     }
@@ -122,16 +124,6 @@ public class LevelManager : MonoBehaviour
     {
         if (portal != null)
             portal.SetActive(true);
-    }
-
-    public static LevelSO LevelData()
-    {
-        return Instance.levelData;
-    }
-
-    public static CampaignSO CampaignData()
-    {
-        return Instance.campaignData;
     }
 
     public static int GetScore()

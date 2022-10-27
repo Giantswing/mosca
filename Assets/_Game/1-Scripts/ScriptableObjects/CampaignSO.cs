@@ -26,20 +26,36 @@ public class CampaignSO : ScriptableObject
         for (var i = 0; i < levels.Count; i++) levels[i].stars = 0;
     }
 
+    /*
     public LevelSO GetCurrentLevel(string sceneName)
     {
         var j = 0;
 
         for (var i = 0; i < levels.Count; i++)
         {
-            var levelSceneName = levels[i].scene.EditorSceneAsset.name;
-            //select only the last part of the scene name
-            levelSceneName = levelSceneName.Substring(levelSceneName.LastIndexOf("/") + 1);
+            var levelSceneName = levels[i].;
+
+            levelSceneName = levels[i].scene.
+                //select only the last part of the scene name
+                levelSceneName = levelSceneName.Substring(levelSceneName.LastIndexOf("/") + 1);
 
             if (levelSceneName == sceneName)
                 j = i;
         }
 
         return levels[j];
+    }
+    */
+
+    public void UpdateLevelInfo()
+    {
+        for (var i = 0; i < levels.Count; i++)
+        {
+            levels[i].isThisLastOne = false;
+            if (i == levels.Count - 1)
+                levels[i].isThisLastOne = true;
+
+            levels[i].index = i;
+        }
     }
 }

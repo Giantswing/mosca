@@ -28,6 +28,7 @@ public class MoverScript : MonoBehaviour
 
 
     [SerializeField] private float moveSpeed = 1f;
+    [SerializeField] private float duration = 0;
 
     private void Start()
     {
@@ -96,9 +97,14 @@ public class MoverScript : MonoBehaviour
         var distanceToNextPoint =
             Vector3.Distance(transform.position, _startPosition + MovePoints[_currentMovePoint].offset);
 
-        transform.DOMove(_startPosition + MovePoints[_currentMovePoint].offset,
-                distanceToNextPoint / moveSpeed * .5f).SetEase(ease).onComplete +=
-            () => { StartCoroutine(WaitMove()); };
+        if (duration == 0)
+            transform.DOMove(_startPosition + MovePoints[_currentMovePoint].offset,
+                    distanceToNextPoint / moveSpeed * .5f).SetEase(ease).onComplete +=
+                () => { StartCoroutine(WaitMove()); };
+        else
+            transform.DOMove(_startPosition + MovePoints[_currentMovePoint].offset,
+                    duration).SetEase(ease).onComplete +=
+                () => { StartCoroutine(WaitMove()); };
     }
 
     private void OnDisable()

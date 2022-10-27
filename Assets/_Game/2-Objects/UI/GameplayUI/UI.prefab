@@ -372,6 +372,54 @@ PrefabInstance:
       propertyPath: m_Name
       value: Timer
       objectReference: {fileID: 0}
+    - target: {fileID: 5245616522874300892, guid: 16ce1147549313d48a3bd87ba108a58b, type: 3}
+      propertyPath: levelTimerInt._owner
+      value: 
+      objectReference: {fileID: 7326873414118480839}
+    - target: {fileID: 5245616522874300892, guid: 16ce1147549313d48a3bd87ba108a58b, type: 3}
+      propertyPath: levelTimerMax._owner
+      value: 
+      objectReference: {fileID: 7326873414118480839}
+    - target: {fileID: 5245616522874300892, guid: 16ce1147549313d48a3bd87ba108a58b, type: 3}
+      propertyPath: levelTimerInt._smartVar
+      value: 
+      objectReference: {fileID: 11400000, guid: 1f9a1465b43dc9943bd9e6b251c1f7d2, type: 2}
+    - target: {fileID: 5245616522874300892, guid: 16ce1147549313d48a3bd87ba108a58b, type: 3}
+      propertyPath: levelTimerIntMax._owner
+      value: 
+      objectReference: {fileID: 7326873414118480839}
+    - target: {fileID: 5245616522874300892, guid: 16ce1147549313d48a3bd87ba108a58b, type: 3}
+      propertyPath: levelTimerMax._smartVar
+      value: 
+      objectReference: {fileID: 11400000, guid: 2b1e2999f52b0234fa8a7433d8b4de99, type: 2}
+    - target: {fileID: 5245616522874300892, guid: 16ce1147549313d48a3bd87ba108a58b, type: 3}
+      propertyPath: levelTimerInt._ownerName
+      value: Timer
+      objectReference: {fileID: 0}
+    - target: {fileID: 5245616522874300892, guid: 16ce1147549313d48a3bd87ba108a58b, type: 3}
+      propertyPath: levelTimerMax._ownerName
+      value: Timer
+      objectReference: {fileID: 0}
+    - target: {fileID: 5245616522874300892, guid: 16ce1147549313d48a3bd87ba108a58b, type: 3}
+      propertyPath: levelTimerIntMax._smartVar
+      value: 
+      objectReference: {fileID: 11400000, guid: fe3f65de3f1a23b48887d41ab2baa267, type: 2}
+    - target: {fileID: 5245616522874300892, guid: 16ce1147549313d48a3bd87ba108a58b, type: 3}
+      propertyPath: levelTimerInt._propertyPath
+      value: levelTimerInt
+      objectReference: {fileID: 0}
+    - target: {fileID: 5245616522874300892, guid: 16ce1147549313d48a3bd87ba108a58b, type: 3}
+      propertyPath: levelTimerIntMax._ownerName
+      value: Timer
+      objectReference: {fileID: 0}
+    - target: {fileID: 5245616522874300892, guid: 16ce1147549313d48a3bd87ba108a58b, type: 3}
+      propertyPath: levelTimerMax._propertyPath
+      value: levelTimerMax
+      objectReference: {fileID: 0}
+    - target: {fileID: 5245616522874300892, guid: 16ce1147549313d48a3bd87ba108a58b, type: 3}
+      propertyPath: levelTimerIntMax._propertyPath
+      value: levelTimerIntMax
+      objectReference: {fileID: 0}
     - target: {fileID: 5245616522874300893, guid: 16ce1147549313d48a3bd87ba108a58b, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -458,11 +506,65 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 16ce1147549313d48a3bd87ba108a58b, type: 3}
+--- !u!1 &7326873414118480839 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5245616522874300882, guid: 16ce1147549313d48a3bd87ba108a58b, type: 3}
+  m_PrefabInstance: {fileID: 3270287208147235349}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &908361071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7326873414118480839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a0c4cca9c4749146aa611ea6b351e4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _data:
+  - _owner: {fileID: 7326873414118480839}
+    _ownerName: Timer
+    _propertyPath: _data.Array.data[0]
+    _autoListen: 0
+    _multiIndex: 0
+    _refType: 2
+    _value: 0
+    _smartConst: {fileID: 0}
+    _smartVar: {fileID: 11400000, guid: 1f9a1465b43dc9943bd9e6b251c1f7d2, type: 2}
+    _smartMulti: {fileID: 0}
+    _onUpdate:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 7326873414118480841}
+          m_TargetAssemblyTypeName: UI.TimerScript, Assembly-CSharp
+          m_MethodName: UpdateTimer
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!224 &7326873414118480840 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5245616522874300893, guid: 16ce1147549313d48a3bd87ba108a58b, type: 3}
   m_PrefabInstance: {fileID: 3270287208147235349}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7326873414118480841 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5245616522874300892, guid: 16ce1147549313d48a3bd87ba108a58b, type: 3}
+  m_PrefabInstance: {fileID: 3270287208147235349}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7326873414118480839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b09debdc194f76b44a24402b8394198e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4275739694904442365
 PrefabInstance:
   m_ObjectHideFlags: 0

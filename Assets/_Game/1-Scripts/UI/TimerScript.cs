@@ -7,30 +7,15 @@ namespace UI
     public class TimerScript : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI timerText;
-        private string _timeMax;
-        private float _timeMaxFloat;
 
-        private void OnEnable()
+        [SerializeField] private SmartData.SmartInt.IntReader levelTimerInt;
+        [SerializeField] private SmartData.SmartFloat.FloatReader levelTimerMax;
+
+
+        public void UpdateTimer()
         {
-            LevelManager.UpdateTimer += UpdateTimer;
-        }
-
-        private void OnDisable()
-        {
-            LevelManager.UpdateTimer -= UpdateTimer;
-        }
-
-        private void Start()
-        {
-            _timeMaxFloat = LevelManager.LevelData().timeToWin;
-            _timeMax = _timeMaxFloat.ToString("F0");
-        }
-
-        public void UpdateTimer(float time)
-        {
-            timerText.text = time.ToString("F0") + "/" + _timeMax;
-
-            timerText.color = time > _timeMaxFloat ? Color.red : Color.white;
+            timerText.text = levelTimerInt.value + "/" + levelTimerMax.value;
+            timerText.color = levelTimerInt.value > levelTimerMax.value ? Color.red : Color.white;
         }
     }
 }

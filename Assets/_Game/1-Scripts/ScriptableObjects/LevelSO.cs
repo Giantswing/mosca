@@ -12,6 +12,9 @@ public class LevelSO : ScriptableObject
     public int stars;
     public float[] scoreToStars;
 
+    public bool isThisLastOne;
+    public int index;
+
 
     public void CountScore()
     {

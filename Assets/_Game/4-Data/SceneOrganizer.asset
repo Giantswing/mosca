@@ -64,6 +64,7 @@ MonoBehaviour:
     - {fileID: 1783446688862618773, guid: 888d1a672c60ea346bf01fb09f3593a4, type: 3}
     - {fileID: 4210419660606005315, guid: 97d7b863722ba0640a112c74c0e4825b, type: 3}
     - {fileID: 1143740238223509595, guid: 9fd5666986a3ed7439f7d468cf2a033c, type: 3}
+    - {fileID: 7156451479735238769, guid: 3e828a4a7c3bddc43a194d0e52c29fd9, type: 3}
     objectsNames: []
   - name: _07-MOVERS
     objects:

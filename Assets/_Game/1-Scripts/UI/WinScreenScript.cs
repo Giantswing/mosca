@@ -43,9 +43,12 @@ public class WinScreenScript : MonoBehaviour
     [SerializeField] private CampaignSO campaignData;
     private bool _alreadyInit = false;
 
+    [SerializeField] private SmartData.SmartFloat.FloatReader levelTime;
+    [SerializeField] private SmartData.SmartFloat.FloatReader levelTimeMax;
+
     private void Start()
     {
-        if (LevelLoader.IsThisLastLevel())
+        if (CurrentLevelHolder.GetCurrentLevel().isThisLastOne)
         {
             nextLevelButton.SetActive(false);
             _firstSelected = levelSelectionButton;
@@ -74,21 +77,21 @@ public class WinScreenScript : MonoBehaviour
     private IEnumerator StartWinScreenAnimationRoutine()
     {
         yield return new WaitForSeconds(.5f);
+        var currentLevel = CurrentLevelHolder.GetCurrentLevel();
+        levelNameText.SetText(currentLevel.sceneName);
+        scoreText.SetText(LevelManager.GetScore().ToString() + "/" + currentLevel.totalScore);
+        timeText.SetText(levelTime.value.ToString("F1") + "s/" + levelTimeMax.value + "s");
 
-        levelNameText.SetText(LevelManager.LevelData().sceneName);
-        scoreText.SetText(LevelManager.GetScore().ToString() + "/" + LevelManager.LevelData().totalScore);
-        timeText.SetText(LevelManager.LevelTime.ToString("F1") + "s/" + LevelManager.LevelData().timeToWin + "s");
-
-        var currentStarsInLevel = LevelManager.LevelData().stars;
+        var currentStarsInLevel = currentLevel.stars;
         var starsWonInLevel = 0;
 
-        if (LevelManager.GetScore() >= LevelManager.LevelData().scoreToWin)
+        if (LevelManager.GetScore() >= currentLevel.scoreToWin)
             starsWonInLevel++;
 
-        if (LevelManager.GetScore() == LevelManager.LevelData().totalScore)
+        if (LevelManager.GetScore() == currentLevel.totalScore)
             starsWonInLevel++;
 
-        if (LevelManager.LevelTime < LevelManager.LevelData().timeToWin)
+        if (levelTime.value < currentLevel.timeToWin)
             starsWonInLevel++;
 
 
@@ -103,7 +106,7 @@ public class WinScreenScript : MonoBehaviour
                 starsImage[i - 1].sprite = starFilled;
         }
 
-        LevelManager.LevelData().stars = starsWonInLevel;
+        currentLevel.stars = starsWonInLevel;
 
         SaveLoadSystem.SaveGame();
 

@@ -40,6 +40,8 @@ public class STATS : MonoBehaviour
     public SmartData.SmartEvent.EventDispatcher transitionEvent;
     public SmartData.SmartInt.IntWriter transitionType;
 
+    private bool isAlive = true;
+
     private void Start()
     {
         //ST_MaxHealth = ST_Health;
@@ -67,6 +69,7 @@ public class STATS : MonoBehaviour
             ST_CanDoDmg = false;
             ST_Damage = 0;
             Die();
+            isAlive = false;
         }
         else
         {
@@ -98,7 +101,7 @@ public class STATS : MonoBehaviour
 
     private void Die()
     {
-        if (ST_Team == 1)
+        if (ST_Team == 1 && isAlive)
         {
             transitionType.value = (int)LevelLoader.LevelTransitionState.Restart;
             transitionEvent.Dispatch();

@@ -48,3 +48,45 @@ MonoBehaviour:
   campaignData: {fileID: 11400000, guid: a36363c6493c2fc49a902af9627a51e9, type: 2}
   winScreen: {fileID: 0}
   portalPopUp: {fileID: 0}
+  levelTimeInt:
+    _owner: {fileID: 916468251326428845}
+    _ownerName: LevelManager
+    _propertyPath: levelTimeInt
+    _autoListen: 0
+    _multiIndex: 0
+    _refType: 2
+    _value: 0
+    _smartConst: {fileID: 0}
+    _smartVar: {fileID: 11400000, guid: 1f9a1465b43dc9943bd9e6b251c1f7d2, type: 2}
+    _smartMulti: {fileID: 0}
+    _onUpdate:
+      m_PersistentCalls:
+        m_Calls: []
+  levelTimeFloat:
+    _owner: {fileID: 916468251326428845}
+    _ownerName: LevelManager
+    _propertyPath: levelTimeFloat
+    _autoListen: 0
+    _multiIndex: 0
+    _refType: 2
+    _value: 0
+    _smartConst: {fileID: 0}
+    _smartVar: {fileID: 11400000, guid: 6d8731551d9a4cc4e858406a59cb1de1, type: 2}
+    _smartMulti: {fileID: 0}
+    _onUpdate:
+      m_PersistentCalls:
+        m_Calls: []
+  levelMaxTime:
+    _owner: {fileID: 916468251326428845}
+    _ownerName: LevelManager
+    _propertyPath: levelMaxTime
+    _autoListen: 0
+    _multiIndex: 0
+    _refType: 2
+    _value: 0
+    _smartConst: {fileID: 0}
+    _smartVar: {fileID: 11400000, guid: 2b1e2999f52b0234fa8a7433d8b4de99, type: 2}
+    _smartMulti: {fileID: 0}
+    _onUpdate:
+      m_PersistentCalls:
+        m_Calls: []

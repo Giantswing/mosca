@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5137286470968119854}
   - component: {fileID: 5137286470968119840}
   - component: {fileID: 5137286470968119855}
+  - component: {fileID: 6273283451633846634}
   m_Layer: 0
   m_Name: MinimapCam
   m_TagString: Untagged
@@ -60,7 +61,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 46.35
+  orthographic size: 81.8
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -98,7 +99,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
-  m_VolumeFrameworkUpdateModeOption: 2
+  m_VolumeFrameworkUpdateModeOption: 1
   m_RenderPostProcessing: 0
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
@@ -109,3 +110,15 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
+--- !u!114 &6273283451633846634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5137286470968119853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18157811fdc206c448e966f509ef708d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

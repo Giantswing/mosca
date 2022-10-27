@@ -62,10 +62,11 @@ public class LevelIntroScript : MonoBehaviour
     {
         if (levelNameText != null && showIntro)
         {
-            levelNameText.SetText(LevelManager.LevelData().sceneName);
+            var currentLevel = CurrentLevelHolder.GetCurrentLevel();
+            levelNameText.SetText(currentLevel.sceneName);
             levelObjectivesText.SetText(
-                "Win <color=red>at least</color> " + LevelManager.LevelData().scoreToWin +
-                " points\nBonus time: " + LevelManager.LevelData().timeToWin + " seconds");
+                "Win <color=red>at least</color> " + currentLevel.scoreToWin +
+                " points\nBonus time: " + currentLevel.timeToWin + " seconds");
             levelNameText.gameObject.SetActive(true);
             levelObjectivesText.gameObject.SetActive(true);
             transitionImage.SetActive(true);
