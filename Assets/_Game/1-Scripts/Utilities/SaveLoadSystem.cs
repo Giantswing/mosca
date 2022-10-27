@@ -36,7 +36,8 @@ public class SaveLoadSystem : MonoBehaviour
         if (PlayerPrefsX.GetIntArray("levelStars").Length == 0) return;
 
         for (var i = 0; i < PlayerPrefsX.GetIntArray("levelStars").Length; i++)
-            Instance.campaign.levels[i].stars = PlayerPrefsX.GetIntArray("levelStars")[i];
+            if (i <= Instance.campaign.levels.Count)
+                Instance.campaign.levels[i].stars = PlayerPrefsX.GetIntArray("levelStars")[i];
     }
 
     private void QuitGame()

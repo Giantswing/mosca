@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2044022496740575605}
   - component: {fileID: 2044022496740575604}
   - component: {fileID: -1592429861579884449}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: MoscaPickupArea
   m_TagString: PickupArea
   m_Icon: {fileID: 0}
