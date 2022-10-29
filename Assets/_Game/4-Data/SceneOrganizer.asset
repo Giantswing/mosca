@@ -35,6 +35,7 @@ MonoBehaviour:
     - {fileID: 3455700863804286203, guid: ce967a72d65866c4f985637aa57762b2, type: 3}
     - {fileID: 4319178847646054, guid: 42895a8fab61cd54e99985d431aa99cc, type: 3}
     - {fileID: 3113702028230545252, guid: f4655f8c6f394be4eb959a86f86d54c2, type: 3}
+    - {fileID: 6860605510871531306, guid: e9abe0eb43e95a94bb6dec0f64dc8c20, type: 3}
     objectsNames:
     - Directional Light
     - Cube
@@ -45,6 +46,7 @@ MonoBehaviour:
   - name: _04-PICKUPS
     objects:
     - {fileID: 7158309797407360645, guid: 03b2b361136cb35449c766d9c98986be, type: 3}
+    - {fileID: 6656160705521253714, guid: 502ed7177140c5741ae84b63467de730, type: 3}
     objectsNames: []
   - name: _05-CAMERA
     objects:
@@ -55,8 +57,6 @@ MonoBehaviour:
     objectsNames: []
   - name: _06-SYSTEM
     objects:
-    - {fileID: 8801562753903818942, guid: 3ef34e5bafc36be45a4d4123429ae674, type: 3}
-    - {fileID: 6805034309427531552, guid: b2db8d61d6b281c419d402d30082c018, type: 3}
     - {fileID: 1248610793476433925, guid: cc1686ef196afd84285b547132b1b8ae, type: 3}
     - {fileID: 896561693902473438, guid: cc011d14f30a8a54abd3cf33dd56961c, type: 3}
     - {fileID: 916468251326428845, guid: f92d484764437bf4ab8a59e92d2f2b50, type: 3}
@@ -65,6 +65,9 @@ MonoBehaviour:
     - {fileID: 4210419660606005315, guid: 97d7b863722ba0640a112c74c0e4825b, type: 3}
     - {fileID: 1143740238223509595, guid: 9fd5666986a3ed7439f7d468cf2a033c, type: 3}
     - {fileID: 7156451479735238769, guid: 3e828a4a7c3bddc43a194d0e52c29fd9, type: 3}
+    - {fileID: 8329541488303977182, guid: 38b219cc34d44004280471daef89856b, type: 3}
+    - {fileID: 4238877151116724972, guid: 3ef34e5bafc36be45a4d4123429ae674, type: 3}
+    - {fileID: 3162354115926989448, guid: 0527443928b5e8a4f978b905ab11b2af, type: 3}
     objectsNames: []
   - name: _07-MOVERS
     objects:
@@ -83,6 +86,12 @@ MonoBehaviour:
     objects: []
     objectsNames: []
   allGameObjects:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}

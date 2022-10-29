@@ -1432,7 +1432,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4857003658929950748, guid: 997a35e5f1bee984890dd7a40e0e3518, type: 3}
       propertyPath: cameraOffset.y
-      value: -1.5
+      value: -0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4857003658929950748, guid: 997a35e5f1bee984890dd7a40e0e3518, type: 3}
       propertyPath: sideAngleStrength
@@ -3699,6 +3699,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9104996455489809033, guid: 931188d0c5f2103439b2c1de90dede4e, type: 3}
   m_PrefabInstance: {fileID: 216036647}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &458811694 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3162354115926989448, guid: 0527443928b5e8a4f978b905ab11b2af, type: 3}
+  m_PrefabInstance: {fileID: 503653515}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &469416494
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3925,6 +3930,18 @@ PrefabInstance:
     - target: {fileID: 3162354115926989449, guid: 0527443928b5e8a4f978b905ab11b2af, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5625443769705853166, guid: 0527443928b5e8a4f978b905ab11b2af, type: 3}
+      propertyPath: showIntroText._owner
+      value: 
+      objectReference: {fileID: 458811694}
+    - target: {fileID: 5625443769705853166, guid: 0527443928b5e8a4f978b905ab11b2af, type: 3}
+      propertyPath: showIntroText._ownerName
+      value: Level-Transition-v2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5625443769705853166, guid: 0527443928b5e8a4f978b905ab11b2af, type: 3}
+      propertyPath: showIntroText._propertyPath
+      value: showIntroText
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0527443928b5e8a4f978b905ab11b2af, type: 3}
@@ -4979,7 +4996,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4857003658929950748, guid: 997a35e5f1bee984890dd7a40e0e3518, type: 3}
       propertyPath: cameraOffset.y
-      value: -1.5
+      value: -0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4857003658929950748, guid: 997a35e5f1bee984890dd7a40e0e3518, type: 3}
       propertyPath: sideAngleStrength
@@ -5138,6 +5155,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1096006199}
     m_Modifications:
+    - target: {fileID: -1334488068016008095, guid: 38b219cc34d44004280471daef89856b, type: 3}
+      propertyPath: showLevelIntroText._owner
+      value: 
+      objectReference: {fileID: 754259885}
+    - target: {fileID: -1334488068016008095, guid: 38b219cc34d44004280471daef89856b, type: 3}
+      propertyPath: showLevelIntroText._ownerName
+      value: LevelLoader
+      objectReference: {fileID: 0}
+    - target: {fileID: -1334488068016008095, guid: 38b219cc34d44004280471daef89856b, type: 3}
+      propertyPath: showLevelIntroText._propertyPath
+      value: showLevelIntroText
+      objectReference: {fileID: 0}
     - target: {fileID: 7763298104738301625, guid: 38b219cc34d44004280471daef89856b, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -5789,6 +5818,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da22c02a65605a34daa362c3ba402d6a, type: 3}
+--- !u!1 &754259885 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8329541488303977182, guid: 38b219cc34d44004280471daef89856b, type: 3}
+  m_PrefabInstance: {fileID: 672906248}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &756625688
 PrefabInstance:
   m_ObjectHideFlags: 0

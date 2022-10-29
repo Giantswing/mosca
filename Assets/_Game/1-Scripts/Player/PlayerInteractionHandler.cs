@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Events;
@@ -25,6 +26,8 @@ public class PlayerInteractionHandler : MonoBehaviour
     [SerializeField] private Collider dashCollider;
     [SerializeField] private float lastBumpTime;
 
+    [Space(25)] public List<Transform> holdingItems;
+
     private void Start()
     {
         var obj = Instantiate(playerPickupArea);
@@ -42,6 +45,19 @@ public class PlayerInteractionHandler : MonoBehaviour
         if (dashCollider.enabled)
             dashCollider.enabled = false;
     }
+
+    private void Update()
+    {
+        if (holdingItems.Count == 0) return;
+
+        for (var i = 0; i < holdingItems.Count; i++)
+        {
+            var xPos = Vector3.left * 1.5f + Vector3.right * (0.75f * i);
+            holdingItems[i].transform.position = Vector3.Lerp(holdingItems[i].transform.position,
+                transform.position + Vector3.up * 0.75f + xPos, Time.deltaTime * 10);
+        }
+    }
+
 
     private void OnTriggerEnter(Collider collision)
     {

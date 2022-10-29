@@ -19,16 +19,19 @@ public class LevelIntroScript : MonoBehaviour
 
     [SerializeField] private LevelTransitionScript levelTransitionScript;
 
-    [SerializeField] private float fadeDuration = 2f;
-    [SerializeField] private float fadeDelay = 2f;
+    [SerializeField] private float fadeDuration = 0.5f;
+    [SerializeField] private float fadeDelay = 0.75f;
 
     private IDisposable _tempInputSystem;
     private bool _isAndroid;
     private bool _allowSkipIntro;
     [SerializeField] private SmartData.SmartBool.BoolReader showIntro;
+    [SerializeField] private SmartData.SmartBool.BoolReader showIntroText;
 
     private void Start()
     {
+        fadeDuration = 0.5f;
+        fadeDelay = 2.5f;
         _allowSkipIntro = true;
         StartIntroScene();
 
@@ -38,6 +41,8 @@ public class LevelIntroScript : MonoBehaviour
 
         if (SceneManager.GetSceneByName("_levelSelection").isLoaded || _isAndroid)
             _allowSkipIntro = false;
+
+        _allowSkipIntro = false;
 
         /*
 
@@ -60,9 +65,11 @@ public class LevelIntroScript : MonoBehaviour
 
     public void StartIntroScene()
     {
-        if (levelNameText != null && showIntro)
+        var currentLevel = CurrentLevelHolder.GetCurrentLevel();
+        if (showIntro.value == false) return;
+
+        if (currentLevel != null && levelNameText != null && showIntroText.value == true)
         {
-            var currentLevel = CurrentLevelHolder.GetCurrentLevel();
             levelNameText.SetText(currentLevel.sceneName);
             levelObjectivesText.SetText(
                 "Win <color=red>at least</color> " + currentLevel.scoreToWin +
@@ -76,7 +83,7 @@ public class LevelIntroScript : MonoBehaviour
         else
         {
             transitionImage.SetActive(true);
-            levelTransitionScript.ReverseTransition(Vector3.zero);
+            StopIntro();
         }
     }
 
@@ -98,8 +105,10 @@ public class LevelIntroScript : MonoBehaviour
             levelNameText.gameObject.SetActive(false);
             levelObjectivesText.gameObject.SetActive(false);
 
+            /*
             if (_allowSkipIntro)
                 _tempInputSystem.Dispose();
+                */
         }
     }
 }

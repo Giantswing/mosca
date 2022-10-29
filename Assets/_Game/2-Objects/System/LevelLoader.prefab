@@ -45,7 +45,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cbef2c1807e1454d83ee50b2ae31d67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelData: {fileID: 0}
   campaignData: {fileID: 11400000, guid: a36363c6493c2fc49a902af9627a51e9, type: 2}
   instanceLevelTransitionState:
     _owner: {fileID: 8329541488303977182}
@@ -85,6 +84,20 @@ MonoBehaviour:
     _value: 0
     _smartConst: {fileID: 0}
     _smartVar: {fileID: 11400000, guid: 21389c8858ecc3c40872083e3eb356e5, type: 2}
+    _smartMulti: {fileID: 0}
+    _onUpdate:
+      m_PersistentCalls:
+        m_Calls: []
+  showLevelIntroText:
+    _owner: {fileID: 8329541488303977182}
+    _ownerName: LevelLoader
+    _propertyPath: showLevelIntroText
+    _autoListen: 0
+    _multiIndex: 0
+    _refType: 2
+    _value: 0
+    _smartConst: {fileID: 0}
+    _smartVar: {fileID: 11400000, guid: 2b9f89bc657d57449a06c52c92003e25, type: 2}
     _smartMulti: {fileID: 0}
     _onUpdate:
       m_PersistentCalls:

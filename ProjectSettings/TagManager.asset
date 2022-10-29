@@ -15,6 +15,7 @@ TagManager:
   - Fan
   - CameraZone
   - Teleport
+  - Lock
   layers:
   - Default
   - TransparentFX

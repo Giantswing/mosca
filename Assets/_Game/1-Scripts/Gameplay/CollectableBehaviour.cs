@@ -9,10 +9,10 @@ public class CollectableBehaviour : MonoBehaviour
     private Tweener _tweener;
 
     [HideInInspector] public int isFollowing = 0;
-    private Transform _whoToFollow;
+    [HideInInspector] public Transform _whoToFollow;
 
-    [SerializeField] private Transform displayObject;
-    [SerializeField] private Collider myCollider;
+    public Transform displayObject;
+    [SerializeField] private BoxCollider myCollider;
     [SerializeField] private SmartData.SmartInt.IntWriter playerHealth;
     [SerializeField] private SmartData.SmartEvent.EventDispatcher onCollect;
 
@@ -32,7 +32,8 @@ public class CollectableBehaviour : MonoBehaviour
     public enum PickUp
     {
         Coin,
-        Poop
+        Poop,
+        Holder
     }
 
     public PickUp pickUp;
@@ -47,7 +48,7 @@ public class CollectableBehaviour : MonoBehaviour
     }
     */
 
-    private void Start()
+    public void Start()
     {
         //if (!hasAddedScore) AddToScore();
 
@@ -70,7 +71,7 @@ public class CollectableBehaviour : MonoBehaviour
     }
 
 
-    private void Update()
+    public void Update()
     {
         if (isFollowing == 2)
         {
@@ -79,17 +80,43 @@ public class CollectableBehaviour : MonoBehaviour
             var distance = Vector3.Distance(transform.position, position);
             if (distance < .6f && _isShrinking == false)
             {
-                _isShrinking = true;
-                transform.DOScale(0, .1f).OnComplete(() =>
+                if (pickUp != PickUp.Holder)
                 {
-                    GlobalAudioManager.PlaySound(collectSound, transform.position);
-                    Destroy(gameObject);
-                });
+                    _isShrinking = true;
+                    transform.DOScale(0, .1f).OnComplete(() =>
+                    {
+                        GlobalAudioManager.PlaySound(collectSound, transform.position);
+                        Destroy(gameObject);
+                    });
+                }
+                else
+                {
+                    var playerInteraction = _whoToFollow.gameObject.GetComponent<PlayerInteractionHandler>();
+                    if (playerInteraction == null) return;
+                    isFollowing = 3;
+                    myCollider.size = new Vector3(3, 3, 3);
+                    playerInteraction.holdingItems.Add(transform);
+                }
             }
         }
+/*
+        else if (isFollowing == 3)
+        {
+            var position = _whoToFollow.position + Vector3.up * 0.75f + Vector3.left * 0.75f;
+            transform.position = Vector3.Lerp(transform.position, position, Time.deltaTime * 10);
+        }
+        */
     }
 
-    private void OnDestroy()
+    public void RemoveHolder()
+    {
+        var playerInteraction = _whoToFollow.gameObject.GetComponent<PlayerInteractionHandler>();
+        if (playerInteraction == null) return;
+
+        playerInteraction.holdingItems.Remove(transform);
+    }
+
+    public void OnDestroy()
     {
         if (pickUp == PickUp.Coin) LevelManager.OnScoreChanged?.Invoke(scoreValue);
 

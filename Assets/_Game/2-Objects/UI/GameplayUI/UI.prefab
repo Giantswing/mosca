@@ -114,6 +114,54 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 896561693902473439}
     m_Modifications:
+    - target: {fileID: 798083816185823283, guid: 1961b40b78f689e44a464b9bfd047462, type: 3}
+      propertyPath: _data.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 798083816185823283, guid: 1961b40b78f689e44a464b9bfd047462, type: 3}
+      propertyPath: _data.Array.data[1]._owner
+      value: 
+      objectReference: {fileID: 7928477981495166047}
+    - target: {fileID: 798083816185823283, guid: 1961b40b78f689e44a464b9bfd047462, type: 3}
+      propertyPath: _data.Array.data[1]._ownerName
+      value: Health
+      objectReference: {fileID: 0}
+    - target: {fileID: 798083816185823283, guid: 1961b40b78f689e44a464b9bfd047462, type: 3}
+      propertyPath: _data.Array.data[1]._smartEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: 5e6bf8cd0d9fb2642aff7bae66aa01a7, type: 2}
+    - target: {fileID: 798083816185823283, guid: 1961b40b78f689e44a464b9bfd047462, type: 3}
+      propertyPath: _data.Array.data[1]._propertyPath
+      value: _data.Array.data[1]
+      objectReference: {fileID: 0}
+    - target: {fileID: 798083816185823283, guid: 1961b40b78f689e44a464b9bfd047462, type: 3}
+      propertyPath: _data.Array.data[1]._onEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 798083816185823283, guid: 1961b40b78f689e44a464b9bfd047462, type: 3}
+      propertyPath: _data.Array.data[1]._onEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 798083816185823283, guid: 1961b40b78f689e44a464b9bfd047462, type: 3}
+      propertyPath: _data.Array.data[1]._onEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 843994189011904573}
+    - target: {fileID: 798083816185823283, guid: 1961b40b78f689e44a464b9bfd047462, type: 3}
+      propertyPath: _data.Array.data[1]._onEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 798083816185823283, guid: 1961b40b78f689e44a464b9bfd047462, type: 3}
+      propertyPath: _data.Array.data[1]._onEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: PlayerHealthChange
+      objectReference: {fileID: 0}
+    - target: {fileID: 798083816185823283, guid: 1961b40b78f689e44a464b9bfd047462, type: 3}
+      propertyPath: _data.Array.data[1]._onEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: HealthContainer, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 798083816185823283, guid: 1961b40b78f689e44a464b9bfd047462, type: 3}
+      propertyPath: _data.Array.data[1]._onEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 7254683888903372453, guid: 1961b40b78f689e44a464b9bfd047462, type: 3}
       propertyPath: m_Name
       value: Health
@@ -204,9 +252,25 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1961b40b78f689e44a464b9bfd047462, type: 3}
+--- !u!114 &843994189011904573 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 79996096979358407, guid: 1961b40b78f689e44a464b9bfd047462, type: 3}
+  m_PrefabInstance: {fileID: 768510494038506234}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7928477981495166047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed1ea69a64dd3734e8303f469fba3d8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &7928477981495166032 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7254683888903372458, guid: 1961b40b78f689e44a464b9bfd047462, type: 3}
+  m_PrefabInstance: {fileID: 768510494038506234}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7928477981495166047 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7254683888903372453, guid: 1961b40b78f689e44a464b9bfd047462, type: 3}
   m_PrefabInstance: {fileID: 768510494038506234}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2431798952172519060

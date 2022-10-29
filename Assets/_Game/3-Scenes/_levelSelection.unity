@@ -123,11 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &437815118 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3162354115926989448, guid: 0527443928b5e8a4f978b905ab11b2af, type: 3}
-  m_PrefabInstance: {fileID: 8472017425448061691}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &648969997 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 589124997974348855, guid: a4228700af2164b41a017f47d4137366, type: 3}
@@ -5428,6 +5423,10 @@ PrefabInstance:
       value: MainCamera
       objectReference: {fileID: 0}
     - target: {fileID: 589124997974348854, guid: a4228700af2164b41a017f47d4137366, type: 3}
+      propertyPath: near clip plane
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 589124997974348854, guid: a4228700af2164b41a017f47d4137366, type: 3}
       propertyPath: m_OcclusionCulling
       value: 1
       objectReference: {fileID: 0}
@@ -5615,10 +5614,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3162354114898882130, guid: 0527443928b5e8a4f978b905ab11b2af, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3162354115926989448, guid: 0527443928b5e8a4f978b905ab11b2af, type: 3}
       propertyPath: m_Name
       value: Level-Transition-v2
@@ -5706,30 +5701,6 @@ PrefabInstance:
     - target: {fileID: 3162354115926989449, guid: 0527443928b5e8a4f978b905ab11b2af, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5625443769705853166, guid: 0527443928b5e8a4f978b905ab11b2af, type: 3}
-      propertyPath: showIntro
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5625443769705853166, guid: 0527443928b5e8a4f978b905ab11b2af, type: 3}
-      propertyPath: showIntro._owner
-      value: 
-      objectReference: {fileID: 437815118}
-    - target: {fileID: 5625443769705853166, guid: 0527443928b5e8a4f978b905ab11b2af, type: 3}
-      propertyPath: showIntro._refType
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5625443769705853166, guid: 0527443928b5e8a4f978b905ab11b2af, type: 3}
-      propertyPath: showIntro._ownerName
-      value: Level-Transition-v2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5625443769705853166, guid: 0527443928b5e8a4f978b905ab11b2af, type: 3}
-      propertyPath: showIntro._propertyPath
-      value: showIntro
-      objectReference: {fileID: 0}
-    - target: {fileID: 6652451170375852436, guid: 0527443928b5e8a4f978b905ab11b2af, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0527443928b5e8a4f978b905ab11b2af, type: 3}

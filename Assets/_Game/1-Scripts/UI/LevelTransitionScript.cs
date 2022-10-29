@@ -40,7 +40,10 @@ public class LevelTransitionScript : MonoBehaviour
             .SetAutoKill(false).onComplete += () =>
         {
             if (levelTransitionState.value != (int)LevelLoader.LevelTransitionState.DontLoadYet)
+            {
                 finishTransition.value = true;
+                DOTween.KillAll();
+            }
         };
     }
 
@@ -53,7 +56,7 @@ public class LevelTransitionScript : MonoBehaviour
 
         transitionImage.material.SetFloat(CompareValue, .55f);
         DOTween.To(() => transitionImage.material.GetFloat(CompareValue),
-                x => transitionImage.material.SetFloat(CompareValue, x), 0f, 1.5f)
+                x => transitionImage.material.SetFloat(CompareValue, x), 0f, 1f)
             .SetAutoKill(false).onComplete += () => { transitionImage.gameObject.SetActive(false); };
     }
 }

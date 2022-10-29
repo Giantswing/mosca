@@ -1272,7 +1272,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -6360643906854838084, guid: d12a057baf396ca4db5597500f363a82, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -6360643906854838084, guid: d12a057baf396ca4db5597500f363a82, type: 3}
       propertyPath: m_StaticEditorFlags

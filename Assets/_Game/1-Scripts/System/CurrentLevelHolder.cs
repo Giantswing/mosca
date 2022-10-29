@@ -15,6 +15,9 @@ public class CurrentLevelHolder : MonoBehaviour
 
     public static LevelSO GetCurrentLevel()
     {
-        return Instance.currentLevel;
+        if (Instance != null)
+            return Instance.currentLevel;
+        else
+            return null;
     }
 }

@@ -285,6 +285,20 @@ MonoBehaviour:
     _onUpdate:
       m_PersistentCalls:
         m_Calls: []
+  showIntroText:
+    _owner: {fileID: 3162354115926989448}
+    _ownerName: Level-Transition-v2
+    _propertyPath: showIntroText
+    _autoListen: 0
+    _multiIndex: 0
+    _refType: 2
+    _value: 0
+    _smartConst: {fileID: 0}
+    _smartVar: {fileID: 11400000, guid: 2b9f89bc657d57449a06c52c92003e25, type: 2}
+    _smartMulti: {fileID: 0}
+    _onUpdate:
+      m_PersistentCalls:
+        m_Calls: []
 --- !u!114 &3162354115926989453
 MonoBehaviour:
   m_ObjectHideFlags: 0
