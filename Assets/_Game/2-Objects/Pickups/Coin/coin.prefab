@@ -144,11 +144,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isFollowing: 0
+  _whoToFollow: {fileID: 0}
   displayObject: {fileID: 8974165903882334732}
   myCollider: {fileID: 7176709904404189598}
   playerHealth:
     _owner: {fileID: 8023622830044985023}
-    _ownerName: coin (4)
+    _ownerName: coin
     _propertyPath: playerHealth
     _autoListen: 0
     _multiIndex: 0
@@ -162,7 +163,7 @@ MonoBehaviour:
         m_Calls: []
   onCollect:
     _owner: {fileID: 8023622830044985023}
-    _ownerName: coin (4)
+    _ownerName: coin
     _propertyPath: onCollect
     _autoListen: 0
     _multiIndex: 0

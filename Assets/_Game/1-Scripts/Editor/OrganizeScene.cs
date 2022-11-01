@@ -92,7 +92,8 @@ public class OrganizeScene : ScriptableObject
                     {
                         //check if selectedObj has a mover parent
                         if (selectedObj.transform.parent != null)
-                            if (selectedObj.transform.parent.name.Contains("Mover"))
+                            if (selectedObj.transform.parent.name.Contains("Mover") ||
+                                selectedObj.transform.parent.name.Contains("Cog6"))
                                 break;
 
                         selectedObj.transform.parent = folders[i].transform;

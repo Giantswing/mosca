@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db038a0bd787d7140bf55c22020aaf2c, type: 3}
-  m_Name: SceneWind_Data
+  m_Name: SceneWindB_Data
   m_EditorClassIdentifier: 
   scene:
-    sceneAsset: {fileID: 102900000, guid: 4500aface69df154fafcfe0332485889, type: 3}
+    sceneAsset: {fileID: 102900000, guid: 227b11576afd63544879a29382c9d59a, type: 3}
     required: 1
-    buildIndex: 5
-  sceneName: Wind
+    buildIndex: 6
+  sceneName: Wind (B Side)
   scoreToWin: 70
   totalScore: 109
   timeToWin: 105
-  stars: 2
+  stars: 0
   isThisLastOne: 0
-  index: 2
+  index: 0
   isBSide: 0
-  bSideScene: {fileID: 11400000, guid: 31875c9c68a485a4f869d51607297aa2, type: 2}
+  bSideScene: {fileID: 0}

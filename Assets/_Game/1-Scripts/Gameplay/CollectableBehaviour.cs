@@ -80,6 +80,7 @@ public class CollectableBehaviour : MonoBehaviour
             var distance = Vector3.Distance(transform.position, position);
             if (distance < .6f && _isShrinking == false)
             {
+                transform.SetParent(null);
                 if (pickUp != PickUp.Holder)
                 {
                     _isShrinking = true;
@@ -96,6 +97,7 @@ public class CollectableBehaviour : MonoBehaviour
                     isFollowing = 3;
                     myCollider.size = new Vector3(3, 3, 3);
                     playerInteraction.holdingItems.Add(transform);
+                    transform.DOLocalRotate(Vector3.zero, 0.5f);
                 }
             }
         }

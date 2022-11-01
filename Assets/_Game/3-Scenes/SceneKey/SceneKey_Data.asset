@@ -15,15 +15,13 @@ MonoBehaviour:
   scene:
     sceneAsset: {fileID: 102900000, guid: 87ac0d74824cbcb4186152b5f388c449, type: 3}
     required: 0
-    buildIndex: -1
+    buildIndex: 7
   sceneName: Open doors
-  totalScore: 0
-  scoreToWin: 0
-  timeToWin: 80
-  stars: 0
-  scoreToStars:
-  - 0
-  - 0
-  - 15
+  scoreToWin: 80
+  totalScore: 107
+  timeToWin: 110
+  stars: 1
   isThisLastOne: 0
   index: 3
+  isBSide: 0
+  bSideScene: {fileID: 0}

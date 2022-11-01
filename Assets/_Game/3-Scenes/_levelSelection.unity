@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 0}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44818026, g: 0.49741948, b: 0.5720574, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -163,9 +163,7 @@ MonoBehaviour:
   campaign: {fileID: 11400000, guid: a36363c6493c2fc49a902af9627a51e9, type: 2}
   levelButtonPrefab: {fileID: 7186360154864658977, guid: 21fd086f8470d3f4ba3c8d8d8fdfa797, type: 3}
   levelContainer: {fileID: 852745102}
-  scrollRect: {fileID: 852745105}
-  customScrollRect: {fileID: 0}
-  _buttons: []
+  buttons: []
 --- !u!114 &678844119
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -215,8 +213,8 @@ Canvas:
   m_GameObject: {fileID: 678844117}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
+  m_RenderMode: 1
+  m_Camera: {fileID: 838061096}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -248,6 +246,11 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!20 &838061096 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 589124997974348854, guid: a4228700af2164b41a017f47d4137366, type: 3}
+  m_PrefabInstance: {fileID: 589124997950700391}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &852745101
 GameObject:
   m_ObjectHideFlags: 0
@@ -278,8 +281,8 @@ RectTransform:
   m_GameObject: {fileID: 852745101}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.85, y: 0.85, z: 0.85}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 678844122}
   m_RootOrder: 0
@@ -496,8 +499,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1480180725}
   m_LocalRotation: {x: -0, y: 0.7071065, z: 1e-45, w: 0.7071071}
-  m_LocalPosition: {x: -17.16, y: -0, z: 12.3}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -1727, y: 14, z: 829}
+  m_LocalScale: {x: 115.62, y: 174.5, z: 115.62}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 648969997}
@@ -5423,6 +5426,10 @@ PrefabInstance:
       value: MainCamera
       objectReference: {fileID: 0}
     - target: {fileID: 589124997974348854, guid: a4228700af2164b41a017f47d4137366, type: 3}
+      propertyPath: field of view
+      value: 72.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 589124997974348854, guid: a4228700af2164b41a017f47d4137366, type: 3}
       propertyPath: near clip plane
       value: 0.01
       objectReference: {fileID: 0}
@@ -5452,15 +5459,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 589124997974348855, guid: a4228700af2164b41a017f47d4137366, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 949
       objectReference: {fileID: 0}
     - target: {fileID: 589124997974348855, guid: a4228700af2164b41a017f47d4137366, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 481.1
       objectReference: {fileID: 0}
     - target: {fileID: 589124997974348855, guid: a4228700af2164b41a017f47d4137366, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -8.91
+      value: -756
       objectReference: {fileID: 0}
     - target: {fileID: 589124997974348855, guid: a4228700af2164b41a017f47d4137366, type: 3}
       propertyPath: m_LocalRotation.w

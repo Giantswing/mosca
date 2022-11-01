@@ -195,8 +195,9 @@ MonoBehaviour:
   collectSound: {fileID: 0}
   pickUpAnimation: 0
   pickUp: 2
-  scoreValue: 1
+  scoreValue: 0
   myParticles: {fileID: 354905136}
+  isBeingUsed: 0
 --- !u!198 &354905136
 ParticleSystem:
   m_ObjectHideFlags: 0

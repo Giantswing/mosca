@@ -151,6 +151,8 @@ public class PlayerInteractionHandler : MonoBehaviour
 
 
                     stats.TakeDamage(_otherStats.ST_Damage, _otherStats.transform.position);
+
+                    holdingItems.Clear();
                     onPlayerHealthChanged.Dispatch();
 
                     FreezeFrameScript.FreezeFrames(0.3f);

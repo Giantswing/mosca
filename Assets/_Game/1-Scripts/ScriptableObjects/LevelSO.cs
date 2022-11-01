@@ -5,16 +5,19 @@ public class LevelSO : ScriptableObject
 {
     public SceneField scene;
     public string sceneName;
+
+    [Space(25)] public int scoreToWin;
     public int totalScore;
-    public int scoreToWin;
-
     public float timeToWin;
-    public int stars;
-    public float[] scoreToStars;
 
-    public bool isThisLastOne;
-    public int index;
+    [Space(15)] public int stars;
+    //public float[] scoreToStars;
 
+    [HideInInspector] public bool isThisLastOne;
+    [HideInInspector] public int index;
+
+    [Header("B-Side")] [Space(5)] public bool isBSide;
+    public LevelSO bSideScene;
 
     public void CountScore()
     {
@@ -33,11 +36,11 @@ public class LevelSO : ScriptableObject
         }
     }
 
-    private void OnValidate()
+    /*private void OnValidate()
     {
         scoreToStars = new float[3];
         scoreToStars[0] = scoreToWin;
         scoreToStars[1] = totalScore;
         scoreToStars[2] = totalScore + 15f;
-    }
+    }*/
 }

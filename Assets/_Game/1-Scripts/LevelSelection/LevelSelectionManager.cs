@@ -1,11 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.LowLevel;
-using UnityEngine.InputSystem.UI;
-using UnityEngine.UI;
 
 public class LevelSelectionManager : MonoBehaviour
 {
@@ -15,10 +11,7 @@ public class LevelSelectionManager : MonoBehaviour
 
     private LevelButton _levelButtonScript;
 
-    [SerializeField] private ScrollRect scrollRect;
-    [SerializeField] private CustomScrollRect customScrollRect;
-
-    public List<RectTransform> _buttons;
+    public List<RectTransform> buttons;
 
     private GameObject _selected;
     private Camera _camera;
@@ -41,10 +34,23 @@ public class LevelSelectionManager : MonoBehaviour
             _levelButtonScript.levelIndex = i;
             _levelButtonScript.levelData = level;
             _levelButtonScript.campaignData = campaign;
-
+            _levelButtonScript.levelSelectionManager = this;
+            buttons.Add(levelButton.GetComponent<RectTransform>());
             _levelButtonScript.UpdateData();
 
-            _buttons.Add(levelButton.GetComponent<RectTransform>());
+            if (campaign.levels[i].bSideScene != null)
+            {
+                var levelB = campaign.levels[i].bSideScene;
+                var levelButtonB = Instantiate(levelButtonPrefab, levelButton.transform);
+                _levelButtonScript = levelButtonB.GetComponent<LevelButton>();
+                _levelButtonScript.levelIndex = i;
+                _levelButtonScript.isBLevel = true;
+                _levelButtonScript.levelData = levelB;
+                _levelButtonScript.campaignData = campaign;
+                _levelButtonScript.levelSelectionManager = this;
+                //buttons.Add(levelButtonB.GetComponent<RectTransform>());
+                _levelButtonScript.UpdateData();
+            }
         }
 
         if (Application.platform == RuntimePlatform.Android)
@@ -56,7 +62,7 @@ public class LevelSelectionManager : MonoBehaviour
         if (Application.platform == RuntimePlatform.Android) _isAndroid = true;
 
         if (_isAndroid) return;
-        EventSystem.current.firstSelectedGameObject = _buttons[0].gameObject;
+        EventSystem.current.firstSelectedGameObject = buttons[0].gameObject;
     }
 
     public void Test()
