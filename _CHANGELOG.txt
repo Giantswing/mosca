@@ -13,7 +13,9 @@ Flugi 0.1.3
 -Added new "enemy": toxic water
 -New mechanic, mover, platforms and other objects can move and do patrols, useful for level design (Level 3)
 -Dynamic camera zones to guide player and give better angle for solving combat/platforming scenarios
--3 New levels
+-5 New levels, 1 b side level
 -New mechanic, teleporters
 -New mechanic, locked gates, pick a key before getting close to them to open it, if you get damaged while carrying a key, you drop it
+-Intro scene
+-Level selection improvements
 -Tons of bugfixes and optimizations

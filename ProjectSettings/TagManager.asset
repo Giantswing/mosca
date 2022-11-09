@@ -20,13 +20,13 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - SeeThrough
   - Water
   - UI
   - MinimapOnly
   - MinimapBoth
   - HideInEditor
-  - 
+  - Dark
   - 
   - 
   - 

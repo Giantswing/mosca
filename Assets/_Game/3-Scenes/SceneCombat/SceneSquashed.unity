@@ -4455,6 +4455,14 @@ PrefabInstance:
       propertyPath: ST_Health._ownerName
       value: Box (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 8470181074721836011, guid: 1df46075e7a5459439f71607c4299b5a, type: 3}
+      propertyPath: transitionType._ownerName
+      value: Box (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8470181074721836011, guid: 1df46075e7a5459439f71607c4299b5a, type: 3}
+      propertyPath: transitionEvent._ownerName
+      value: Box (3)
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1df46075e7a5459439f71607c4299b5a, type: 3}
 --- !u!1001 &901489459
@@ -7129,7 +7137,7 @@ PrefabInstance:
     - target: {fileID: -5549343534240269993, guid: 99dbb71758db4a747bf046dd6dc82ed5, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 3eb8dec1df92ecd4ea14b7089aff9053, type: 2}
+      objectReference: {fileID: 2100000, guid: 2d9789f7b0e425541bac92ce279cacb0, type: 2}
     - target: {fileID: -4676110818514950973, guid: 99dbb71758db4a747bf046dd6dc82ed5, type: 3}
       propertyPath: m_Layer
       value: 7
@@ -10737,37 +10745,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: MainCamera
       objectReference: {fileID: 0}
-    - target: {fileID: 589124997974348854, guid: a4228700af2164b41a017f47d4137366, type: 3}
-      propertyPath: field of view
-      value: 57
-      objectReference: {fileID: 0}
-    - target: {fileID: 589124997974348854, guid: a4228700af2164b41a017f47d4137366, type: 3}
-      propertyPath: m_OcclusionCulling
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 589124997974348854, guid: a4228700af2164b41a017f47d4137366, type: 3}
-      propertyPath: m_BackGroundColor.b
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 589124997974348854, guid: a4228700af2164b41a017f47d4137366, type: 3}
-      propertyPath: m_BackGroundColor.g
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 589124997974348854, guid: a4228700af2164b41a017f47d4137366, type: 3}
-      propertyPath: m_BackGroundColor.r
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 589124997974348854, guid: a4228700af2164b41a017f47d4137366, type: 3}
-      propertyPath: m_CullingMask.m_Bits
-      value: 183
-      objectReference: {fileID: 0}
     - target: {fileID: 589124997974348855, guid: a4228700af2164b41a017f47d4137366, type: 3}
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 589124997974348855, guid: a4228700af2164b41a017f47d4137366, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.89
+      value: 13.17
       objectReference: {fileID: 0}
     - target: {fileID: 589124997974348855, guid: a4228700af2164b41a017f47d4137366, type: 3}
       propertyPath: m_LocalPosition.y
@@ -11262,7 +11246,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5123453007864149824, guid: fadb89f157b3c6a4a9b1913b97dfeb47, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.89
+      value: 13.17
       objectReference: {fileID: 0}
     - target: {fileID: 5123453007864149824, guid: fadb89f157b3c6a4a9b1913b97dfeb47, type: 3}
       propertyPath: m_LocalPosition.y
@@ -11490,7 +11474,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7010919196973483028, guid: 1b7a214668de6494e885a1dd943bd75e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.89
+      value: 13.17
       objectReference: {fileID: 0}
     - target: {fileID: 7010919196973483028, guid: 1b7a214668de6494e885a1dd943bd75e, type: 3}
       propertyPath: m_LocalPosition.y

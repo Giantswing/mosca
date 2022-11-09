@@ -193,7 +193,7 @@ MonoBehaviour:
   ST_Speed: 0
   ST_Health:
     _owner: {fileID: 6414386990272127903}
-    _ownerName: Box (1)
+    _ownerName: Box
     _propertyPath: ST_Health
     _autoListen: 0
     _multiIndex: 0
@@ -240,6 +240,32 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   dmgDirection: {x: 0, y: 0, z: 0}
+  transitionEvent:
+    _owner: {fileID: 6414386990272127903}
+    _ownerName: Box
+    _propertyPath: transitionEvent
+    _autoListen: 0
+    _multiIndex: 0
+    _smartEvent: {fileID: 0}
+    _smartMulti: {fileID: 0}
+    _useMulti: 0
+    _onEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  transitionType:
+    _owner: {fileID: 6414386990272127903}
+    _ownerName: Box
+    _propertyPath: transitionType
+    _autoListen: 0
+    _multiIndex: 0
+    _refType: 2
+    _value: 0
+    _smartConst: {fileID: 0}
+    _smartVar: {fileID: 0}
+    _smartMulti: {fileID: 0}
+    _onUpdate:
+      m_PersistentCalls:
+        m_Calls: []
 --- !u!114 &4361510537731124130
 MonoBehaviour:
   m_ObjectHideFlags: 0

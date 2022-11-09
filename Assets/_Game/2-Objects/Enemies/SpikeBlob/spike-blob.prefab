@@ -43,7 +43,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3581354328258126474}
-  m_Mesh: {fileID: -334591568623806244, guid: 7881a09801cfa0442b3053bfb78f8089, type: 3}
+  m_Mesh: {fileID: -8328934045404141000, guid: 4d594067c536037429b5957547ed744d, type: 3}
 --- !u!23 &3076937906754782047
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -131,6 +131,32 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   dmgDirection: {x: 0, y: 0, z: 0}
+  transitionEvent:
+    _owner: {fileID: 3581354328258126474}
+    _ownerName: spike-blob
+    _propertyPath: transitionEvent
+    _autoListen: 0
+    _multiIndex: 0
+    _smartEvent: {fileID: 0}
+    _smartMulti: {fileID: 0}
+    _useMulti: 0
+    _onEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  transitionType:
+    _owner: {fileID: 3581354328258126474}
+    _ownerName: spike-blob
+    _propertyPath: transitionType
+    _autoListen: 0
+    _multiIndex: 0
+    _refType: 2
+    _value: 0
+    _smartConst: {fileID: 0}
+    _smartVar: {fileID: 0}
+    _smartMulti: {fileID: 0}
+    _onUpdate:
+      m_PersistentCalls:
+        m_Calls: []
 --- !u!114 &3697613617283955799
 MonoBehaviour:
   m_ObjectHideFlags: 0
