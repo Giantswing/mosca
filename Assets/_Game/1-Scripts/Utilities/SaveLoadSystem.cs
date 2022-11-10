@@ -24,20 +24,25 @@ public class SaveLoadSystem : MonoBehaviour
 
     public static void SaveGame()
     {
-        var levelStars = new int[Instance.campaign.levels.Count];
-
-        for (var i = 0; i < Instance.campaign.levels.Count; i++) levelStars[i] = Instance.campaign.levels[i].stars;
-
-        PlayerPrefsX.SetIntArray("levelStars", levelStars);
+        for (var j = 0; j < Instance.campaign.levels.Count; j++)
+            PlayerPrefs.SetInt(Instance.campaign.levels[j].sceneName, Instance.campaign.levels[j].stars);
     }
 
     public static void LoadGame()
     {
-        if (PlayerPrefsX.GetIntArray("levelStars").Length == 0) return;
+        for (var i = 0; i < Instance.campaign.levels.Count; i++)
+        {
+            var data = PlayerPrefs.GetInt(Instance.campaign.levels[i].sceneName);
+            if (data != 0) Instance.campaign.levels[i].stars = data;
+            else Instance.campaign.levels[i].stars = 0;
+        }
+    }
 
-        for (var i = 0; i < PlayerPrefsX.GetIntArray("levelStars").Length; i++)
-            if (i <= Instance.campaign.levels.Count)
-                Instance.campaign.levels[i].stars = PlayerPrefsX.GetIntArray("levelStars")[i];
+
+    public static void DeleteSavedGame()
+    {
+        PlayerPrefs.DeleteAll();
+        print("Deleted");
     }
 
     private void QuitGame()

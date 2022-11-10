@@ -134,7 +134,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleVersion: 0.1.2
+  bundleVersion: 0.1.3
   preloadedAssets:
   - {fileID: 11400000, guid: 6548e70ae255d6143ba245a2fff6f58d, type: 2}
   metroInputSource: 0
@@ -154,7 +154,7 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
-    Android: com.InternalGeometry.Mosca
+    Android: com.InternalGeometry.FlugyTheadventuresoftheFly
     Standalone: com.InternalGeometry.Flugy---The-adventures-of-the-Fly
   buildNumber:
     Standalone: 0

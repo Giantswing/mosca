@@ -24,6 +24,7 @@ public class CampaignSO : ScriptableObject
     public void ResetAllStars()
     {
         for (var i = 0; i < levels.Count; i++) levels[i].stars = 0;
+        SaveLoadSystem.SaveGame();
     }
 
     /*

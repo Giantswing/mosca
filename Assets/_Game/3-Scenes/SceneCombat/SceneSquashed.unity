@@ -329,6 +329,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -42.165
       objectReference: {fileID: 0}
+    - target: {fileID: 7232556230658636969, guid: 3644be8e12c0e194390659f5d87bca7a, type: 3}
+      propertyPath: transitionType._owner
+      value: 
+      objectReference: {fileID: 1796557533}
+    - target: {fileID: 7232556230658636969, guid: 3644be8e12c0e194390659f5d87bca7a, type: 3}
+      propertyPath: transitionEvent._owner
+      value: 
+      objectReference: {fileID: 1796557533}
+    - target: {fileID: 7232556230658636969, guid: 3644be8e12c0e194390659f5d87bca7a, type: 3}
+      propertyPath: transitionType._ownerName
+      value: InsecticideCan
+      objectReference: {fileID: 0}
+    - target: {fileID: 7232556230658636969, guid: 3644be8e12c0e194390659f5d87bca7a, type: 3}
+      propertyPath: transitionEvent._ownerName
+      value: InsecticideCan
+      objectReference: {fileID: 0}
+    - target: {fileID: 7232556230658636969, guid: 3644be8e12c0e194390659f5d87bca7a, type: 3}
+      propertyPath: transitionType._propertyPath
+      value: transitionType
+      objectReference: {fileID: 0}
+    - target: {fileID: 7232556230658636969, guid: 3644be8e12c0e194390659f5d87bca7a, type: 3}
+      propertyPath: transitionEvent._propertyPath
+      value: transitionEvent
+      objectReference: {fileID: 0}
     - target: {fileID: 7232556230658636973, guid: 3644be8e12c0e194390659f5d87bca7a, type: 3}
       propertyPath: m_Name
       value: InsecticideCan
@@ -8105,19 +8129,19 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: -526699877958014573, guid: 99dbb71758db4a747bf046dd6dc82ed5, type: 3}
   m_PrefabInstance: {fileID: 1494724014}
   m_PrefabAsset: {fileID: 0}
---- !u!65 &1734130500
+--- !u!65 &1734130504
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1734130498}
-  m_Material: {fileID: 13400000, guid: 5057283b15fe753408c09f8a680992b5, type: 2}
+  m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.0037128492, y: 0.012026975, z: 0.0050000027}
-  m_Center: {x: 7.566996e-10, y: 0.0000000146683306, z: -0.0025}
+  m_Size: {x: 0.37128496, y: 0.50000036, z: 1.2026973}
+  m_Center: {x: -0.0000003501773, y: -0.24999994, z: 0.000000059604634}
 --- !u!1001 &1736078773
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8610,6 +8634,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3644be8e12c0e194390659f5d87bca7a, type: 3}
+--- !u!1 &1796557533 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7232556230658636973, guid: 3644be8e12c0e194390659f5d87bca7a, type: 3}
+  m_PrefabInstance: {fileID: 51459146}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1797172637
 PrefabInstance:
   m_ObjectHideFlags: 0

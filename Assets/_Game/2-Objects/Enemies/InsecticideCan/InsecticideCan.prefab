@@ -70,6 +70,7 @@ MonoBehaviour:
   damageCollider: {fileID: 7232556230658636971}
   isBursting: 0
   particles: {fileID: 7232556230770141651}
+  timeOffset: 0
 --- !u!114 &7232556230658636969
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -115,6 +116,32 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   dmgDirection: {x: 0, y: 0, z: 0}
+  transitionEvent:
+    _owner: {fileID: 7232556230658636973}
+    _ownerName: InsecticideCan
+    _propertyPath: transitionEvent
+    _autoListen: 0
+    _multiIndex: 0
+    _smartEvent: {fileID: 0}
+    _smartMulti: {fileID: 0}
+    _useMulti: 0
+    _onEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  transitionType:
+    _owner: {fileID: 7232556230658636973}
+    _ownerName: InsecticideCan
+    _propertyPath: transitionType
+    _autoListen: 0
+    _multiIndex: 0
+    _refType: 2
+    _value: 0
+    _smartConst: {fileID: 0}
+    _smartVar: {fileID: 0}
+    _smartMulti: {fileID: 0}
+    _onUpdate:
+      m_PersistentCalls:
+        m_Calls: []
 --- !u!82 &2444777293689916545
 AudioSource:
   m_ObjectHideFlags: 0
@@ -434,7 +461,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 1, b: 1, a: 1}
+      maxColor: {r: 0.0006630061, g: 0.6603774, b: 0, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -1516,9 +1543,9 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 0, g: 1, b: 0.30656934, a: 0}
-        key1: {r: 0.3460751, g: 0.9528302, b: 0.4010199, a: 0.90882355}
-        key2: {r: 0, g: 0, b: 0, a: 0}
+        key0: {r: 1, g: 1, b: 1, a: 0}
+        key1: {r: 1, g: 1, b: 1, a: 0.90882355}
+        key2: {r: 0, g: 0, b: 0, a: 0.79411435}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
         key5: {r: 0, g: 0, b: 0, a: 0}
@@ -1534,15 +1561,15 @@ ParticleSystem:
         ctime7: 0
         atime0: 0
         atime1: 5975
-        atime2: 65535
-        atime3: 0
+        atime2: 58018
+        atime3: 65535
         atime4: 0
         atime5: 0
         atime6: 0
         atime7: 0
         m_Mode: 0
         m_NumColorKeys: 2
-        m_NumAlphaKeys: 3
+        m_NumAlphaKeys: 4
       minGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}

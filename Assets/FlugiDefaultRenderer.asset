@@ -1,5 +1,26 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-451842103591770088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68f1a22d534c40f4c846c91adf34e19c, type: 3}
+  m_Name: FastSSAOUrp
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  settings:
+    Event: 500
+    Intensity: 5.36
+    BlurAmount: 1.89
+    Radius: 1
+    Area: 2.8
+    FastMode: 1
+    BlitMaterial: {fileID: 2100000, guid: 590f4c2590b114244819c30772127b89, type: 2}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10,15 +31,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: de640fe3d0db1804a85f9fc8f5cadab6, type: 3}
-  m_Name: FastBloomUrp
+  m_Name: FlugiDefaultRenderer
   m_EditorClassIdentifier: 
   debugShaders:
     debugReplacementPS: {fileID: 4800000, guid: cf852408f2e174538bcd9b7fda1c5ae7, type: 3}
   m_RendererFeatures:
+  - {fileID: -451842103591770088}
   - {fileID: 3108272918323661697}
   - {fileID: 1328802345941202894}
   - {fileID: 4992446567999440147}
-  m_RendererFeatureMap: 810ba639c0cd222bcef7877eb1da70121385b9d5b3bb4845
+  m_RendererFeatureMap: 18e8d83000bcbaf9810ba639c0cd222bcef7877eb1da70121385b9d5b3bb4845
   m_UseNativeRenderPass: 0
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
@@ -113,8 +135,8 @@ MonoBehaviour:
     BloomIterations: 7
     BloomDiffusion: 0.283
     BloomColor: {r: 1, g: 1, b: 1, a: 1}
-    BloomAmount: 8.01
-    BloomThreshold: 1.6
+    BloomAmount: 56.5
+    BloomThreshold: 1.5
     BloomSoftness: 0.457
 --- !u!114 &4992446567999440147
 MonoBehaviour:

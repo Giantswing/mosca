@@ -15,6 +15,8 @@ public class LevelTransitionScript : MonoBehaviour
     private static readonly int CompareValue = Shader.PropertyToID("_CompareValue");
     [SerializeField] private SmartData.SmartBool.BoolWriter finishTransition;
     [SerializeField] private SmartData.SmartInt.IntReader levelTransitionState;
+
+    [SerializeField] private SmartData.SmartEvent.EventDispatcher levelTransitionEnded;
     private bool _isTransitioning;
 
     private void OnEnable()
@@ -57,6 +59,10 @@ public class LevelTransitionScript : MonoBehaviour
         transitionImage.material.SetFloat(CompareValue, .55f);
         DOTween.To(() => transitionImage.material.GetFloat(CompareValue),
                 x => transitionImage.material.SetFloat(CompareValue, x), 0f, 1f)
-            .SetAutoKill(false).onComplete += () => { transitionImage.gameObject.SetActive(false); };
+            .SetAutoKill(false).onComplete += () =>
+        {
+            transitionImage.gameObject.SetActive(false);
+            levelTransitionEnded.Dispatch();
+        };
     }
 }

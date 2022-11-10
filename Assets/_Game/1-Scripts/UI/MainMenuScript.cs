@@ -9,6 +9,7 @@ public class MainMenuScript : MonoBehaviour
     [SerializeField] private TextMeshProUGUI startGameText;
     [SerializeField] private RectTransform mainLogo;
     [SerializeField] private RectTransform menuButtons;
+    [SerializeField] private TextMeshProUGUI versionText;
 
     [Space(10)] [SerializeField] private GameObject backgroundFliesObject;
     private List<RectTransform> _backgroundFlies;
@@ -50,6 +51,8 @@ public class MainMenuScript : MonoBehaviour
             fly.DOShakePosition(1.5f, 4f, 10, 90, false, true).SetLoops(-1, LoopType.Yoyo);
             fly.DOShakeRotation(1.5f, 10, 10, 90, false).SetLoops(-1, LoopType.Yoyo);
         }
+
+        versionText.text = "v" + Application.version;
     }
 
     private void OnDisable()

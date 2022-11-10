@@ -14,6 +14,7 @@ public class FreezeFrameScript : MonoBehaviour
     private float _distortionIntensity = 0f;
     private float _distortionIntensityTo = 0f;
     private Volume _volume;
+    private bool _changeTimeScale = false;
 
     private void Start()
     {
@@ -27,12 +28,17 @@ public class FreezeFrameScript : MonoBehaviour
             Destroy(gameObject);
         else
             Instance = this;
+
+        _changeTimeScale = false;
     }
 
     public static void FreezeFrames(float duration)
     {
         if (Instance._isFrozen == false)
+        {
             Instance.StartCoroutine(Instance.IEFreezeFrames(duration));
+            Instance._changeTimeScale = true;
+        }
     }
 
     public static void DistortView(float duration)
@@ -48,6 +54,7 @@ public class FreezeFrameScript : MonoBehaviour
         yield return new WaitForSecondsRealtime(duration);
         _timeScaleTo = 1f;
         _isFrozen = false;
+        _changeTimeScale = false;
     }
 
     private IEnumerator IEDistortView(float duration)
@@ -60,7 +67,8 @@ public class FreezeFrameScript : MonoBehaviour
 
     private void Update()
     {
-        Time.timeScale = _timeScaleTo != 1f ? Mathf.Lerp(Time.timeScale, _timeScaleTo, 0.2f) : 1f;
+        if (_changeTimeScale)
+            Time.timeScale = _timeScaleTo != 1f ? Mathf.Lerp(Time.timeScale, _timeScaleTo, 0.2f) : 1f;
 
         if (_distortionIntensity < 0)
         {
