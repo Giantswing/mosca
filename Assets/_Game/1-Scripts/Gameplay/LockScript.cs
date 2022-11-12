@@ -61,7 +61,7 @@ public class LockScript : MonoBehaviour
         {
             GlobalAudioManager.PlaySound(openSound);
             topPart.DOLocalRotate(new Vector3(0, 90f, 0), 0.5f);
-            transform.DOMoveY(0.5f, 0.5f).SetDelay(0.3f);
+            transform.DOMoveY(transform.position.y + 0.5f, 0.5f).SetDelay(0.3f);
             otherKey.Explode();
             transform.DOScale(0, 0.5f).SetDelay(0.3f).onComplete += () => { OpenGate(); };
 

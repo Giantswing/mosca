@@ -2062,6 +2062,7 @@ MonoBehaviour:
   pI: {fileID: 7181058524826200374}
   frozen: 0
   isFacingRight: 1
+  maxDistanceToCheckpoint: 45
   my3DModel: {fileID: 2299378218407283694}
   flyAnimator: {fileID: 0}
   lastBumpTime: 0

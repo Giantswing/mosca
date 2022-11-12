@@ -25,6 +25,12 @@ public class PlayerMovement : MonoBehaviour
     private const float TimeToSwitch = .35f;
     [HideInInspector] public int isFacingRight = 1;
     private float _timeBackwards;
+    private float _timeStandingStill;
+    private CheckpointScript[] _checkpoints;
+    private bool _checkForCheckpoint = true;
+    private int _currentCheckpoint = 0;
+
+    [SerializeField] private float maxDistanceToCheckpoint = 10f;
 
     private static readonly int FlyAnimSpeedH = Animator.StringToHash("FlyAnimSpeedH");
     private static readonly int FlyAnimSpeedV = Animator.StringToHash("FlyAnimSpeedV");
@@ -129,6 +135,11 @@ public class PlayerMovement : MonoBehaviour
         return _myRigidbody.velocity;
     }
 
+    public void IncreaseCheckpoint()
+    {
+        _currentCheckpoint++;
+    }
+
     // Update is called once per frame
     private void Update()
     {
@@ -162,7 +173,6 @@ public class PlayerMovement : MonoBehaviour
 
         flyAnimator.SetFloat(FlyAnimSpeedH, inputDirection.x * isFacingRight);
         flyAnimator.SetFloat(FlyAnimSpeedV, inputDirection.y);
-
 
         CheckIfPlayerShouldFlip();
         UpdatePlayerRotation();
@@ -220,6 +230,43 @@ public class PlayerMovement : MonoBehaviour
         }
 
         if (Math.Abs(hSpeed) < 0.2f && !isDodging) _timeBackwards = 0;
+
+        if (inputDirectionTo == Vector2.zero)
+        {
+            _timeStandingStill += Time.deltaTime;
+        }
+        else
+        {
+            _timeStandingStill = 0;
+            _checkForCheckpoint = true;
+        }
+
+        if (_timeStandingStill > 1f && _checkForCheckpoint)
+        {
+            _checkpoints = LevelManager.GetCheckpoints().ToArray();
+            CheckCheckpoints();
+        }
+    }
+
+    private void CheckCheckpoints()
+    {
+        _checkForCheckpoint = false;
+        _timeStandingStill = 0;
+        if (_checkpoints.Length == 0) return;
+
+        if (_checkpoints[_currentCheckpoint].isActivated == true ||
+            _checkpoints[_currentCheckpoint].pauseCheckpoint == true ||
+            _currentCheckpoint > _checkpoints.Length) return;
+
+        if (Vector3.Distance(_transform.position, _checkpoints[_currentCheckpoint].transform.position) <
+            maxDistanceToCheckpoint)
+        {
+            if (_checkpoints[_currentCheckpoint].transform.position.x > _transform.position.x && isFacingRight == -1)
+                FlipPlayer(1, 0.5f);
+            else if (_checkpoints[_currentCheckpoint].transform.position.x < _transform.position.x &&
+                     isFacingRight == 1)
+                FlipPlayer(-1, 0.5f);
+        }
     }
 
     private void FlipPlayer(int direction, float speed)
@@ -443,4 +490,11 @@ public class PlayerMovement : MonoBehaviour
         _myRigidbody.velocity = Vector3.zero;
         imDisabled = true;
     }
+/*
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, maxDistanceToCheckpoint);
+    }
+    */
 }

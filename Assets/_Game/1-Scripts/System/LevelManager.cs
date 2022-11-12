@@ -28,6 +28,8 @@ public class LevelManager : MonoBehaviour
 
     private bool _isPortalOpen = false;
 
+    public List<CheckpointScript> Checkpoints = new();
+
     public static LevelManager Instance { get; private set; }
 
     //public static UnityAction LevelCompleted<bool ShowWinScreen, SceneField levelToLoad>;
@@ -76,6 +78,16 @@ public class LevelManager : MonoBehaviour
         winScreen.SetActive(true);
 
         levelMaxTime.value = levelData.timeToWin;
+    }
+
+    public static List<CheckpointScript> GetCheckpoints()
+    {
+        return Instance.Checkpoints;
+    }
+
+    public static void ReorderCheckpoints()
+    {
+        Instance.Checkpoints.Sort((x, y) => x.checkpointNumber.CompareTo(y.checkpointNumber));
     }
 
 

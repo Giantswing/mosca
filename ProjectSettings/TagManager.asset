@@ -16,6 +16,7 @@ TagManager:
   - CameraZone
   - Teleport
   - Lock
+  - Checkpoint
   layers:
   - Default
   - TransparentFX

@@ -136,6 +136,15 @@ public class PlayerInteractionHandler : MonoBehaviour
                 teleport.Teleport(gameObject);
                 GlowPlayer(_portalColor, 0.8f);
                 break;
+            case "Checkpoint":
+                var checkpoint = collision.GetComponent<CheckpointScript>();
+                if (checkpoint.isActivated == false)
+                {
+                    pM.IncreaseCheckpoint();
+                    checkpoint.isActivated = true;
+                }
+
+                break;
         }
     }
 
