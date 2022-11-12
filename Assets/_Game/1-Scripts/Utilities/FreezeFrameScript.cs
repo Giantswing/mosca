@@ -67,7 +67,7 @@ public class FreezeFrameScript : MonoBehaviour
 
     private void Update()
     {
-        if (_changeTimeScale)
+        if (_changeTimeScale || Time.timeScale > 0.1f)
             Time.timeScale = _timeScaleTo != 1f ? Mathf.Lerp(Time.timeScale, _timeScaleTo, 0.2f) : 1f;
 
         if (_distortionIntensity < 0)

@@ -16,12 +16,12 @@ MonoBehaviour:
     sceneAsset: {fileID: 102900000, guid: 227b11576afd63544879a29382c9d59a, type: 3}
     required: 1
     buildIndex: 6
-  sceneName: Wind (B Side)
+  sceneName: Tears
   scoreToWin: 70
   totalScore: 109
   timeToWin: 105
   stars: 0
   isThisLastOne: 0
   index: 0
-  isBSide: 0
+  isBSide: 1
   bSideScene: {fileID: 0}

@@ -12,10 +12,11 @@ public class TutorialBehaviour : MonoBehaviour
     [SerializeField] private TextMeshProUGUI tutorialDescription;
     [SerializeField] private GameObject tutorialButton;
     [SerializeField] private GameObject tutorialPanel;
+    [SerializeField] private SmartData.SmartBool.BoolReader showIntro;
 
     private void Awake()
     {
-        if (tutorialData == null) Destroy(gameObject);
+        if (tutorialData == null || !showIntro) Destroy(gameObject);
 
         tutorialPanel.SetActive(true);
 

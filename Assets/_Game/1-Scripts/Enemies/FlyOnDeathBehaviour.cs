@@ -31,6 +31,8 @@ public class FlyOnDeathBehaviour : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
 
+        EffectHandler.SpawnFX(5, transform.position, Vector3.zero, Vector3.zero, 0);
+
         Destroy(gameObject);
     }
 

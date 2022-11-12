@@ -45,3 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clashFxPrefab: {fileID: 2969516460098345099, guid: 8c1a61a05e966434699513ba63130273, type: 3}
+  crateExplosionFxPrefab: {fileID: 2969516460098345099, guid: eae9fc7b3d6b6f64981fb08048a1c8d4, type: 3}
+  DodgeFxPrefab: {fileID: 2969516460098345099, guid: 1391fe59087dc7444adfd4efc184a42f, type: 3}
+  CoinPickupFxPrefab: {fileID: 2969516460098345099, guid: 949a3f1a70b2a0547a5e8ffe7676d9d0, type: 3}
+  DamageTakenFxPrefab: {fileID: 2969516460098345099, guid: a479a16f6c5034d46be0857cf0ac9586, type: 3}
+  SmokePuffFxPrefab: {fileID: 2969516460098345099, guid: 583ab9739f681484ab4ebe26c8d9dd66, type: 3}

@@ -7,6 +7,7 @@ public class LevelSelectionManager : MonoBehaviour
 {
     [SerializeField] private CampaignSO campaign;
     [SerializeField] private GameObject levelButtonPrefab;
+    [SerializeField] private GameObject linePrefab;
     [SerializeField] private RectTransform levelContainer;
 
     private LevelButton _levelButtonScript;
@@ -19,6 +20,9 @@ public class LevelSelectionManager : MonoBehaviour
     private Vector3 _objectPosition;
 
     private bool _isAndroid;
+
+    [SerializeField] private float verticalDistance = 100f;
+    [SerializeField] private float cameraVerticalOffset = 100f;
 
 
     private void Start()
@@ -38,6 +42,15 @@ public class LevelSelectionManager : MonoBehaviour
             buttons.Add(levelButton.GetComponent<RectTransform>());
             _levelButtonScript.UpdateData();
 
+            if (i < campaign.levels.Count - 1)
+            {
+                var levelLine = Instantiate(linePrefab, levelContainer);
+                var rectTransform = levelLine.GetComponent<RectTransform>();
+                rectTransform.localScale = Vector3.one;
+                rectTransform.localPosition = new Vector3(0, 0, 1f);
+                levelLine.GetComponent<Canvas>().overrideSorting = true;
+            }
+
             if (campaign.levels[i].bSideScene != null)
             {
                 var levelB = campaign.levels[i].bSideScene;
@@ -50,6 +63,13 @@ public class LevelSelectionManager : MonoBehaviour
                 _levelButtonScript.levelSelectionManager = this;
                 //buttons.Add(levelButtonB.GetComponent<RectTransform>());
                 _levelButtonScript.UpdateData();
+
+                var levelLine = Instantiate(linePrefab, levelButtonB.transform);
+                var rectTransform = levelLine.GetComponent<RectTransform>();
+                rectTransform.localScale = Vector3.one;
+                rectTransform.Rotate(0, 0, 90f);
+                rectTransform.localPosition = new Vector3(0, verticalDistance, 0);
+                levelLine.GetComponent<Canvas>().overrideSorting = true;
             }
         }
 
@@ -78,7 +98,7 @@ public class LevelSelectionManager : MonoBehaviour
         if (_selected == null) return;
 
         _buttonPosition = _selected.transform.InverseTransformPoint(levelContainer.transform.position);
-        _objectPosition = new Vector3(_buttonPosition.x, _buttonPosition.y, 0);
+        _objectPosition = new Vector3(_buttonPosition.x, _buttonPosition.y + cameraVerticalOffset, 0);
 
         levelContainer.anchoredPosition =
             Vector3.Lerp(levelContainer.anchoredPosition, _objectPosition, 0.02f);

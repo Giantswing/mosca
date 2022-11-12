@@ -18,10 +18,13 @@ public class PlayerCamera : MonoBehaviour
     [SerializeField] private float defaultCameraSideAngleStrength = .7f;
 
     public static UnityAction<bool> OnMapToggle;
+    private Vector2 _cameraInputTo;
+    private Vector2 _cameraInput;
 
     private bool _mapOpen = false;
 
     [SerializeField] private Transform playerFollower;
+    [SerializeField] private float cameraOffsetStrength = 1f;
 
 
     //CAMERA OFFSETS ////////
@@ -76,11 +79,14 @@ public class PlayerCamera : MonoBehaviour
     private void UpdatePlayerFollower()
     {
         playerFollower.position =
-            transform.position + new Vector3(_horCameraOffset, _vertCameraOffset, 0);
+            transform.position +
+            new Vector3(_horCameraOffset + _cameraInput.x, _vertCameraOffset + _cameraInput.y, 0);
     }
 
     private void CalculateCameraOffset()
     {
+        _cameraInput = Vector2.Lerp(_cameraInput, _cameraInputTo, Time.deltaTime * 5f);
+
         _cameraSideAngleStrength = Mathf.Lerp(_cameraSideAngleStrength, _cameraSideAngleStrengthTo * pM.isFacingRight,
             1f * Time.deltaTime);
 
@@ -129,5 +135,10 @@ public class PlayerCamera : MonoBehaviour
     private void LateUpdate()
     {
         UpdatePlayerFollower();
+    }
+
+    public void MoveCamera(InputAction.CallbackContext context)
+    {
+        if (context.performed) _cameraInputTo = context.ReadValue<Vector2>() * cameraOffsetStrength;
     }
 }

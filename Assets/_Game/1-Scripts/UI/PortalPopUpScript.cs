@@ -19,6 +19,7 @@ public class PortalPopUpScript : MonoBehaviour
     private Camera _mainCamera;
     [SerializeField] private float padding;
 
+    [SerializeField] private SimpleAudioEvent notificationAudioEvent;
     private float scaleTo;
 
 
@@ -30,6 +31,7 @@ public class PortalPopUpScript : MonoBehaviour
         popUpRect.localScale *= scaleTo;
         popUpRect.DOScale(0, 0.5f).From();
         StartCoroutine(ChangeState());
+        GlobalAudioManager.PlaySound(notificationAudioEvent);
     }
 
     private IEnumerator ChangeState()

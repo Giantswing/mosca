@@ -5,7 +5,7 @@ Flugi 0.1.3
 -Added the "poop" reward, when picked up it heals 1 heart to the player
 -Added new enemy: insecticide can
 -New dynamic camera angles
--Sounds for: moving, colliding, breaking boxes, healing, fly swatter hit, collecting ring
+-New sounds
 -Progress gets automatically saved after every level!
 -PC Only: exit game pressing escape or start on a gamepad (amazing i know)
 -Added timer at the top of the screen, shows current level time and turns red when you are over the bonus level threshold
@@ -18,5 +18,7 @@ Flugi 0.1.3
 -New mechanic, locked gates, pick a key before getting close to them to open it, if you get damaged while carrying a key, you drop it
 -Intro scene
 -Level selection improvements
+-Added tutorials
+-New mechanic, parry, dodge while standing still to perform a parry, makes you invulnerable to damage for a short period of time
 -Graphic improvements
 -Tons of bugfixes and optimizations

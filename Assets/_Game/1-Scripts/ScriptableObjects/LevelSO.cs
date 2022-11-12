@@ -10,6 +10,8 @@ public class LevelSO : ScriptableObject
     public int totalScore;
     public float timeToWin;
 
+    [Space(25)] public int deathCounter = 0;
+
     [Space(15)] public int stars;
     //public float[] scoreToStars;
 
@@ -18,6 +20,7 @@ public class LevelSO : ScriptableObject
 
     [Header("B-Side")] [Space(5)] public bool isBSide;
     public LevelSO bSideScene;
+
 
     public void CountScore()
     {

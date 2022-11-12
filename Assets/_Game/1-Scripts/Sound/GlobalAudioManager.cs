@@ -29,6 +29,13 @@ public class GlobalAudioManager : MonoBehaviour
         audioEvent.Play(Instance._audioSources[freeAudioSource]);
     }
 
+    public static void PlaySound(AudioEventSO audioEvent)
+    {
+        var freeAudioSource = Instance.ReturnFreeAudioSource();
+        if (freeAudioSource == -1) return;
+        audioEvent.Play(Instance._audioSources[freeAudioSource]);
+    }
+
     private int ReturnFreeAudioSource()
     {
         for (var i = 0; i < _maxAudioSources; i++)

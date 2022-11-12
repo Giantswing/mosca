@@ -22,12 +22,17 @@ public class WinScreenScript : MonoBehaviour
     [SerializeField] private GameObject nextLevelButton;
     [SerializeField] private GameObject levelSelectionButton;
 
+    [Space(10)] [Header("Sound")] [SerializeField]
+    private SimpleAudioEvent startWinScreenAudioEvent;
+
+    [SerializeField] private SimpleAudioEvent winStarAudioEvent;
+
     private WaitForSecondsRealtime wait_sm = new(.2f);
     private WaitForSecondsRealtime wait_md = new(.35f);
     private WaitForSecondsRealtime wait_lg = new(1f);
-    private WaitForSecondsRealtime wait_xl = new(1.5f);
+    private WaitForSecondsRealtime wait_xl = new(1.2f);
 
-    [SerializeField] private float singleDuration = .2f;
+    [Space(25)] [SerializeField] private float singleDuration = .2f;
     [SerializeField] private float singleHideDuration = .2f;
     [SerializeField] private float singleDelay = .2f;
     [SerializeField] private float singleHideDelay = .2f;
@@ -45,6 +50,7 @@ public class WinScreenScript : MonoBehaviour
 
     [SerializeField] private SmartData.SmartFloat.FloatReader levelTime;
     [SerializeField] private SmartData.SmartFloat.FloatReader levelTimeMax;
+
 
     private void Start()
     {
@@ -77,6 +83,8 @@ public class WinScreenScript : MonoBehaviour
     private IEnumerator StartWinScreenAnimationRoutine()
     {
         yield return new WaitForSeconds(.5f);
+        GlobalAudioManager.PlaySound(startWinScreenAudioEvent);
+
         var currentLevel = CurrentLevelHolder.GetCurrentLevel();
         levelNameText.SetText(currentLevel.sceneName);
         scoreText.SetText(LevelManager.GetScore().ToString() + "/" + currentLevel.totalScore);
@@ -99,16 +107,15 @@ public class WinScreenScript : MonoBehaviour
         {
             starsImage[i - 1].sprite = starEmpty;
 
-            if (starsWonInLevel >= i)
-                starsImage[i - 1].sprite = starNew;
+            if (starsWonInLevel >= i) starsImage[i - 1].sprite = starNew;
 
-            if (currentStarsInLevel >= i)
-                starsImage[i - 1].sprite = starFilled;
+            if (currentStarsInLevel >= i) starsImage[i - 1].sprite = starFilled;
         }
 
         currentLevel.stars = starsWonInLevel;
 
         SaveLoadSystem.SaveGame();
+        StartCoroutine(StarSoundsRoutine(starsWonInLevel));
 
         /*
         _uiAnimator.StartAnimation(_children, singleDuration, singleDelay, singleSpawnCurve,
@@ -117,6 +124,19 @@ public class WinScreenScript : MonoBehaviour
 
         _uiAnimator.StartAnimation(_children, singleDuration, singleDelay, singleSpawnCurve,
             () => { EventSystemScript.ChangeFirstSelected(_firstSelected); });
+    }
+
+    private IEnumerator StarSoundsRoutine(int stars)
+    {
+        yield return wait_xl;
+
+        for (var i = 0; i < stars; i++)
+        {
+            winStarAudioEvent.pitch.minValue = 1f + 0.1f * i;
+            winStarAudioEvent.pitch.maxValue = winStarAudioEvent.pitch.minValue;
+            GlobalAudioManager.PlaySound(winStarAudioEvent);
+            yield return wait_sm;
+        }
     }
 
     private void HideWinScreenAnimation(string menuAction)

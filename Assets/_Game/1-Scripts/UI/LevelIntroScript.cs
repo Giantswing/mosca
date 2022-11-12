@@ -28,6 +28,7 @@ public class LevelIntroScript : MonoBehaviour
     [SerializeField] private SmartData.SmartBool.BoolReader showIntro;
     [SerializeField] private SmartData.SmartBool.BoolReader showIntroText;
 
+
     private void Start()
     {
         fadeDuration = 0.5f;

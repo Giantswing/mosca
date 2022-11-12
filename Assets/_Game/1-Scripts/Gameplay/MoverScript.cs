@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 [Serializable]
 public class MovePoint
@@ -18,6 +19,9 @@ public class MoverScript : MonoBehaviour
     [SerializeField] private bool smoothMove = true;
     private Ease ease;
     private int _direction = 1;
+
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip moveSound;
 
 
     public List<MovePoint> MovePoints = new();
@@ -52,6 +56,9 @@ public class MoverScript : MonoBehaviour
 
     private void IterateMovePoint()
     {
+        audioSource.pitch = Random.Range(0.9f, 1.1f);
+        audioSource.PlayOneShot(moveSound);
+
         if (!pingPong)
         {
             if (_currentMovePoint < MovePoints.Count - 1)

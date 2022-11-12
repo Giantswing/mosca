@@ -26,6 +26,7 @@ MonoBehaviour:
     - {fileID: 9104996455489809032, guid: 931188d0c5f2103439b2c1de90dede4e, type: 3}
     - {fileID: 7232556230658636973, guid: 3644be8e12c0e194390659f5d87bca7a, type: 3}
     - {fileID: 3581354328258126474, guid: b15c17abd94991d46809c7af526998d1, type: 3}
+    - {fileID: 9104996455489809032, guid: a4bca72a813cf1f4f98d6ba02aeb3b54, type: 3}
     objectsNames: []
   - name: _03-SCENERY
     objects:
@@ -36,6 +37,7 @@ MonoBehaviour:
     - {fileID: 4319178847646054, guid: 42895a8fab61cd54e99985d431aa99cc, type: 3}
     - {fileID: 3113702028230545252, guid: f4655f8c6f394be4eb959a86f86d54c2, type: 3}
     - {fileID: 6860605510871531306, guid: e9abe0eb43e95a94bb6dec0f64dc8c20, type: 3}
+    - {fileID: 7513327145577404619, guid: 8479c2c9f8e3ec9459b6e8c348487fad, type: 3}
     objectsNames:
     - Directional Light
     - Cube
@@ -87,6 +89,84 @@ MonoBehaviour:
     objects: []
     objectsNames: []
   allGameObjects:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}

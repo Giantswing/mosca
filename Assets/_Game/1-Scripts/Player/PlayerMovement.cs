@@ -1,15 +1,19 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
+using Random = UnityEngine.Random;
 using TouchPhase = UnityEngine.InputSystem.TouchPhase;
 
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private PlayerCamera pC;
     [SerializeField] private PlayerSoundManager pS;
+    [SerializeField] private PlayerInteractionHandler pI;
 
     [HideInInspector] public float frozen = 0;
 
@@ -80,7 +84,19 @@ public class PlayerMovement : MonoBehaviour
     private static readonly int IsDashing = Animator.StringToHash("IsDashing");
     private static readonly int IsDoubleDashing = Animator.StringToHash("IsDoubleDashing");
 
-    //////////////////////////
+
+    ////////////////////////
+
+    // DODGE ///////////////////////
+
+    [SerializeField] private Color dodgeColor;
+    private Vector3 _dodgeDirection;
+    [HideInInspector] public bool isDodging = false;
+    private bool _canDodge = true;
+    private static readonly int IsDodging = Animator.StringToHash("IsDodging");
+    private WaitForSeconds _dodgeDuration = new(0.3f);
+
+    ////////////////////////
 
 
     // Start is called before the first frame update
@@ -144,44 +160,16 @@ public class PlayerMovement : MonoBehaviour
         vSpeed += (inputDirectionTo.y - vSpeed) * acceleration * Time.deltaTime * 50f;
         inputDirection = new Vector2(hSpeed, vSpeed);
 
-
         flyAnimator.SetFloat(FlyAnimSpeedH, inputDirection.x * isFacingRight);
         flyAnimator.SetFloat(FlyAnimSpeedV, inputDirection.y);
 
 
-        if (hSpeed >= .5f / 2 || isDashing)
-        {
-            if (isFacingRight != 1)
-                _timeBackwards += Time.deltaTime;
+        CheckIfPlayerShouldFlip();
+        UpdatePlayerRotation();
+    }
 
-
-            if ((_timeBackwards > TimeToSwitch || (isDashing && isFacingRight != 1 && inputDirectionTo.x > 0)) &&
-                !_doubleDash)
-            {
-                my3DModel.transform.DOLocalRotate(new Vector3(0, 0, 0), 0.5f);
-                _timeBackwards = 0;
-                isFacingRight = 1;
-            }
-        }
-
-
-        if (hSpeed <= -.5f / 2 || isDashing)
-        {
-            if (isFacingRight == 1)
-                _timeBackwards += Time.deltaTime;
-
-            if ((_timeBackwards > TimeToSwitch || (isDashing && isFacingRight == 1 && inputDirectionTo.x < 0)) &&
-                !_doubleDash)
-            {
-                my3DModel.transform.DOLocalRotate(new Vector3(0, 180, 0), 0.5f);
-                _timeBackwards = 0;
-                isFacingRight = -1;
-            }
-        }
-
-        if (Math.Abs(hSpeed) < 0.2f) _timeBackwards = 0;
-
-
+    private void UpdatePlayerRotation()
+    {
         if (isDashing)
         {
             if (isFacingRight == 1)
@@ -193,10 +181,60 @@ public class PlayerMovement : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 0, _modelRotation),
                 Time.deltaTime * 15f);
         }
+        else if (isDodging)
+        {
+            _modelRotation = Mathf.LerpAngle(_modelRotation,
+                Mathf.Atan2(_dodgeDirection.x, _dodgeDirection.y) * Mathf.Rad2Deg, .9f);
+
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 0, _modelRotation),
+                Time.deltaTime * 15f);
+        }
         else
         {
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.identity,
                 Time.deltaTime * 4f);
+        }
+    }
+
+    private void CheckIfPlayerShouldFlip()
+    {
+        if (hSpeed >= .5f / 2 || isDashing)
+        {
+            if (isFacingRight != 1)
+                _timeBackwards += Time.deltaTime;
+
+
+            if ((_timeBackwards > TimeToSwitch || (isDashing && isFacingRight != 1 && inputDirectionTo.x > 0)) &&
+                !_doubleDash)
+                FlipPlayer(1, 0.5f);
+        }
+
+        if (hSpeed <= -.5f / 2 || isDashing)
+        {
+            if (isFacingRight == 1)
+                _timeBackwards += Time.deltaTime;
+
+            if ((_timeBackwards > TimeToSwitch || (isDashing && isFacingRight == 1 && inputDirectionTo.x < 0)) &&
+                !_doubleDash)
+                FlipPlayer(-1, 0.5f);
+        }
+
+        if (Math.Abs(hSpeed) < 0.2f && !isDodging) _timeBackwards = 0;
+    }
+
+    private void FlipPlayer(int direction, float speed)
+    {
+        if (direction == 1)
+        {
+            my3DModel.transform.DOLocalRotate(new Vector3(0, 0, 0), speed);
+            _timeBackwards = 0;
+            isFacingRight = 1;
+        }
+        else
+        {
+            my3DModel.transform.DOLocalRotate(new Vector3(0, 180, 0), speed);
+            _timeBackwards = 0;
+            isFacingRight = -1;
         }
     }
 
@@ -220,10 +258,18 @@ public class PlayerMovement : MonoBehaviour
     {
         if (imDisabled) return;
 
-        if (!isDashing && _timerToDoubleDash <= 0)
-            flyAnimator.SetBool(IsDashing, true);
-        else if (_timerToDoubleDash > 0)
-            flyAnimator.SetBool(IsDoubleDashing, true);
+        if (inputDirectionTo == Vector2.zero && isDodging == false && _canDodge)
+        {
+            flyAnimator.SetBool(IsDodging, true);
+            StartCoroutine(DodgeCoroutine());
+        }
+        else if (inputDirectionTo != Vector2.zero)
+        {
+            if (!isDashing && _timerToDoubleDash <= 0)
+                flyAnimator.SetBool(IsDashing, true);
+            else if (_timerToDoubleDash > 0)
+                flyAnimator.SetBool(IsDoubleDashing, true);
+        }
     }
 
     public void TouchInput(InputAction.CallbackContext context)
@@ -285,6 +331,55 @@ public class PlayerMovement : MonoBehaviour
 
     /******************************************************************/
 
+    private IEnumerator DodgeCoroutine()
+    {
+        _canDodge = false;
+
+        /*
+        my3DModel.transform.DOLocalRotate(new Vector3(0, 360, 0), 1f, RotateMode.FastBeyond360);
+        */
+
+        pS.PlayDodgeSound();
+        _dodgeDirection = Random.insideUnitCircle.normalized;
+        var finalDodgePos = transform.position + _dodgeDirection * 1.3f;
+        var originalPos = transform.position;
+
+        var hasRotated = false;
+
+        if (_dodgeDirection.x < 0 && isFacingRight == 1)
+        {
+            my3DModel.transform.DOLocalRotate(new Vector3(0, -180, 0), 0.3f);
+            hasRotated = true;
+        }
+        else if (_dodgeDirection.x > 0 && isFacingRight == -1)
+        {
+            my3DModel.transform.DOLocalRotate(new Vector3(0, 0, 0), 0.3f);
+            hasRotated = true;
+        }
+
+        transform.DOMove(finalDodgePos, 0.2f);
+        isDodging = true;
+        pI.GlowPlayer(dodgeColor);
+        pI.MakeInvincible(true);
+        EffectHandler.SpawnFX(2, transform.position, Vector3.zero, Vector3.zero, 0);
+        yield return _dodgeDuration;
+        flyAnimator.SetBool(IsDodging, false);
+        isDodging = false;
+
+        if (hasRotated)
+        {
+            if (_dodgeDirection.x < 0)
+                my3DModel.transform.DOLocalRotate(new Vector3(0, 0, 0), 0.3f);
+            else if (_dodgeDirection.x > 0 && isFacingRight == -1)
+                my3DModel.transform.DOLocalRotate(new Vector3(0, 180, 0), 0.3f);
+        }
+
+        transform.DOMove(originalPos, 0.2f).onComplete += () =>
+        {
+            pI.MakeInvincible(false);
+            _canDodge = true;
+        };
+    }
 
     public void StartDashBoost()
     {

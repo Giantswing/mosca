@@ -19,6 +19,12 @@ public class LevelTransitionScript : MonoBehaviour
     [SerializeField] private SmartData.SmartEvent.EventDispatcher levelTransitionEnded;
     private bool _isTransitioning;
 
+
+    [Header("Audio Events")] [SerializeField]
+    private AudioEventSO startTransitionAudioEvent;
+
+    [SerializeField] private AudioEventSO endTransitionAudioEvent;
+
     private void OnEnable()
     {
         _camera = Camera.main;
@@ -31,6 +37,7 @@ public class LevelTransitionScript : MonoBehaviour
     {
         if (_isTransitioning) return;
 
+        GlobalAudioManager.PlaySound(startTransitionAudioEvent);
         _isTransitioning = true;
         transitionImage.gameObject.SetActive(true);
         if (_camera == null)
@@ -53,6 +60,7 @@ public class LevelTransitionScript : MonoBehaviour
     {
         GC.Collect();
 
+        GlobalAudioManager.PlaySound(endTransitionAudioEvent);
         if (_camera == null)
             _camera = Camera.main;
 

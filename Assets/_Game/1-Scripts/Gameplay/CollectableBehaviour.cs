@@ -92,6 +92,7 @@ public class CollectableBehaviour : MonoBehaviour
                 }
                 else
                 {
+                    GlobalAudioManager.PlaySound(collectSound, transform.position);
                     var playerInteraction = _whoToFollow.gameObject.GetComponent<PlayerInteractionHandler>();
                     if (playerInteraction == null) return;
                     isFollowing = 3;
@@ -120,7 +121,12 @@ public class CollectableBehaviour : MonoBehaviour
 
     public void OnDestroy()
     {
-        if (pickUp == PickUp.Coin) LevelManager.OnScoreChanged?.Invoke(scoreValue);
+        if (pickUp == PickUp.Coin)
+        {
+            EffectHandler.SpawnFX(3, transform.position, Vector3.zero, Vector3.zero, 0);
+
+            LevelManager.OnScoreChanged?.Invoke(scoreValue);
+        }
 
         if (pickUp == PickUp.Poop)
         {

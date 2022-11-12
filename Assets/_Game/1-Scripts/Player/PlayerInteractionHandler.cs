@@ -15,6 +15,7 @@ public class PlayerInteractionHandler : MonoBehaviour
 
     [SerializeField] private STATS stats;
     [SerializeField] private SmartData.SmartEvent.EventDispatcher onPlayerHealthChanged;
+    [SerializeField] private SkinnedMeshRenderer playerMesh;
 
     private Vector3 _vertSqueeze = new(0, 0.5f, 0);
     private Vector3 _horSqueeze = new(0.5f, 0, 0);
@@ -24,9 +25,13 @@ public class PlayerInteractionHandler : MonoBehaviour
     private Vector3 _reflectDir;
 
     [SerializeField] private Collider dashCollider;
+    [SerializeField] private Collider damageCollider;
     [SerializeField] private float lastBumpTime;
 
     [Space(25)] public List<Transform> holdingItems;
+    private static readonly int GlowColor = Shader.PropertyToID("_GlowColor");
+    private static readonly int GlowState = Shader.PropertyToID("_GlowState");
+    private readonly Color _portalColor = new(0.45f, 0.15f, 0.5f);
 
     private void Start()
     {
@@ -36,6 +41,39 @@ public class PlayerInteractionHandler : MonoBehaviour
         pickupArea.player = gameObject.transform;
         pickupArea.pI = this;
         pickupArea.pM = pM;
+    }
+
+    public void GlowPlayer(Color color)
+    {
+        playerMesh.material.SetFloat(GlowState, 1f);
+        playerMesh.material.SetColor(GlowColor, color);
+        playerMesh.material.DOFloat(0, GlowState, 0.2f).SetDelay(0.1f);
+    }
+
+    public void GlowPlayer(Color color, float duration)
+    {
+        playerMesh.material.SetFloat(GlowState, 1f);
+        playerMesh.material.SetColor(GlowColor, color);
+        playerMesh.material.DOFloat(0, GlowState, 0.2f).SetDelay(duration);
+    }
+
+    public void GlowPlayer()
+    {
+        GlowPlayer(Color.green);
+    }
+
+    public void MakeInvincible(bool invincible)
+    {
+        if (invincible)
+        {
+            damageCollider.enabled = false;
+            stats.ST_Invincibility = true;
+        }
+        else
+        {
+            stats.ST_Invincibility = false;
+            damageCollider.enabled = true;
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -96,6 +134,7 @@ public class PlayerInteractionHandler : MonoBehaviour
             case "Teleport":
                 var teleport = collision.GetComponent<TeleporterScript>();
                 teleport.Teleport(gameObject);
+                GlowPlayer(_portalColor, 0.8f);
                 break;
         }
     }
@@ -122,6 +161,7 @@ public class PlayerInteractionHandler : MonoBehaviour
                     pM.inputDirection = -_reflectDir;
                     pM.hSpeed = pM.inputDirection.x * 1f;
                     pM.vSpeed = pM.inputDirection.y * 1f;
+
 
                     var otherShakeStrength = (Math.Abs(pM.hSpeed) + Math.Abs(pM.vSpeed)) * .65f;
                     _otherStats.transform.DOShakeScale(.2f, otherShakeStrength);

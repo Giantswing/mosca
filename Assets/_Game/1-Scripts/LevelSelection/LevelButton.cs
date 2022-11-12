@@ -18,6 +18,7 @@ public class LevelButton : MonoBehaviour, ISelectHandler, IDeselectHandler
     [SerializeField] private TextMeshProUGUI levelIndexText, levelNameText;
     [SerializeField] private Image[] levelStars;
     [SerializeField] private RawImage levelLock;
+    [SerializeField] private Sprite bSideImage;
 
     [SerializeField] private Sprite starEmpty, starFilled;
 
@@ -42,6 +43,9 @@ public class LevelButton : MonoBehaviour, ISelectHandler, IDeselectHandler
         button = GetComponent<Button>();
         StartCoroutine(Test());
         //_otherRecTransform = levelSelectionManager.buttons[levelIndex - 1].position;
+
+        if (levelData.isBSide)
+            button.GetComponent<Image>().sprite = bSideImage;
     }
 
     private IEnumerator Test()
@@ -77,6 +81,7 @@ public class LevelButton : MonoBehaviour, ISelectHandler, IDeselectHandler
                 levelStars[i].sprite = starFilled;
 
 
+        /*
         if (levelIndex > 0)
         {
             lineRenderer.positionCount = 2;
@@ -84,6 +89,7 @@ public class LevelButton : MonoBehaviour, ISelectHandler, IDeselectHandler
             lineRenderer.SetPosition(1,
                 levelSelectionManager.buttons[levelIndex - 1].position);
         }
+        */
 
         if (isBLevel)
             transform.position = new Vector3(transform.position.x,
@@ -103,6 +109,7 @@ public class LevelButton : MonoBehaviour, ISelectHandler, IDeselectHandler
 
     private void Update()
     {
+        /*
         if (levelIndex > 0)
         {
             var offset = 10f;
@@ -129,6 +136,7 @@ public class LevelButton : MonoBehaviour, ISelectHandler, IDeselectHandler
                     levelSelectionManager.buttons[levelIndex].position.z + offset));
             }
         }
+        */
     }
 
     public void OnSelect(BaseEventData eventData)

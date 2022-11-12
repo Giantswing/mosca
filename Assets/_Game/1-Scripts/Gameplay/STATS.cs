@@ -31,7 +31,12 @@ public class STATS : MonoBehaviour
     public bool ST_CanDoDmg = false;
     [SerializeField] private float ST_InvincibilityTimer;
     public int ST_Reward;
+
+    [SerializeField] private bool _hasHitEvent = false;
+    public UnityEvent ST_HitEvent;
+
     public UnityEvent ST_DeathEvent;
+
 
     private bool HasInvincibilityMaterial = false;
 
@@ -64,19 +69,26 @@ public class STATS : MonoBehaviour
         ST_Health.value -= dmg;
         dmgDirection = originDmgPos;
 
-        if (ST_Health <= 0)
+        if (ST_Health <= 0 && isAlive)
         {
             ST_CanDoDmg = false;
             ST_Damage = 0;
+            CurrentLevelHolder.GetCurrentLevel().deathCounter++;
+            SaveLoadSystem.SaveGame();
+            DeathCounterScript.UpdateDeathCounter();
             Die();
             isAlive = false;
         }
         else
         {
+            if (_hasHitEvent)
+                ST_HitEvent.Invoke();
             StartCoroutine(MakeInvincible());
             if (HasInvincibilityMaterial)
                 StartCoroutine(InvincibleEffect());
         }
+
+        if (ST_Team == 1) EffectHandler.SpawnFX(4, transform.position, Vector3.zero, Vector3.zero, 0);
     }
 
     private IEnumerator InvincibleEffect()

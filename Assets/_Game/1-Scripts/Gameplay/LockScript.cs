@@ -9,12 +9,24 @@ public class LockScript : MonoBehaviour
     [SerializeField] private Transform gate;
     [SerializeField] private Transform topPart;
     [SerializeField] private bool isOpening = false;
+    [SerializeField] private SimpleAudioEvent openSound;
+    [SerializeField] private GameObject dustParticles;
 
     private float _checkDelay = 0.1f;
 
     public void OpenGate()
     {
-        gate.DOLocalMoveY(6f, 0.5f).onComplete += () => { Destroy(transform.parent.gameObject); };
+        StartCoroutine(DestroyRoutine());
+    }
+
+    private IEnumerator DestroyRoutine()
+    {
+        dustParticles.SetActive(true);
+        gate.DOLocalMoveY(6f, 0.5f);
+        yield return new WaitForSeconds(1.3f);
+        dustParticles.SetActive(false);
+        yield return new WaitForSeconds(0.2f);
+        Destroy(transform.parent.gameObject);
     }
 
     private void OnDestroy()
@@ -47,6 +59,7 @@ public class LockScript : MonoBehaviour
         otherKey.transform.DOMove(transform.position - Vector3.left * 0.35f * otherKey.transform.localScale.x, 0.5f)
             .onComplete += () =>
         {
+            GlobalAudioManager.PlaySound(openSound);
             topPart.DOLocalRotate(new Vector3(0, 90f, 0), 0.5f);
             transform.DOMoveY(0.5f, 0.5f).SetDelay(0.3f);
             otherKey.Explode();

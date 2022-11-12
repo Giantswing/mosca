@@ -18,10 +18,10 @@ MonoBehaviour:
     buildIndex: 7
   sceneName: Open doors
   scoreToWin: 80
-  totalScore: 107
-  timeToWin: 110
+  totalScore: 98
+  timeToWin: 116
   stars: 1
   isThisLastOne: 0
-  index: 3
+  index: 2
   isBSide: 0
   bSideScene: {fileID: 0}

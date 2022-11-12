@@ -21,7 +21,7 @@ MonoBehaviour:
   totalScore: 109
   timeToWin: 105
   stars: 2
-  isThisLastOne: 0
-  index: 2
+  isThisLastOne: 1
+  index: 3
   isBSide: 0
   bSideScene: {fileID: 11400000, guid: 31875c9c68a485a4f869d51607297aa2, type: 2}

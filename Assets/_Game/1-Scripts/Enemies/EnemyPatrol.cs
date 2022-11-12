@@ -20,6 +20,9 @@ public class EnemyPatrol : MonoBehaviour
     private int _currentPatrolPoint = 0;
     private Vector3 _startPosition;
 
+    private Tween _currentMovementTween;
+    private WaitForSeconds _wait = new(1f);
+
     private void Start()
     {
         _startPosition = transform.position;
@@ -36,9 +39,22 @@ public class EnemyPatrol : MonoBehaviour
         var distanceToNextPoint =
             Vector3.Distance(transform.position, _startPosition + patrolPoints[_currentPatrolPoint].offset);
 
-        transform.DOMove(_startPosition + patrolPoints[_currentPatrolPoint].offset,
-                distanceToNextPoint / stats.ST_Speed * .5f).SetEase(Ease.InOutQuad).onComplete +=
+        _currentMovementTween = transform.DOMove(_startPosition + patrolPoints[_currentPatrolPoint].offset,
+            distanceToNextPoint / stats.ST_Speed * .5f).SetEase(Ease.InOutQuad);
+        _currentMovementTween.onComplete +=
             () => { StartCoroutine(WaitPatrol()); };
+    }
+
+    public void InterruptPatrol()
+    {
+        StartCoroutine(InterruptPatrolRoutine());
+    }
+
+    private IEnumerator InterruptPatrolRoutine()
+    {
+        _currentMovementTween.Kill();
+        yield return _wait;
+        Patrol();
     }
 
     private void IteratePatrolPoint()

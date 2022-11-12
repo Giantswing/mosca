@@ -10,6 +10,7 @@ public class SecretWallScriptV2 : MonoBehaviour
     [SerializeField] private SecretWallScriptV2 otherWall;
 
     [SerializeField] private MeshRenderer meshRenderer;
+    [SerializeField] private SimpleAudioEvent foundAudioEvent;
 
     private bool _isDisappearing = false;
     private static readonly int DissolveAmount = Shader.PropertyToID("_DissolveAmount");
@@ -31,6 +32,8 @@ public class SecretWallScriptV2 : MonoBehaviour
 
     public void Disappear(bool isCalledFromOtherWall = false)
     {
+        GlobalAudioManager.PlaySound(foundAudioEvent);
+
         Destroy(occluderObj.gameObject);
 
         if (!isCalledFromOtherWall)

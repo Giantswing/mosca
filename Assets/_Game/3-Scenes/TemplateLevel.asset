@@ -17,13 +17,11 @@ MonoBehaviour:
     required: 0
     buildIndex: -1
   sceneName: Template
-  totalScore: 0
-  scoreToWin: 0
-  timeToWin: 0
-  stars: 0
-  scoreToStars:
-  - 0
-  - 0
-  - 15
+  scoreToWin: 1
+  totalScore: 1
+  timeToWin: 25
+  stars: 3
   isThisLastOne: 0
   index: 0
+  isBSide: 0
+  bSideScene: {fileID: 0}
