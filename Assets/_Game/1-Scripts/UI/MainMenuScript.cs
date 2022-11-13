@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using DG.Tweening;
 using TMPro;
@@ -9,7 +10,10 @@ public class MainMenuScript : MonoBehaviour
     [SerializeField] private TextMeshProUGUI startGameText;
     [SerializeField] private RectTransform mainLogo;
     [SerializeField] private RectTransform menuButtons;
+    [SerializeField] private RectTransform optionButtons;
     [SerializeField] private TextMeshProUGUI versionText;
+    [HideInInspector] public bool isOptionMenuOpen = false;
+    [SerializeField] private CampaignSO campaignSO;
 
     [Space(10)] [SerializeField] private GameObject backgroundFliesObject;
     private List<RectTransform> _backgroundFlies;
@@ -18,6 +22,8 @@ public class MainMenuScript : MonoBehaviour
     /*-----------------------------*/
 
     [Space(25)] [SerializeField] private InputAction startGameAction;
+
+    [Space(25)] [SerializeField] private InputAction goBackAction;
 
     /*-----------------------------*/
 
@@ -28,12 +34,16 @@ public class MainMenuScript : MonoBehaviour
     [SerializeField] private SmartData.SmartBool.BoolWriter showIntro;
     [SerializeField] private SmartData.SmartBool.BoolWriter showIntroText;
     private bool _isTransitioning = false;
-
+    private float _timeSinceSplashScreen = 0;
+    private bool _isShowingSplashScreen = true;
 
     private void Awake()
     {
         startGameAction.performed += _ => StartMenu();
         startGameAction.Enable();
+
+        goBackAction.performed += _ => ExitMenuOptions();
+        goBackAction.Enable();
 
         if (Application.platform == RuntimePlatform.Android)
             startGameText.text = "Tap to start";
@@ -73,12 +83,34 @@ public class MainMenuScript : MonoBehaviour
 
         EventSystemScript.ChangeFirstSelected(menuButtons.gameObject.GetComponentsInChildren<RectTransform>()[1]
             .gameObject);
+
+        _isShowingSplashScreen = false;
+    }
+
+    public void OpenOptions()
+    {
+        if (!_isTransitioning && _timeSinceSplashScreen > 0.5f)
+        {
+            isOptionMenuOpen = true;
+            optionButtons.gameObject.SetActive(true);
+            menuButtons.DOMoveX(Screen.width * 0.45f, 0.5f);
+            optionButtons.DOMoveX(Screen.width * 0.75f, 0.5f);
+
+            EventSystemScript.ChangeFirstSelected(optionButtons.gameObject.GetComponentsInChildren<RectTransform>()[1]
+                .gameObject);
+        }
+    }
+
+    private void Update()
+    {
+        if (!_isShowingSplashScreen)
+            _timeSinceSplashScreen += Time.deltaTime;
     }
 
 
     public void StartGame()
     {
-        if (!_isTransitioning)
+        if (!_isTransitioning && _timeSinceSplashScreen > 0.5f)
         {
             showIntro.value = true;
             showIntroText.value = true;
@@ -87,6 +119,24 @@ public class MainMenuScript : MonoBehaviour
             _isTransitioning = true;
         }
     }
+
+    public void DeleteSavedData()
+    {
+        if (!_isTransitioning && _timeSinceSplashScreen > 0.5f) campaignSO.ResetAllStars();
+    }
+
+    public void ExitMenuOptions()
+    {
+        if (!_isTransitioning && _timeSinceSplashScreen > 0.5f && isOptionMenuOpen)
+        {
+            isOptionMenuOpen = false;
+            menuButtons.DOMoveX(Screen.width * 0.7f, 0.5f);
+            optionButtons.DOMoveX(Screen.width * 1.25f, 0.5f);
+            EventSystemScript.ChangeFirstSelected(menuButtons.gameObject.GetComponentsInChildren<RectTransform>()[3]
+                .gameObject);
+        }
+    }
+
 
     public void QuitGame()
     {

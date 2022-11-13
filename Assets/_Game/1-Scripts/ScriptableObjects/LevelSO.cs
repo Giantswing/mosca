@@ -1,3 +1,5 @@
+using System;
+using UnityEditor;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Level Rules", menuName = "Mosca/Level", order = 1)]
@@ -39,11 +41,10 @@ public class LevelSO : ScriptableObject
         }
     }
 
-    /*private void OnValidate()
+#if UNITY_EDITOR
+    private void OnValidate()
     {
-        scoreToStars = new float[3];
-        scoreToStars[0] = scoreToWin;
-        scoreToStars[1] = totalScore;
-        scoreToStars[2] = totalScore + 15f;
-    }*/
+        EditorUtility.SetDirty(this);
+    }
+#endif
 }

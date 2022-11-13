@@ -139,10 +139,8 @@ public class PlayerInteractionHandler : MonoBehaviour
             case "Checkpoint":
                 var checkpoint = collision.GetComponent<CheckpointScript>();
                 if (checkpoint.isActivated == false)
-                {
-                    pM.IncreaseCheckpoint();
-                    checkpoint.isActivated = true;
-                }
+                    if (pM.IncreaseCheckpoint(checkpoint.checkpointNumber))
+                        checkpoint.isActivated = true;
 
                 break;
         }

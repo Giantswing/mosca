@@ -91,7 +91,7 @@ MonoBehaviour:
   ST_Speed: 2
   ST_Health:
     _owner: {fileID: 9104996455489809032}
-    _ownerName: RedMosquitoEnemy (2)
+    _ownerName: RedMosquitoEnemy
     _propertyPath: ST_Health
     _autoListen: 0
     _multiIndex: 0

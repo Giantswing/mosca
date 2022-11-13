@@ -9,6 +9,7 @@ using UnityEngine.SceneManagement;
 public class CampaignSO : ScriptableObject
 {
     public SceneField levelSelectionScene;
+    public SceneField mainMenuScene;
     public List<LevelSO> levels;
 
     public int GetLevelIndex(LevelSO level)

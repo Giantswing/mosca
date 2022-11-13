@@ -20,7 +20,8 @@ MonoBehaviour:
   scoreToWin: 80
   totalScore: 98
   timeToWin: 116
-  stars: 1
+  deathCounter: 2
+  stars: 0
   isThisLastOne: 0
   index: 2
   isBSide: 0

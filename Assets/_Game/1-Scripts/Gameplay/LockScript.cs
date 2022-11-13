@@ -42,6 +42,7 @@ public class LockScript : MonoBehaviour
 
     private IEnumerator OpenGateRoutine(KeyScript otherKey)
     {
+        isOpening = true;
         yield return new WaitForSeconds(0.1f);
 
         if (otherKey.isFollowing != 3 && otherKey.isBeingUsed) yield return null;
@@ -61,7 +62,7 @@ public class LockScript : MonoBehaviour
         {
             GlobalAudioManager.PlaySound(openSound);
             topPart.DOLocalRotate(new Vector3(0, 90f, 0), 0.5f);
-            transform.DOMoveY(transform.position.y + 0.5f, 0.5f).SetDelay(0.3f);
+            transform.DOMoveY(transform.position.y + 2.5f, 0.5f).SetDelay(0.3f);
             otherKey.Explode();
             transform.DOScale(0, 0.5f).SetDelay(0.3f).onComplete += () => { OpenGate(); };
 

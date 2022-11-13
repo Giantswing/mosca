@@ -70,3 +70,43 @@ MonoBehaviour:
       m_Action: Quit
       m_Flags: 0
     m_Flags: 0
+  instanceLevelTransitionState:
+    _owner: {fileID: 4210419660606005315}
+    _ownerName: SaveLoadSystem
+    _propertyPath: instanceLevelTransitionState
+    _autoListen: 0
+    _multiIndex: 0
+    _refType: 2
+    _value: 0
+    _smartConst: {fileID: 0}
+    _smartVar: {fileID: 11400000, guid: b91bef6eebcd96442b105cbc2b05eb2c, type: 2}
+    _smartMulti: {fileID: 0}
+    _onUpdate:
+      m_PersistentCalls:
+        m_Calls: []
+  onWinScreen:
+    _owner: {fileID: 4210419660606005315}
+    _ownerName: SaveLoadSystem
+    _propertyPath: onWinScreen
+    _autoListen: 0
+    _multiIndex: 0
+    _smartEvent: {fileID: 11400000, guid: 0f8951ba9e144da4ab64386473c94d10, type: 2}
+    _smartMulti: {fileID: 0}
+    _useMulti: 0
+    _onEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  finishTransition:
+    _owner: {fileID: 4210419660606005315}
+    _ownerName: SaveLoadSystem
+    _propertyPath: finishTransition
+    _autoListen: 0
+    _multiIndex: 0
+    _refType: 2
+    _value: 0
+    _smartConst: {fileID: 0}
+    _smartVar: {fileID: 11400000, guid: 24f620a482417df4f85a4f4cf8e7d3f0, type: 2}
+    _smartMulti: {fileID: 0}
+    _onUpdate:
+      m_PersistentCalls:
+        m_Calls: []

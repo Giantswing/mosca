@@ -84,7 +84,8 @@ public class InsecticideCan : MonoBehaviour
             _currentBurstTimeBetweenBurst = 0;
             StartCoroutine(StartDamageColliderRoutine());
             gasLeak.Play(audioSource, transform.position);
-            transform.DOShakePosition(burstDuration, 0.1f, 10, 90, false, true);
+            transform.DOShakePosition(burstDuration * 2f, 0.1f, 10, 90, false, true);
+            transform.DOShakeScale(burstDuration * 2f, 0.03f, 10, 90, false);
         }
 
         if (isBursting)

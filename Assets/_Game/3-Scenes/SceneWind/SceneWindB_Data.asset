@@ -18,8 +18,9 @@ MonoBehaviour:
     buildIndex: 6
   sceneName: Tears
   scoreToWin: 70
-  totalScore: 109
-  timeToWin: 105
+  totalScore: 74
+  timeToWin: 95
+  deathCounter: 25
   stars: 0
   isThisLastOne: 0
   index: 0

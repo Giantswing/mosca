@@ -75,7 +75,8 @@ public class STATS : MonoBehaviour
             ST_Damage = 0;
             CurrentLevelHolder.GetCurrentLevel().deathCounter++;
             SaveLoadSystem.SaveGame();
-            DeathCounterScript.UpdateDeathCounter();
+            if (ST_Team == 1)
+                DeathCounterScript.UpdateDeathCounter();
             Die();
             isAlive = false;
         }

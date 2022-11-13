@@ -7,7 +7,7 @@ Flugi 0.1.3
 -New dynamic camera angles
 -New sounds
 -Progress gets automatically saved after every level!
--PC Only: exit game pressing escape or start on a gamepad (amazing i know)
+-PC Only: exit game pressing escape or start on a gamepad
 -Added timer at the top of the screen, shows current level time and turns red when you are over the bonus level threshold
 -Added new "enemy": fan, blows wind and pushes you in the opposite direction
 -Added new "enemy": toxic water
@@ -19,6 +19,9 @@ Flugi 0.1.3
 -Intro scene
 -Level selection improvements
 -Added tutorials
+-Dark areas with a see-through material to be able to follow the player position in the dark
 -New mechanic, parry, dodge while standing still to perform a parry, makes you invulnerable to damage for a short period of time
+-Added death counter, keeps track of how many times you've died in that level
+-Added the functionality to delete saved game data in the options menu
 -Graphic improvements
 -Tons of bugfixes and optimizations

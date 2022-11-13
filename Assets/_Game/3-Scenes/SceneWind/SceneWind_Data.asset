@@ -18,9 +18,10 @@ MonoBehaviour:
     buildIndex: 5
   sceneName: Wind
   scoreToWin: 70
-  totalScore: 109
+  totalScore: 105
   timeToWin: 105
-  stars: 2
+  deathCounter: 0
+  stars: 0
   isThisLastOne: 1
   index: 3
   isBSide: 0

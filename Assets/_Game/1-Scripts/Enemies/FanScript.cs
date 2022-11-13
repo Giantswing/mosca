@@ -23,8 +23,13 @@ public class FanScript : MonoBehaviour
     [SerializeField] private Transform spawnPos;
     */
 
-    private Ray _ray;
-    private RaycastHit _hit;
+    [SerializeField] private int _rayCount = 2;
+    [SerializeField] private float _rayOffset = 0.5f;
+
+    private Ray[] _rays;
+    private RaycastHit[] _hits;
+    private Vector3[] _rayOrigins;
+
     private Transform _myTransform;
     private readonly float _updateRayTimer = 0.025f;
     private float _timer;
@@ -32,6 +37,8 @@ public class FanScript : MonoBehaviour
     [SerializeField] private float rayMaxLength = 10f;
 
     private PlayerMovement _playerMovement;
+    public LayerMask IgnoreLayer;
+
 
     private void Start()
     {
@@ -51,8 +58,20 @@ public class FanScript : MonoBehaviour
 
         StartCoroutine(BlowWindCoroutine());
         */
+
         _myTransform = transform;
-        _ray = new Ray(_myTransform.position, _myTransform.right);
+
+        _rays = new Ray[_rayCount];
+        _hits = new RaycastHit[_rayCount];
+        _rayOrigins = new Vector3[_rayCount];
+
+        for (var i = 0; i < _rayCount; i++)
+        {
+            var up = _myTransform.up;
+            _rayOrigins[i] = _myTransform.position + up * _rayCount * _rayOffset - up * i * _rayOffset;
+
+            _rays[i] = new Ray(_rayOrigins[i], _myTransform.right);
+        }
     }
 
     private void Update()
@@ -62,22 +81,32 @@ public class FanScript : MonoBehaviour
         {
             _timer = 0;
 
-            //update raycast
-            _ray.origin = _myTransform.position;
-            _ray.direction = _myTransform.right;
+            for (var i = 0; i < _rays.Length; i++)
+            {
+                var up = _myTransform.up;
+                _rayOrigins[i] = _myTransform.position + up * ((_rayCount - 1) * _rayOffset * 0.5f) -
+                                 up * (i * _rayOffset);
 
-            if (Physics.Raycast(_ray, out _hit, rayMaxLength))
-                //check the tag to see if it's a player
-                if (_hit.collider.CompareTag("Player"))
-                {
-                    if (_playerMovement == null)
-                        _playerMovement = _hit.collider.GetComponent<PlayerMovement>();
+                _rays[i].origin = _rayOrigins[i];
+                _rays[i].direction = _myTransform.right;
 
-                    _strength = 1 - _hit.distance / rayMaxLength;
-                    _playerMovement.windForceTo += transform.right * (_strength * 12f);
-                }
+                //raycast ignore triggers
 
-            Debug.DrawLine(_myTransform.position, _hit.point, Color.red);
+
+                if (Physics.Raycast(_rays[i], out _hits[i], rayMaxLength, ~IgnoreLayer))
+                    //check the tag to see if it's a player
+                    if (_hits[i].collider.CompareTag("Player"))
+                    {
+                        if (_playerMovement == null)
+                            _playerMovement = _hits[i].collider.GetComponent<PlayerMovement>();
+
+                        _strength = 1 - _hits[i].distance / rayMaxLength;
+                        _playerMovement.windForceTo += transform.right * (_strength * 4f);
+                        _playerMovement.currentlyInWind = 0;
+                    }
+
+                Debug.DrawLine(_rayOrigins[i], _hits[i].point, Color.red);
+            }
         }
     }
 

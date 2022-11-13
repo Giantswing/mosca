@@ -91,7 +91,7 @@ MonoBehaviour:
   ST_Speed: 2
   ST_Health:
     _owner: {fileID: 9104996455489809032}
-    _ownerName: MosquitoEnemy (1)
+    _ownerName: MosquitoEnemy
     _propertyPath: ST_Health
     _autoListen: 0
     _multiIndex: 0
@@ -110,6 +110,10 @@ MonoBehaviour:
   ST_CanDoDmg: 1
   ST_InvincibilityTimer: 0.5
   ST_Reward: 0
+  _hasHitEvent: 0
+  ST_HitEvent:
+    m_PersistentCalls:
+      m_Calls: []
   ST_DeathEvent:
     m_PersistentCalls:
       m_Calls:
@@ -162,6 +166,32 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   dmgDirection: {x: 0, y: 0, z: 0}
+  transitionEvent:
+    _owner: {fileID: 0}
+    _ownerName: 
+    _propertyPath: 
+    _autoListen: 0
+    _multiIndex: 0
+    _smartEvent: {fileID: 0}
+    _smartMulti: {fileID: 0}
+    _useMulti: 0
+    _onEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  transitionType:
+    _owner: {fileID: 0}
+    _ownerName: 
+    _propertyPath: 
+    _autoListen: 0
+    _multiIndex: 0
+    _refType: 2
+    _value: 0
+    _smartConst: {fileID: 0}
+    _smartVar: {fileID: 0}
+    _smartMulti: {fileID: 0}
+    _onUpdate:
+      m_PersistentCalls:
+        m_Calls: []
 --- !u!114 &9104996455489809030
 MonoBehaviour:
   m_ObjectHideFlags: 0

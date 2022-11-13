@@ -61,6 +61,7 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector3 _windForce;
     public Vector3 windForceTo;
+    public float currentlyInWind = 0;
 
 
     // MOBILE INPUT /////////////////////////
@@ -135,9 +136,17 @@ public class PlayerMovement : MonoBehaviour
         return _myRigidbody.velocity;
     }
 
-    public void IncreaseCheckpoint()
+    public bool IncreaseCheckpoint(int checkpointIndex)
     {
-        _currentCheckpoint++;
+        if (checkpointIndex == _currentCheckpoint)
+        {
+            _currentCheckpoint = checkpointIndex + 1;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     // Update is called once per frame
@@ -155,7 +164,12 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             _windForce = Vector3.Lerp(_windForce, windForceTo, Time.deltaTime * 10f);
-            windForceTo = Vector3.Lerp(windForceTo, Vector3.zero, Time.deltaTime * 10f);
+            currentlyInWind += Time.deltaTime;
+
+            if (currentlyInWind > 0.05f)
+                windForceTo = Vector3.Lerp(windForceTo, Vector3.zero, Time.deltaTime * 10f);
+            else
+                windForceTo = Vector3.Lerp(windForceTo, Vector3.zero, Time.deltaTime * 4f);
         }
 
         frozen -= Time.deltaTime;
@@ -231,7 +245,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (Math.Abs(hSpeed) < 0.2f && !isDodging) _timeBackwards = 0;
 
-        if (inputDirectionTo == Vector2.zero)
+        if (inputDirectionTo.magnitude < 0.1f)
         {
             _timeStandingStill += Time.deltaTime;
         }

@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9205be3ebae5d9d46bdca833d4be3006, type: 3}
+  m_Name: DodgeTutorial
+  m_EditorClassIdentifier: 
+  tutorialName: Instant dodge
+  tutorialTexts:
+  - Press the dash button while standing still to perform a dodge and become invulnerable
+    for a short moment!
+  tutorialAndroidTexts:
+  - Tap the dash button while standing still to perform a dodge and become invulnerable
+    for a short moment!
+  tutorialImages:
+  - {fileID: 2800000, guid: ae7126cd79544fd4a8cde1ae4ff2d289, type: 3}
+  - {fileID: 2800000, guid: 4167175fac6d0cf4aac5d8be1f9498b4, type: 3}
+  - {fileID: 2800000, guid: 4d2f54d1244050d44a679a69a54c1837, type: 3}
+  - {fileID: 2800000, guid: 80d4d1e11c1b8e246a76345426b0c4af, type: 3}
+  - {fileID: 2800000, guid: 829c6f3f9cdef4845bcc218e38cdd040, type: 3}
+  - {fileID: 2800000, guid: cc0d66455de0a2c4d81a689525a40d7e, type: 3}
+  - {fileID: 2800000, guid: a2c43af2b3b0818449e8744daa6c4fb6, type: 3}
+  - {fileID: 2800000, guid: 0d66a4b778a70b04aaec3cc427292ef2, type: 3}
+  - {fileID: 2800000, guid: 33af1ff898f51f446af7bd900892048d, type: 3}
+  - {fileID: 2800000, guid: 9d09872f1f70de945b06fc0cfca93274, type: 3}
+  - {fileID: 2800000, guid: 03c95008fef24fc45a603e62b05c2fa6, type: 3}
+  - {fileID: 2800000, guid: f2f64a2cc334dd74b98b97092ae38ace, type: 3}
+  - {fileID: 2800000, guid: 6fd03a3dc65952c4b921d2d351f05916, type: 3}
+  - {fileID: 2800000, guid: 0b50dec0ccb737f499a02932be76a840, type: 3}
+  - {fileID: 2800000, guid: 579c11017e13520478e91c326540b6a8, type: 3}
+  - {fileID: 2800000, guid: 9557475d3cb09af4885be74ad1e34d55, type: 3}
+  - {fileID: 2800000, guid: e1316e964e610194fbd9efcec2fb72e3, type: 3}
+  - {fileID: 2800000, guid: 7f4c69d78d33db64a92a6b108c3f118b, type: 3}
+  - {fileID: 2800000, guid: 2984b60da6213c243b4a23e53af435b5, type: 3}
+  - {fileID: 2800000, guid: 0d0a607843f501e479fccecba502dbc0, type: 3}
+  - {fileID: 2800000, guid: 15343faae1e6b6149accfb8cbeed8096, type: 3}
+  - {fileID: 2800000, guid: 6db7de655d788e349966e14cd1860dd3, type: 3}
+  - {fileID: 2800000, guid: 0e8beffbcbc4ff24faf5e8fdebecf868, type: 3}
+  - {fileID: 2800000, guid: 57463bd10abca5e40b5cb458ad0f3062, type: 3}
+  - {fileID: 2800000, guid: c3772cfe18f86e04e8be0869768fd443, type: 3}
+  - {fileID: 2800000, guid: eb852bc4882d99a41abee25bb84bc8dd, type: 3}
+  - {fileID: 2800000, guid: 3e5809eca86eb244d8e49e9439c9888b, type: 3}
+  - {fileID: 2800000, guid: 25fcce36a0ed378408a800169a2d45dc, type: 3}
+  - {fileID: 2800000, guid: 9ac5ad98904b8784ebe00b87cd96fe61, type: 3}
+  - {fileID: 2800000, guid: b6bf36584561989499a71c3394214aa5, type: 3}
+  - {fileID: 2800000, guid: 4805914ce65a4884dae81b61a60dcd7a, type: 3}
+  - {fileID: 2800000, guid: 7c7e64cdfee9672419da22e85856318d, type: 3}
+  - {fileID: 2800000, guid: 81df0164fee0227488941d26ded1d23a, type: 3}
+  - {fileID: 2800000, guid: 29f8e5e6058cf974da624b9155fa74c0, type: 3}
+  - {fileID: 2800000, guid: e3fba43d3d40dcb4ab54083e4f86b2a0, type: 3}
+  - {fileID: 2800000, guid: a22c68520855dad469a58177a41e0556, type: 3}
+  - {fileID: 2800000, guid: a98dd9bda6451bc4dae9fa3850d3f820, type: 3}
+  - {fileID: 2800000, guid: 5da0da438919b9641963fcb629b2e53a, type: 3}
+  - {fileID: 2800000, guid: 42c7fe1f90a0b3d4fb73bf6382ab31df, type: 3}
+  - {fileID: 2800000, guid: 9e454a3f09e22a244b57df228d3292ef, type: 3}
+  isTutorialCompleted: 0

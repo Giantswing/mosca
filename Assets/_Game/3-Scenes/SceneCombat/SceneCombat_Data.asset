@@ -15,15 +15,14 @@ MonoBehaviour:
   scene:
     sceneAsset: {fileID: 102900000, guid: 505d1d412699ac149a800b5ae654ea53, type: 3}
     required: 1
-    buildIndex: 2
+    buildIndex: 4
   sceneName: Squashed
-  totalScore: 96
   scoreToWin: 60
+  totalScore: 96
   timeToWin: 80
-  stars: 2
-  scoreToStars:
-  - 60
-  - 96
-  - 111
+  deathCounter: 0
+  stars: 0
   isThisLastOne: 0
   index: 1
+  isBSide: 0
+  bSideScene: {fileID: 0}

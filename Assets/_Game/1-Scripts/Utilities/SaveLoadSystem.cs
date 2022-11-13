@@ -1,4 +1,5 @@
 using System;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,7 +10,11 @@ public class SaveLoadSystem : MonoBehaviour
 
     [SerializeField] private InputAction quitAction;
 
-    private void Awake()
+    [SerializeField] private SmartData.SmartInt.IntWriter instanceLevelTransitionState;
+    [SerializeField] private SmartData.SmartEvent.EventDispatcher onWinScreen;
+    [SerializeField] private SmartData.SmartBool.BoolWriter finishTransition;
+
+    private void OnEnable()
     {
         Instance = this;
 
@@ -63,7 +68,25 @@ public class SaveLoadSystem : MonoBehaviour
 
     private void QuitGame()
     {
-        print("bye bye");
-        Application.Quit();
+        //check current scene, if it is the level selection then go to main menu
+        print(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+
+        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "_levelSelection")
+        {
+        }
+
+        DOTween.KillAll();
+        instanceLevelTransitionState.value = (int)LevelLoader.LevelTransitionState.SpecificLevel;
+
+        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "_levelSelection")
+            LevelLoader.SceneToLoad = campaign.mainMenuScene;
+        else if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "main-menu")
+            Application.Quit();
+        else
+            LevelLoader.SceneToLoad = campaign.levelSelectionScene;
+
+        onWinScreen.Dispatch();
+
+        finishTransition.value = true;
     }
 }

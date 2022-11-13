@@ -16,6 +16,10 @@ MonoBehaviour:
     sceneAsset: {fileID: 102900000, guid: 9febcf6a309bde64faf4276b51254633, type: 3}
     required: 1
     buildIndex: 2
+  mainMenuScene:
+    sceneAsset: {fileID: 102900000, guid: d936f90ffc2a950458ee8b333cf35b71, type: 3}
+    required: 0
+    buildIndex: 1
   levels:
   - {fileID: 11400000, guid: 712dedd5bf638d546a1d326932dc3909, type: 2}
   - {fileID: 11400000, guid: 8f39f72eb90fcad4d9a4a90bc62f52cf, type: 2}
