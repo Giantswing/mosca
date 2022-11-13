@@ -34,6 +34,13 @@ public class SaveLoadSystem : MonoBehaviour
             PlayerPrefs.SetInt(Instance.campaign.levels[j].sceneName, Instance.campaign.levels[j].stars);
             PlayerPrefs.SetInt(Instance.campaign.levels[j].sceneName + "deaths",
                 Instance.campaign.levels[j].deathCounter);
+
+            if (Instance.campaign.levels[j].bSideScene != null)
+            {
+                PlayerPrefs.SetInt(Instance.campaign.levels[j].bSideScene.sceneName, Instance.campaign.levels[j].stars);
+                PlayerPrefs.SetInt(Instance.campaign.levels[j].bSideScene.sceneName + "deaths",
+                    Instance.campaign.levels[j].deathCounter);
+            }
         }
     }
 
