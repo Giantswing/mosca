@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db038a0bd787d7140bf55c22020aaf2c, type: 3}
   m_Name: SceneCombat_Data
   m_EditorClassIdentifier: 
+  campaign: {fileID: 11400000, guid: a36363c6493c2fc49a902af9627a51e9, type: 2}
   scene:
     sceneAsset: {fileID: 102900000, guid: 505d1d412699ac149a800b5ae654ea53, type: 3}
     required: 1
@@ -25,4 +26,5 @@ MonoBehaviour:
   isThisLastOne: 0
   index: 1
   isBSide: 0
+  hasBSide: 0
   bSideScene: {fileID: 0}

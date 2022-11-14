@@ -18,5 +18,6 @@ public class DeathCounterScript : MonoBehaviour
     public static void UpdateDeathCounter()
     {
         Instance.deathCounterText.text = CurrentLevelHolder.GetCurrentLevel().deathCounter.ToString();
+        SaveLoadSystem.SaveGame();
     }
 }

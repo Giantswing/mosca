@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db038a0bd787d7140bf55c22020aaf2c, type: 3}
   m_Name: TemplateLevel
   m_EditorClassIdentifier: 
+  campaign: {fileID: 11400000, guid: a36363c6493c2fc49a902af9627a51e9, type: 2}
   scene:
     sceneAsset: {fileID: 102900000, guid: a0710068f1f467b4d87a16ca311f8bd5, type: 3}
     required: 0
@@ -20,8 +21,10 @@ MonoBehaviour:
   scoreToWin: 1
   totalScore: 1
   timeToWin: 25
+  deathCounter: 0
   stars: 3
   isThisLastOne: 0
   index: 0
   isBSide: 0
+  hasBSide: 0
   bSideScene: {fileID: 0}

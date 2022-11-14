@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.CompilerServices;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -29,17 +30,18 @@ public class SaveLoadSystem : MonoBehaviour
 
     public static void SaveGame()
     {
-        for (var j = 0; j < Instance.campaign.levels.Count; j++)
+        for (var i = 0; i < Instance.campaign.levels.Count; i++)
         {
-            PlayerPrefs.SetInt(Instance.campaign.levels[j].sceneName, Instance.campaign.levels[j].stars);
-            PlayerPrefs.SetInt(Instance.campaign.levels[j].sceneName + "deaths",
-                Instance.campaign.levels[j].deathCounter);
+            PlayerPrefs.SetInt(Instance.campaign.levels[i].sceneName, Instance.campaign.levels[i].stars);
+            PlayerPrefs.SetInt(Instance.campaign.levels[i].sceneName + "deaths",
+                Instance.campaign.levels[i].deathCounter);
 
-            if (Instance.campaign.levels[j].bSideScene != null)
+            if (Instance.campaign.levels[i].hasBSide)
             {
-                PlayerPrefs.SetInt(Instance.campaign.levels[j].bSideScene.sceneName, Instance.campaign.levels[j].stars);
-                PlayerPrefs.SetInt(Instance.campaign.levels[j].bSideScene.sceneName + "deaths",
-                    Instance.campaign.levels[j].deathCounter);
+                PlayerPrefs.SetInt(Instance.campaign.levels[i].bSideScene.sceneName,
+                    Instance.campaign.levels[i].bSideScene.stars);
+                PlayerPrefs.SetInt(Instance.campaign.levels[i].bSideScene.sceneName + "deaths",
+                    Instance.campaign.levels[i].bSideScene.deathCounter);
             }
         }
     }
@@ -48,21 +50,28 @@ public class SaveLoadSystem : MonoBehaviour
     {
         for (var i = 0; i < Instance.campaign.levels.Count; i++)
         {
-            var data = PlayerPrefs.GetInt(Instance.campaign.levels[i].sceneName);
-            if (data != 0)
-                Instance.campaign.levels[i].stars = data;
-            else Instance.campaign.levels[i].stars = 0;
+            var hasBSide = Instance.campaign.levels[i].hasBSide;
+            var data = PlayerPrefs.GetInt(Instance.campaign.levels[i].sceneName, 0);
+            var bdata = hasBSide ? PlayerPrefs.GetInt(Instance.campaign.levels[i].bSideScene.sceneName, 0) : 0;
 
-            var deathCounterData = PlayerPrefs.GetInt(Instance.campaign.levels[i].sceneName + "deaths");
-            if (data != 0)
-            {
-                print("found info");
-                Instance.campaign.levels[i].deathCounter = deathCounterData;
-            }
-            else
-            {
-                Instance.campaign.levels[i].deathCounter = 0;
-            }
+            //loading stars
+            Instance.campaign.levels[i].stars = data;
+
+            if (hasBSide)
+                Instance.campaign.levels[i].bSideScene.stars = bdata;
+
+            //loading deaths
+
+            var deaths = PlayerPrefs.GetInt(Instance.campaign.levels[i].sceneName + "deaths", 0);
+
+            var bdeaths = hasBSide
+                ? PlayerPrefs.GetInt(Instance.campaign.levels[i].bSideScene.sceneName + "deaths", 0)
+                : 0;
+
+            Instance.campaign.levels[i].deathCounter = deaths;
+
+            if (hasBSide)
+                Instance.campaign.levels[i].bSideScene.deathCounter = bdeaths;
         }
     }
 
@@ -70,6 +79,7 @@ public class SaveLoadSystem : MonoBehaviour
     public static void DeleteSavedGame()
     {
         PlayerPrefs.DeleteAll();
+        LoadGame();
         print("Deleted");
     }
 

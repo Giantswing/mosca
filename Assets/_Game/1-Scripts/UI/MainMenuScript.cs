@@ -122,7 +122,7 @@ public class MainMenuScript : MonoBehaviour
 
     public void DeleteSavedData()
     {
-        if (!_isTransitioning && _timeSinceSplashScreen > 0.5f) campaignSO.ResetAllStars();
+        if (!_isTransitioning && _timeSinceSplashScreen > 0.5f) SaveLoadSystem.DeleteSavedGame();
     }
 
     public void ExitMenuOptions()

@@ -73,10 +73,14 @@ public class STATS : MonoBehaviour
         {
             ST_CanDoDmg = false;
             ST_Damage = 0;
-            CurrentLevelHolder.GetCurrentLevel().deathCounter++;
+
             SaveLoadSystem.SaveGame();
             if (ST_Team == 1)
+            {
+                CurrentLevelHolder.GetCurrentLevel().deathCounter++;
                 DeathCounterScript.UpdateDeathCounter();
+            }
+
             Die();
             isAlive = false;
         }

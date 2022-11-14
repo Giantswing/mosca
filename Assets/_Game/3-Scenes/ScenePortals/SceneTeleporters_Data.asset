@@ -12,18 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db038a0bd787d7140bf55c22020aaf2c, type: 3}
   m_Name: SceneTeleporters_Data
   m_EditorClassIdentifier: 
+  campaign: {fileID: 11400000, guid: a36363c6493c2fc49a902af9627a51e9, type: 2}
   scene:
     sceneAsset: {fileID: 102900000, guid: 798ec415e7c5c3b47bcd85bf49c5562a, type: 3}
     required: 0
-    buildIndex: -1
+    buildIndex: 8
   sceneName: Portals
-  totalScore: 0
   scoreToWin: 0
+  totalScore: 0
   timeToWin: 0
+  deathCounter: 0
   stars: 0
-  scoreToStars:
-  - 0
-  - 0
-  - 15
   isThisLastOne: 0
   index: 0
+  isBSide: 0
+  hasBSide: 0
+  bSideScene: {fileID: 0}

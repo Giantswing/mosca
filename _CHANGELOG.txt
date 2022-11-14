@@ -25,3 +25,6 @@ Flugi 0.1.3
 -Added the functionality to delete saved game data in the options menu
 -Graphic improvements
 -Tons of bugfixes and optimizations
+
+Flugi 0.1.3b
+-Bugfixes

@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Level Rules", menuName = "Mosca/Level", order = 1)]
 public class LevelSO : ScriptableObject
 {
+    public CampaignSO campaign;
     public SceneField scene;
     public string sceneName;
 
@@ -21,6 +22,8 @@ public class LevelSO : ScriptableObject
     [HideInInspector] public int index;
 
     [Header("B-Side")] [Space(5)] public bool isBSide;
+
+    public bool hasBSide;
     public LevelSO bSideScene;
 
 
@@ -45,6 +48,21 @@ public class LevelSO : ScriptableObject
     private void OnValidate()
     {
         EditorUtility.SetDirty(this);
+
+        for (var j = 0; j < campaign.levels.Count; j++)
+        {
+            PlayerPrefs.SetInt(campaign.levels[j].sceneName, campaign.levels[j].stars);
+            PlayerPrefs.SetInt(campaign.levels[j].sceneName + "deaths",
+                campaign.levels[j].deathCounter);
+
+            if (campaign.levels[j].hasBSide)
+            {
+                Debug.Log("saving b-side");
+                PlayerPrefs.SetInt(campaign.levels[j].bSideScene.sceneName, campaign.levels[j].bSideScene.stars);
+                PlayerPrefs.SetInt(campaign.levels[j].bSideScene.sceneName + "deaths",
+                    campaign.levels[j].bSideScene.deathCounter);
+            }
+        }
     }
 #endif
 }

@@ -54,7 +54,7 @@ public class WinScreenScript : MonoBehaviour
 
     private void Start()
     {
-        if (CurrentLevelHolder.GetCurrentLevel().isThisLastOne)
+        if (CurrentLevelHolder.GetCurrentLevel().isThisLastOne || CurrentLevelHolder.GetCurrentLevel().isBSide)
         {
             nextLevelButton.SetActive(false);
             _firstSelected = levelSelectionButton;
