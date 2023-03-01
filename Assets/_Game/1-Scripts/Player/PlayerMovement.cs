@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Events;
@@ -11,85 +10,57 @@ using TouchPhase = UnityEngine.InputSystem.TouchPhase;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] private PlayerCamera pC;
-    [SerializeField] private PlayerSoundManager pS;
-    [SerializeField] private PlayerInteractionHandler pI;
-
-    [HideInInspector] public float frozen = 0;
+    private const float TimeToSwitch = .35f;
 
     public static PlayerMovement instance;
-    private Transform _transform;
-
-
-    private float _modelRotation = 0;
-    private const float TimeToSwitch = .35f;
-    [HideInInspector] public int isFacingRight = 1;
-    private float _timeBackwards;
-    private float _timeStandingStill;
-    private CheckpointScript[] _checkpoints;
-    private bool _checkForCheckpoint = true;
-    private int _currentCheckpoint = 0;
-
-    [SerializeField] private float maxDistanceToCheckpoint = 10f;
 
     private static readonly int FlyAnimSpeedH = Animator.StringToHash("FlyAnimSpeedH");
     private static readonly int FlyAnimSpeedV = Animator.StringToHash("FlyAnimSpeedV");
 
 
+    // MOBILE INPUT /////////////////////////
+    public static UnityAction<Vector2, Vector2> onTouchInput;
+    private static readonly int IsDashing = Animator.StringToHash("IsDashing");
+    private static readonly int IsDoubleDashing = Animator.StringToHash("IsDoubleDashing");
+    private static readonly int IsDodging = Animator.StringToHash("IsDodging");
+    [SerializeField] private PlayerCamera pC;
+    [SerializeField] private PlayerSoundManager pS;
+    [SerializeField] private PlayerInteractionHandler pI;
+
+    [HideInInspector] public float frozen;
+    [HideInInspector] public int isFacingRight = 1;
+
+    [SerializeField] private float maxDistanceToCheckpoint = 10f;
+
+
     public GameObject my3DModel;
 
     public Animator flyAnimator;
-    private readonly float acceleration = .1f;
-    private readonly float speedMultiplier = 7f;
 
-    [HideInInspector] public float lastBumpTime = 0;
+    [HideInInspector] public float lastBumpTime;
 
 
     [HideInInspector] public Vector2 inputDirection;
     [HideInInspector] public Vector2 inputDirectionTo;
     [HideInInspector] public float hSpeed;
     [HideInInspector] public float vSpeed;
+    [HideInInspector] public float zDepthTo;
+    [HideInInspector] public float zDepth;
+    public float zDepthOffset = 1.6f;
+    public LayerMask backgroundLayer;
 
     [SerializeField] private Rigidbody _myRigidbody;
 
-    private bool imDisabled = false;
-
-    private PlayerInput _playerInput;
-
     [SerializeField] private Collider dashCollider;
     [SerializeField] private STATS stats;
-
-    private Vector3 _windForce;
     public Vector3 windForceTo;
-    public float currentlyInWind = 0;
-
-
-    // MOBILE INPUT /////////////////////////
-    public static UnityAction<Vector2, Vector2> onTouchInput;
-    private Vector2 _touchStartingPos;
-    private Vector2 _touchCurrentPos;
+    public float currentlyInWind;
 
     [Range(0.01f, 0.2f)] [SerializeField] private float maxTouchDistanceScreen = 0.1f;
     [Range(0, 50f)] [SerializeField] private float cornerPadding = 10f;
     [Range(0.1f, 0.3f)] [SerializeField] private float maxHorTouchDistance = .2f;
-
-    private float _touchDeltaX;
-    private float _touchDeltaY;
-    private float maxTouchDistance;
-    private float _touchMagnitude;
     [SerializeField] private float touchMultiplier = 1f;
-    private float _touchFixSpeed = .5f;
-
-    //DASH /////////////////////
-
-    private float _timerToDoubleDash = 0.5f;
-    private float _timerToDoubleDashMax = .35f;
-    private float _speedBoost = 1;
-    private float _speedBoostMax = 2f;
-    [HideInInspector] public bool isDashing = false;
-    private bool _doubleDash = false;
-    private static readonly int IsDashing = Animator.StringToHash("IsDashing");
-    private static readonly int IsDoubleDashing = Animator.StringToHash("IsDoubleDashing");
+    [HideInInspector] public bool isDashing;
 
 
     ////////////////////////
@@ -97,11 +68,46 @@ public class PlayerMovement : MonoBehaviour
     // DODGE ///////////////////////
 
     [SerializeField] private Color dodgeColor;
-    private Vector3 _dodgeDirection;
-    [HideInInspector] public bool isDodging = false;
+    [HideInInspector] public bool isDodging;
+    private readonly WaitForSeconds _dodgeDuration = new(0.3f);
+    private readonly float _speedBoostMax = 2f;
+    private readonly float _timerToDoubleDashMax = .35f;
+    private readonly float _touchFixSpeed = .5f;
+    private readonly float acceleration = .1f;
+    private readonly float speedMultiplier = 7f;
     private bool _canDodge = true;
-    private static readonly int IsDodging = Animator.StringToHash("IsDodging");
-    private WaitForSeconds _dodgeDuration = new(0.3f);
+    private bool _checkForCheckpoint = true;
+    private CheckpointScript[] _checkpoints;
+    private int _currentCheckpoint;
+    private Vector3 _dodgeDirection;
+    private bool _doubleDash;
+
+
+    private float _modelRotation;
+
+    private PlayerInput _playerInput;
+    private float _speedBoost = 1;
+    private float _startingZDepth;
+    private float _timeBackwards;
+
+    //DASH /////////////////////
+
+    private float _timerToDoubleDash = 0.5f;
+    private float _timeStandingStill;
+    private Vector2 _touchCurrentPos;
+
+    private float _touchDeltaX;
+    private float _touchDeltaY;
+    private float _touchMagnitude;
+    private Vector2 _touchStartingPos;
+    private Transform _transform;
+
+    private Vector3 _windForce;
+    private float _zRot;
+    private float _zRotTo;
+
+    private bool imDisabled;
+    private float maxTouchDistance;
 
     ////////////////////////
 
@@ -114,39 +120,9 @@ public class PlayerMovement : MonoBehaviour
         inputDirectionTo = Vector2.zero;
         flyAnimator = GetComponentInChildren<Animator>();
         _transform = transform;
-    }
-
-    public void DisableMovement(int levelTransitionState, SceneField levelToLoad)
-    {
-        GetComponent<PlayerInput>().enabled = false;
-    }
-
-    public void EnableMovement()
-    {
-        GetComponent<PlayerInput>().enabled = true;
-    }
-
-    public static Transform ReturnPlayerTransform()
-    {
-        return instance._transform;
-    }
-
-    public Vector3 ReturnVelocity()
-    {
-        return _myRigidbody.velocity;
-    }
-
-    public bool IncreaseCheckpoint(int checkpointIndex)
-    {
-        if (checkpointIndex == _currentCheckpoint)
-        {
-            _currentCheckpoint = checkpointIndex + 1;
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        _startingZDepth = _transform.position.z;
+        zDepth = _startingZDepth;
+        zDepthTo = _startingZDepth;
     }
 
     // Update is called once per frame
@@ -189,11 +165,97 @@ public class PlayerMovement : MonoBehaviour
         flyAnimator.SetFloat(FlyAnimSpeedV, inputDirection.y);
 
         CheckIfPlayerShouldFlip();
+
+        CheckZDepth();
         UpdatePlayerRotation();
     }
 
+    private void LateUpdate()
+    {
+        if (frozen <= 0)
+            _myRigidbody.velocity = new Vector3(inputDirection.x * speedMultiplier * _speedBoost + _windForce.x,
+                inputDirection.y * speedMultiplier * _speedBoost + _windForce.y, 0);
+    }
+
+    public void DisableMovement(int levelTransitionState, SceneField levelToLoad)
+    {
+        GetComponent<PlayerInput>().enabled = false;
+    }
+
+    public void EnableMovement()
+    {
+        GetComponent<PlayerInput>().enabled = true;
+    }
+
+    public static Transform ReturnPlayerTransform()
+    {
+        return instance._transform;
+    }
+
+    public Vector3 ReturnVelocity()
+    {
+        return _myRigidbody.velocity;
+    }
+
+    public bool IncreaseCheckpoint(int checkpointIndex)
+    {
+        if (checkpointIndex == _currentCheckpoint)
+        {
+            _currentCheckpoint = checkpointIndex + 1;
+            return true;
+        }
+
+        return false;
+    }
+
+    private void CheckZDepth()
+    {
+        //cast a ray from the player to the ground
+        if (Physics.Raycast(transform.position, Vector3.forward, out var hit, 5f, ~backgroundLayer))
+            zDepthTo = hit.distance;
+        else
+            zDepthTo = _startingZDepth;
+
+        zDepth = Mathf.Lerp(zDepth, zDepthTo, Time.deltaTime * 10f);
+        var position = transform.position;
+        position = new Vector3(position.x, position.y, zDepth - zDepthOffset);
+        transform.position = position;
+
+        var rotationToLook = Quaternion.LookRotation(-hit.normal, Vector3.up);
+
+        //print(zDepth + " - " + hit.normal + " - " + rotationToLook.eulerAngles.y);
+        _zRotTo = rotationToLook.eulerAngles.y;
+        //convert the hit normal to a rotation
+
+
+        /*
+        if (zDepth - zDepthOffset > Mathf.Abs(0.1f))
+        if (Physics.Raycast(transform.position, transform.forward, out var hitRot, 5f, ~backgroundLayer))
+        {
+            var rotValue = hitRot.normal;
+            _zRotTo = hit.normal.z + 1;
+            //print(rotValue);
+            print(hitRot.normal);
+        }
+        */
+
+        _zRot = Mathf.Lerp(_zRot, _zRotTo, Time.deltaTime * 10f);
+    }
+
+    //draw ray gizmos
+    /*
+    private void OnDrawGizmos()
+    {   
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(transform.position, Vector3.forward*5);
+    }
+    */
+
     private void UpdatePlayerRotation()
     {
+        //var rot = (zDepth - zDepthOffset) * 15f * -isFacingRight;
+        var rot = _zRotTo;
+        //var rot = 0;
         if (isDashing)
         {
             if (isFacingRight == 1)
@@ -202,7 +264,7 @@ public class PlayerMovement : MonoBehaviour
                 _modelRotation = Mathf.LerpAngle(_modelRotation, Mathf.Atan2(vSpeed, hSpeed) * Mathf.Rad2Deg - 180f,
                     .9f);
 
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 0, _modelRotation),
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, rot, _modelRotation),
                 Time.deltaTime * 15f);
         }
         else if (isDodging)
@@ -210,12 +272,12 @@ public class PlayerMovement : MonoBehaviour
             _modelRotation = Mathf.LerpAngle(_modelRotation,
                 Mathf.Atan2(_dodgeDirection.x, _dodgeDirection.y) * Mathf.Rad2Deg, .9f);
 
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 0, _modelRotation),
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, rot, _modelRotation),
                 Time.deltaTime * 15f);
         }
         else
         {
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.identity,
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, rot, 0),
                 Time.deltaTime * 4f);
         }
     }
@@ -268,8 +330,8 @@ public class PlayerMovement : MonoBehaviour
         _timeStandingStill = 0;
         if (_checkpoints.Length == 0) return;
 
-        if (_checkpoints[_currentCheckpoint].isActivated == true ||
-            _checkpoints[_currentCheckpoint].pauseCheckpoint == true ||
+        if (_checkpoints[_currentCheckpoint].isActivated ||
+            _checkpoints[_currentCheckpoint].pauseCheckpoint ||
             _currentCheckpoint > _checkpoints.Length) return;
 
         if (Vector3.Distance(_transform.position, _checkpoints[_currentCheckpoint].transform.position) <
@@ -297,13 +359,6 @@ public class PlayerMovement : MonoBehaviour
             _timeBackwards = 0;
             isFacingRight = -1;
         }
-    }
-
-    private void LateUpdate()
-    {
-        if (frozen <= 0)
-            _myRigidbody.velocity = new Vector3(inputDirection.x * speedMultiplier * _speedBoost + _windForce.x,
-                inputDirection.y * speedMultiplier * _speedBoost + _windForce.y, 0);
     }
 
 

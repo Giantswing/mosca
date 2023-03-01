@@ -13,8 +13,28 @@ MonoBehaviour:
   m_Name: AutoMaterialOrganizer
   m_EditorClassIdentifier: 
   materialFolders:
-  - name: blend_interior
-    material: {fileID: 2100000, guid: 2d9789f7b0e425541bac92ce279cacb0, type: 2}
-  - name: blend_border
+  - name: mat_back_outer_bg
+    material: {fileID: 2100000, guid: d35bdb7522102744996b190983660094, type: 2}
+  - name: mat_grass
+    material: {fileID: 2100000, guid: b848e0ac29c0f854b99b72381910f240, type: 2}
+  - name: mat_level_bg
+    material: {fileID: 2100000, guid: 3eb8dec1df92ecd4ea14b7089aff9053, type: 2}
+  - name: mat_grass
+    material: {fileID: 2100000, guid: b848e0ac29c0f854b99b72381910f240, type: 2}
+  - name: mat_level_inner
+    material: {fileID: 2100000, guid: faa84b215889b45489506150a61654a2, type: 2}
+  - name: mat_wall_rim
+    material: {fileID: 2100000, guid: faa84b215889b45489506150a61654a2, type: 2}
+  - name: mat_rocks
+    material: {fileID: 2100000, guid: a5eca70982e60884187568845a9c15bc, type: 2}
+  - name: mat_sewer_gate
+    material: {fileID: 2100000, guid: dab020e6202903f4f84cccb8d99f58d2, type: 2}
+  - name: mat_vines
+    material: {fileID: 2100000, guid: 511d92ff3217a304fa92162b3d616126, type: 2}
+  - name: mat_pipes
+    material: {fileID: 2100000, guid: ed365390bc287bf48b12a9e23c803032, type: 2}
+  - name: mat_black_border
     material: {fileID: 2100000, guid: f8fc288cef615134191409c038c1651d, type: 2}
+  - name: mat_show_only_map
+    material: {fileID: 2100000, guid: 0902673460703e342a419c3260ea52d4, type: 2}
   defaultPhysicMaterial: {fileID: 13400000, guid: 5057283b15fe753408c09f8a680992b5, type: 2}

@@ -22,8 +22,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: FastSSAOURP
   m_Shader: {fileID: 4800000, guid: 49fcf74c7ef449343a9b32e5afd7bdba, type: 3}
-  m_ValidKeywords:
-  - FAST
+  m_ValidKeywords: []
   m_InvalidKeywords:
   - EIGHT
   - SIXTEEN

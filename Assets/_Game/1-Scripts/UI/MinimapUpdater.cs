@@ -1,14 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Camera))]
 public class MinimapUpdater : MonoBehaviour
 {
     public int fps = 2;
-    private float elapsed;
-    private Camera cam;
     [SerializeField] private RenderTexture rt;
+    [SerializeField] private Transform player;
+    private Camera cam;
+    private float elapsed;
 
     private void Start()
     {
@@ -18,6 +17,8 @@ public class MinimapUpdater : MonoBehaviour
 
     private void Update()
     {
+        //transform.position = new Vector3(player.position.x, transform.position.y, player.position.z - 30f);
+
         cam.targetTexture = null;
         elapsed += Time.deltaTime;
         if (elapsed > .2f)

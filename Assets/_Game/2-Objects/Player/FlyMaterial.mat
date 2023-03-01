@@ -43,6 +43,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaCutoff: 0.5
+    - _BrightnessMult: 0.65
     - _GlowSize: 2.29
     - _GlowState: 0
     - _QueueControl: 0
@@ -63,4 +64,5 @@ Material:
     m_Colors:
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _GlowColor: {r: 1, g: 0.5458296, b: 0, a: 0}
+    - _NormalColor: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []

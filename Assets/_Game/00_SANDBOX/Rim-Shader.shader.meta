@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: c652a2210815bcb4080ccbe10f0fb76a
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures:
+  - _diffuseTexture: {fileID: 2800000, guid: ec293d3b8d999314294dc63ba66eb3e7, type: 3}
+  - _normal_map: {fileID: 2800000, guid: 4bba3216643a7704889514491ab0e5af, type: 3}
+  - _smoothness: {fileID: 2800000, guid: ce42cda959c0bd94a879b61e08195200, type: 3}
+  - _TopTexture0: {fileID: 2800000, guid: ec293d3b8d999314294dc63ba66eb3e7, type: 3}
+  nonModifiableTextures: []
+  preprocessorOverride: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

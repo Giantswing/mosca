@@ -1,5 +1,28 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-5140426309762940234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f62c9c65cf3354c93be831c8bc075510, type: 3}
+  m_Name: ScreenSpaceAmbientOcclusion
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  m_Shader: {fileID: 4800000, guid: 0849e84e3d62649e8882e9d6f056a017, type: 3}
+  m_Settings:
+    Downsample: 1
+    AfterOpaque: 1
+    Source: 1
+    NormalSamples: 2
+    Intensity: 0.97
+    DirectLightingStrength: 0.093
+    Radius: 0.1
+    SampleCount: 13
 --- !u!114 &-451842103591770088
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12,14 +35,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68f1a22d534c40f4c846c91adf34e19c, type: 3}
   m_Name: FastSSAOUrp
   m_EditorClassIdentifier: 
-  m_Active: 1
+  m_Active: 0
   settings:
     Event: 500
-    Intensity: 5.36
-    BlurAmount: 1.89
-    Radius: 1
-    Area: 2.8
-    FastMode: 1
+    Intensity: 1
+    BlurAmount: 1.3
+    Radius: 0.389
+    Area: 1.9
+    FastMode: 0
     BlitMaterial: {fileID: 2100000, guid: 590f4c2590b114244819c30772127b89, type: 2}
 --- !u!114 &11400000
 MonoBehaviour:
@@ -39,9 +62,10 @@ MonoBehaviour:
   - {fileID: -451842103591770088}
   - {fileID: 3108272918323661697}
   - {fileID: 1328802345941202894}
-  - {fileID: 6623989552421501943}
   - {fileID: 4992446567999440147}
-  m_RendererFeatureMap: 18e8d83000bcbaf9810ba639c0cd222bcef7877eb1da7012f77bfb0b6723ed5b1385b9d5b3bb4845
+  - {fileID: -5140426309762940234}
+  - {fileID: 6623989552421501943}
+  m_RendererFeatureMap: 18e8d83000bcbaf9810ba639c0cd222bcef7877eb1da70121385b9d5b3bb4845b60282a48189a9b8f77bfb0b6723ed5b
   m_UseNativeRenderPass: 0
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
@@ -129,16 +153,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c7c56a60043b6445ad3d89d33c8e340, type: 3}
   m_Name: FastBloomUrp
   m_EditorClassIdentifier: 
-  m_Active: 1
+  m_Active: 0
   settings:
     blitMaterial: {fileID: 2100000, guid: fe35b4ca6c241a94ab58998898d93c6b, type: 2}
     SetBloomIterations: 0
     BloomIterations: 7
-    BloomDiffusion: 0.283
+    BloomDiffusion: 0.393
     BloomColor: {r: 1, g: 1, b: 1, a: 1}
-    BloomAmount: 56.5
-    BloomThreshold: 1.5
-    BloomSoftness: 0.457
+    BloomAmount: 16.2
+    BloomThreshold: 1.3
+    BloomSoftness: 0.557
 --- !u!114 &4992446567999440147
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -154,7 +178,7 @@ MonoBehaviour:
   m_Active: 1
   settings:
     passTag: VisibleObjects
-    Event: 300
+    Event: 400
     filterSettings:
       RenderQueueType: 0
       LayerMask:

@@ -53,16 +53,16 @@ Material:
     - _AlphaCutoff: 0.5
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _RotationSpeed: 2.91
+    - _RotationSpeed: 4.82
     - _TessEdgeLength: 16
     - _TessMax: 25
     - _TessMaxDisp: 25
     - _TessMin: 10
     - _TessPhongStrength: 0.5
     - _TessValue: 16
-    - _WiggleStrength: 0.24
+    - _WiggleStrength: 0.539
     m_Colors:
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
-    - _GlowColor: {r: 5.780104, g: 0.670157, b: 15.999998, a: 0}
+    - _GlowColor: {r: 2.057346, g: 0.28830093, b: 6.8831816, a: 0}
     - _MainColor: {r: 0.5524125, g: 0.1824493, b: 0.9433962, a: 0}
   m_BuildTextureStacks: []

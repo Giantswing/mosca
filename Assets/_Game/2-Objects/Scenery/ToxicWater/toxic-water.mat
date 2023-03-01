@@ -52,19 +52,19 @@ Material:
     m_Floats:
     - _AlphaCutoff: 0.5
     - _Brighten: 0.441
-    - _Contrast: 0.88
+    - _Contrast: 1.46
     - _Float0: 1
     - _Float1: 1
-    - _Opacity: 0.691
+    - _Opacity: 0.456
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Smoothness: 0.637
+    - _Smoothness: 0.88
     - _Speed: 0.24
     - _WaveStrength: 0.466
     - _wobbleSpeed: 0.1
     m_Colors:
-    - _Color: {r: 0, g: 0.4528302, b: 0.08502928, a: 1}
+    - _Color: {r: 0.040049836, g: 0.5660378, b: 0.14352287, a: 1}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
-    - _FresnelColor: {r: 0.22934668, g: 2.1902606, b: 0, a: 1}
+    - _FresnelColor: {r: 0.9173868, g: 8.761044, b: 0, a: 1}
     - _Tiling: {r: 10, g: 6.23, b: 0, a: 0}
   m_BuildTextureStacks: []

@@ -1,7 +1,7 @@
 using System;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.InputSystem.Interactions;
+using UnityEngine.Rendering;
 
 [Serializable]
 public class MaterialFolder
@@ -36,6 +36,10 @@ public class AutoApplyMaterials : ScriptableObject
             var materials = renderer.sharedMaterials;
             dynamic = false;
 
+            //if the name of the parent starts with lvlmodel_ it's a dynamic object
+            if (renderer.transform.parent.name.StartsWith("lvlmodel_"))
+                renderer.transform.parent.transform.position = Vector3.zero;
+
 
             for (var i = 0; i < materials.Length; i++)
             {
@@ -44,9 +48,9 @@ public class AutoApplyMaterials : ScriptableObject
 
                 Debug.Log(material.name);
 
-                if (material.name == "TriplanarStatic") dynamic = true;
+                //if (material.name == "TriplanarStatic") dynamic = true;
 
-                if (dynamic) Debug.Log("found dynamic");
+                if (material.name == "mat_show_only_map") renderer.gameObject.layer = 6;
 
                 for (var j = 0; j < Instance.materialFolders.Length; j++)
                     if (material.name == Instance.materialFolders[j].name ||
@@ -56,13 +60,22 @@ public class AutoApplyMaterials : ScriptableObject
                         found = true;
                     }
 
+                if (material.name == "mat_invisible")
+                {
+                    //add mesh collider to that object
+                    var meshCollider = renderer.gameObject.AddComponent<MeshCollider>();
+                    meshCollider.material = Instance.defaultPhysicMaterial;
+                    DestroyImmediate(renderer);
+                }
+
+
                 materials[i] = material;
             }
 
             if (found)
             {
                 renderer.sharedMaterials = materials;
-                renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+                renderer.shadowCastingMode = ShadowCastingMode.Off;
                 var boxCollider = renderer.gameObject.GetComponent<BoxCollider>();
                 var meshCollider = renderer.gameObject.GetComponent<MeshCollider>();
                 var meshFilter = renderer.GetComponent<MeshFilter>();
@@ -70,6 +83,7 @@ public class AutoApplyMaterials : ScriptableObject
 
                 //check the number of vertices
 
+                /*
                 if (meshFilter != null)
                 {
                     var mesh = meshFilter.sharedMesh;
@@ -100,9 +114,10 @@ public class AutoApplyMaterials : ScriptableObject
                         }
                     }
                 }
+                */
 
 
-                renderer.gameObject.layer = 7;
+                //renderer.gameObject.layer = 7;
 
                 renderer.gameObject.isStatic = !dynamic;
             }
