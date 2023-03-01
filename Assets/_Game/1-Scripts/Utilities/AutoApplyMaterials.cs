@@ -1,7 +1,6 @@
 using System;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 [Serializable]
 public class MaterialFolder
@@ -75,7 +74,7 @@ public class AutoApplyMaterials : ScriptableObject
             if (found)
             {
                 renderer.sharedMaterials = materials;
-                renderer.shadowCastingMode = ShadowCastingMode.Off;
+                //renderer.shadowCastingMode = ShadowCastingMode.Off;
                 var boxCollider = renderer.gameObject.GetComponent<BoxCollider>();
                 var meshCollider = renderer.gameObject.GetComponent<MeshCollider>();
                 var meshFilter = renderer.GetComponent<MeshFilter>();

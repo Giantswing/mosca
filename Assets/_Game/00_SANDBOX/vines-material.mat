@@ -20,8 +20,24 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _TextureSample0:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _TextureSample1:
         m_Texture: {fileID: 2800000, guid: c04797e6b825b414aa6efb9a3cde2769, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample2:
+        m_Texture: {fileID: 2800000, guid: 623259855c66fe14ca8e650a995e8b43, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _XNoise:
+        m_Texture: {fileID: 2800000, guid: 623259855c66fe14ca8e650a995e8b43, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ZNoise:
+        m_Texture: {fileID: 2800000, guid: e4a713bb609647e439a61f33abd700de, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _diffuseTex:
@@ -49,12 +65,16 @@ Material:
     - _AlphaCutoff: 0.5
     - _AlphaCutout: 0.764
     - _BrightnessMultiplier: 0.418
+    - _Float1: 0.5
     - _Metallic: 0
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Smoothness: 0.246
-    - _wobbleSpeed: 0.281
-    - _wobbleStrenght: 9.6
+    - _WobbleSize: 0.4
+    - _wobbleSpeed: 0.1
+    - _wobbleStrenght: 3
     m_Colors:
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Offset: {r: 0, g: 0, b: 0, a: 0}
+    - _Vector0: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []

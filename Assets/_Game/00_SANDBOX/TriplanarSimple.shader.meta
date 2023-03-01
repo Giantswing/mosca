@@ -2,7 +2,15 @@ fileFormatVersion: 2
 guid: e76ecb8495c730646bb4aa8f585e497b
 ShaderImporter:
   externalObjects: {}
-  defaultTextures: []
+  defaultTextures:
+  - _DiffuseR: {fileID: 2800000, guid: a6677526053c5b440aeb70c5eb79eb7e, type: 3}
+  - _DiffuseG: {fileID: 2800000, guid: 0049c67c9aee10a47a2f84c936c0d49d, type: 3}
+  - _DirtTexture: {fileID: 2800000, guid: 23ea9d8503607e74f9ddd08c463ed517, type: 3}
+  - _NormalR: {fileID: 2800000, guid: c512e21b1458dcc4ab56e893cfdeab8a, type: 3}
+  - _NeutralNormal: {fileID: 2800000, guid: c5dde0afc4480d242975a642c051b30a, type: 3}
+  - _NormalG: {fileID: 2800000, guid: 90ee00bb585f8c34c9e47ffeb5c2292e, type: 3}
+  - _RoughR: {fileID: 2800000, guid: 23ea9d8503607e74f9ddd08c463ed517, type: 3}
+  - _RoughG: {fileID: 2800000, guid: 3fa4a64b31996724fa45328364e0d549, type: 3}
   nonModifiableTextures: []
   preprocessorOverride: 0
   userData: 

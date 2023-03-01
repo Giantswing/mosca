@@ -22,7 +22,7 @@ MonoBehaviour:
   - name: mat_grass
     material: {fileID: 2100000, guid: b848e0ac29c0f854b99b72381910f240, type: 2}
   - name: mat_level_inner
-    material: {fileID: 2100000, guid: faa84b215889b45489506150a61654a2, type: 2}
+    material: {fileID: 2100000, guid: a93da95a30b77ad448d7007ea7c11588, type: 2}
   - name: mat_wall_rim
     material: {fileID: 2100000, guid: faa84b215889b45489506150a61654a2, type: 2}
   - name: mat_rocks
