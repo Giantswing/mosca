@@ -37,4 +37,8 @@ MonoBehaviour:
     material: {fileID: 2100000, guid: f8fc288cef615134191409c038c1651d, type: 2}
   - name: mat_show_only_map
     material: {fileID: 2100000, guid: 0902673460703e342a419c3260ea52d4, type: 2}
+  - name: light_cone
+    material: {fileID: 2100000, guid: a9d13de78f16a714a8bd56ea4c029a1e, type: 2}
+  - name: light_window
+    material: {fileID: 2100000, guid: ec3f9366a38ad324abdaf76dfd6aa75e, type: 2}
   defaultPhysicMaterial: {fileID: 13400000, guid: 5057283b15fe753408c09f8a680992b5, type: 2}

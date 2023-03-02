@@ -39,6 +39,9 @@ public class AutoApplyMaterials : ScriptableObject
             if (renderer.transform.parent.name.StartsWith("lvlmodel_"))
                 renderer.transform.parent.transform.position = Vector3.zero;
 
+            if (renderer.transform.gameObject.name.StartsWith("model_back_collision"))
+                renderer.gameObject.layer = 12;
+
 
             for (var i = 0; i < materials.Length; i++)
             {

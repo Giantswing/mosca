@@ -158,13 +158,13 @@ Material:
     - _BrightnessMult: 0.596
     - _BrightnessMult2: 0.51
     - _BrightnessMult3: 0.136
-    - _DirtAmount: 0.454
-    - _DirtTilingAmount: 0.335
+    - _DirtAmount: 0.419
+    - _DirtTilingAmount: 0.092
     - _NormalStrength: 1.77
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _SmoothnessMult: 0.327
-    - _SmoothnessMult2: 0.5
+    - _SmoothnessMult: 0.578
+    - _SmoothnessMult2: 1.607
     - _SmoothnessMult3: 0
     - _TessEdgeLength: 16
     - _TessMax: 25

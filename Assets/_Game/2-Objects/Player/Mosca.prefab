@@ -2070,10 +2070,17 @@ MonoBehaviour:
   inputDirectionTo: {x: 0, y: 0}
   hSpeed: 0
   vSpeed: 0
+  zDepthTo: 0
+  zDepth: 0
+  zDepthOffset: 1.5
+  backgroundLayer:
+    serializedVersion: 2
+    m_Bits: 4096
   _myRigidbody: {fileID: 2299378220093821933}
   dashCollider: {fileID: 1107495973379938926}
   stats: {fileID: 7181058524826200370}
   windForceTo: {x: 0, y: 0, z: 0}
+  currentlyInWind: 0
   maxTouchDistanceScreen: 0.113
   cornerPadding: 10
   maxHorTouchDistance: 0.168

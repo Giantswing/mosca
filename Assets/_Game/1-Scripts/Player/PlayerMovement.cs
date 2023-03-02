@@ -121,6 +121,7 @@ public class PlayerMovement : MonoBehaviour
         flyAnimator = GetComponentInChildren<Animator>();
         _transform = transform;
         _startingZDepth = _transform.position.z;
+        print(_startingZDepth);
         zDepth = _startingZDepth;
         zDepthTo = _startingZDepth;
     }
@@ -210,36 +211,32 @@ public class PlayerMovement : MonoBehaviour
 
     private void CheckZDepth()
     {
+        var foundWall = false;
         //cast a ray from the player to the ground
-        if (Physics.Raycast(transform.position, Vector3.forward, out var hit, 5f, ~backgroundLayer))
+        if (Physics.Raycast(transform.position, transform.forward, out var hit, 6f,
+                backgroundLayer))
+        {
             zDepthTo = hit.distance;
+            foundWall = true;
+        }
         else
+        {
             zDepthTo = _startingZDepth;
+        }
 
-        zDepth = Mathf.Lerp(zDepth, zDepthTo, Time.deltaTime * 10f);
+
+        zDepth = Mathf.Lerp(zDepth, zDepthTo, Time.deltaTime * 50f);
         var position = transform.position;
-        position = new Vector3(position.x, position.y, zDepth - zDepthOffset);
+        position = transform.position + transform.forward * (zDepth - zDepthOffset);
         transform.position = position;
 
-        var rotationToLook = Quaternion.LookRotation(-hit.normal, Vector3.up);
 
-        //print(zDepth + " - " + hit.normal + " - " + rotationToLook.eulerAngles.y);
-        _zRotTo = rotationToLook.eulerAngles.y;
-        //convert the hit normal to a rotation
-
-
-        /*
-        if (zDepth - zDepthOffset > Mathf.Abs(0.1f))
-        if (Physics.Raycast(transform.position, transform.forward, out var hitRot, 5f, ~backgroundLayer))
+        if (foundWall)
         {
-            var rotValue = hitRot.normal;
-            _zRotTo = hit.normal.z + 1;
-            //print(rotValue);
-            print(hitRot.normal);
+            var rotationToLook = Quaternion.LookRotation(-hit.normal, Vector3.up);
+            _zRotTo = rotationToLook.eulerAngles.y;
+            _zRot = Mathf.Lerp(_zRot, _zRotTo, Time.deltaTime * 30f);
         }
-        */
-
-        _zRot = Mathf.Lerp(_zRot, _zRotTo, Time.deltaTime * 10f);
     }
 
     //draw ray gizmos

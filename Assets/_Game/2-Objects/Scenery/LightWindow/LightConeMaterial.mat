@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: outer_bg_material
-  m_Shader: {fileID: 4800000, guid: c61b8f48ff97070419232b1c9edb24e0, type: 3}
+  m_Name: LightConeMaterial
+  m_Shader: {fileID: 4800000, guid: e2bed54326c17f74bbbefd36a88d1a09, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -20,14 +20,6 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _TextureSample0:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _TopTexture0:
-        m_Texture: {fileID: 2800000, guid: a7a9e6203772dd84fa51bbf25ebfae70, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -43,10 +35,12 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaCutoff: 0.5
-    - _Float1: 0.565
+    - _FresnelBias: 0.15
+    - _FresnelPower: 0.83
+    - _FresnelScale: 1.19
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _tilingAmount: 0.101
     m_Colors:
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _LightColor: {r: 0.3962264, g: 0.33698747, b: 0.24483801, a: 0}
   m_BuildTextureStacks: []
