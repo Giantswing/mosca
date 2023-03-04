@@ -12,7 +12,7 @@ Material:
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
+  m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
@@ -20,6 +20,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _Metallic:
+        m_Texture: {fileID: 2800000, guid: ad26b0a35aba94341b3b854b9d0bba40, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _TextureSample0:
         m_Texture: {fileID: 2800000, guid: 693713c0a8c41094aa1584fd2480ce01, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -29,15 +33,23 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _albedoTex:
-        m_Texture: {fileID: 2800000, guid: 693713c0a8c41094aa1584fd2480ce01, type: 3}
+        m_Texture: {fileID: 2800000, guid: ec5518c3989eb0f4f88c9265e832b3a3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _m:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _normalTex:
-        m_Texture: {fileID: 2800000, guid: 2bba1ebea678beb42ad045a4f781eb5a, type: 3}
+        m_Texture: {fileID: 2800000, guid: 77347f9ed0c9b6c4a88c055c7e43aef7, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _texcoord:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _wobbleTex:
+        m_Texture: {fileID: 2800000, guid: c04797e6b825b414aa6efb9a3cde2769, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -57,8 +69,9 @@ Material:
     - _AlphaCutoff: 0.5
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _metalic: 0.345
-    - _smoothness: 0.511
+    - _SmoothMultiplier: 0.608
+    - _metalic: 0.222
+    - _smoothness: 0.478
     - _wobbleSpeed: 0.1
     - _wobbleStrenght: 0.798
     m_Colors:

@@ -65,6 +65,6 @@ Material:
     m_Colors:
     - _Color: {r: 0.040049836, g: 0.5660378, b: 0.14352287, a: 1}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
-    - _FresnelColor: {r: 0.9173868, g: 8.761044, b: 0, a: 1}
+    - _FresnelColor: {r: 1.170865, g: 11.181761, b: 0, a: 1}
     - _Tiling: {r: 10, g: 6.23, b: 0, a: 0}
   m_BuildTextureStacks: []

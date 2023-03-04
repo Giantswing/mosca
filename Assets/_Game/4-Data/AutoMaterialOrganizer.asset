@@ -34,11 +34,13 @@ MonoBehaviour:
   - name: mat_pipes
     material: {fileID: 2100000, guid: ed365390bc287bf48b12a9e23c803032, type: 2}
   - name: mat_black_border
-    material: {fileID: 2100000, guid: f8fc288cef615134191409c038c1651d, type: 2}
+    material: {fileID: 2100000, guid: d35bdb7522102744996b190983660094, type: 2}
   - name: mat_show_only_map
     material: {fileID: 2100000, guid: 0902673460703e342a419c3260ea52d4, type: 2}
   - name: light_cone
     material: {fileID: 2100000, guid: a9d13de78f16a714a8bd56ea4c029a1e, type: 2}
   - name: light_window
     material: {fileID: 2100000, guid: ec3f9366a38ad324abdaf76dfd6aa75e, type: 2}
+  - name: wall_vines
+    material: {fileID: 2100000, guid: dc2d7db41d1aa4f4488a59fe5016a481, type: 2}
   defaultPhysicMaterial: {fileID: 13400000, guid: 5057283b15fe753408c09f8a680992b5, type: 2}

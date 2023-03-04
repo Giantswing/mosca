@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d4afd845e671bfa459a96b5890071c9f, type: 2}
+  - {fileID: 2100000, guid: f8fc288cef615134191409c038c1651d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2072,7 +2072,7 @@ MonoBehaviour:
   vSpeed: 0
   zDepthTo: 0
   zDepth: 0
-  zDepthOffset: 1.5
+  zDepthOffset: 1.7
   backgroundLayer:
     serializedVersion: 2
     m_Bits: 4096

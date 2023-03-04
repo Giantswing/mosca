@@ -24,6 +24,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _TextureSample1:
+        m_Texture: {fileID: 2800000, guid: a7a9e6203772dd84fa51bbf25ebfae70, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _TopTexture0:
         m_Texture: {fileID: 2800000, guid: a7a9e6203772dd84fa51bbf25ebfae70, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -43,9 +47,13 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaCutoff: 0.5
-    - _Float1: 0.565
+    - _Brightness: 0.585
+    - _Float1: 1
     - _QueueControl: 0
     - _QueueOffset: 0
+    - _Tiling: 3.8
+    - _TilingX: 4
+    - _TilingY: 4
     - _tilingAmount: 0.101
     m_Colors:
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}

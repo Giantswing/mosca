@@ -20,6 +20,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _NormalMap:
+        m_Texture: {fileID: 2800000, guid: 20b2c32055e3bc8418a9bc4fff7a37ee, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _TextureSample0:
         m_Texture: {fileID: 2800000, guid: 582102d099e199f4d8ea9caf9b41dec6, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -71,10 +75,12 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaCutoff: 0.5
-    - _AlphaCutout: 0.742
-    - _BrightnessMultiplier: 0.462
+    - _AlphaCutout: 0.133
+    - _BrightnessMultiplier: 0.549
     - _Float1: 1
     - _Metallic: 0
+    - _NormalStrength: 0.367
+    - _Opacity: 1
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Smoothness: 0.463

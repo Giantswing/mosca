@@ -108,12 +108,12 @@ Material:
     - _BrightnessMult3: 0.372
     - _DirtAmount: 0.279
     - _DirtTilingAmount: 0.154
-    - _NormalStrength: 1.19
+    - _NormalStrength: 1
     - _QueueControl: -1
     - _QueueOffset: 0
-    - _SmoothnessMult: 0.511
-    - _SmoothnessMult2: 0.822
-    - _SmoothnessMult3: 0
+    - _SmoothnessMult: 1.084
+    - _SmoothnessMult2: 1.473
+    - _SmoothnessMult3: 1.092
     - _TilingAmount: 0.216
     - _TilingAmount2: 0.216
     - _TilingAmount3: 1

@@ -25,6 +25,12 @@ public class OrganizeScene : ScriptableObject
     private void OnEnable()
     {
         Instance = this;
+        ResetGameListDebug();
+    }
+
+    public void ResetGameListDebug()
+    {
+        allGameObjects.Clear();
     }
 
     [MenuItem("Tools/Organize Scene #o")]

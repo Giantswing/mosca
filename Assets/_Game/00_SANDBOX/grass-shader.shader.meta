@@ -6,6 +6,7 @@ ShaderImporter:
   - _XNoise: {fileID: 2800000, guid: f3bb1fb3c9c1d6e4499e0981eab39b2f, type: 3}
   - _ZNoise: {fileID: 2800000, guid: f3bb1fb3c9c1d6e4499e0981eab39b2f, type: 3}
   - _diffuseTex: {fileID: 2800000, guid: 1b79a50d5d1f54e469a4e96b946dc8ca, type: 3}
+  - _NormalMap: {fileID: 2800000, guid: c5dde0afc4480d242975a642c051b30a, type: 3}
   - _maskTex: {fileID: 2800000, guid: 582102d099e199f4d8ea9caf9b41dec6, type: 3}
   nonModifiableTextures: []
   preprocessorOverride: 0

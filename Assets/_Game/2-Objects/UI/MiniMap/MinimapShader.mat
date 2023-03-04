@@ -24,7 +24,15 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _MinimapTexture:
+        m_Texture: {fileID: 8400000, guid: 5cc9118cfd32fb04091707a65e2bc64c, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Texture0:
+        m_Texture: {fileID: 8400000, guid: 5cc9118cfd32fb04091707a65e2bc64c, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture1:
         m_Texture: {fileID: 8400000, guid: 5cc9118cfd32fb04091707a65e2bc64c, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -44,7 +52,9 @@ Material:
     m_Floats:
     - _ColorMask: 15
     - _Opacity: 0.5
-    - _ShadowYOffset: 0.0048
+    - _Opacity1: 1
+    - _ShadowYOffset: 0.0061
+    - _ShadowYOffset1: 0.009180405
     - _Stencil: 0
     - _StencilComp: 8
     - _StencilOp: 0

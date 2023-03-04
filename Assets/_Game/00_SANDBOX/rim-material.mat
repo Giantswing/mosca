@@ -58,14 +58,14 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AlphaCut: 0.147
+    - _AlphaCut: 0
     - _AlphaCutoff: 0.5
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _SmoothMultiplier: 1.22
-    - _brightness: 0.322
+    - _SmoothMultiplier: 0.82
+    - _brightness: 0.416
     - _tileamount22: 0.216
-    - _vertexOpacity: 0.72
+    - _vertexOpacity: 1.65
     m_Colors:
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

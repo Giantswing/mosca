@@ -21,7 +21,7 @@ public class MinimapUpdater : MonoBehaviour
 
         cam.targetTexture = null;
         elapsed += Time.deltaTime;
-        if (elapsed > .2f)
+        if (elapsed > .05f)
         {
             elapsed = 0;
             cam.targetTexture = rt;
