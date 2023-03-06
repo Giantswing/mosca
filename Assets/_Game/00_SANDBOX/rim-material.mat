@@ -63,7 +63,7 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _SmoothMultiplier: 0.82
-    - _brightness: 0.416
+    - _brightness: 0.576
     - _tileamount22: 0.216
     - _vertexOpacity: 1.65
     m_Colors:

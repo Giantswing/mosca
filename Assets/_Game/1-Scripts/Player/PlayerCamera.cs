@@ -1,4 +1,3 @@
-using System;
 using Cinemachine;
 using UnityEngine;
 using UnityEngine.Events;
@@ -6,45 +5,47 @@ using UnityEngine.InputSystem;
 
 public class PlayerCamera : MonoBehaviour
 {
+    public static UnityAction<bool> OnMapToggle;
     [SerializeField] private PlayerMovement pM;
     [SerializeField] private CinemachineVirtualCamera virtualCamera;
 
     [SerializeField] private float defaultCameraZOffset = -7f;
 
-    //[SerializeField] private float defaultCameraTrackingHorInfluence = 0.2f;
-    private CinemachineTransposer _virtualCameraTransposer;
-    private CinemachineComposer _virtualCameraComposer;
-
     [SerializeField] private float defaultCameraSideAngleStrength = .7f;
-
-    public static UnityAction<bool> OnMapToggle;
-    private Vector2 _cameraInputTo;
-    private Vector2 _cameraInput;
-
-    private bool _mapOpen = false;
 
     [SerializeField] private Transform playerFollower;
     [SerializeField] private float cameraOffsetStrength = 1f;
+    [HideInInspector] public float closeUpOffset;
+    [HideInInspector] public float closeUpOffsetTo;
+
+    [Header("Camera Zone")] [Space(5)] [SerializeField]
+    private CameraZone currentCameraZone;
+
+    private Vector2 _cameraInput;
+    private Vector2 _cameraInputTo;
+
+    private float _cameraSideAngleStrength;
+    private float _cameraSideAngleStrengthTo;
+
+    private Vector3 _cameraZoneOffset;
+    private float _cameraZoneZoom;
 
 
     //CAMERA OFFSETS ////////
     private float _horCameraOffset;
     private float _horCameraOffsetTo;
+
+    private bool _mapOpen;
+
+    private float _timeAlive;
     private float _vertCameraOffset;
     private float _vertCameraOffsetTo;
+    private CinemachineComposer _virtualCameraComposer;
+
+    //[SerializeField] private float defaultCameraTrackingHorInfluence = 0.2f;
+    private CinemachineTransposer _virtualCameraTransposer;
     private float _zoomCameraOffset;
     private float _zoomCameraOffsetTo;
-    [HideInInspector] public float closeUpOffset = 0;
-    [HideInInspector] public float closeUpOffsetTo = 0;
-
-    [Header("Camera Zone")] [Space(5)] [SerializeField]
-    private CameraZone currentCameraZone;
-
-    private Vector3 _cameraZoneOffset;
-    private float _cameraZoneZoom;
-    private float _cameraSideAngleStrengthTo;
-
-    private float _cameraSideAngleStrength;
 
     /***********************************/
 
@@ -56,6 +57,22 @@ public class PlayerCamera : MonoBehaviour
         _virtualCameraComposer = virtualCamera.GetCinemachineComponent<CinemachineComposer>();
         _cameraSideAngleStrengthTo = 1;
         _cameraSideAngleStrength = 1;
+        _cameraInputTo = Vector2.zero;
+    }
+
+    private void Update()
+    {
+        /*
+        _timeAlive += Time.deltaTime;
+        if (_timeAlive < 0.2f)
+            _cameraInputTo = Vector2.zero;
+            */
+        CalculateCameraOffset();
+    }
+
+    private void LateUpdate()
+    {
+        UpdatePlayerFollower();
     }
 
     public void UpdateCameraZone(CameraZone newCameraZone)
@@ -125,16 +142,6 @@ public class PlayerCamera : MonoBehaviour
             _mapOpen = !_mapOpen;
             OnMapToggle?.Invoke(_mapOpen);
         }
-    }
-
-    private void Update()
-    {
-        CalculateCameraOffset();
-    }
-
-    private void LateUpdate()
-    {
-        UpdatePlayerFollower();
     }
 
     public void MoveCamera(InputAction.CallbackContext context)

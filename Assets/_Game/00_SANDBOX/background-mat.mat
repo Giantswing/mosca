@@ -155,7 +155,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaCutoff: 0.5
-    - _BrightnessMult: 0.596
+    - _BrightnessMult: 0.733
     - _BrightnessMult2: 0.51
     - _BrightnessMult3: 0.136
     - _DirtAmount: 0.454

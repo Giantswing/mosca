@@ -205,7 +205,7 @@ public class MoverScript : MonoBehaviour
 
         var movementDuration = distanceToNextPoint / moveSpeed;
 
-        myParent.DOLocalRotate(MovePoints[_currentMovePoint].rotation, movementDuration).SetEase(Ease.InQuart);
+        myParent.DOLocalRotate(MovePoints[_currentMovePoint].rotation, movementDuration).SetEase(Ease.Linear);
 
         if (duration == 0)
         {

@@ -88,6 +88,7 @@ public class PlayerMovement : MonoBehaviour
     private PlayerInput _playerInput;
     private float _speedBoost = 1;
     private float _startingZDepth;
+    private float _timeAlive;
     private float _timeBackwards;
 
     //DASH /////////////////////
@@ -115,6 +116,9 @@ public class PlayerMovement : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
+        inputDirectionTo = Vector2.zero;
+        hSpeed = 0;
+        vSpeed = 0;
         instance = this;
         //_myRigidbody = GetComponent<Rigidbody>();
         inputDirectionTo = Vector2.zero;
@@ -129,7 +133,13 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+        //_timeAlive += Time.deltaTime;
         if (imDisabled) return;
+
+        /*
+        if (_timeAlive < .2f)
+            inputDirectionTo = Vector2.zero;
+            */
 
         lastBumpTime -= Time.deltaTime;
 
@@ -221,7 +231,8 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            zDepthTo = _startingZDepth;
+            zDepthTo = _startingZDepth + zDepthOffset;
+            foundWall = false;
         }
 
 
@@ -235,8 +246,13 @@ public class PlayerMovement : MonoBehaviour
         {
             var rotationToLook = Quaternion.LookRotation(-hit.normal, Vector3.up);
             _zRotTo = rotationToLook.eulerAngles.y;
-            _zRot = Mathf.Lerp(_zRot, _zRotTo, Time.deltaTime * 30f);
         }
+        else
+        {
+            _zRotTo = 0;
+        }
+
+        _zRot = Mathf.Lerp(_zRot, _zRotTo, Time.deltaTime * 30f);
     }
 
     //draw ray gizmos

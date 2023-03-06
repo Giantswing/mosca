@@ -1,37 +1,36 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using SmartData.SmartEvent;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 public class PlayerInteractionHandler : MonoBehaviour
 {
+    private static readonly int GlowColor = Shader.PropertyToID("_GlowColor");
+    private static readonly int GlowState = Shader.PropertyToID("_GlowState");
     [SerializeField] private PlayerMovement pM;
     [SerializeField] private PlayerCamera pC;
     [SerializeField] private PlayerSoundManager pS;
     [SerializeField] private GameObject playerPickupArea;
 
     [SerializeField] private STATS stats;
-    [SerializeField] private SmartData.SmartEvent.EventDispatcher onPlayerHealthChanged;
+    [SerializeField] private EventDispatcher onPlayerHealthChanged;
     [SerializeField] private SkinnedMeshRenderer playerMesh;
-
-    private Vector3 _vertSqueeze = new(0, 0.5f, 0);
-    private Vector3 _horSqueeze = new(0.5f, 0, 0);
-    private Vector3 _squeeze;
-
-    private STATS _otherStats;
-    private Vector3 _reflectDir;
 
     [SerializeField] private Collider dashCollider;
     [SerializeField] private Collider damageCollider;
     [SerializeField] private float lastBumpTime;
 
     [Space(25)] public List<Transform> holdingItems;
-    private static readonly int GlowColor = Shader.PropertyToID("_GlowColor");
-    private static readonly int GlowState = Shader.PropertyToID("_GlowState");
     private readonly Color _portalColor = new(0.45f, 0.15f, 0.5f);
+    private Vector3 _horSqueeze = new(0.5f, 0, 0);
+
+    private STATS _otherStats;
+    private Vector3 _reflectDir;
+    private Vector3 _squeeze;
+
+    private Vector3 _vertSqueeze = new(0, 0.5f, 0);
 
     private void Start()
     {
@@ -41,47 +40,6 @@ public class PlayerInteractionHandler : MonoBehaviour
         pickupArea.player = gameObject.transform;
         pickupArea.pI = this;
         pickupArea.pM = pM;
-    }
-
-    public void GlowPlayer(Color color)
-    {
-        playerMesh.material.SetFloat(GlowState, 1f);
-        playerMesh.material.SetColor(GlowColor, color);
-        playerMesh.material.DOFloat(0, GlowState, 0.2f).SetDelay(0.1f);
-    }
-
-    public void GlowPlayer(Color color, float duration)
-    {
-        playerMesh.material.SetFloat(GlowState, 1f);
-        playerMesh.material.SetColor(GlowColor, color);
-        playerMesh.material.DOFloat(0, GlowState, 0.2f).SetDelay(duration);
-    }
-
-    public void GlowPlayer()
-    {
-        GlowPlayer(Color.green);
-    }
-
-    public void MakeInvincible(bool invincible)
-    {
-        if (invincible)
-        {
-            damageCollider.enabled = false;
-            stats.ST_Invincibility = true;
-        }
-        else
-        {
-            stats.ST_Invincibility = false;
-            damageCollider.enabled = true;
-        }
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        CheckDmg(collision);
-
-        if (dashCollider.enabled)
-            dashCollider.enabled = false;
     }
 
     private void Update()
@@ -94,6 +52,21 @@ public class PlayerInteractionHandler : MonoBehaviour
             holdingItems[i].transform.position = Vector3.Lerp(holdingItems[i].transform.position,
                 transform.position + Vector3.up * 0.75f + xPos, Time.deltaTime * 10);
         }
+    }
+
+
+    private void OnDisable()
+    {
+        DOTween.Kill(transform);
+        DOTween.Kill(pM.my3DModel.transform);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        CheckDmg(collision);
+
+        if (dashCollider.enabled)
+            dashCollider.enabled = false;
     }
 
 
@@ -152,6 +125,39 @@ public class PlayerInteractionHandler : MonoBehaviour
             pC.UpdateCameraZone(null);
     }
 
+    public void GlowPlayer(Color color)
+    {
+        playerMesh.material.SetFloat(GlowState, 1f);
+        playerMesh.material.SetColor(GlowColor, color);
+        playerMesh.material.DOFloat(0, GlowState, 0.2f).SetDelay(0.1f);
+    }
+
+    public void GlowPlayer(Color color, float duration)
+    {
+        playerMesh.material.SetFloat(GlowState, 1f);
+        playerMesh.material.SetColor(GlowColor, color);
+        playerMesh.material.DOFloat(0, GlowState, 0.2f).SetDelay(duration);
+    }
+
+    public void GlowPlayer()
+    {
+        GlowPlayer(Color.green);
+    }
+
+    public void MakeInvincible(bool invincible)
+    {
+        if (invincible)
+        {
+            damageCollider.enabled = false;
+            stats.ST_Invincibility = true;
+        }
+        else
+        {
+            stats.ST_Invincibility = false;
+            damageCollider.enabled = true;
+        }
+    }
+
     private void CheckDmg(Collision collision)
     {
         //_reflectDir = (collision.transform.position - transform.position).normalized;
@@ -202,7 +208,7 @@ public class PlayerInteractionHandler : MonoBehaviour
                     holdingItems.Clear();
                     onPlayerHealthChanged.Dispatch();
 
-                    FreezeFrameScript.FreezeFrames(0.3f);
+                    FreezeFrameScript.FreezeFrames(.3f);
                     FreezeFrameScript.DistortView(0.3f);
                     pM.frozen = .08f;
                     pC.closeUpOffset = .35f;
@@ -235,13 +241,6 @@ public class PlayerInteractionHandler : MonoBehaviour
             pM.hSpeed = pM.inputDirection.x * 1.5f;
             pM.vSpeed = pM.inputDirection.y * 1.5f;
         }
-    }
-
-
-    private void OnDisable()
-    {
-        DOTween.Kill(transform);
-        DOTween.Kill(pM.my3DModel.transform);
     }
 
 
