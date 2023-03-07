@@ -60,7 +60,7 @@ public class PlayerCamera : MonoBehaviour
         _cameraInputTo = Vector2.zero;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         /*
         _timeAlive += Time.deltaTime;
@@ -68,12 +68,15 @@ public class PlayerCamera : MonoBehaviour
             _cameraInputTo = Vector2.zero;
             */
         CalculateCameraOffset();
+        UpdatePlayerFollower();
     }
 
-    private void LateUpdate()
+    /*
+    private void FixedUpdate()
     {
         UpdatePlayerFollower();
     }
+    */
 
     public void UpdateCameraZone(CameraZone newCameraZone)
     {
@@ -95,9 +98,17 @@ public class PlayerCamera : MonoBehaviour
 
     private void UpdatePlayerFollower()
     {
-        playerFollower.position =
-            transform.position +
-            new Vector3(_horCameraOffset + _cameraInput.x, _vertCameraOffset + _cameraInput.y, 0);
+        /*
+        playerFollower.position = Vector3.Lerp(playerFollower.position,
+            new Vector3(pM.transform.position.x, pM.transform.position.y, defaultCameraZOffset) +
+            new Vector3(_horCameraOffset, _vertCameraOffset, _zoomCameraOffset) + new Vector3(0, 0, closeUpOffset),
+            Time.deltaTime * cameraOffsetStrength);
+            */
+
+        playerFollower.position = Vector3.Lerp(playerFollower.position, transform.position +
+                                                                        new Vector3(_horCameraOffset + _cameraInput.x,
+                                                                            _vertCameraOffset + _cameraInput.y, 0),
+            Time.deltaTime * 6f);
     }
 
     private void CalculateCameraOffset()

@@ -2,16 +2,19 @@ using UnityEngine;
 
 public class ParentChanger : MonoBehaviour
 {
-    [SerializeField] private float timeInMax;
+    [SerializeField] private float timeInMax = 0.2f;
     [SerializeField] private bool isPlayerIn;
     [SerializeField] private bool changedParent;
     [SerializeField] private Transform otherTransform;
+    private EventCaller _eventCaller;
 
     private float _timeIn;
 
     // Start is called before the first frame update
     private void Start()
     {
+        _eventCaller = GetComponentInParent<EventCaller>();
+        timeInMax = 0.2f;
     }
 
     // Update is called once per frame
@@ -24,6 +27,7 @@ public class ParentChanger : MonoBehaviour
             otherTransform.parent = transform;
             changedParent = true;
             _timeIn = 0;
+            _eventCaller.OnStartEvent?.Invoke();
         }
     }
 
@@ -32,7 +36,6 @@ public class ParentChanger : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             otherTransform = other.transform;
-
             isPlayerIn = true;
         }
     }
@@ -46,5 +49,10 @@ public class ParentChanger : MonoBehaviour
             changedParent = false;
             _timeIn = 0;
         }
+    }
+
+    public void SetTimeMax(float time)
+    {
+        timeInMax = time;
     }
 }

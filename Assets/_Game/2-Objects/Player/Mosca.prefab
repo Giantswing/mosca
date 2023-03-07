@@ -2086,6 +2086,32 @@ MonoBehaviour:
   maxHorTouchDistance: 0.168
   touchMultiplier: 1.1
   isDashing: 0
+  onPlayerDodge:
+    _owner: {fileID: 7181058524826200382}
+    _ownerName: Mosca
+    _propertyPath: onPlayerDodge
+    _autoListen: 0
+    _multiIndex: 0
+    _smartEvent: {fileID: 11400000, guid: 027f8c7ec73af7149a1bc37916a3151b, type: 2}
+    _smartMulti: {fileID: 0}
+    _useMulti: 0
+    _onEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  smartDodgeDir:
+    _owner: {fileID: 7181058524826200382}
+    _ownerName: Mosca
+    _propertyPath: smartDodgeDir
+    _autoListen: 0
+    _multiIndex: 0
+    _refType: 2
+    _value: {x: 0, y: 0, z: 0}
+    _smartConst: {fileID: 0}
+    _smartVar: {fileID: 11400000, guid: df82e805394cff340a4550bdc2ab83ca, type: 2}
+    _smartMulti: {fileID: 0}
+    _onUpdate:
+      m_PersistentCalls:
+        m_Calls: []
   dodgeColor: {r: 1, g: 0.49820757, b: 0, a: 0}
   isDodging: 0
 --- !u!114 &7181058524826200374
@@ -2122,6 +2148,7 @@ MonoBehaviour:
   damageCollider: {fileID: 2462846326598937567}
   lastBumpTime: 0
   holdingItems: []
+  playerReference: {fileID: 11400000, guid: 801276c36f554ca47ad4a6598a0e6fae, type: 2}
 --- !u!114 &7181058524826200371
 MonoBehaviour:
   m_ObjectHideFlags: 0

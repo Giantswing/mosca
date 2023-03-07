@@ -8,6 +8,7 @@ using UnityEngine.InputSystem.LowLevel;
 using Random = UnityEngine.Random;
 using TouchPhase = UnityEngine.InputSystem.TouchPhase;
 
+
 public class PlayerMovement : MonoBehaviour
 {
     private const float TimeToSwitch = .35f;
@@ -61,6 +62,10 @@ public class PlayerMovement : MonoBehaviour
     [Range(0.1f, 0.3f)] [SerializeField] private float maxHorTouchDistance = .2f;
     [SerializeField] private float touchMultiplier = 1f;
     [HideInInspector] public bool isDashing;
+
+
+    [SerializeField] private SmartData.SmartEvent.EventDispatcher onPlayerDodge;
+    [SerializeField] private SmartData.SmartVector3.Vector3Writer smartDodgeDir;
 
 
     ////////////////////////
@@ -125,7 +130,6 @@ public class PlayerMovement : MonoBehaviour
         flyAnimator = GetComponentInChildren<Animator>();
         _transform = transform;
         _startingZDepth = _transform.position.z;
-        print(_startingZDepth);
         zDepth = _startingZDepth;
         zDepthTo = _startingZDepth;
     }
@@ -181,12 +185,14 @@ public class PlayerMovement : MonoBehaviour
         UpdatePlayerRotation();
     }
 
-    private void LateUpdate()
+
+    private void FixedUpdate()
     {
         if (frozen <= 0)
             _myRigidbody.velocity = new Vector3(inputDirection.x * speedMultiplier * _speedBoost + _windForce.x,
                 inputDirection.y * speedMultiplier * _speedBoost + _windForce.y, 0);
     }
+
 
     public void DisableMovement(int levelTransitionState, SceneField levelToLoad)
     {
@@ -398,6 +404,9 @@ public class PlayerMovement : MonoBehaviour
                 flyAnimator.SetBool(IsDashing, true);
             else if (_timerToDoubleDash > 0)
                 flyAnimator.SetBool(IsDoubleDashing, true);
+
+            onPlayerDodge?.Dispatch();
+            smartDodgeDir.value = inputDirectionTo;
         }
     }
 

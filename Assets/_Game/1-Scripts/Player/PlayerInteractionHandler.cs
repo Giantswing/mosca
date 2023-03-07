@@ -5,6 +5,13 @@ using SmartData.SmartEvent;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[Serializable]
+public class HoldableItem
+{
+    public Transform itemTransform;
+    public bool isThrowable;
+}
+
 public class PlayerInteractionHandler : MonoBehaviour
 {
     private static readonly int GlowColor = Shader.PropertyToID("_GlowColor");
@@ -22,9 +29,10 @@ public class PlayerInteractionHandler : MonoBehaviour
     [SerializeField] private Collider damageCollider;
     [SerializeField] private float lastBumpTime;
 
-    [Space(25)] public List<Transform> holdingItems;
+    [Space(25)] public List<HoldableItem> holdingItems;
     private readonly Color _portalColor = new(0.45f, 0.15f, 0.5f);
     private Vector3 _horSqueeze = new(0.5f, 0, 0);
+    public static PlayerInteractionHandler instance;
 
     private STATS _otherStats;
     private Vector3 _reflectDir;
@@ -32,14 +40,24 @@ public class PlayerInteractionHandler : MonoBehaviour
 
     private Vector3 _vertSqueeze = new(0, 0.5f, 0);
 
+    [SerializeField] private PlayerReferenceSO playerReference;
+
     private void Start()
     {
+        instance = this;
         var obj = Instantiate(playerPickupArea);
         var pickupArea = obj.GetComponent<PlayerPickupArea>();
 
         pickupArea.player = gameObject.transform;
         pickupArea.pI = this;
         pickupArea.pM = pM;
+
+        playerReference.playerGameObject = gameObject;
+        playerReference.playerCamera = pC;
+        playerReference.playerInteractionHandler = this;
+        playerReference.playerMovement = pM;
+        playerReference.playerRigidbody = GetComponent<Rigidbody>();
+        playerReference.playerTransform = transform;
     }
 
     private void Update()
@@ -47,11 +65,17 @@ public class PlayerInteractionHandler : MonoBehaviour
         if (holdingItems.Count == 0) return;
 
         for (var i = 0; i < holdingItems.Count; i++)
-        {
-            var xPos = Vector3.left * 1.5f + Vector3.right * (0.75f * i);
-            holdingItems[i].transform.position = Vector3.Lerp(holdingItems[i].transform.position,
-                transform.position + Vector3.up * 0.75f + xPos, Time.deltaTime * 10);
-        }
+            if (!holdingItems[i].isThrowable)
+            {
+                var xPos = Vector3.left * 1.5f + Vector3.right * (0.75f * i);
+                holdingItems[i].itemTransform.position = Vector3.Lerp(holdingItems[i].itemTransform.position,
+                    transform.position + Vector3.up * 0.75f + xPos, Time.deltaTime * 10);
+            }
+            else
+            {
+                holdingItems[i].itemTransform.position = Vector3.Lerp(holdingItems[i].itemTransform.position,
+                    transform.position + Vector3.up * 1.3f, Time.deltaTime * 10);
+            }
     }
 
 
@@ -144,6 +168,11 @@ public class PlayerInteractionHandler : MonoBehaviour
         GlowPlayer(Color.green);
     }
 
+    public static void GlowPlayerStatic(Color color)
+    {
+        instance.GlowPlayer(color);
+    }
+
     public void MakeInvincible(bool invincible)
     {
         if (invincible)
@@ -186,7 +215,7 @@ public class PlayerInteractionHandler : MonoBehaviour
                     LevelManager.OnScoreChanged?.Invoke(_otherStats.ST_Reward);
                 }
 
-                _otherStats.TakeDamage(stats.ST_Damage, transform.position);
+                _otherStats.TakeDamage(stats.ST_Damage, transform.position, false);
 
                 FreezeFrameScript.DistortView(0.3f);
                 pC.closeUpOffset = .35f;
@@ -203,7 +232,7 @@ public class PlayerInteractionHandler : MonoBehaviour
                     pM.inputDirectionTo = pM.inputDirection;
 
 
-                    stats.TakeDamage(_otherStats.ST_Damage, _otherStats.transform.position);
+                    stats.TakeDamage(_otherStats.ST_Damage, _otherStats.transform.position, false);
 
                     holdingItems.Clear();
                     onPlayerHealthChanged.Dispatch();
@@ -243,6 +272,30 @@ public class PlayerInteractionHandler : MonoBehaviour
         }
     }
 
+
+    public void CheckTakeDamage(int damage, Vector3 damagePos)
+    {
+        if (stats.ST_Invincibility == false) //if im not dashing and the enemy can attack
+        {
+            print("check take damage");
+            _reflectDir = Vector3.Reflect(damagePos, transform.position).normalized;
+            pM.inputDirection = -_reflectDir;
+            pM.hSpeed = pM.inputDirection.x * 5f;
+            pM.vSpeed = pM.inputDirection.y * 5f;
+            pM.inputDirectionTo = pM.inputDirection;
+
+            stats.TakeDamage(damage, damagePos, false);
+
+            holdingItems.Clear();
+            onPlayerHealthChanged.Dispatch();
+
+            FreezeFrameScript.FreezeFrames(.3f);
+            FreezeFrameScript.DistortView(0.3f);
+            pM.frozen = .08f;
+            pC.closeUpOffset = .35f;
+            pC.closeUpOffsetTo = 1f;
+        }
+    }
 
     public void QuitGame(InputAction.CallbackContext context)
     {

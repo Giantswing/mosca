@@ -6,7 +6,8 @@ using UnityEngine;
 public class CollectableBehaviour : MonoBehaviour
 {
     private bool _isShrinking = false;
-    private Tweener _tweener;
+    protected Tweener _tweener;
+    protected bool isPickedUp = false;
 
     [HideInInspector] public int isFollowing = 0;
     [HideInInspector] public Transform _whoToFollow;
@@ -15,8 +16,11 @@ public class CollectableBehaviour : MonoBehaviour
     [SerializeField] private BoxCollider myCollider;
     [SerializeField] private SmartData.SmartInt.IntWriter playerHealth;
     [SerializeField] private SmartData.SmartEvent.EventDispatcher onCollect;
+    [SerializeField] private Color pickUpCoinColor;
 
     [Space(10)] [SerializeField] private SimpleAudioEvent collectSound;
+
+    private HoldableItem _holdableItem;
 
     //private bool hasAddedScore = false;
 
@@ -33,7 +37,8 @@ public class CollectableBehaviour : MonoBehaviour
     {
         Coin,
         Poop,
-        Holder
+        Holder,
+        Throwable
     }
 
     public PickUp pickUp;
@@ -50,8 +55,11 @@ public class CollectableBehaviour : MonoBehaviour
 
     public void Start()
     {
-        //if (!hasAddedScore) AddToScore();
+        Initialize();
+    }
 
+    public void Initialize()
+    {
         switch (pickUpAnimation)
         {
             case PickUpAnimation.Rotatable:
@@ -60,8 +68,26 @@ public class CollectableBehaviour : MonoBehaviour
                 break;
         }
 
+
         myCollider.enabled = false;
         StartCoroutine(AllowCollection());
+
+        if (pickUp == PickUp.Holder)
+        {
+            _holdableItem = new HoldableItem();
+            _holdableItem.itemTransform = transform;
+            _holdableItem.isThrowable = false;
+        }
+
+        else if (pickUp == PickUp.Throwable)
+        {
+            _holdableItem = new HoldableItem();
+            _holdableItem.itemTransform = transform;
+            _holdableItem.isThrowable = true;
+        }
+
+        isPickedUp = false;
+        //
     }
 
     private IEnumerator AllowCollection()
@@ -81,34 +107,38 @@ public class CollectableBehaviour : MonoBehaviour
             if (distance < .6f && _isShrinking == false)
             {
                 transform.SetParent(null);
-                if (pickUp != PickUp.Holder)
+                if (pickUp == PickUp.Throwable)
+                {
+                    var playerInteraction = _whoToFollow.gameObject.GetComponent<PlayerInteractionHandler>();
+                    if (playerInteraction == null) return;
+                    isFollowing = 3;
+                    transform.DOLocalRotate(Vector3.zero, 0.5f);
+                    playerInteraction.holdingItems.Add(_holdableItem);
+                    isPickedUp = true;
+                }
+                else if (pickUp != PickUp.Holder)
                 {
                     _isShrinking = true;
                     transform.DOScale(0, .1f).OnComplete(() =>
                     {
                         GlobalAudioManager.PlaySound(collectSound, transform.position);
                         Destroy(gameObject);
+                        PlayerInteractionHandler.GlowPlayerStatic(pickUpCoinColor);
                     });
                 }
                 else
                 {
-                    GlobalAudioManager.PlaySound(collectSound, transform.position);
+                    if (collectSound != null)
+                        GlobalAudioManager.PlaySound(collectSound, transform.position);
                     var playerInteraction = _whoToFollow.gameObject.GetComponent<PlayerInteractionHandler>();
                     if (playerInteraction == null) return;
                     isFollowing = 3;
                     myCollider.size = new Vector3(3, 3, 3);
-                    playerInteraction.holdingItems.Add(transform);
+                    playerInteraction.holdingItems.Add(_holdableItem);
                     transform.DOLocalRotate(Vector3.zero, 0.5f);
                 }
             }
         }
-/*
-        else if (isFollowing == 3)
-        {
-            var position = _whoToFollow.position + Vector3.up * 0.75f + Vector3.left * 0.75f;
-            transform.position = Vector3.Lerp(transform.position, position, Time.deltaTime * 10);
-        }
-        */
     }
 
     public void RemoveHolder()
@@ -116,7 +146,7 @@ public class CollectableBehaviour : MonoBehaviour
         var playerInteraction = _whoToFollow.gameObject.GetComponent<PlayerInteractionHandler>();
         if (playerInteraction == null) return;
 
-        playerInteraction.holdingItems.Remove(transform);
+        playerInteraction.holdingItems.Remove(_holdableItem);
     }
 
     public void OnDestroy()
@@ -166,6 +196,6 @@ public class CollectableBehaviour : MonoBehaviour
 
         _tweener = transform.DOMove(_whoToFollow.position, .2f, false).SetEase(Ease.OutCubic);
         isFollowing = 2;
-        _tweener.Play();
+        //_tweener.Play();
     }
 }

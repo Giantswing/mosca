@@ -37,6 +37,9 @@ public class STATS : MonoBehaviour
 
     public UnityEvent ST_DeathEvent;
 
+    [SerializeField] private bool onlyDamageByExplosions = false;
+    [SerializeField] private bool isThisAnExplosion = false;
+
 
     private bool HasInvincibilityMaterial = false;
 
@@ -59,9 +62,15 @@ public class STATS : MonoBehaviour
         }
     }
 
-    public void TakeDamage(int dmg, Vector3 originDmgPos)
+    public void SimpleDeath()
+    {
+        Destroy(gameObject);
+    }
+
+    public void TakeDamage(int dmg, Vector3 originDmgPos, bool isExplosion = false)
     {
         if (ST_Invincibility) return;
+        if (!isExplosion && onlyDamageByExplosions) return;
 
         if (playHitSound)
             GlobalAudioManager.PlaySound(hitSoundEvent, transform.position);

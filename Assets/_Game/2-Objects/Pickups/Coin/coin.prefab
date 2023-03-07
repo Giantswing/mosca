@@ -173,6 +173,7 @@ MonoBehaviour:
     _onEvent:
       m_PersistentCalls:
         m_Calls: []
+  pickUpCoinColor: {r: 1, g: 0.77898437, b: 0.05098039, a: 0}
   collectSound: {fileID: 11400000, guid: c8d43bb10d4d1014c824d3a1b89256e8, type: 2}
   pickUpAnimation: 0
   pickUp: 0

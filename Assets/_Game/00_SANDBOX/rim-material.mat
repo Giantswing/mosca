@@ -65,7 +65,7 @@ Material:
     - _SmoothMultiplier: 0.82
     - _brightness: 0.576
     - _tileamount22: 0.216
-    - _vertexOpacity: 1.65
+    - _vertexOpacity: 0.963
     m_Colors:
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
