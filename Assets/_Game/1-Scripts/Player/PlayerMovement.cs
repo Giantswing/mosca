@@ -67,6 +67,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private SmartData.SmartEvent.EventDispatcher onPlayerDodge;
     [SerializeField] private SmartData.SmartVector3.Vector3Writer smartDodgeDir;
 
+    private Vector3 lastLocalPosInsideLevel;
+
 
     ////////////////////////
 
@@ -234,13 +236,13 @@ public class PlayerMovement : MonoBehaviour
         {
             zDepthTo = hit.distance;
             foundWall = true;
+            lastLocalPosInsideLevel = transform.localPosition;
         }
         else
         {
             zDepthTo = _startingZDepth + zDepthOffset;
             foundWall = false;
         }
-
 
         zDepth = Mathf.Lerp(zDepth, zDepthTo, Time.deltaTime * 50f);
         var position = transform.position;
@@ -259,6 +261,10 @@ public class PlayerMovement : MonoBehaviour
         }
 
         _zRot = Mathf.Lerp(_zRot, _zRotTo, Time.deltaTime * 30f);
+
+        if (!foundWall && isDodging == false)
+            transform.localPosition = Vector3.Lerp(transform.localPosition, lastLocalPosInsideLevel,
+                Time.deltaTime * 10f);
     }
 
     //draw ray gizmos
@@ -473,14 +479,22 @@ public class PlayerMovement : MonoBehaviour
     {
         _canDodge = false;
 
-        /*
-        my3DModel.transform.DOLocalRotate(new Vector3(0, 360, 0), 1f, RotateMode.FastBeyond360);
-        */
-
         pS.PlayDodgeSound();
         _dodgeDirection = Random.insideUnitCircle.normalized;
-        var finalDodgePos = transform.position + _dodgeDirection * 1.3f;
-        var originalPos = transform.position;
+        Vector3 finalDodgePos;
+
+        if (stats.IsInsideElevator)
+            finalDodgePos = _dodgeDirection * 1.3f;
+        else
+            finalDodgePos = transform.position + _dodgeDirection * 1.3f;
+
+
+        Vector3 originalPos;
+
+        if (stats.IsInsideElevator)
+            originalPos = Vector3.zero;
+        else
+            originalPos = transform.position;
 
         var hasRotated = false;
 
@@ -495,7 +509,9 @@ public class PlayerMovement : MonoBehaviour
             hasRotated = true;
         }
 
-        transform.DOMove(finalDodgePos, 0.2f);
+
+        transform.DOLocalMove(finalDodgePos, 0.2f);
+
         isDodging = true;
         pI.GlowPlayer(dodgeColor);
         pI.MakeInvincible(true);
@@ -512,7 +528,8 @@ public class PlayerMovement : MonoBehaviour
                 my3DModel.transform.DOLocalRotate(new Vector3(0, 180, 0), 0.3f);
         }
 
-        transform.DOMove(originalPos, 0.2f).onComplete += () =>
+
+        transform.DOLocalMove(originalPos, 0.2f).onComplete += () =>
         {
             pI.MakeInvincible(false);
             _canDodge = true;

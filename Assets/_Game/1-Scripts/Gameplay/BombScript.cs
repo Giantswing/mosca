@@ -13,7 +13,7 @@ public class BombScript : CollectableBehaviour
     [SerializeField] private Rigidbody myRigidbody;
     [SerializeField] private SmartData.SmartVector3.Vector3Reader playerDir;
     [SerializeField] private Collider collisionCollider;
-    private WaitForSeconds _enableCollisionWait = new(0.1f);
+    private WaitForSeconds _enableCollisionWait = new(0.03f);
     [SerializeField] private PlayerReferenceSO playerReference;
     [SerializeField] private float lifeTime = 5f;
     [SerializeField] private float thresholdForce = 4f;
@@ -27,6 +27,7 @@ public class BombScript : CollectableBehaviour
     private WaitForSeconds _slowFlash = new(0.5f);
     private WaitForSeconds _midFlash = new(0.25f);
     private WaitForSeconds _fastFlash = new(0.1f);
+    private WaitForSeconds _flashDuration = new(0.15f);
 
     private MeshRenderer[] _meshRenderers;
 
@@ -51,16 +52,20 @@ public class BombScript : CollectableBehaviour
         foreach (var renderer in _meshRenderers)
             renderer.material = flashingMaterial;
 
+        /*
         if (_currentLifeTime > lifeTime / 2f)
             yield return _slowFlash;
         else if (_currentLifeTime > lifeTime / 5f)
             yield return _midFlash;
         else
             yield return _fastFlash;
+            */
 
+        yield return _flashDuration;
 
         foreach (var renderer in _meshRenderers)
             renderer.material = defaultMaterial;
+
 
         if (_currentLifeTime > lifeTime / 2f)
             yield return _slowFlash;
@@ -150,6 +155,7 @@ public class BombScript : CollectableBehaviour
         _currentLifeTime = lifeTime;
         Instantiate(explosionPrefab, transform.position, Quaternion.identity);
         _isFlashing = false;
+        FreezeFrameScript.ShakeCamera(.7f, 4f);
         Reset();
 
         //myParticles.Emit(40);

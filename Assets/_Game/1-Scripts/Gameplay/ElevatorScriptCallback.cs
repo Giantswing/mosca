@@ -9,6 +9,27 @@ public class ElevatorScriptCallback : MonoBehaviour
     private void OnEnable()
     {
         _elevatorScript = GetComponentInParent<ElevatorScript>();
+
+        if (gameObject.name.Contains("backplane"))
+        {
+            //add a meshcollider if it doesnt have one already
+            var meshCollider = GetComponent<MeshCollider>();
+            if (meshCollider == null)
+            {
+                meshCollider = gameObject.AddComponent<MeshCollider>();
+                meshCollider.convex = true;
+            }
+
+            //remove mesh filter and renderer if it has one
+            var meshFilter = GetComponent<MeshFilter>();
+            if (meshFilter != null) DestroyImmediate(meshFilter);
+
+            var meshRenderer = GetComponent<MeshRenderer>();
+            if (meshRenderer != null) DestroyImmediate(meshRenderer);
+
+            //set layer to 12
+            gameObject.layer = 12;
+        }
     }
 
     public void ChangedParameters()

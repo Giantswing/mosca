@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 public class ExplosionScript : MonoBehaviour
@@ -7,12 +8,33 @@ public class ExplosionScript : MonoBehaviour
     private WaitForSeconds _explosionDamageDuration;
     private float _explosionShowDuration = 1f;
     [SerializeField] private SphereCollider explosionCollider;
+    [SerializeField] private MeshRenderer explosionMesh;
+    [SerializeField] private MeshRenderer explosionRing;
     private float _explosionSize;
 
     private void Start()
     {
         _explosionSize = explosionCollider.radius;
+
+        explosionRing.transform.localScale = Vector3.zero;
+        explosionMesh.transform.localScale = Vector3.zero;
+        explosionRing.sharedMaterial.SetFloat("_OpacityMultiplier", 1);
+        explosionMesh.sharedMaterial.SetFloat("_ClipThreshold", 0);
+
+        explosionRing.sharedMaterial.DOFloat(0, "_OpacityMultiplier", 0.35f).SetDelay(0.35f);
+        explosionRing.transform.DOScale(1.2f, 1.7f).SetEase(Ease.OutBack);
+
+        explosionMesh.transform.DOScale(3f, 0.30f).SetEase(Ease.OutBounce);
         CheckForDamage();
+
+        explosionMesh.sharedMaterial.DOFloat(1f, "_ClipThreshold", 1f).SetEase(Ease.Linear).SetDelay(0.5f)
+                .onComplete +=
+            () => { Destroy(gameObject); };
+
+        /*
+        explosionMesh.transform.DOScale(0f, 0.5f).SetEase(Ease.InBack).SetDelay(0.5f).onComplete +=
+            () => { Destroy(gameObject); };
+        */
     }
 
     private void CheckForDamage()
@@ -30,14 +52,5 @@ public class ExplosionScript : MonoBehaviour
                     receiver.GetComponent<STATS>().TakeDamage(1, transform.position, true);
             }
         }
-    }
-
-    // Update is called once per frame
-    private void Update()
-    {
-        _explosionShowDuration -= Time.deltaTime;
-
-        if (_explosionShowDuration <= 0f)
-            Destroy(gameObject);
     }
 }

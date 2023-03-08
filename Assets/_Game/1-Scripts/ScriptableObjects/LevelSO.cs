@@ -57,7 +57,7 @@ public class LevelSO : ScriptableObject
 
             if (campaign.levels[j].hasBSide)
             {
-                Debug.Log("saving b-side");
+                //Debug.Log("saving b-side");
                 PlayerPrefs.SetInt(campaign.levels[j].bSideScene.sceneName, campaign.levels[j].bSideScene.stars);
                 PlayerPrefs.SetInt(campaign.levels[j].bSideScene.sceneName + "deaths",
                     campaign.levels[j].bSideScene.deathCounter);

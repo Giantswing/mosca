@@ -1,11 +1,21 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
+
+[Serializable]
+public class EntityInside
+{
+    public Transform entityTransform;
+    public STATS entityStats;
+}
 
 public class ParentChanger : MonoBehaviour
 {
-    [SerializeField] private float timeInMax = 0.2f;
-    [SerializeField] private bool isPlayerIn;
-    [SerializeField] private bool changedParent;
-    [SerializeField] private Transform otherTransform;
+    //[SerializeField] private float timeInMax = 0.2f;
+    //[SerializeField] private bool isPlayerIn;
+    //[SerializeField] private bool changedParent;
+    //[SerializeField] private Transform otherTransform;
+    [SerializeField] private List<EntityInside> listOfEntities = new();
     private EventCaller _eventCaller;
 
     private float _timeIn;
@@ -13,11 +23,13 @@ public class ParentChanger : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
+        if (gameObject.name.Contains("convex_collision") == false) Destroy(this);
         _eventCaller = GetComponentInParent<EventCaller>();
-        timeInMax = 0.2f;
+        //timeInMax = 0.2f;
     }
 
     // Update is called once per frame
+    /*
     private void Update()
     {
         if (isPlayerIn && !changedParent)
@@ -30,29 +42,72 @@ public class ParentChanger : MonoBehaviour
             _eventCaller.OnStartEvent?.Invoke();
         }
     }
+    */
+
+    private bool CheckIfEntityIsInside(Transform other_transform)
+    {
+        for (var i = 0; i < listOfEntities.Count; i++)
+            if (listOfEntities[i].entityTransform == other_transform)
+                return true;
+        return false;
+    }
+
+    public bool IsSomeoneInside()
+    {
+        return listOfEntities.Count > 0;
+    }
+
+    private void AddEntity(Transform other_transform, STATS other_stats)
+    {
+        listOfEntities.Add(new EntityInside { entityTransform = other_transform, entityStats = other_stats });
+        other_transform.parent = transform;
+        other_stats.IsInsideElevator = true;
+    }
+
+    private void RemoveEntity(Transform other_transform)
+    {
+        for (var i = 0; i < listOfEntities.Count; i++)
+            if (listOfEntities[i].entityTransform == other_transform)
+            {
+                listOfEntities[i].entityTransform.parent = null;
+                listOfEntities[i].entityStats.IsInsideElevator = false;
+                listOfEntities.RemoveAt(i);
+                break;
+            }
+    }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
+            /*
             otherTransform = other.transform;
             isPlayerIn = true;
+            STATS otherStats = other.GetComponent<STATS>();
+            otherStats.IsInsideElevator = true;
+            */
+            if (CheckIfEntityIsInside(other.transform)) return;
+            AddEntity(other.transform, other.GetComponent<STATS>());
+            _eventCaller.OnStartEvent?.Invoke();
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
-        {
+            /*
             other.transform.parent = null;
             isPlayerIn = false;
             changedParent = false;
             _timeIn = 0;
-        }
+            */
+            RemoveEntity(other.transform);
     }
 
+    /*
     public void SetTimeMax(float time)
     {
         timeInMax = time;
     }
+    */
 }

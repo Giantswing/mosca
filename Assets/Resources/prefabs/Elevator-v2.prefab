@@ -51,8 +51,11 @@ MonoBehaviour:
   doors: []
   eventCaller: {fileID: 6090903703045003601}
   doorHeight: 2.9
-  currentMovePoint: 0
+  physicMaterial: {fileID: 13400000, guid: 5057283b15fe753408c09f8a680992b5, type: 2}
+  MovePoints: []
   assetRoot: {fileID: 0}
+  entranceBlocks: []
+  entranceBlockPrefab: {fileID: 9183055964249471468, guid: d1dbdec3e1aa99f4aaf90e34260b7492, type: 3}
 --- !u!114 &6090903703045003601
 MonoBehaviour:
   m_ObjectHideFlags: 0

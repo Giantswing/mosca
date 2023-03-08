@@ -19,6 +19,8 @@ public class STATS : MonoBehaviour
     [SerializeField] private Material normalMaterial;
     [SerializeField] private Material invincibilityMaterial;
 
+    public bool IsInsideElevator = false;
+
 
     public float ST_Speed;
     public SmartData.SmartInt.IntWriter ST_Health;

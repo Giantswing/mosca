@@ -1,4 +1,5 @@
 using System.Collections;
+using Cinemachine;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
@@ -6,6 +7,8 @@ using UnityEngine.Rendering.Universal;
 public class FreezeFrameScript : MonoBehaviour
 {
     private static FreezeFrameScript Instance;
+    [SerializeField] private CinemachineVirtualCamera vcam;
+    private CinemachineBasicMultiChannelPerlin vcamNoise;
     private bool _changeTimeScale;
     private float _distortionIntensity;
     private float _distortionIntensityTo;
@@ -28,6 +31,9 @@ public class FreezeFrameScript : MonoBehaviour
             Instance = this;
 
         _changeTimeScale = false;
+
+        if (vcam == null) vcam = FindObjectOfType<CinemachineVirtualCamera>();
+        vcamNoise = vcam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
     }
 
     private void Update()
@@ -52,10 +58,24 @@ public class FreezeFrameScript : MonoBehaviour
         }
     }
 
+    public static void ShakeCamera(float duration = 1f, float strength = 1f)
+    {
+        Instance.StartCoroutine(Instance.IEShakeCamera(duration, strength));
+    }
+
     public static void DistortView(float duration)
     {
         Instance.StartCoroutine(Instance.IEDistortView(duration));
         //test
+    }
+
+    private IEnumerator IEShakeCamera(float duration, float strength)
+    {
+        Instance.vcamNoise.m_AmplitudeGain = 0.5f * strength;
+        Instance.vcamNoise.m_FrequencyGain = 1f * strength;
+        yield return new WaitForSecondsRealtime(duration);
+        Instance.vcamNoise.m_AmplitudeGain = 0f;
+        Instance.vcamNoise.m_FrequencyGain = 0f;
     }
 
     //create coroutine freeze frames

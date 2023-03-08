@@ -51,7 +51,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _ColorMask: 15
-    - _Opacity: 0.5
+    - _Opacity: 0.9
     - _Opacity1: 1
     - _ShadowYOffset: 0.0061
     - _ShadowYOffset1: 0.009180405

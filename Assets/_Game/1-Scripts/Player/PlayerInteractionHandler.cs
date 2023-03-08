@@ -249,7 +249,7 @@ public class PlayerInteractionHandler : MonoBehaviour
                 }
             }
         }
-        else if (_otherStats == null)
+        else if (_otherStats == null && !stats.IsInsideElevator)
         {
             //if (pM.ReturnVelocity().magnitude < 3f || pM.lastBumpTime > 0) return;
 

@@ -23,6 +23,7 @@ public class ElevatorScript : MonoBehaviour
     [SerializeField] private ElevatorScriptDoor[] doors;
     [SerializeField] private EventCaller eventCaller;
     [SerializeField] private float doorHeight = 2f;
+    [SerializeField] private PhysicMaterial physicMaterial;
 
     public List<ElevatorMovePoint> MovePoints = new();
     public HEU_HoudiniAssetRoot assetRoot;
@@ -34,13 +35,48 @@ public class ElevatorScript : MonoBehaviour
     private Vector3 _startPosition;
     private WaitForSeconds[] _waitTimes;
 
+    private ParentChanger _parentChanger;
+
+    /*
+    [SerializeField] private List<GameObject> entranceBlocks = new();
+    [SerializeField] private GameObject entranceBlockPrefab;
+    */
 
     private void Start()
     {
         _startPosition = transform.position;
         _waitTimes = new WaitForSeconds[MovePoints.Count];
         UpdateDoors();
+
+        var children = GetComponentsInChildren<MeshCollider>();
+        foreach (var child in children) child.material = physicMaterial;
     }
+
+    /*
+    private void CreateEntranceBlocks()
+    {
+        DeleteEntranceBlocks();
+        for (var i = 0; i < MovePoints.Count; i++)
+            if (MovePoints[i].openLeftDoor || MovePoints[i].openRightDoor)
+            {
+                print("spawned entrance");
+                var horizontalOffset = MovePoints[i].openRightDoor ? 1f : -1f;
+                var entranceBlock = Instantiate(entranceBlockPrefab);
+                entranceBlock.transform.position =
+                    transform.position + transform.right * (4.1f * horizontalOffset + xSize * horizontalOffset * 10f) +
+                    transform.up * -2.9f;
+                entranceBlocks.Add(Instantiate(entranceBlockPrefab));
+            }
+    }
+
+    private void DeleteEntranceBlocks()
+    {
+        foreach (var entranceBlock in entranceBlocks)
+            Destroy(entranceBlock);
+
+        entranceBlocks.Clear();
+    }
+    */
 
     private void OnEnable()
     {
@@ -74,11 +110,14 @@ public class ElevatorScript : MonoBehaviour
             doors[0].isDoorOpen = true;
             doors[1].isDoorOpen = true;
         }
+
+        //CreateEntranceBlocks();
     }
 
     private void OnDisable()
     {
         eventCaller.OnStartEvent -= StartMoving;
+        //DeleteEntranceBlocks();
     }
 
     private void CloseDoors()
@@ -113,21 +152,34 @@ public class ElevatorScript : MonoBehaviour
 
     private void Move()
     {
-        transform.DOShakeRotation(1.5f, 2f, 30, 90f, true).SetUpdate(UpdateType.Fixed);
-        IterateMovePoint();
-        var distanceToNextPoint =
-            Vector3.Distance(transform.position, _startPosition + MovePoints[_currentMovePoint].offset);
+        _parentChanger = GetComponentInChildren<ParentChanger>();
+        if (_parentChanger.IsSomeoneInside())
+        {
+            transform.DOShakeRotation(3f, 2f, 30, 90f, true).SetUpdate(UpdateType.Fixed);
+            IterateMovePoint();
+            var distanceToNextPoint =
+                Vector3.Distance(transform.position, _startPosition + MovePoints[_currentMovePoint].offset);
 
-        var movementDuration = distanceToNextPoint / MovePoints[_currentMovePoint].moveSpeed;
+            var movementDuration = distanceToNextPoint / MovePoints[_currentMovePoint].moveSpeed;
 
 
-        transform.DOMove(_startPosition + MovePoints[_currentMovePoint].offset,
-                movementDuration).SetEase(Ease.InOutCubic).SetUpdate(UpdateType.Fixed).onComplete +=
-            () => { StartCoroutine(WaitMove()); };
+            transform.DOMove(_startPosition + MovePoints[_currentMovePoint].offset,
+                    movementDuration).SetEase(Ease.InOutCubic).SetUpdate(UpdateType.Fixed).onComplete +=
+                () => { StartCoroutine(WaitMove()); };
+        }
+        else
+        {
+            if (MovePoints[_currentMovePoint].openRightDoor)
+                doors[1].OpenDoor();
+
+            if (MovePoints[_currentMovePoint].openLeftDoor)
+                doors[0].OpenDoor();
+        }
     }
 
     private IEnumerator WaitMove()
     {
+        transform.DOShakeRotation(0.5f, 2f, 30, 90f, true).SetUpdate(UpdateType.Fixed);
         yield return _waitTimes[_currentMovePoint];
         UpdateDoors();
 

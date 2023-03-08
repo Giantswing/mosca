@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _description: 
   _decorators: []
-  _resetOnSceneChange: 0
+  _resetOnSceneChange: 1
   _dataType: 1
   _value: {x: 0, y: 0, z: 0}
-  _runtimeValue: {x: 0, y: 0, z: 0}
+  _runtimeValue: {x: 0.15118328, y: -0.9885057, z: 0}

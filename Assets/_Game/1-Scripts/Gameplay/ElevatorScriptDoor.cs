@@ -10,10 +10,13 @@ public class ElevatorScriptDoor : MonoBehaviour
     public Ease easeOpen = Ease.InOutQuad;
     public Ease easeClose = Ease.InOutQuad;
 
+    private ParticleSystem closingFx;
+
     private void Start()
     {
         easeOpen = Ease.InCirc;
         easeClose = Ease.OutBounce;
+        closingFx = GetComponent<ParticleSystem>();
     }
 
     public void OpenDoor()
@@ -21,7 +24,7 @@ public class ElevatorScriptDoor : MonoBehaviour
         if (isDoorOpen == false)
         {
             isDoorOpen = true;
-            transform.DOLocalMoveY(doorHeight, 1f).SetEase(easeOpen);
+            transform.DOLocalMoveY(0, 1f).SetEase(easeOpen);
         }
     }
 
@@ -31,7 +34,7 @@ public class ElevatorScriptDoor : MonoBehaviour
         if (isDoorOpen)
         {
             isDoorOpen = false;
-            transform.DOLocalMoveY(-doorHeight, 1f).SetEase(easeClose);
+            transform.DOLocalMoveY(-doorHeight, 1f).SetEase(easeClose).SetDelay(0.2f);
         }
     }
 
@@ -40,7 +43,8 @@ public class ElevatorScriptDoor : MonoBehaviour
         if (isDoorOpen)
         {
             isDoorOpen = false;
-            transform.DOLocalMoveY(-doorHeight, 1f).SetEase(easeClose).OnComplete(() => callback());
+            transform.DOLocalMoveY(-doorHeight, 1f).SetEase(easeClose).SetDelay(0.25f).OnComplete(() => callback());
+            transform.DOLocalMoveX(transform.localPosition.x, 0.6f).onComplete += () => { closingFx.Emit(20); };
         }
     }
 }
