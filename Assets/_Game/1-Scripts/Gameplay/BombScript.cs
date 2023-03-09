@@ -31,6 +31,8 @@ public class BombScript : CollectableBehaviour
 
     private MeshRenderer[] _meshRenderers;
 
+    [SerializeField] private SimpleAudioEvent beepSound;
+
 
     private new void Start()
     {
@@ -52,6 +54,11 @@ public class BombScript : CollectableBehaviour
         foreach (var renderer in _meshRenderers)
             renderer.material = flashingMaterial;
 
+        //map the pitch to the life time
+        beepSound.pitch.minValue = Mathf.Lerp(1.2f, .8f, _currentLifeTime / lifeTime);
+        beepSound.pitch.maxValue = beepSound.pitch.minValue;
+        GlobalAudioManager.PlaySound(beepSound, transform.position);
+
         /*
         if (_currentLifeTime > lifeTime / 2f)
             yield return _slowFlash;
@@ -69,7 +76,7 @@ public class BombScript : CollectableBehaviour
 
         if (_currentLifeTime > lifeTime / 2f)
             yield return _slowFlash;
-        else if (_currentLifeTime > lifeTime / 5f)
+        else if (_currentLifeTime > lifeTime / 3.5f)
             yield return _midFlash;
         else
             yield return _fastFlash;

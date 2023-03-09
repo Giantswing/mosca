@@ -20,7 +20,7 @@
                     "id": "2696668d-163b-48b4-b421-fac7451dc0c5",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Press",
+                    "interactions": "",
                     "initialStateCheck": false
                 },
                 {
@@ -197,7 +197,7 @@
                     "name": "",
                     "id": "de63f2dd-0478-4b04-ace4-204df682dc02",
                     "path": "<Keyboard>/space",
-                    "interactions": "Press",
+                    "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
                     "action": "Dash",
@@ -208,7 +208,7 @@
                     "name": "",
                     "id": "12cbf178-e68f-45cd-904e-093f12051eda",
                     "path": "<Gamepad>/buttonSouth",
-                    "interactions": "Press",
+                    "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "Dash",

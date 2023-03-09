@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63c37caaa64f9794d85f3e9647199fb5, type: 3}
+  m_Name: Flugi
+  m_EditorClassIdentifier: 
+  characterName: Flugi
+  emotions:
+  - emotionName: Neutral
+    emotionSprite: {fileID: 2800000, guid: c10943fb748a1af48a922c2aedca03e6, type: 3}
+  - emotionName: Surprised
+    emotionSprite: {fileID: 2800000, guid: a864dd5fd0a3cbe4a9d308613de5e9b7, type: 3}

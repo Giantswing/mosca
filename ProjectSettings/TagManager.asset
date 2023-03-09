@@ -18,6 +18,7 @@ TagManager:
   - Lock
   - Checkpoint
   - MoveRail
+  - DialogTrigger
   layers:
   - Default
   - TransparentFX

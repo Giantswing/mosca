@@ -116,6 +116,8 @@ MonoBehaviour:
   doorHeight: 2.9
   easeOpen: 7
   easeClose: 7
+  doorClosingSound: {fileID: 11400000, guid: a7a681455215e54499f6f12a6d1b7dc6, type: 2}
+  doorHitSound: {fileID: 11400000, guid: a3a91b369c833574eb7a99a056d34196, type: 2}
 --- !u!199 &764550466353459709
 ParticleSystemRenderer:
   serializedVersion: 6

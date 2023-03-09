@@ -115,6 +115,7 @@ public class CollectableBehaviour : MonoBehaviour
                     transform.DOLocalRotate(Vector3.zero, 0.5f);
                     playerInteraction.holdingItems.Add(_holdableItem);
                     isPickedUp = true;
+                    GlobalAudioManager.PlaySound(collectSound, transform.position);
                 }
                 else if (pickUp != PickUp.Holder)
                 {
@@ -163,6 +164,7 @@ public class CollectableBehaviour : MonoBehaviour
             playerHealth.value++;
             onCollect.Dispatch();
         }
+
 
         DOTween.Kill(transform);
         DOTween.Kill(displayObject);

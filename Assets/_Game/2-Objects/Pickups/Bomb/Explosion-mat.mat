@@ -47,7 +47,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaCutoff: 0.5
-    - _ClipThreshold: 1
+    - _ClipThreshold: 0.6000573
     - _OffsetMult: 0.211
     - _QueueControl: 0
     - _QueueOffset: 0

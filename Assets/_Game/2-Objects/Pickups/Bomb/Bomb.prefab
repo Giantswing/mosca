@@ -109,7 +109,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
   pickUpCoinColor: {r: 0, g: 0, b: 0, a: 0}
-  collectSound: {fileID: 0}
+  collectSound: {fileID: 11400000, guid: 53c35963576a65b4cbcb58e12d27c459, type: 2}
   pickUpAnimation: 0
   pickUp: 3
   scoreValue: 0
@@ -135,6 +135,7 @@ MonoBehaviour:
   explosionPrefab: {fileID: 4927078007294123516, guid: d6635fcfda9fa874ebf839994e3144d1, type: 3}
   flashingMaterial: {fileID: 2100000, guid: dc7d4fdef35e7f34d87205e136af4cc9, type: 2}
   defaultMaterial: {fileID: 2100000, guid: 47e44dac2f013354f9856ba295a35c6f, type: 2}
+  beepSound: {fileID: 11400000, guid: 11fc9afd118763845bf53c46a239f3ad, type: 2}
 --- !u!114 &5055479083801734597
 MonoBehaviour:
   m_ObjectHideFlags: 0

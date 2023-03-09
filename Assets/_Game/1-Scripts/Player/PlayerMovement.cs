@@ -140,7 +140,7 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         //_timeAlive += Time.deltaTime;
-        if (imDisabled) return;
+        //if (imDisabled) return;
 
         /*
         if (_timeAlive < .2f)
@@ -391,6 +391,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void Move(InputAction.CallbackContext context)
     {
+        if (imDisabled) return;
         inputDirectionTo = context.ReadValue<Vector2>();
     }
 
@@ -418,6 +419,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void TouchInput(InputAction.CallbackContext context)
     {
+        if (imDisabled) return;
         _touchMagnitude = 0;
         var width = Screen.width;
         maxTouchDistance = width * maxTouchDistanceScreen;
@@ -591,12 +593,17 @@ public class PlayerMovement : MonoBehaviour
 
     public void DisablePlayer()
     {
-        hSpeed = 0;
-        vSpeed = 0;
+        //hSpeed = 0;
+        //vSpeed = 0;
         inputDirection = Vector2.zero;
         inputDirectionTo = Vector2.zero;
-        _myRigidbody.velocity = Vector3.zero;
+        //_myRigidbody.velocity = Vector3.zero;
         imDisabled = true;
+    }
+
+    public void EnablePlayer()
+    {
+        imDisabled = false;
     }
 /*
     private void OnDrawGizmos()

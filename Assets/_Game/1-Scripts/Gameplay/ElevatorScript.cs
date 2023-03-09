@@ -37,6 +37,8 @@ public class ElevatorScript : MonoBehaviour
 
     private ParentChanger _parentChanger;
 
+    [SerializeField] private AudioSource audioSource;
+
     /*
     [SerializeField] private List<GameObject> entranceBlocks = new();
     [SerializeField] private GameObject entranceBlockPrefab;
@@ -47,6 +49,7 @@ public class ElevatorScript : MonoBehaviour
         _startPosition = transform.position;
         _waitTimes = new WaitForSeconds[MovePoints.Count];
         UpdateDoors();
+        audioSource.volume = 0;
 
         var children = GetComponentsInChildren<MeshCollider>();
         foreach (var child in children) child.material = physicMaterial;
@@ -155,6 +158,7 @@ public class ElevatorScript : MonoBehaviour
         _parentChanger = GetComponentInChildren<ParentChanger>();
         if (_parentChanger.IsSomeoneInside())
         {
+            audioSource.volume = .5f;
             transform.DOShakeRotation(3f, 2f, 30, 90f, true).SetUpdate(UpdateType.Fixed);
             IterateMovePoint();
             var distanceToNextPoint =
@@ -182,6 +186,7 @@ public class ElevatorScript : MonoBehaviour
         transform.DOShakeRotation(0.5f, 2f, 30, 90f, true).SetUpdate(UpdateType.Fixed);
         yield return _waitTimes[_currentMovePoint];
         UpdateDoors();
+        audioSource.volume = 0;
 
 /*
         if (IterateMovePoint()) Move();

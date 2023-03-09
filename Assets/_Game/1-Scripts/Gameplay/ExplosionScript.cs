@@ -11,6 +11,7 @@ public class ExplosionScript : MonoBehaviour
     [SerializeField] private MeshRenderer explosionMesh;
     [SerializeField] private MeshRenderer explosionRing;
     private float _explosionSize;
+    [SerializeField] private SimpleAudioEvent explosionSound;
 
     private void Start()
     {
@@ -21,8 +22,8 @@ public class ExplosionScript : MonoBehaviour
         explosionRing.sharedMaterial.SetFloat("_OpacityMultiplier", 1);
         explosionMesh.sharedMaterial.SetFloat("_ClipThreshold", 0);
 
-        explosionRing.sharedMaterial.DOFloat(0, "_OpacityMultiplier", 0.35f).SetDelay(0.35f);
-        explosionRing.transform.DOScale(1.2f, 1.7f).SetEase(Ease.OutBack);
+        explosionRing.sharedMaterial.DOFloat(0, "_OpacityMultiplier", 0.45f).SetDelay(0.35f);
+        explosionRing.transform.DOScale(1.2f, 2.3f).SetEase(Ease.OutBack);
 
         explosionMesh.transform.DOScale(3f, 0.30f).SetEase(Ease.OutBounce);
         CheckForDamage();
@@ -30,6 +31,9 @@ public class ExplosionScript : MonoBehaviour
         explosionMesh.sharedMaterial.DOFloat(1f, "_ClipThreshold", 1f).SetEase(Ease.Linear).SetDelay(0.5f)
                 .onComplete +=
             () => { Destroy(gameObject); };
+
+        FreezeFrameScript.FreezeFrames(1f);
+        GlobalAudioManager.PlaySound(explosionSound, transform.position);
 
         /*
         explosionMesh.transform.DOScale(0f, 0.5f).SetEase(Ease.InBack).SetDelay(0.5f).onComplete +=

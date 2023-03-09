@@ -69,6 +69,18 @@ public class STATS : MonoBehaviour
         Destroy(gameObject);
     }
 
+    public void SimpleDeathDelay()
+    {
+        StartCoroutine(IE_SimpleDeathDelay());
+    }
+
+    private IEnumerator IE_SimpleDeathDelay()
+    {
+        GetComponent<MeshRenderer>().enabled = false;
+        yield return new WaitForSeconds(1f);
+        Destroy(gameObject);
+    }
+
     public void TakeDamage(int dmg, Vector3 originDmgPos, bool isExplosion = false)
     {
         if (ST_Invincibility) return;

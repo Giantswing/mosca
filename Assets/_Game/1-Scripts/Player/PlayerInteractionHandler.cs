@@ -138,7 +138,6 @@ public class PlayerInteractionHandler : MonoBehaviour
                 if (checkpoint.isActivated == false)
                     if (pM.IncreaseCheckpoint(checkpoint.checkpointNumber))
                         checkpoint.isActivated = true;
-
                 break;
         }
     }

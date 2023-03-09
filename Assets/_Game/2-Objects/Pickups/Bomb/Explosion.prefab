@@ -50,6 +50,7 @@ MonoBehaviour:
   explosionCollider: {fileID: -3082344277390368083}
   explosionMesh: {fileID: 3635491874228849197}
   explosionRing: {fileID: 8334493612594501736}
+  explosionSound: {fileID: 11400000, guid: ac57cf55994cdb741b36f83e4d7736ec, type: 2}
 --- !u!135 &-3082344277390368083
 SphereCollider:
   m_ObjectHideFlags: 0
