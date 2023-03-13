@@ -1733,6 +1733,7 @@ GameObject:
   - component: {fileID: 7181058524826200374}
   - component: {fileID: 7181058524826200371}
   - component: {fileID: 527214687268999552}
+  - component: {fileID: 1012850837082171294}
   - component: {fileID: 4461781237300609191}
   - component: {fileID: 4630742217596603289}
   - component: {fileID: 4630742217596603301}
@@ -1950,6 +1951,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 527214687268999552}
+        m_TargetAssemblyTypeName: PlayerDialogueHandler, Assembly-CSharp
+        m_MethodName: NextDialogue
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 2696668d-163b-48b4-b421-fac7451dc0c5
     m_ActionName: Mosca/Dash[/Keyboard/space,/DualSenseGamepadHID/buttonSouth,/XInputControllerWindows/buttonSouth]
   - m_PersistentCalls:
@@ -1957,6 +1970,18 @@ MonoBehaviour:
       - m_Target: {fileID: 7181058524826200371}
         m_TargetAssemblyTypeName: PlayerCamera, Assembly-CSharp
         m_MethodName: ToggleMap
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 527214687268999552}
+        m_TargetAssemblyTypeName: PlayerDialogueHandler, Assembly-CSharp
+        m_MethodName: StartDialogue
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2187,6 +2212,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentDialogueTriggerEvent: {fileID: 0}
+  pM: {fileID: 7181058524826200369}
+--- !u!114 &1012850837082171294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7181058524826200382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 562036c45ebdcec4e97818670563cecf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &4461781237300609191
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2447,6 +2485,41 @@ MonoBehaviour:
         - m_Target: {fileID: 7181058524826200374}
           m_TargetAssemblyTypeName: PlayerInteractionHandler, Assembly-CSharp
           m_MethodName: GlowPlayer
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - _owner: {fileID: 7181058524826200382}
+    _ownerName: Mosca
+    _propertyPath: _data.Array.data[2]
+    _autoListen: 0
+    _multiIndex: 0
+    _smartEvent: {fileID: 11400000, guid: 56a1cb9ab3cb2334f8e9e2375275b007, type: 2}
+    _smartMulti: {fileID: 0}
+    _useMulti: 0
+    _onEvent:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 7181058524826200369}
+          m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
+          m_MethodName: EnablePlayer
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 527214687268999552}
+          m_TargetAssemblyTypeName: PlayerDialogueHandler, Assembly-CSharp
+          m_MethodName: StopDialogue
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}

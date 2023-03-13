@@ -16,8 +16,20 @@ MonoBehaviour:
   - character: {fileID: 11400000, guid: 3aa5a4cfd4369e9479bb19e47c27351c, type: 2}
     dialogueText: Hello this is a test message
     emotion: {fileID: 2800000, guid: c10943fb748a1af48a922c2aedca03e6, type: 3}
-    leftSide: 1
+    leftSide: 0
+  - character: {fileID: 11400000, guid: 3aa5a4cfd4369e9479bb19e47c27351c, type: 2}
+    dialogueText: Yes, this is a text message too
+    emotion: {fileID: 2800000, guid: c10943fb748a1af48a922c2aedca03e6, type: 3}
+    leftSide: 0
   - character: {fileID: 11400000, guid: 3aa5a4cfd4369e9479bb19e47c27351c, type: 2}
     dialogueText: How is your day going?
     emotion: {fileID: 2800000, guid: a864dd5fd0a3cbe4a9d308613de5e9b7, type: 3}
+    leftSide: 1
+  - character: {fileID: 11400000, guid: 3aa5a4cfd4369e9479bb19e47c27351c, type: 2}
+    dialogueText: Its going fine, thanks for asking
+    emotion: {fileID: 2800000, guid: c10943fb748a1af48a922c2aedca03e6, type: 3}
+    leftSide: 0
+  - character: {fileID: 11400000, guid: 3aa5a4cfd4369e9479bb19e47c27351c, type: 2}
+    dialogueText: Im happy to hear that!
+    emotion: {fileID: 2800000, guid: c10943fb748a1af48a922c2aedca03e6, type: 3}
     leftSide: 1

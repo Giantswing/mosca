@@ -18,3 +18,4 @@ MonoBehaviour:
     emotionSprite: {fileID: 2800000, guid: c10943fb748a1af48a922c2aedca03e6, type: 3}
   - emotionName: Surprised
     emotionSprite: {fileID: 2800000, guid: a864dd5fd0a3cbe4a9d308613de5e9b7, type: 3}
+  talkSound: {fileID: 11400000, guid: f53fd0447fb872d4fb1252a006b60710, type: 2}

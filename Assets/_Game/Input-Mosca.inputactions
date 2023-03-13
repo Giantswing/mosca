@@ -176,7 +176,7 @@
                     "id": "e094d9c8-62fa-4c5c-b08f-ec624a064b7f",
                     "path": "<Gamepad>/leftStick",
                     "interactions": "",
-                    "processors": "",
+                    "processors": "StickDeadzone",
                     "groups": "Gamepad",
                     "action": "Move",
                     "isComposite": false,
@@ -218,7 +218,7 @@
                 {
                     "name": "",
                     "id": "cae92280-cce4-4620-9368-9da408713095",
-                    "path": "<Keyboard>/tab",
+                    "path": "<Keyboard>/f",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",

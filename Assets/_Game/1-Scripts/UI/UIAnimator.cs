@@ -28,8 +28,9 @@ public class UIAnimator : MonoBehaviour
         {
             children[i].gameObject.SetActive(true);
 
-            children[i].GetComponent<RectTransform>().DOScale(0, duration).From().SetDelay(delay * i)
-                .SetEase(ease);
+            if (children[i].name.Contains("NAnim") == false)
+                children[i].GetComponent<RectTransform>().DOScale(0, duration).From().SetDelay(delay * i)
+                    .SetEase(ease);
         }
     }
 
