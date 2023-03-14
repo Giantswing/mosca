@@ -240,7 +240,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            zDepthTo = _startingZDepth + zDepthOffset;
+            //zDepthTo = _startingZDepth + zDepthOffset;
             foundWall = false;
         }
 

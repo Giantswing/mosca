@@ -42,6 +42,9 @@ public class AutoApplyMaterials : ScriptableObject
             if (renderer.transform.gameObject.name.StartsWith("model_back_collision"))
                 renderer.gameObject.layer = 12;
 
+            if (renderer.transform.gameObject.name.Contains("model_"))
+                renderer.transform.gameObject.isStatic = true;
+
 
             for (var i = 0; i < materials.Length; i++)
             {

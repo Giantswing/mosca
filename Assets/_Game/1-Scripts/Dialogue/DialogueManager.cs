@@ -43,8 +43,12 @@ public class DialogueManager : MonoBehaviour
     private int currentCharacterReference;
     private int otherCharacterReference;
 
+    [SerializeField] private Material Mat1;
+    [SerializeField] private Material Mat2;
 
     public Coroutine TextRoutine = null;
+    private static readonly int MainTex = Shader.PropertyToID("_CharTexture");
+    private static readonly int OpacityMult = Shader.PropertyToID("_OpacityMult");
 
 
     private void Awake()
@@ -80,6 +84,10 @@ public class DialogueManager : MonoBehaviour
         characterDialogueBoxes[1] = char2.characterDialogueBox.gameObject;
 
 
+        characterImages[0].material = Mat1;
+        characterImages[1].material = Mat2;
+
+
         var rightCharRect = char2.GetComponent<RectTransform>();
         rightCharRect.anchorMin = new Vector2(.5f, 0);
         rightCharRect.anchorMax = new Vector2(.5f, 0);
@@ -100,7 +108,14 @@ public class DialogueManager : MonoBehaviour
         if (instance.currentDialogueIndex != 0) return;
 
         instance.canvasGroup.alpha = 0;
-        DOTween.To(() => instance.canvasGroup.alpha, x => instance.canvasGroup.alpha = x, 1, 0.25f);
+        DOTween.To(() => instance.canvasGroup.alpha, x => instance.canvasGroup.alpha = x, 1, 0.5f);
+
+
+        for (var i = 0; i < 2; i++)
+        {
+            instance.characterImages[i].material.SetFloat(OpacityMult, 0);
+            instance.characterImages[i].material.DOFloat(1f, OpacityMult, 0.25f);
+        }
 
         var children = instance.dialogueParent.GetComponentsInChildren<RectTransform>();
         //instance.uiAnimator.StartAnimation(children, 0.15f, 0.05f, Ease.OutCirc);
@@ -108,6 +123,26 @@ public class DialogueManager : MonoBehaviour
         instance.currentDialogueSO = dialogueSO;
         instance.currentDialogueIndex = 0;
         instance.dialogueParent.SetActive(true);
+
+        var foundChar1Image = false;
+        var foundChar2Image = false;
+
+        for (var i = 0; i < instance.currentDialogueSO.dialogue.Count; i++)
+        {
+            if (instance.currentDialogueSO.dialogue[i].leftSide && foundChar1Image == false)
+            {
+                instance.characterImages[0].material
+                    .SetTexture(MainTex, instance.currentDialogueSO.dialogue[i].emotion);
+                foundChar1Image = true;
+            }
+
+            if (!instance.currentDialogueSO.dialogue[i].leftSide && foundChar2Image == false)
+            {
+                instance.characterImages[1].material
+                    .SetTexture(MainTex, instance.currentDialogueSO.dialogue[i].emotion);
+                foundChar1Image = true;
+            }
+        }
 
         instance.SetUpCurrentDialogue();
     }
@@ -123,13 +158,20 @@ public class DialogueManager : MonoBehaviour
         instance.characterDialogueBoxes[currentCharacterReference].SetActive(true);
         instance.characterDialogueBoxes[otherCharacterReference].SetActive(false);
 
-        instance.characterImages[currentCharacterReference].DOFade(1f, 0.25f);
-        instance.characterImages[otherCharacterReference].DOFade(0.5f, 0.25f);
+
+        instance.characterImages[currentCharacterReference].material.DOFloat(0.5f, "_Saturation", 0.25f);
+        instance.characterImages[currentCharacterReference].material.DOFloat(1f, "_Brightness", 0.25f);
+
+        instance.characterImages[otherCharacterReference].material.DOFloat(0f, "_Saturation", 0.25f);
+        instance.characterImages[otherCharacterReference].material.DOFloat(0.2f, "_Brightness", 0.25f);
 
         instance.characters[instance.currentCharacterReference].gameObject.SetActive(true);
         textToShow = currentDialogueSO.dialogue[currentDialogueIndex].dialogueText;
-        instance.characterImages[instance.currentCharacterReference].texture =
-            currentDialogueSO.dialogue[currentDialogueIndex].emotion;
+
+        instance.characterImages[instance.currentCharacterReference].material
+            .SetTexture(MainTex, currentDialogueSO.dialogue[currentDialogueIndex].emotion);
+
+
         instance.talkSound = currentDialogueSO.dialogue[currentDialogueIndex].character.talkSound;
         TextRoutine = StartCoroutine(ShowTextRoutine());
     }
@@ -216,7 +258,13 @@ public class DialogueManager : MonoBehaviour
 
     public static void HideDialogue()
     {
-        DOTween.To(() => instance.canvasGroup.alpha, x => instance.canvasGroup.alpha = x, 0, 0.25f).onComplete +=
+        for (var i = 0; i < 2; i++)
+        {
+            instance.characterImages[i].material.SetFloat(OpacityMult, 1);
+            instance.characterImages[i].material.DOFloat(0f, OpacityMult, 0.25f);
+        }
+
+        DOTween.To(() => instance.canvasGroup.alpha, x => instance.canvasGroup.alpha = x, 0, 0.5f).onComplete +=
             () => { instance.dialogueParent.SetActive(false); };
         //instance.canvasGroup.DOFade(0f, 0.25f).onComplete += () => { instance.dialogueParent.SetActive(false); };
     }
