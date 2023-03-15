@@ -21,7 +21,7 @@ MonoBehaviour:
   scoreToWin: 1
   totalScore: 1
   timeToWin: 116
-  deathCounter: 22
+  deathCounter: 23
   stars: 0
   isThisLastOne: 0
   index: 2

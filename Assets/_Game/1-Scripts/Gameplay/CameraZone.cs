@@ -9,4 +9,6 @@ public class CameraZone : MonoBehaviour
     [Range(-3, 3)] public float cameraZoom;
 
     [Range(-2, 2)] public float sideAngleStrength = 1;
+
+    [SerializeField] private bool disableFlip = false;
 }

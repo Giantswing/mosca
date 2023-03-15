@@ -53,9 +53,20 @@ public class DSwitcherScript : MonoBehaviour
         }
     }
 
+    public void Hit()
+    {
+        Rotate(1);
+    }
+
+    public void HitReverse()
+    {
+        Rotate(-1);
+    }
+
     private void Rotate(int clockwise)
     {
-        transform.DORotate(new Vector3(0, 0, transform.localRotation.eulerAngles.z + 90 * clockwise), 0.5f);
+        transform.DORotate(new Vector3(0, 0, transform.localRotation.eulerAngles.z + 90 * clockwise), 1.35f)
+            .SetEase(Ease.OutBounce);
         isHorizontal = !isHorizontal;
         switchSound.Play(audioSource);
     }

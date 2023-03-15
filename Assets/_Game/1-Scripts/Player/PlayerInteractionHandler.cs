@@ -271,6 +271,9 @@ public class PlayerInteractionHandler : MonoBehaviour
 
             if (collision.gameObject.CompareTag("DSwitcher") && pM.isDashing)
                 collision.gameObject.GetComponent<DSwitcherScript>().Hit(transform.position);
+
+            else if (collision.gameObject.CompareTag("Button") && pM.isDashing)
+                collision.gameObject.GetComponent<ButtonScript>().Press();
         }
     }
 
