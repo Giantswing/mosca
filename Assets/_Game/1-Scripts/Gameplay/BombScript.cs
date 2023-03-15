@@ -59,15 +59,6 @@ public class BombScript : CollectableBehaviour
         beepSound.pitch.maxValue = beepSound.pitch.minValue;
         GlobalAudioManager.PlaySound(beepSound, transform.position);
 
-        /*
-        if (_currentLifeTime > lifeTime / 2f)
-            yield return _slowFlash;
-        else if (_currentLifeTime > lifeTime / 5f)
-            yield return _midFlash;
-        else
-            yield return _fastFlash;
-            */
-
         yield return _flashDuration;
 
         foreach (var renderer in _meshRenderers)

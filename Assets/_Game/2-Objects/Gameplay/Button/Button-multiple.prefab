@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 6591557247272738731}
   - component: {fileID: 4313260817852533243}
   m_Layer: 0
-  m_Name: Button
+  m_Name: Button-multiple
   m_TagString: Button
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -151,20 +151,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: DSwitcherScript, Assembly-CSharp
-        m_MethodName: Hit
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: DSwitcherScript, Assembly-CSharp
-        m_MethodName: Hit
+        m_TargetAssemblyTypeName: ElevatorScriptDoor, Assembly-CSharp
+        m_MethodName: ToggleDoor
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -178,7 +166,7 @@ MonoBehaviour:
   isPressed: 0
   cableMaterial: {fileID: 2100000, guid: e13a783086b0e5a4c8dd333647dc738e, type: 2}
   cables: []
-  cableHangPoints: 10
+  cableHangPoints: 12
   hangStrength: 3
 --- !u!82 &4313260817852533243
 AudioSource:
@@ -337,7 +325,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 25f67fd2ce27be94cbb17991c4156de9, type: 2}
+  - {fileID: 2100000, guid: 00ecef32aaac5ec4699cedf8a526a7eb, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

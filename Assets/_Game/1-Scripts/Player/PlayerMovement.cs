@@ -355,6 +355,8 @@ public class PlayerMovement : MonoBehaviour
         _timeStandingStill = 0;
         if (_checkpoints.Length == 0) return;
 
+        if (_currentCheckpoint == _checkpoints.Length) return;
+
         if (_checkpoints[_currentCheckpoint].isActivated ||
             _checkpoints[_currentCheckpoint].pauseCheckpoint ||
             _currentCheckpoint > _checkpoints.Length) return;

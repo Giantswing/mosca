@@ -15,11 +15,19 @@ public class ElevatorScriptDoor : MonoBehaviour
     [SerializeField] private SimpleAudioEvent doorClosingSound;
     [SerializeField] private SimpleAudioEvent doorHitSound;
 
+    private bool isInElevator;
+
     private void Start()
     {
         easeOpen = Ease.InCirc;
         easeClose = Ease.OutBounce;
         closingFx = GetComponent<ParticleSystem>();
+
+
+        isInElevator = false;
+        if (transform.parent != null)
+            if (transform.parent.name.ToLower().Contains("elevator"))
+                isInElevator = true;
     }
 
     public void OpenDoor()
@@ -31,7 +39,7 @@ public class ElevatorScriptDoor : MonoBehaviour
             GlobalAudioManager.PlaySound(doorClosingSound, transform.position);
             isDoorOpen = true;
 
-            if (transform.parent != null)
+            if (isInElevator)
                 transform.DOLocalMoveY(0, 1f).SetEase(easeOpen);
             else
                 transform.DOLocalMoveY(transform.localPosition.y + doorHeight, 1f).SetEase(easeOpen);
@@ -48,7 +56,7 @@ public class ElevatorScriptDoor : MonoBehaviour
             GlobalAudioManager.PlaySound(doorClosingSound, transform.position);
             isDoorOpen = false;
 
-            if (transform.parent != null)
+            if (isInElevator)
                 transform.DOLocalMoveY(-doorHeight, 1f).SetEase(easeClose);
             else
                 transform.DOLocalMoveY(transform.localPosition.y - doorHeight, 1f).SetEase(easeClose);

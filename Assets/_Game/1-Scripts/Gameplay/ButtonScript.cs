@@ -9,6 +9,7 @@ public class ButtonScript : MonoBehaviour
 {
     [SerializeField] private Transform button;
     [SerializeField] private AudioSource audioSource;
+    [SerializeField] private SimpleAudioEvent clockSound;
     [SerializeField] private SimpleAudioEvent buttonSound;
     private float _buttonStartPos;
     public UnityEvent OnPress;
@@ -18,6 +19,14 @@ public class ButtonScript : MonoBehaviour
     [SerializeField] private LineRenderer[] cables;
     [SerializeField] private int cableHangPoints = 10;
     [SerializeField] private float hangStrength = 5f;
+
+    [Space(30)] [SerializeField] private float timer = 0;
+    private float _currentTimer;
+    [SerializeField] private AudioSource stopwatchSound;
+
+    private WaitForSeconds _wait = new(1f);
+    private WaitForSeconds _wait_half = new(0.5f);
+    private WaitForSeconds _wait_quarter = new(0.25f);
 
     private void Start()
     {
@@ -78,11 +87,51 @@ public class ButtonScript : MonoBehaviour
         isPressed = true;
         OnPress.Invoke();
         buttonSound.Play(audioSource);
+
         button.DOLocalMoveY(_buttonStartPos + 0.3f, 0.25f).SetEase(Ease.InOutQuad).OnComplete(() =>
         {
-            if (CanBePressedMultipleTimes)
-                button.DOLocalMoveY(_buttonStartPos, 0.65f).SetEase(Ease.InOutQuad).SetEase(Ease.OutBounce)
-                    .SetDelay(0.3f).OnComplete(() => { isPressed = false; });
+            if (timer != 0)
+                StartCoroutine(Timer());
+            else if (CanBePressedMultipleTimes)
+                ResetButton();
         });
+    }
+
+
+    private void ResetButton()
+    {
+        button.DOLocalMoveY(_buttonStartPos, 0.65f).SetEase(Ease.InOutQuad).SetEase(Ease.OutBounce)
+            .SetDelay(0.3f).OnComplete(() => { isPressed = false; });
+    }
+
+    private IEnumerator Timer()
+    {
+        _currentTimer = timer;
+        StartCoroutine(TimerTicks());
+        stopwatchSound.Play();
+        while (_currentTimer > 0)
+        {
+            _currentTimer -= Time.deltaTime;
+            yield return null;
+        }
+
+        stopwatchSound.Stop();
+        OnPress.Invoke();
+        ResetButton();
+        StopAllCoroutines();
+    }
+
+    private IEnumerator TimerTicks()
+    {
+        clockSound.Play(audioSource);
+
+        if (_currentTimer > timer / 1.5f)
+            yield return _wait;
+        else if (_currentTimer > timer / 3)
+            yield return _wait_half;
+        else
+            yield return _wait_quarter;
+
+        StartCoroutine(TimerTicks());
     }
 }
