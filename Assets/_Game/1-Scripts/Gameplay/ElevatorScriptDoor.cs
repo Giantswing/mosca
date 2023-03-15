@@ -30,7 +30,11 @@ public class ElevatorScriptDoor : MonoBehaviour
             doorClosingSound.pitch.maxValue = 1.4f;
             GlobalAudioManager.PlaySound(doorClosingSound, transform.position);
             isDoorOpen = true;
-            transform.DOLocalMoveY(0, 1f).SetEase(easeOpen);
+
+            if (transform.parent != null)
+                transform.DOLocalMoveY(0, 1f).SetEase(easeOpen);
+            else
+                transform.DOLocalMoveY(transform.localPosition.y + doorHeight, 1f).SetEase(easeOpen);
         }
     }
 
@@ -39,8 +43,22 @@ public class ElevatorScriptDoor : MonoBehaviour
     {
         if (isDoorOpen)
         {
+            doorClosingSound.pitch.minValue = 0.9f;
+            doorClosingSound.pitch.maxValue = 1.1f;
+            GlobalAudioManager.PlaySound(doorClosingSound, transform.position);
             isDoorOpen = false;
-            transform.DOLocalMoveY(-doorHeight, 1f).SetEase(easeClose).SetDelay(0.2f);
+
+            if (transform.parent != null)
+                transform.DOLocalMoveY(-doorHeight, 1f).SetEase(easeClose);
+            else
+                transform.DOLocalMoveY(transform.localPosition.y - doorHeight, 1f).SetEase(easeClose);
+
+
+            transform.DOLocalMoveX(transform.localPosition.x, 0.4f).onComplete += () =>
+            {
+                closingFx.Emit(20);
+                GlobalAudioManager.PlaySound(doorHitSound, transform.position);
+            };
         }
     }
 
@@ -62,5 +80,13 @@ public class ElevatorScriptDoor : MonoBehaviour
                 GlobalAudioManager.PlaySound(doorHitSound, transform.position);
             };
         }
+    }
+
+    public void ToggleDoor()
+    {
+        if (isDoorOpen)
+            CloseDoor();
+        else
+            OpenDoor();
     }
 }
