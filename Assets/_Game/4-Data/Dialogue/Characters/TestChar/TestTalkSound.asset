@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 83cc2216f9409da4fa6fb4f0d97a2976, type: 3}
-  m_Name: FlugiTalkSound
+  m_Name: TestTalkSound
   m_EditorClassIdentifier: 
   clips:
-  - {fileID: 8300000, guid: f392cc63a291b2d4a81ed2942db519a2, type: 3}
+  - {fileID: 8300000, guid: 30136cd70b1411c43969fadb725d19e6, type: 3}
   volume:
     minValue: 0.89610386
     maxValue: 1

@@ -268,9 +268,11 @@ public class PlayerInteractionHandler : MonoBehaviour
             //pM.inputDirection = -_reflectDir;
             pM.hSpeed = pM.inputDirection.x * 1.5f;
             pM.vSpeed = pM.inputDirection.y * 1.5f;
+
+            if (collision.gameObject.CompareTag("DSwitcher") && pM.isDashing)
+                collision.gameObject.GetComponent<DSwitcherScript>().Hit(transform.position);
         }
     }
-
 
     public void CheckTakeDamage(int damage, Vector3 damagePos)
     {

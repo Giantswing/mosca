@@ -127,20 +127,24 @@ public class DialogueManager : MonoBehaviour
         var foundChar1Image = false;
         var foundChar2Image = false;
 
-        for (var i = 0; i < instance.currentDialogueSO.dialogue.Count; i++)
+        for (var i = 0; i < instance.currentDialogueSO.dialogueList.Count; i++)
         {
-            if (instance.currentDialogueSO.dialogue[i].leftSide && foundChar1Image == false)
+            if (instance.currentDialogueSO.dialogueList[i].leftSide && foundChar1Image == false)
             {
                 instance.characterImages[0].material
-                    .SetTexture(MainTex, instance.currentDialogueSO.dialogue[i].emotion);
+                    .SetTexture(MainTex,
+                        instance.currentDialogueSO.dialogueList[i].character
+                            .emotions[instance.currentDialogueSO.dialogueList[i].emotionIndex].sprite);
                 foundChar1Image = true;
             }
 
-            if (!instance.currentDialogueSO.dialogue[i].leftSide && foundChar2Image == false)
+            if (!instance.currentDialogueSO.dialogueList[i].leftSide && foundChar2Image == false)
             {
                 instance.characterImages[1].material
-                    .SetTexture(MainTex, instance.currentDialogueSO.dialogue[i].emotion);
-                foundChar1Image = true;
+                    .SetTexture(MainTex,
+                        instance.currentDialogueSO.dialogueList[i].character
+                            .emotions[instance.currentDialogueSO.dialogueList[i].emotionIndex].sprite);
+                foundChar2Image = true;
             }
         }
 
@@ -149,8 +153,8 @@ public class DialogueManager : MonoBehaviour
 
     public void SetUpCurrentDialogue()
     {
-        instance.currentCharacterReference = currentDialogueSO.dialogue[currentDialogueIndex].leftSide ? 0 : 1;
-        instance.otherCharacterReference = currentDialogueSO.dialogue[currentDialogueIndex].leftSide ? 1 : 0;
+        instance.currentCharacterReference = currentDialogueSO.dialogueList[currentDialogueIndex].leftSide ? 0 : 1;
+        instance.otherCharacterReference = currentDialogueSO.dialogueList[currentDialogueIndex].leftSide ? 1 : 0;
 
         //instance.characters[0].gameObject.SetActive(currentDialogueSO.dialogue[currentDialogueIndex].leftSide);
         //instance.characters[1].gameObject.SetActive(!currentDialogueSO.dialogue[currentDialogueIndex].leftSide);
@@ -159,20 +163,27 @@ public class DialogueManager : MonoBehaviour
         instance.characterDialogueBoxes[otherCharacterReference].SetActive(false);
 
 
-        instance.characterImages[currentCharacterReference].material.DOFloat(0.5f, "_Saturation", 0.25f);
+        instance.characterImages[currentCharacterReference].material.DOFloat(1f, "_Saturation", 0.25f);
         instance.characterImages[currentCharacterReference].material.DOFloat(1f, "_Brightness", 0.25f);
 
         instance.characterImages[otherCharacterReference].material.DOFloat(0f, "_Saturation", 0.25f);
         instance.characterImages[otherCharacterReference].material.DOFloat(0.2f, "_Brightness", 0.25f);
 
         instance.characters[instance.currentCharacterReference].gameObject.SetActive(true);
-        textToShow = currentDialogueSO.dialogue[currentDialogueIndex].dialogueText;
+        textToShow = currentDialogueSO.dialogueList[currentDialogueIndex].dialogueText;
+
 
         instance.characterImages[instance.currentCharacterReference].material
-            .SetTexture(MainTex, currentDialogueSO.dialogue[currentDialogueIndex].emotion);
+            .SetTexture(MainTex,
+                instance.currentDialogueSO.dialogueList[currentDialogueIndex].character
+                    .emotions[instance.currentDialogueSO.dialogueList[currentDialogueIndex].emotionIndex].sprite);
+        /*
+        instance.characterImages[instance.currentCharacterReference].material
+            .SetTexture(MainTex, currentDialogueSO.dialogueList[currentDialogueIndex].emotion);
+            */
 
 
-        instance.talkSound = currentDialogueSO.dialogue[currentDialogueIndex].character.talkSound;
+        instance.talkSound = currentDialogueSO.dialogueList[currentDialogueIndex].character.talkSound;
         TextRoutine = StartCoroutine(ShowTextRoutine());
     }
 
@@ -192,10 +203,11 @@ public class DialogueManager : MonoBehaviour
         for (var i = 0; i < textToShow.Length; i++)
         {
             characterTexts[instance.currentCharacterReference].text += textToShow[i];
-            talkSound.Play(audioSource);
+
+            if (i % 2 == 0)
+                talkSound.Play(audioSource);
+
             var amount = 0.02f;
-
-
             if (i % 3 == 0)
                 characterImages[currentCharacterReference].transform
                     .DOPunchScale(
@@ -209,7 +221,7 @@ public class DialogueManager : MonoBehaviour
 
         finishedWithCurrentText = true;
         //make button prompt scale go up and down
-        var side = currentDialogueSO.dialogue[currentDialogueIndex].leftSide ? 1 : -1;
+        var side = currentDialogueSO.dialogueList[currentDialogueIndex].leftSide ? 1 : -1;
         characterButtonPrompt[currentCharacterReference].DOScale(new Vector3(1.2f * side, 1.2f, 1.2f), 0.2f)
             .SetLoops(-1, LoopType.Yoyo);
     }
@@ -217,11 +229,11 @@ public class DialogueManager : MonoBehaviour
     public void ForceFinishText()
     {
         StopCoroutine(TextRoutine);
-        currentCharacterIndex = currentDialogueSO.dialogue[instance.currentDialogueIndex].dialogueText.Length - 1;
+        currentCharacterIndex = currentDialogueSO.dialogueList[instance.currentDialogueIndex].dialogueText.Length - 1;
         characterTexts[instance.currentCharacterReference].text = textToShow;
         finishedWithCurrentText = true;
 
-        var side = currentDialogueSO.dialogue[currentDialogueIndex].leftSide ? 1 : -1;
+        var side = currentDialogueSO.dialogueList[currentDialogueIndex].leftSide ? 1 : -1;
         characterButtonPrompt[currentCharacterReference].DOScale(new Vector3(1.2f * side, 1.2f, 1.2f), 0.2f)
             .SetLoops(-1, LoopType.Yoyo);
     }
@@ -232,7 +244,7 @@ public class DialogueManager : MonoBehaviour
         {
             instance.ForceFinishText();
         }
-        else if (instance.currentDialogueIndex < instance.currentDialogueSO.dialogue.Count - 1)
+        else if (instance.currentDialogueIndex < instance.currentDialogueSO.dialogueList.Count - 1)
         {
             instance.finishedWithCurrentText = false;
             instance.currentCharacterIndex = 0;

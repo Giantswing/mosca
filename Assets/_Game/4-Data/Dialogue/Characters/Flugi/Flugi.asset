@@ -14,8 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: Flugi
   emotions:
-  - emotionName: Neutral
-    emotionSprite: {fileID: 2800000, guid: c10943fb748a1af48a922c2aedca03e6, type: 3}
-  - emotionName: Surprised
-    emotionSprite: {fileID: 2800000, guid: a864dd5fd0a3cbe4a9d308613de5e9b7, type: 3}
-  talkSound: {fileID: 11400000, guid: f53fd0447fb872d4fb1252a006b60710, type: 2}
+  - name: Neutral
+    sprite: {fileID: 2800000, guid: 58529c88ba3e32b4b9018c5a94616606, type: 3}
+  - name: Happy
+    sprite: {fileID: 2800000, guid: cf8da0b0536ef80409ab1fdf0a6a1cca, type: 3}
+  - name: Sad
+    sprite: {fileID: 2800000, guid: a0cdecb6765213a439c47a993237eaa5, type: 3}
+  - name: Very sad
+    sprite: {fileID: 2800000, guid: 85e877c1425f8db47abf63244c1ec0df, type: 3}
+  - name: Angry
+    sprite: {fileID: 2800000, guid: 0660c6f0e85e29c4b9853881354dbf07, type: 3}
+  - name: Surprised
+    sprite: {fileID: 2800000, guid: e5f6db970054e834cab0005b1e23746c, type: 3}
+  - name: Scared
+    sprite: {fileID: 2800000, guid: e6e177824f0b134468ebd64e40866b8a, type: 3}
+  talkSound: {fileID: 11400000, guid: 2f5ca8cd5a082a34283ccbec8458efdc, type: 2}
