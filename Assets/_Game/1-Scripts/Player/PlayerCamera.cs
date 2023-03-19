@@ -1,7 +1,11 @@
+using System;
 using Cinemachine;
+using FullscreenEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public class PlayerCamera : MonoBehaviour
 {
@@ -47,7 +51,18 @@ public class PlayerCamera : MonoBehaviour
     private float _zoomCameraOffset;
     private float _zoomCameraOffsetTo;
 
+    private ScreenFXSystem _screenFXSystem;
+    private VolumeProfile _volumeProfile;
+    private DepthOfField _dofFX;
+
     /***********************************/
+
+    private void Awake()
+    {
+        _screenFXSystem = FindObjectOfType<ScreenFXSystem>();
+        _volumeProfile = _screenFXSystem.GetComponent<Volume>().profile;
+        _dofFX = _volumeProfile.TryGet<DepthOfField>(out _dofFX) ? _dofFX : null;
+    }
 
     private void Start()
     {
@@ -144,6 +159,8 @@ public class PlayerCamera : MonoBehaviour
             new Vector3(_horCameraOffset * defaultCameraTrackingHorInfluence + _cameraSideAngleStrength,
                 _vertCameraOffset, 0);
         */
+        //update screenfxsystem depth of field distance
+        _dofFX.focusDistance.value = Mathf.Abs(virtualCamera.transform.position.z - transform.position.z);
     }
 
     public void ToggleMap(InputAction.CallbackContext context)

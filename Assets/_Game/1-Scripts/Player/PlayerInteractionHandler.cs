@@ -216,7 +216,7 @@ public class PlayerInteractionHandler : MonoBehaviour, IPressurePlateListener
 
                 _otherStats.TakeDamage(stats.ST_Damage, transform.position, false);
 
-                FreezeFrameScript.DistortView(0.3f);
+                ScreenFXSystem.DistortView(0.3f);
                 pC.closeUpOffset = .35f;
                 pC.closeUpOffsetTo = 1f;
             }
@@ -236,8 +236,8 @@ public class PlayerInteractionHandler : MonoBehaviour, IPressurePlateListener
                     holdingItems.Clear();
                     onPlayerHealthChanged.Dispatch();
 
-                    FreezeFrameScript.FreezeFrames(.3f);
-                    FreezeFrameScript.DistortView(0.3f);
+                    ScreenFXSystem.FreezeFrames(.3f);
+                    ScreenFXSystem.DistortView(0.3f);
                     pM.frozen = .08f;
                     pC.closeUpOffset = .35f;
                     pC.closeUpOffsetTo = 1f;
@@ -293,8 +293,8 @@ public class PlayerInteractionHandler : MonoBehaviour, IPressurePlateListener
             holdingItems.Clear();
             onPlayerHealthChanged.Dispatch();
 
-            FreezeFrameScript.FreezeFrames(.3f);
-            FreezeFrameScript.DistortView(0.3f);
+            ScreenFXSystem.FreezeFrames(.3f);
+            ScreenFXSystem.DistortView(0.3f);
             pM.frozen = .08f;
             pC.closeUpOffset = .35f;
             pC.closeUpOffsetTo = 1f;

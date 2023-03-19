@@ -36,7 +36,7 @@ Material:
     m_Floats:
     - _Brightness: 0.2
     - _ColorMask: 15
-    - _OpacityMult: 0
+    - _OpacityMult: 1
     - _Saturation: 0
     - _Stencil: 0
     - _StencilComp: 8

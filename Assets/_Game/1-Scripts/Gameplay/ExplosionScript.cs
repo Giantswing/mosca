@@ -32,7 +32,6 @@ public class ExplosionScript : MonoBehaviour
                 .onComplete +=
             () => { Destroy(gameObject); };
 
-        FreezeFrameScript.FreezeFrames(1f);
         GlobalAudioManager.PlaySound(explosionSound, transform.position);
 
         /*

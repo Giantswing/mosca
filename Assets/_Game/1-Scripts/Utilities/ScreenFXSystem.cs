@@ -4,9 +4,9 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
-public class FreezeFrameScript : MonoBehaviour
+public class ScreenFXSystem : MonoBehaviour
 {
-    private static FreezeFrameScript Instance;
+    private static ScreenFXSystem Instance;
     [SerializeField] private CinemachineVirtualCamera vcam;
     private CinemachineBasicMultiChannelPerlin vcamNoise;
     private bool _changeTimeScale;

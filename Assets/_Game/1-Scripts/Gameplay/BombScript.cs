@@ -153,7 +153,8 @@ public class BombScript : CollectableBehaviour, IPressurePlateListener
         _currentLifeTime = lifeTime;
         Instantiate(explosionPrefab, transform.position, Quaternion.identity);
         _isFlashing = false;
-        FreezeFrameScript.ShakeCamera(.7f, 4f);
+        ScreenFXSystem.ShakeCamera(.7f, 4f);
+        ScreenFXSystem.FreezeFrames(.3f);
         Reset();
 
         //myParticles.Emit(40);

@@ -14,26 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   historyItemsMax: 20
   history:
+  - context: 1
+    title: 
+    unityObject: {fileID: 2100000, guid: d4afd845e671bfa459a96b5890071c9f, type: 2}
+    objectGuid: GlobalObjectId_V1-3-d4afd845e671bfa459a96b5890071c9f-2100000-0
   - context: 0
     title: 
     unityObject: {fileID: 0}
-    objectGuid: GlobalObjectId_V1-2-1eba490ca1a655e4b8043679d5d268d2-5687474020520991163-0
-  - context: 0
-    title: 
-    unityObject: {fileID: 0}
-    objectGuid: GlobalObjectId_V1-2-1eba490ca1a655e4b8043679d5d268d2-3005410208950288224-1443877415
-  - context: 0
-    title: 
-    unityObject: {fileID: 0}
-    objectGuid: GlobalObjectId_V1-2-1eba490ca1a655e4b8043679d5d268d2-5687474020520991163-0
-  - context: 0
-    title: 
-    unityObject: {fileID: 0}
-    objectGuid: GlobalObjectId_V1-2-1eba490ca1a655e4b8043679d5d268d2-3005410208950288224-18583533
-  - context: 0
-    title: 
-    unityObject: {fileID: 0}
-    objectGuid: GlobalObjectId_V1-2-1eba490ca1a655e4b8043679d5d268d2-3005410208950288224-164813012
+    objectGuid: GlobalObjectId_V1-2-1eba490ca1a655e4b8043679d5d268d2-7197320075817121305-7197320076038352677
   favorites:
   - context: 2
     title: Pickups

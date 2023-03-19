@@ -53,7 +53,7 @@ Material:
     - _AlphaCutoff: 0.5
     - _Brightness: 1
     - _ColorMask: 15
-    - _OpacityMult: 0
+    - _OpacityMult: 1
     - _Saturation: 1
     - _Stencil: 0
     - _StencilComp: 8

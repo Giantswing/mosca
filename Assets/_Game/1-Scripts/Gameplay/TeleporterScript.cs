@@ -122,7 +122,7 @@ public class TeleporterScript : MonoBehaviour
         isEnabled = false;
         teleportSoundEvent.Play(teleportSoundSource);
         PlayParticles();
-        FreezeFrameScript.DistortView(0.2f);
+        ScreenFXSystem.DistortView(0.2f);
         playerMov.GetComponent<PlayerInput>().enabled = false;
         yield return _teleportDelayWait;
         playerMov.GetComponent<PlayerInput>().enabled = true;
