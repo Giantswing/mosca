@@ -46,6 +46,7 @@ public class TeleporterScript : MonoBehaviour
         {
             _meshRenderer.enabled = false;
             _teleportCollider.enabled = false;
+            _meshRenderer.gameObject.SetActive(false);
         }
     }
 
@@ -109,8 +110,13 @@ public class TeleporterScript : MonoBehaviour
         {
             transform.localScale = _originalSize;
             _meshRenderer.enabled = true;
-            transform.DOScale(0, .65f).SetEase(Ease.InElastic).SetDelay(0.1f).onComplete +=
-                () => _meshRenderer.enabled = false;
+            _meshRenderer.gameObject.SetActive(true);
+            transform.DOScale(0, 1.2f).SetEase(Ease.InElastic).SetDelay(0.1f).onComplete +=
+                () =>
+                {
+                    _meshRenderer.enabled = false;
+                    _meshRenderer.gameObject.SetActive(false);
+                };
         }
 
         isEnabled = false;

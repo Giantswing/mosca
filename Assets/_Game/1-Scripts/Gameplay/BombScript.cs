@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 
-public class BombScript : CollectableBehaviour
+public class BombScript : CollectableBehaviour, IPressurePlateListener
 {
     private Vector3 _startPosition;
     private Transform _parentTransform;

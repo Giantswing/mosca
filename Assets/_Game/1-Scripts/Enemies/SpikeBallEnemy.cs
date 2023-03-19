@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 
-public class SpikeBallEnemy : MonoBehaviour
+public class SpikeBallEnemy : MonoBehaviour, IPressurePlateListener
 {
     [SerializeField] private Renderer _myRenderer;
     private Tween _hitTween;

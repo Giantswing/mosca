@@ -1459,7 +1459,7 @@ SkinnedMeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6036615209627116209}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
@@ -1919,7 +1919,19 @@ MonoBehaviour:
       m_Calls: []
   m_ControlsChangedEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1012850837082171294}
+        m_TargetAssemblyTypeName: PlayerInputSet, Assembly-CSharp
+        m_MethodName: TestMethod
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
@@ -2225,6 +2237,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 562036c45ebdcec4e97818670563cecf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerInput: {fileID: 7504400481516356274}
+  currentControlSchemeWriter:
+    _owner: {fileID: 7181058524826200382}
+    _ownerName: Mosca
+    _propertyPath: currentControlSchemeWriter
+    _autoListen: 0
+    _multiIndex: 0
+    _refType: 2
+    _value: 0
+    _smartConst: {fileID: 0}
+    _smartVar: {fileID: 11400000, guid: bad9cdac4951d0f468d94dbffaf3a1a8, type: 2}
+    _smartMulti: {fileID: 0}
+    _onUpdate:
+      m_PersistentCalls:
+        m_Calls: []
 --- !u!114 &4461781237300609191
 MonoBehaviour:
   m_ObjectHideFlags: 0

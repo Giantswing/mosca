@@ -63,6 +63,6 @@ Material:
     - _WiggleStrength: 0.539
     m_Colors:
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
-    - _GlowColor: {r: 2.057346, g: 0.28830093, b: 6.8831816, a: 0}
+    - _GlowColor: {r: 4.8019743, g: 0.74513394, b: 15.813397, a: 0}
     - _MainColor: {r: 0.5524125, g: 0.1824493, b: 0.9433962, a: 0}
   m_BuildTextureStacks: []

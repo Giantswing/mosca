@@ -2,7 +2,7 @@ using System;
 using DG.Tweening;
 using UnityEngine;
 
-public class EnemyMovementBehaviour : MonoBehaviour
+public class EnemyMovementBehaviour : MonoBehaviour, IPressurePlateListener
 {
     private Vector3 _oldPosition, _currentMovement;
     private float _finalRotation, _finalRotationTo;

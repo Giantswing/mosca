@@ -62,8 +62,8 @@ Material:
     - _AlphaCutoff: 0.5
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _SmoothMultiplier: 0.82
-    - _brightness: 0.542
+    - _SmoothMultiplier: 1.02
+    - _brightness: 0.507
     - _tileamount22: 0.216
     - _vertexOpacity: 1.301
     m_Colors:

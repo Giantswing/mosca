@@ -1,10 +1,10 @@
 using System;
+using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 
 public class ElevatorScriptDoor : MonoBehaviour
 {
-    public bool isDoorOpen;
     [SerializeField] private float doorHeight = 2.9f;
 
     public Ease easeOpen = Ease.InOutQuad;
@@ -15,13 +15,29 @@ public class ElevatorScriptDoor : MonoBehaviour
     [SerializeField] private SimpleAudioEvent doorClosingSound;
     [SerializeField] private SimpleAudioEvent doorHitSound;
 
+    private Queue<TweenCallback> _tweens = new();
+    private Vector3 openPos;
+    private Vector3 closePos;
     private bool isInElevator;
+    public bool isDoorOpen;
 
     private void Start()
     {
-        easeOpen = Ease.InCirc;
+        easeOpen = Ease.InOutQuad;
         easeClose = Ease.OutBounce;
         closingFx = GetComponent<ParticleSystem>();
+
+
+        if (isDoorOpen)
+        {
+            openPos = transform.localPosition;
+            closePos = transform.localPosition - new Vector3(0, doorHeight, 0);
+        }
+        else
+        {
+            closePos = transform.localPosition;
+            openPos = transform.localPosition + new Vector3(0, doorHeight, 0);
+        }
 
 
         isInElevator = false;
@@ -34,16 +50,30 @@ public class ElevatorScriptDoor : MonoBehaviour
     {
         if (isDoorOpen == false)
         {
+            transform.DOComplete();
             doorClosingSound.pitch.minValue = 1.2f;
             doorClosingSound.pitch.maxValue = 1.4f;
             GlobalAudioManager.PlaySound(doorClosingSound, transform.position);
             isDoorOpen = true;
 
+            /*
             if (isInElevator)
                 transform.DOLocalMoveY(0, 1f).SetEase(easeOpen);
             else
                 transform.DOLocalMoveY(transform.localPosition.y + doorHeight, 1f).SetEase(easeOpen);
+                */
+
+            _tweens.Enqueue(transform.DOLocalMoveY(openPos.y, 1f).SetEase(easeOpen).onComplete +=
+                OnCompleteAnimation);
         }
+    }
+
+    private void OnCompleteAnimation()
+    {
+        //check if there are more tweens to play
+        if (_tweens.Count > 0)
+            //play the next tween
+            _tweens.Dequeue().Invoke();
     }
 
 
@@ -51,16 +81,15 @@ public class ElevatorScriptDoor : MonoBehaviour
     {
         if (isDoorOpen)
         {
+            transform.DOComplete();
             doorClosingSound.pitch.minValue = 0.9f;
             doorClosingSound.pitch.maxValue = 1.1f;
             GlobalAudioManager.PlaySound(doorClosingSound, transform.position);
             isDoorOpen = false;
 
-            if (isInElevator)
-                transform.DOLocalMoveY(-doorHeight, 1f).SetEase(easeClose);
-            else
-                transform.DOLocalMoveY(transform.localPosition.y - doorHeight, 1f).SetEase(easeClose);
 
+            _tweens.Enqueue(transform.DOLocalMoveY(closePos.y, 1f).SetEase(easeClose).onComplete +=
+                OnCompleteAnimation);
 
             transform.DOLocalMoveX(transform.localPosition.x, 0.4f).onComplete += () =>
             {
@@ -70,25 +99,6 @@ public class ElevatorScriptDoor : MonoBehaviour
         }
     }
 
-    public void CloseDoor(Action callback)
-    {
-        if (isDoorOpen)
-        {
-            doorClosingSound.pitch.minValue = 0.9f;
-            doorClosingSound.pitch.maxValue = 1.1f;
-            GlobalAudioManager.PlaySound(doorClosingSound, transform.position);
-            isDoorOpen = false;
-            transform.DOLocalMoveY(-doorHeight, 1f).SetEase(easeClose).SetDelay(0.25f).OnComplete(() =>
-            {
-                callback();
-            });
-            transform.DOLocalMoveX(transform.localPosition.x, 0.6f).onComplete += () =>
-            {
-                closingFx.Emit(20);
-                GlobalAudioManager.PlaySound(doorHitSound, transform.position);
-            };
-        }
-    }
 
     public void ToggleDoor()
     {

@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 6591557247272738645}
   - component: {fileID: 6591557247272738731}
   - component: {fileID: 4313260817852533243}
+  - component: {fileID: 669738146876354570}
   m_Layer: 0
   m_Name: Button-multiple
   m_TagString: Button
@@ -146,13 +147,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 1994871903941622559}
   audioSource: {fileID: 4313260817852533243}
+  clockSound: {fileID: 0}
   buttonSound: {fileID: 11400000, guid: 95fa088c7f1b3af40ac93040a0cfe08f, type: 2}
   OnPress:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: ElevatorScriptDoor, Assembly-CSharp
-        m_MethodName: ToggleDoor
+        m_TargetAssemblyTypeName: DSwitcherScript, Assembly-CSharp
+        m_MethodName: Hit
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: DSwitcherScript, Assembly-CSharp
+        m_MethodName: Hit
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -164,10 +178,9 @@ MonoBehaviour:
         m_CallState: 2
   CanBePressedMultipleTimes: 1
   isPressed: 0
-  cableMaterial: {fileID: 2100000, guid: e13a783086b0e5a4c8dd333647dc738e, type: 2}
-  cables: []
-  cableHangPoints: 12
-  hangStrength: 3
+  timer: 0
+  stopwatchSound: {fileID: 0}
+  cableGenerator: {fileID: 669738146876354570}
 --- !u!82 &4313260817852533243
 AudioSource:
   m_ObjectHideFlags: 0
@@ -264,6 +277,25 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &669738146876354570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6320946890761175823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1207e5ef593c8a4daabad38868a36cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cableMaterial: {fileID: 2100000, guid: e13a783086b0e5a4c8dd333647dc738e, type: 2}
+  cables: []
+  cableHangPoints: 10
+  hangStrength: 2
+  targets: []
+  starting_offset: {x: 0, y: 0, z: 1}
+  target_offset: {x: 0, y: 0, z: 1}
 --- !u!1 &7688745708031907167
 GameObject:
   m_ObjectHideFlags: 0

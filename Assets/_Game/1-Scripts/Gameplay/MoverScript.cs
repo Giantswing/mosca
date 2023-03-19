@@ -27,6 +27,8 @@ public class MoverScript : MonoBehaviour
     [SerializeField] private GameObject moverRailPrefab;
     [SerializeField] private GameObject[] moverRails;
 
+    [SerializeField] private bool isAutomatic = true;
+
 
     public List<MovePoint> MovePoints = new();
 
@@ -55,6 +57,7 @@ public class MoverScript : MonoBehaviour
 
         if (MovePoints.Count > 0)
         {
+            if (isAutomatic == false) return;
             transform.position = _startPosition + MovePoints[0].offset;
             IterateMovePoint();
             Move();
@@ -64,6 +67,12 @@ public class MoverScript : MonoBehaviour
     private void OnDisable()
     {
         transform.DOKill();
+    }
+
+    public void AutoMove()
+    {
+        IterateMovePoint();
+        Move();
     }
 
     private void OnDestroy()
@@ -228,9 +237,14 @@ public class MoverScript : MonoBehaviour
 
     private IEnumerator WaitMove()
     {
-        yield return _waitTimes[_currentMovePoint];
+        if (isAutomatic)
+        {
+            yield return _waitTimes[_currentMovePoint];
 
-        IterateMovePoint();
-        Move();
+            IterateMovePoint();
+            Move();
+        }
+
+        yield return null;
     }
 }

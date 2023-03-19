@@ -125,8 +125,9 @@ public class ElevatorScript : MonoBehaviour
 
     private void CloseDoors()
     {
-        doors[0].CloseDoor(Move);
-        doors[1].CloseDoor(Move);
+        doors[0].CloseDoor();
+        doors[1].CloseDoor();
+        DOVirtual.DelayedCall(0.5f, Move);
     }
 
     private void OpenDoors()

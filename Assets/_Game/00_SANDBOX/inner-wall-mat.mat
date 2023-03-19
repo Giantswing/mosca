@@ -104,16 +104,16 @@ Material:
     m_Floats:
     - _AlphaCutoff: 0.5
     - _BrightnessMult: 0.424
-    - _BrightnessMult2: 0.47
-    - _BrightnessMult3: 0.372
+    - _BrightnessMult2: 0.876
+    - _BrightnessMult3: 0.287
     - _DirtAmount: 0.279
     - _DirtTilingAmount: 0.154
     - _NormalStrength: 1
     - _QueueControl: -1
     - _QueueOffset: 0
-    - _SmoothnessMult: 1.084
-    - _SmoothnessMult2: 1.473
-    - _SmoothnessMult3: 1.092
+    - _SmoothnessMult: 1.797
+    - _SmoothnessMult2: 0.939
+    - _SmoothnessMult3: 0.752
     - _TilingAmount: 0.216
     - _TilingAmount2: 0.216
     - _TilingAmount3: 1

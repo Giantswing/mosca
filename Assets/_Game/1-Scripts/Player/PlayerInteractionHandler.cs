@@ -12,7 +12,7 @@ public class HoldableItem
     public bool isThrowable;
 }
 
-public class PlayerInteractionHandler : MonoBehaviour
+public class PlayerInteractionHandler : MonoBehaviour, IPressurePlateListener
 {
     private static readonly int GlowColor = Shader.PropertyToID("_GlowColor");
     private static readonly int GlowState = Shader.PropertyToID("_GlowState");

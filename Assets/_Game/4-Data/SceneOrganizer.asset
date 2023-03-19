@@ -34,11 +34,15 @@ MonoBehaviour:
     - {fileID: 3155901395702546916, guid: 3d46f5ff227fe7e4f9b5fc05d9dafca7, type: 3}
     - {fileID: 2666306670160233665, guid: 9c01c2ffeb87aed42a5482ab778e43e6, type: 3}
     - {fileID: 3455700863804286203, guid: ce967a72d65866c4f985637aa57762b2, type: 3}
-    - {fileID: 4319178847646054, guid: 42895a8fab61cd54e99985d431aa99cc, type: 3}
     - {fileID: 3113702028230545252, guid: f4655f8c6f394be4eb959a86f86d54c2, type: 3}
     - {fileID: 6860605510871531306, guid: e9abe0eb43e95a94bb6dec0f64dc8c20, type: 3}
     - {fileID: 7513327145577404619, guid: 8479c2c9f8e3ec9459b6e8c348487fad, type: 3}
     - {fileID: 3127363022271069518, guid: 646e6cd0a0b8960499842ef378e6789e, type: 3}
+    - {fileID: 6320946890761175823, guid: c9ee21d8e4fe4e74c8e490802cbc3693, type: 3}
+    - {fileID: 7828307724439843648, guid: 81007171921e7f0439bed53a8ee19a8f, type: 3}
+    - {fileID: 946773863622964029, guid: b9a745ab81b853f4e8141ad0b2e17053, type: 3}
+    - {fileID: 1961977080957964308, guid: afded1f45653b4144982e2ada5235eb0, type: 3}
+    - {fileID: 627043455016336685, guid: 4e644ea7d36880645afbf6520b37a949, type: 3}
     objectsNames:
     - Directional Light
     - Cube
@@ -86,6 +90,9 @@ MonoBehaviour:
   - name: _08-LEVEL
     objects:
     - {fileID: 4206558954623024780, guid: 997a35e5f1bee984890dd7a40e0e3518, type: 3}
+    - {fileID: 5562076952024848312, guid: d8ddd89826ed6cf459bab310095dab6c, type: 3}
+    - {fileID: 8249925354754177508, guid: 0e45a57f3977ee2419dc1d4468b73d3a, type: 3}
+    - {fileID: 7601514868725885344, guid: da52e9a4ff1acd341924fd7cbd13eeb0, type: 3}
     objectsNames:
     - lvlmodel_
   - name: _09-TELEPORTERS
@@ -95,110 +102,4 @@ MonoBehaviour:
   - name: --------RUNTIME OBJECTS--------
     objects: []
     objectsNames: []
-  allGameObjects:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  allGameObjects: []

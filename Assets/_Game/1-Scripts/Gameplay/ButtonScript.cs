@@ -15,10 +15,7 @@ public class ButtonScript : MonoBehaviour
     public UnityEvent OnPress;
     [SerializeField] private bool CanBePressedMultipleTimes = false;
     [SerializeField] private bool isPressed = false;
-    [SerializeField] private Material cableMaterial;
-    [SerializeField] private LineRenderer[] cables;
-    [SerializeField] private int cableHangPoints = 10;
-    [SerializeField] private float hangStrength = 5f;
+
 
     [Space(30)] [SerializeField] private float timer = 0;
     private float _currentTimer;
@@ -28,56 +25,21 @@ public class ButtonScript : MonoBehaviour
     private WaitForSeconds _wait_half = new(0.5f);
     private WaitForSeconds _wait_quarter = new(0.25f);
 
+    [SerializeField] private CableGenerator cableGenerator;
+
+
     private void Start()
     {
         _buttonStartPos = button.localPosition.y;
 
-        CreateCable();
-    }
-
-    private void CreateCable()
-    {
-        //get how many events are connected to the onpress unity event
         var eventCount = OnPress.GetPersistentEventCount();
-        print(eventCount);
-
-        //create as many linerenderer components as there are events and add those components to the object
-        cables = new LineRenderer[eventCount];
-
-        //for each cable, create line renderer component and assign it to the cables
-        for (var i = 0; i < cables.Length; i++)
+        if (eventCount > 0)
         {
-            var child = new GameObject();
-            child.transform.parent = transform;
-            var startingPos = transform.position + new Vector3(0, 0, 1f);
-            var targetPos = ((Component)OnPress.GetPersistentTarget(i)).transform.position + new Vector3(0, 0, 1f);
-            cables[i] = child.gameObject.AddComponent<LineRenderer>();
-            cables[i].positionCount = 2 + cableHangPoints;
-            cables[i].SetPosition(0, startingPos);
-            cables[i].SetPosition(1 + cableHangPoints, targetPos);
+            cableGenerator.targets = new Transform[eventCount];
+            for (var i = 0; i < eventCount; i++)
+                cableGenerator.targets[i] = ((Component)OnPress.GetPersistentTarget(i)).transform;
 
-            //set the positions of the hanging points
-            for (var j = 0; j < cableHangPoints; j++)
-            {
-                //get intermediary position between the two points
-                var intermediaryPos = Vector3.Lerp(startingPos, targetPos, j / (float)cableHangPoints);
-
-                //add vertical offset to the intermediary position, so that the cable hangs down
-                var yOffset =
-                    Mathf.Sin(j / (float)cableHangPoints * Mathf.PI) *
-                    -hangStrength; // adjust the 0.2f value to change the hang intensity
-                intermediaryPos += new Vector3(0, yOffset, 0);
-
-
-                //set the position of the hanging point
-                cables[i].SetPosition(1 + j, intermediaryPos);
-            }
-
-
-            cables[i].startWidth = 0.1f;
-            cables[i].endWidth = 0.1f;
-
-            cables[i].material = cableMaterial;
+            cableGenerator.CreateCable();
         }
     }
 
