@@ -178,6 +178,7 @@ GameObject:
   - component: {fileID: 6945348560268767002}
   - component: {fileID: 6945348560268767204}
   - component: {fileID: 54315940312447412}
+  - component: {fileID: 5185334364812560829}
   m_Layer: 0
   m_Name: Button-once
   m_TagString: Button
@@ -194,7 +195,7 @@ Transform:
   m_GameObject: {fileID: 7828307724439843648}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 43.59, y: -21.01, z: -4.26}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.83454, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 514064204475262382}
@@ -229,13 +230,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 2356520317366045520}
   audioSource: {fileID: 54315940312447412}
+  clockSound: {fileID: 0}
   buttonSound: {fileID: 11400000, guid: 95fa088c7f1b3af40ac93040a0cfe08f, type: 2}
   OnPress:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ElevatorScriptDoor, Assembly-CSharp
-        m_MethodName: ToggleDoor
+        m_MethodName: OpenDoor
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -247,10 +249,9 @@ MonoBehaviour:
         m_CallState: 2
   CanBePressedMultipleTimes: 0
   isPressed: 0
-  cableMaterial: {fileID: 2100000, guid: e13a783086b0e5a4c8dd333647dc738e, type: 2}
-  cables: []
-  cableHangPoints: 12
-  hangStrength: 3
+  timer: 0
+  stopwatchSound: {fileID: 0}
+  cableGenerator: {fileID: 5185334364812560829}
 --- !u!82 &54315940312447412
 AudioSource:
   m_ObjectHideFlags: 0
@@ -347,3 +348,22 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &5185334364812560829
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7828307724439843648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1207e5ef593c8a4daabad38868a36cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cableMaterial: {fileID: 2100000, guid: e13a783086b0e5a4c8dd333647dc738e, type: 2}
+  cables: []
+  cableHangPoints: 10
+  hangStrength: 5
+  targets: []
+  starting_offset: {x: 0, y: 0, z: 0}
+  target_offset: {x: 0, y: 0, z: 0}

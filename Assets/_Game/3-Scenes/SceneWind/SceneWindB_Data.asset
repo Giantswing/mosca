@@ -16,10 +16,8 @@ MonoBehaviour:
   scene:
     sceneAsset: {fileID: 102900000, guid: 227b11576afd63544879a29382c9d59a, type: 3}
     required: 1
-    buildIndex: 6
+    buildIndex: -1
   sceneName: Tears
-  scoreToWin: 70
-  totalScore: 74
   timeToWin: 95
   deathCounter: 0
   stars: 0

@@ -73,7 +73,7 @@ public class LevelIntroScript : MonoBehaviour
         {
             levelNameText.SetText(currentLevel.sceneName);
             levelObjectivesText.SetText(
-                "Win <color=red>at least</color> " + currentLevel.scoreToWin +
+                "Win <color=red>at least</color> " + LevelManager._scoreForStars[0] +
                 " points\nBonus time: " + currentLevel.timeToWin + " seconds");
             levelNameText.gameObject.SetActive(true);
             levelObjectivesText.gameObject.SetActive(true);

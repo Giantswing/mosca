@@ -10,6 +10,7 @@ public class CampaignSO : ScriptableObject
 {
     public SceneField levelSelectionScene;
     public SceneField mainMenuScene;
+    public LevelSO defaultScene;
     public List<LevelSO> levels;
 
     public int GetLevelIndex(LevelSO level)

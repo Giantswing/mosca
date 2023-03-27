@@ -53,6 +53,14 @@ public class ElevatorScript : MonoBehaviour
 
         var children = GetComponentsInChildren<MeshCollider>();
         foreach (var child in children) child.material = physicMaterial;
+        /*
+            if (child.gameObject.name.Contains("backplane"))
+            {
+                var meshRenderer = child.gameObject.GetComponent<MeshRenderer>();
+                if (meshRenderer != null)
+                    DestroyImmediate(meshRenderer);
+            }
+            */
     }
 
     /*

@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class CollectableBehaviour : MonoBehaviour
 {
@@ -22,7 +24,8 @@ public class CollectableBehaviour : MonoBehaviour
 
     private HoldableItem _holdableItem;
 
-    //private bool hasAddedScore = false;
+    private bool hasAddedScore = false;
+
 
     [HideInInspector]
     public enum PickUpAnimation
@@ -45,13 +48,20 @@ public class CollectableBehaviour : MonoBehaviour
 
     public int scoreValue = 1;
 
-/*
+
     public void AddToScore()
     {
-        LevelManager.ScoreToWin += scoreValue;
+        if (hasAddedScore) return;
+        LevelManager._maxScore += scoreValue;
         hasAddedScore = true;
     }
-    */
+
+    private void Awake()
+    {
+        hasAddedScore = false;
+        AddToScore();
+    }
+
 
     public void Start()
     {

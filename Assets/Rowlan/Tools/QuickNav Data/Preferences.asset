@@ -14,14 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   historyItemsMax: 20
   history:
-  - context: 1
-    title: 
-    unityObject: {fileID: 2100000, guid: d4afd845e671bfa459a96b5890071c9f, type: 2}
-    objectGuid: GlobalObjectId_V1-3-d4afd845e671bfa459a96b5890071c9f-2100000-0
   - context: 0
     title: 
     unityObject: {fileID: 0}
-    objectGuid: GlobalObjectId_V1-2-1eba490ca1a655e4b8043679d5d268d2-7197320075817121305-7197320076038352677
+    objectGuid: GlobalObjectId_V1-2-9d8b5797da126e34081d35ddd1cb81ae-1637995431-0
   favorites:
   - context: 2
     title: Pickups
@@ -83,6 +79,10 @@ MonoBehaviour:
     title: 
     unityObject: {fileID: 7755996156412724486, guid: 7af1d790e918e8948a09aec7170f3c05, type: 3}
     objectGuid: GlobalObjectId_V1-1-7af1d790e918e8948a09aec7170f3c05-7755996156412724486-0
+  - context: 1
+    title: 
+    unityObject: {fileID: 625242290313791635, guid: 8338572cae3a62b4490fd43e45577b39, type: 3}
+    objectGuid: GlobalObjectId_V1-1-8338572cae3a62b4490fd43e45577b39-625242290313791635-0
   - context: 1
     title: 
     unityObject: {fileID: 3127363022271069518, guid: 646e6cd0a0b8960499842ef378e6789e, type: 3}

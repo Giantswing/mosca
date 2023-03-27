@@ -51,7 +51,7 @@ public class LevelLoader : MonoBehaviour
             case (int)LevelTransitionState.NextLevel:
                 showLevelIntro.value = true;
                 showLevelIntroText.value = true;
-                var nextLevelIndex = CurrentLevelHolder.GetCurrentLevel().index;
+                var nextLevelIndex = LevelManager.GetCurrentLevel().index;
                 SceneToLoad = campaignData.levels[nextLevelIndex + 1].scene;
                 StartCoroutine(LoadSceneAsync(SceneToLoad));
                 break;

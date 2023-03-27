@@ -8,7 +8,8 @@ using UnityEngine;
 public class ScoreCounterScript : MonoBehaviour
 {
     public TextMeshProUGUI _scoreText;
-    [SerializeField] private TextMeshProUGUI _scoreMinMax;
+
+    //[SerializeField] private TextMeshProUGUI _scoreMinMax;
     private Tween _scorePunchTween;
     private WaitForEndOfFrame _waitFrame = new();
 
@@ -26,16 +27,19 @@ public class ScoreCounterScript : MonoBehaviour
 
     private void Start()
     {
-        _scoreMinMax.SetText(CurrentLevelHolder.GetCurrentLevel().scoreToWin.ToString() + "\n" +
-                             CurrentLevelHolder.GetCurrentLevel().totalScore.ToString());
+/*
+_scoreMinMax.SetText(LevelManager._scoreForStars[0].ToString() + "\n" +
+                     LevelManager._scoreForStars[2].ToString());*/
 
-        _scorePunchTween = _scoreText.transform.DOPunchScale(Vector3.one * .05f, .5f, 1, 1).SetAutoKill(false).Pause();
+
+        _scorePunchTween = _scoreText.transform.DOPunchScale(Vector3.one * .05f, .5f, 1, 1).SetAutoKill(false)
+            .Pause();
         _scorePunchTween.onComplete += () => _scoreText.transform.localScale = Vector3.one;
     }
 
     private void UpdateScoreUI(int score)
     {
-        _scorePunchTween.Restart();
+        //_scorePunchTween.Restart();
 
         StartCoroutine(UpdateScoreUIRoutine());
     }

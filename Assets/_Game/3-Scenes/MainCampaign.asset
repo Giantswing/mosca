@@ -18,10 +18,8 @@ MonoBehaviour:
     buildIndex: 2
   mainMenuScene:
     sceneAsset: {fileID: 102900000, guid: d936f90ffc2a950458ee8b333cf35b71, type: 3}
-    required: 0
+    required: 1
     buildIndex: 1
+  defaultScene: {fileID: 11400000, guid: 86dcd06acb7e0814083b99136b70e926, type: 2}
   levels:
-  - {fileID: 11400000, guid: 712dedd5bf638d546a1d326932dc3909, type: 2}
-  - {fileID: 11400000, guid: 8f39f72eb90fcad4d9a4a90bc62f52cf, type: 2}
-  - {fileID: 11400000, guid: d0be9953be468d04281f7bab45159c7e, type: 2}
-  - {fileID: 11400000, guid: 07bac2ed678d8374abed24e771b4e89e, type: 2}
+  - {fileID: 11400000, guid: 5df0351bfc00fd84dbfc212bad39d388, type: 2}

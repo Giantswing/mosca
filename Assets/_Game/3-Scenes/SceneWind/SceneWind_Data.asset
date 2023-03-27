@@ -16,15 +16,13 @@ MonoBehaviour:
   scene:
     sceneAsset: {fileID: 102900000, guid: 4500aface69df154fafcfe0332485889, type: 3}
     required: 1
-    buildIndex: 5
+    buildIndex: -1
   sceneName: Wind
-  scoreToWin: 70
-  totalScore: 105
   timeToWin: 105
   deathCounter: 0
   stars: 0
   isThisLastOne: 1
-  index: 3
+  index: 1
   isBSide: 0
   hasBSide: 1
   bSideScene: {fileID: 11400000, guid: 31875c9c68a485a4f869d51607297aa2, type: 2}

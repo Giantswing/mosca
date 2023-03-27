@@ -11,6 +11,10 @@ public class CurrentLevelHolder : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        //get the current scene name
+
+        //get the level data from the level list
+        //currentLevel = LevelList.Instance.GetLevelDataFromSceneName(SceneManager.GetActiveScene().name);
     }
 
     public static LevelSO GetCurrentLevel()

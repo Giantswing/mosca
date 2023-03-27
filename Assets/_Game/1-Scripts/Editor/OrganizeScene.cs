@@ -100,7 +100,8 @@ public class OrganizeScene : ScriptableObject
                         if (selectedObj.transform.parent != null)
                             if (selectedObj.transform.parent.name.Contains("Mover") ||
                                 selectedObj.transform.parent.name.Contains("Cog6") ||
-                                selectedObj.transform.parent.name.Contains("DSwitcher"))
+                                selectedObj.transform.parent.name.Contains("DSwitcher") ||
+                                selectedObj.transform.parent.name.Contains("Elevator"))
                                 break;
 
                         selectedObj.transform.parent = folders[i].transform;

@@ -18,11 +18,9 @@ MonoBehaviour:
     required: 0
     buildIndex: -1
   sceneName: To the moon
-  scoreToWin: 1
-  totalScore: 1
   timeToWin: 116
-  deathCounter: 24
-  stars: 0
+  deathCounter: 25
+  stars: 1
   isThisLastOne: 0
   index: 2
   isBSide: 0

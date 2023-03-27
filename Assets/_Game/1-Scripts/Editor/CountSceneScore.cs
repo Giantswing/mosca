@@ -9,6 +9,6 @@ public class CountSceneScore : Editor
         DrawDefaultInspector();
         var myScript = (LevelSO)target;
 
-        if (GUILayout.Button("Count Score")) myScript.CountScore();
+        //if (GUILayout.Button("Count Score")) myScript.CountScore();
     }
 }

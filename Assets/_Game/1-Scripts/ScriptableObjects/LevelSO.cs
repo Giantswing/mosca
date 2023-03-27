@@ -9,8 +9,6 @@ public class LevelSO : ScriptableObject
     public SceneField scene;
     public string sceneName;
 
-    [Space(25)] public int scoreToWin;
-    public int totalScore;
     public float timeToWin;
 
     [Space(25)] public int deathCounter = 0;
@@ -26,6 +24,7 @@ public class LevelSO : ScriptableObject
     public bool hasBSide;
     public LevelSO bSideScene;
 
+    /*
 
     public void CountScore()
     {
@@ -43,6 +42,8 @@ public class LevelSO : ScriptableObject
             if (rewardScore != null) totalScore += rewardScore.scoreValue * reward.count;
         }
     }
+    */
+
 
 #if UNITY_EDITOR
     private void OnValidate()

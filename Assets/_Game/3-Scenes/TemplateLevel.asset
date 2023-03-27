@@ -18,8 +18,6 @@ MonoBehaviour:
     required: 0
     buildIndex: -1
   sceneName: Template
-  scoreToWin: 1
-  totalScore: 1
   timeToWin: 25
   deathCounter: 0
   stars: 3

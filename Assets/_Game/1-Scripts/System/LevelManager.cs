@@ -11,15 +11,17 @@ using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
-    //CREATE LIST OF COINS
-    public static int ScoreToWin = 0;
+    public static int _maxScore = 0;
+    public static int _score = 0;
+    public static int[] _scoreForStars = new int[3];
 
-    private int _score = 0;
+
     private TextMeshProUGUI _scoreText;
     private Tween _scorePunchTween;
 
     private GameObject portal;
     public static UnityAction<int> OnScoreChanged;
+    public static UnityAction StarsChanged;
 
     [SerializeField] private LevelSO levelData;
     [SerializeField] private CampaignSO campaignData;
@@ -49,14 +51,44 @@ public class LevelManager : MonoBehaviour
         OnScoreChanged += UpdateScore;
     }
 
+    public static LevelSO GetCurrentLevel()
+    {
+        if (Instance != null)
+            return Instance.levelData;
+        else
+            return null;
+    }
+
     private void Awake()
     {
         Instance = this;
         _score = 0;
-        ScoreToWin = 0;
+        _maxScore = 0;
+
+        /*
         if (levelData == null) levelData = CurrentLevelHolder.GetCurrentLevel();
         campaignData.UpdateLevelInfo();
+        */
+
+        levelData = campaignData.defaultScene;
+        campaignData.levels.ForEach(x =>
+        {
+            var levelName = x.scene.EditorSceneAsset.name;
+            if (levelName == SceneManager.GetActiveScene().name) levelData = x;
+        });
+
+        campaignData.UpdateLevelInfo();
         SaveLoadSystem.LoadGame();
+    }
+
+
+    private void SetUpStars()
+    {
+        _scoreForStars[2] = _maxScore;
+        _scoreForStars[1] = Mathf.RoundToInt(_maxScore / 1.5f);
+        _scoreForStars[0] = Mathf.RoundToInt(_maxScore / 3f);
+
+        StarsChanged?.Invoke();
     }
 
     private void OnDisable()
@@ -78,6 +110,8 @@ public class LevelManager : MonoBehaviour
         winScreen.SetActive(true);
 
         levelMaxTime.value = levelData.timeToWin;
+
+        SetUpStars();
     }
 
     public static List<CheckpointScript> GetCheckpoints()
@@ -122,7 +156,8 @@ public class LevelManager : MonoBehaviour
     {
         if (_isPortalOpen) return;
 
-        var transitionLevel = _score >= levelData.scoreToWin ? true : false;
+        //var transitionLevel = _score >= levelData.scoreToWin ? true : false;
+        var transitionLevel = _score >= _scoreForStars[0] ? true : false;
         if (transitionLevel)
         {
             _isPortalOpen = true;
@@ -140,6 +175,6 @@ public class LevelManager : MonoBehaviour
 
     public static int GetScore()
     {
-        return Instance._score;
+        return _score;
     }
 }

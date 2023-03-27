@@ -97,8 +97,15 @@ public class LevelSelectionManager : MonoBehaviour
 
         if (_selected == null) return;
 
+        var levelButton = _selected.GetComponent<LevelButton>();
+        float vertOffsetMult = 0;
+        if (levelButton.hasBlevel)
+            vertOffsetMult = 1;
+        if (levelButton.isBLevel)
+            vertOffsetMult = -0.7f;
+
         _buttonPosition = _selected.transform.InverseTransformPoint(levelContainer.transform.position);
-        _objectPosition = new Vector3(_buttonPosition.x, _buttonPosition.y + cameraVerticalOffset, 0);
+        _objectPosition = new Vector3(_buttonPosition.x, _buttonPosition.y + cameraVerticalOffset * vertOffsetMult, 0);
 
         levelContainer.anchoredPosition =
             Vector3.Lerp(levelContainer.anchoredPosition, _objectPosition, 0.02f);

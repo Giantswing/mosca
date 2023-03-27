@@ -18,8 +18,6 @@ MonoBehaviour:
     required: 1
     buildIndex: 4
   sceneName: Squashed
-  scoreToWin: 60
-  totalScore: 96
   timeToWin: 80
   deathCounter: 0
   stars: 0

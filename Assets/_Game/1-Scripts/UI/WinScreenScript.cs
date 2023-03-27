@@ -54,7 +54,7 @@ public class WinScreenScript : MonoBehaviour
 
     private void Start()
     {
-        if (CurrentLevelHolder.GetCurrentLevel().isThisLastOne || CurrentLevelHolder.GetCurrentLevel().isBSide)
+        if (LevelManager.GetCurrentLevel().isThisLastOne || LevelManager.GetCurrentLevel().isBSide)
         {
             nextLevelButton.SetActive(false);
             _firstSelected = levelSelectionButton;
@@ -85,22 +85,28 @@ public class WinScreenScript : MonoBehaviour
         yield return new WaitForSeconds(.5f);
         GlobalAudioManager.PlaySound(startWinScreenAudioEvent);
 
-        var currentLevel = CurrentLevelHolder.GetCurrentLevel();
+        var currentLevel = LevelManager.GetCurrentLevel();
         levelNameText.SetText(currentLevel.sceneName);
-        scoreText.SetText(LevelManager.GetScore().ToString() + "/" + currentLevel.totalScore);
+        scoreText.SetText(LevelManager.GetScore().ToString() + "/" + LevelManager._scoreForStars[2]);
         timeText.SetText(levelTime.value.ToString("F1") + "s/" + levelTimeMax.value + "s");
 
         var currentStarsInLevel = currentLevel.stars;
         var starsWonInLevel = 0;
 
-        if (LevelManager.GetScore() >= currentLevel.scoreToWin)
+        if (LevelManager.GetScore() >= LevelManager._scoreForStars[0])
             starsWonInLevel++;
 
-        if (LevelManager.GetScore() == currentLevel.totalScore)
+        if (LevelManager.GetScore() >= LevelManager._scoreForStars[1])
             starsWonInLevel++;
 
+        if (LevelManager.GetScore() >= LevelManager._scoreForStars[2])
+            starsWonInLevel++;
+
+
+        /*
         if (levelTime.value < currentLevel.timeToWin)
             starsWonInLevel++;
+        */
 
 
         for (var i = 1; i <= 3; i++)

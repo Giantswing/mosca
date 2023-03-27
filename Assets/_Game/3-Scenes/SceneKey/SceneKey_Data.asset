@@ -18,8 +18,6 @@ MonoBehaviour:
     required: 0
     buildIndex: 7
   sceneName: Open doors
-  scoreToWin: 80
-  totalScore: 98
   timeToWin: 116
   deathCounter: 0
   stars: 0

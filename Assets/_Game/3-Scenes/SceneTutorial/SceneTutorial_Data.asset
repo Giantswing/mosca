@@ -16,10 +16,8 @@ MonoBehaviour:
   scene:
     sceneAsset: {fileID: 102900000, guid: 0a5a8cfb2a96bb34695afded1e9daa6a, type: 3}
     required: 1
-    buildIndex: 3
+    buildIndex: -1
   sceneName: Tutorial
-  scoreToWin: 40
-  totalScore: 55
   timeToWin: 55
   deathCounter: 0
   stars: 0

@@ -13,6 +13,7 @@ public class LevelButton : MonoBehaviour, ISelectHandler, IDeselectHandler
     public LevelSO levelData;
     public int levelIndex;
     public bool isBLevel = false;
+    public bool hasBlevel = false;
     public CampaignSO campaignData;
 
     [SerializeField] private TextMeshProUGUI levelIndexText, levelNameText;
@@ -46,6 +47,9 @@ public class LevelButton : MonoBehaviour, ISelectHandler, IDeselectHandler
 
         if (levelData.isBSide)
             button.GetComponent<Image>().sprite = bSideImage;
+
+        if (levelData.hasBSide)
+            hasBlevel = true;
     }
 
     private IEnumerator Test()
