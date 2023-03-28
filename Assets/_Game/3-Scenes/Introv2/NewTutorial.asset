@@ -19,7 +19,7 @@ MonoBehaviour:
     buildIndex: 3
   sceneName: New beginnings
   timeToWin: 135
-  deathCounter: 0
+  deathCounter: 7
   stars: 3
   isThisLastOne: 1
   index: 0

@@ -17,7 +17,15 @@ MonoBehaviour:
   - context: 0
     title: 
     unityObject: {fileID: 0}
-    objectGuid: GlobalObjectId_V1-2-9d8b5797da126e34081d35ddd1cb81ae-1637995431-0
+    objectGuid: GlobalObjectId_V1-2-00000000000000000000000000000000-5717986802943567742-0
+  - context: 1
+    title: 
+    unityObject: {fileID: 5717986802943567742, guid: 47a33d0d1419c884db04daaf99c2bf53, type: 3}
+    objectGuid: GlobalObjectId_V1-1-47a33d0d1419c884db04daaf99c2bf53-5717986802943567742-0
+  - context: 0
+    title: 
+    unityObject: {fileID: 0}
+    objectGuid: GlobalObjectId_V1-2-1eba490ca1a655e4b8043679d5d268d2-1266870618896314659-52823685
   favorites:
   - context: 2
     title: Pickups

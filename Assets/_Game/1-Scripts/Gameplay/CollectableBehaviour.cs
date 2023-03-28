@@ -33,6 +33,11 @@ public class CollectableBehaviour : MonoBehaviour
         Rotatable
     }
 
+    public Collider getCollider()
+    {
+        return myCollider;
+    }
+
     public PickUpAnimation pickUpAnimation;
 
     [HideInInspector]

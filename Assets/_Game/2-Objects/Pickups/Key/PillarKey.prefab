@@ -183,6 +183,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7263805950076657634, guid: a80358938ee94414bb1a0a797ec13462, type: 3}
+      propertyPath: breakSound
+      value: 
+      objectReference: {fileID: 11400000, guid: 01051bb48d399ce4183415cd57f6cba5, type: 2}
+    - target: {fileID: 7263805950076657634, guid: a80358938ee94414bb1a0a797ec13462, type: 3}
+      propertyPath: myParticles
+      value: 
+      objectReference: {fileID: 3182908876171859368}
+    - target: {fileID: 7263805950076657634, guid: a80358938ee94414bb1a0a797ec13462, type: 3}
       propertyPath: collectSound
       value: 
       objectReference: {fileID: 11400000, guid: 67a335879b8da2842af2309fd23e4c2a, type: 2}
@@ -236,6 +244,11 @@ MonoBehaviour:
 --- !u!4 &1266870618896314661 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4449313301767096509, guid: a80358938ee94414bb1a0a797ec13462, type: 3}
+  m_PrefabInstance: {fileID: 3182908875851315608}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &3182908876171859368 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 354905136, guid: a80358938ee94414bb1a0a797ec13462, type: 3}
   m_PrefabInstance: {fileID: 3182908875851315608}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &5252832985316468346 stripped

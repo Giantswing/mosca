@@ -50,3 +50,4 @@ MonoBehaviour:
   CoinPickupFxPrefab: {fileID: 2969516460098345099, guid: 949a3f1a70b2a0547a5e8ffe7676d9d0, type: 3}
   DamageTakenFxPrefab: {fileID: 2969516460098345099, guid: a479a16f6c5034d46be0857cf0ac9586, type: 3}
   SmokePuffFxPrefab: {fileID: 2969516460098345099, guid: 583ab9739f681484ab4ebe26c8d9dd66, type: 3}
+  KeyBreakFXPrefab: {fileID: 2969516460098345099, guid: 47a33d0d1419c884db04daaf99c2bf53, type: 3}

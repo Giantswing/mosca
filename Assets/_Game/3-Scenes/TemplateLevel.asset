@@ -19,7 +19,7 @@ MonoBehaviour:
     buildIndex: -1
   sceneName: Template
   timeToWin: 25
-  deathCounter: 0
+  deathCounter: 2
   stars: 3
   isThisLastOne: 0
   index: 0

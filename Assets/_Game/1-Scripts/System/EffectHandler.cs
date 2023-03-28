@@ -27,13 +27,21 @@ public class EffectHandler : MonoBehaviour
     public ObjectPool<FXScript> SmokePuffFXPool;
     public FXScript SmokePuffFxPrefab;
 
+    public ObjectPool<FXScript> KeyBreakFXPool;
+    public FXScript KeyBreakFXPrefab;
+
 
     private ObjectPool<FXScript>[] allFXPools;
 
     public enum EffectType
     {
         Clash,
-        CrateExplosion
+        CrateExplosion,
+        Dodge,
+        CoinPickup,
+        DamageTaken,
+        SmokePuff,
+        KeyBreak
     }
 
     private void Start()
@@ -89,6 +97,15 @@ public class EffectHandler : MonoBehaviour
             fx => { Destroy(fx); },
             false, 1, 3);
         allFXPools[5] = SmokePuffFXPool;
+
+        KeyBreakFXPool = new ObjectPool<FXScript>(
+            () => Instantiate(KeyBreakFXPrefab),
+            fx => { fx.gameObject.SetActive(true); },
+            fx => { fx.gameObject.SetActive(false); },
+            fx => { Destroy(fx); },
+            false, 1, 3);
+
+        allFXPools[6] = KeyBreakFXPool;
     }
 
     public static void SpawnFX(int fxIndex, Vector3 spawnPos, Vector3 spawnRot, Vector3 moveDir, float moveSpeed)
