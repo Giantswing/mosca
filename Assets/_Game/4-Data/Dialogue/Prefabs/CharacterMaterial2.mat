@@ -34,10 +34,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Brightness: 0.2
+    - _Brightness: 1
     - _ColorMask: 15
-    - _OpacityMult: 1
-    - _Saturation: 0
+    - _OpacityMult: 0
+    - _Saturation: 1
     - _Stencil: 0
     - _StencilComp: 8
     - _StencilOp: 0

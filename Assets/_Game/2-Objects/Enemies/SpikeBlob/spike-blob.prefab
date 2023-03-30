@@ -105,6 +105,7 @@ MonoBehaviour:
   _renderer: {fileID: 0}
   normalMaterial: {fileID: 0}
   invincibilityMaterial: {fileID: 0}
+  IsInsideElevator: 0
   ST_Speed: 0
   ST_Health:
     _owner: {fileID: 3581354328258126474}
@@ -122,7 +123,7 @@ MonoBehaviour:
         m_Calls: []
   ST_MaxHealth: 999
   ST_Damage: 1
-  ST_Team: 2
+  ST_Team: 0
   ST_Invincibility: 0
   ST_CanDoDmg: 1
   ST_InvincibilityTimer: 0
@@ -134,6 +135,8 @@ MonoBehaviour:
   ST_DeathEvent:
     m_PersistentCalls:
       m_Calls: []
+  onlyDamageByExplosions: 0
+  isThisAnExplosion: 0
   dmgDirection: {x: 0, y: 0, z: 0}
   transitionEvent:
     _owner: {fileID: 3581354328258126474}
@@ -185,5 +188,5 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 5.4, y: 4.16, z: 4.41}
+  m_Size: {x: 4.27, y: 4.16, z: 4.41}
   m_Center: {x: 0.0015029786, y: -0.0004976742, z: -0.0014874501}

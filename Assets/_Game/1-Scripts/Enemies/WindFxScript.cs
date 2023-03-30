@@ -38,7 +38,7 @@ public class WindFxScript : MonoBehaviour
     private void Update()
     {
         transform.position += moveDir * (speed * Time.deltaTime);
-        force -= Time.deltaTime / lifeTime;
+        force -= Time.deltaTime * 3F / lifeTime;
         transform.Rotate(0, 0, 10f);
     }
 

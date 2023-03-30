@@ -13,8 +13,11 @@ public class Chat
     public bool leftSide;
 }
 
+
 [CreateAssetMenu(fileName = "Dialogue", menuName = "Flugi/Dialogue", order = 1)]
 public class DialogueSO : ScriptableObject
 {
     public List<Chat> dialogueList;
+    public Texture startingLeftEmotion;
+    public Texture startingRightEmotion;
 }

@@ -21,6 +21,7 @@ TagManager:
   - DialogTrigger
   - DSwitcher
   - Button
+  - Traveler
   layers:
   - Default
   - TransparentFX

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
@@ -95,5 +96,24 @@ public class ButtonScript : MonoBehaviour
             yield return _wait_quarter;
 
         StartCoroutine(TimerTicks());
+    }
+
+    private void OnDrawGizmos()
+    {
+        var eventCount = OnPress.GetPersistentEventCount();
+        if (eventCount > 0)
+        {
+            var targets = new Transform[eventCount];
+            Gizmos.color = Color.red;
+
+            for (var i = 0; i < eventCount; i++)
+            {
+                if (OnPress.GetPersistentTarget(i) == null) continue;
+                targets[i] = ((Component)OnPress.GetPersistentTarget(i)).transform;
+
+                if (targets[i] != null)
+                    Gizmos.DrawLine(transform.position, targets[i].position);
+            }
+        }
     }
 }

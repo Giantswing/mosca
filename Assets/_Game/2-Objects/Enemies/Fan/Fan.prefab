@@ -108,10 +108,11 @@ MonoBehaviour:
   _renderer: {fileID: 0}
   normalMaterial: {fileID: 0}
   invincibilityMaterial: {fileID: 0}
+  IsInsideElevator: 0
   ST_Speed: 0
   ST_Health:
     _owner: {fileID: 3019289329273769044}
-    _ownerName: Fan (5)
+    _ownerName: Fan
     _propertyPath: ST_Health
     _autoListen: 0
     _multiIndex: 0
@@ -137,10 +138,12 @@ MonoBehaviour:
   ST_DeathEvent:
     m_PersistentCalls:
       m_Calls: []
+  onlyDamageByExplosions: 0
+  isThisAnExplosion: 0
   dmgDirection: {x: 0, y: 0, z: 0}
   transitionEvent:
     _owner: {fileID: 3019289329273769044}
-    _ownerName: Fan (5)
+    _ownerName: Fan
     _propertyPath: transitionEvent
     _autoListen: 0
     _multiIndex: 0
@@ -152,7 +155,7 @@ MonoBehaviour:
         m_Calls: []
   transitionType:
     _owner: {fileID: 3019289329273769044}
-    _ownerName: Fan (5)
+    _ownerName: Fan
     _propertyPath: transitionType
     _autoListen: 0
     _multiIndex: 0

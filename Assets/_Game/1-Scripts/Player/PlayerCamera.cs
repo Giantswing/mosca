@@ -1,6 +1,4 @@
-using System;
 using Cinemachine;
-using FullscreenEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -95,19 +93,23 @@ public class PlayerCamera : MonoBehaviour
 
     public void UpdateCameraZone(CameraZone newCameraZone)
     {
-        currentCameraZone = newCameraZone;
-
         if (newCameraZone != null)
         {
+            currentCameraZone = newCameraZone;
             _cameraZoneOffset = newCameraZone.cameraOffset;
             _cameraZoneZoom = newCameraZone.cameraZoom;
             _cameraSideAngleStrengthTo = newCameraZone.sideAngleStrength;
+
+            var isTarget = newCameraZone.isCameraTarget;
+            if (isTarget) TargetGroupControllerSystem.AddTarget(newCameraZone.transform, 3, 0);
         }
         else
         {
             _cameraZoneOffset = Vector3.zero;
             _cameraZoneZoom = 0;
             _cameraSideAngleStrengthTo = 1;
+
+            TargetGroupControllerSystem.RemoveTarget(currentCameraZone.transform);
         }
     }
 

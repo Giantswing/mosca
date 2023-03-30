@@ -17,5 +17,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Game/3-Scenes/Introv2/new-intro-v2.unity
     guid: 9d8b5797da126e34081d35ddd1cb81ae
+  - enabled: 1
+    path: Assets/_Game/3-Scenes/Lvl2/new-lvl2-scene.unity
+    guid: db6f3b7b61fbf1640912fae417e029c2
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 6548e70ae255d6143ba245a2fff6f58d, type: 2}

@@ -33,6 +33,7 @@ public class KeyScript : CollectableBehaviour
     {
         if (isFollowing == 0) return;
         Explode();
+        transform.parent = _whoToFollow.transform;
     }
 
     public void Explode()
@@ -40,8 +41,8 @@ public class KeyScript : CollectableBehaviour
         isBeingUsed = true;
         getCollider().enabled = false;
 
-        transform.DOShakePosition(0.25f, 1f, 10, 90, false);
-        transform.DOShakeScale(0.5f, 5f, 10, 90, false).onComplete += () =>
+        transform.DOShakePosition(0.45f, 1f, 10, 90, false);
+        transform.DOShakeScale(1f, 5f, 10, 90, false).onComplete += () =>
         {
             EffectHandler.SpawnFX((int)EffectHandler.EffectType.KeyBreak, transform.position, Vector3.zero,
                 Vector3.zero,

@@ -372,7 +372,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void FlipPlayer(int direction, float speed)
+    public void FlipPlayer(int direction, float speed)
     {
         if (direction == 1)
         {
@@ -397,6 +397,10 @@ public class PlayerMovement : MonoBehaviour
         inputDirectionTo = context.ReadValue<Vector2>();
     }
 
+    public void Dash()
+    {
+        flyAnimator.SetBool(IsDashing, true);
+    }
 
     public void Dash(InputAction.CallbackContext context)
     {
@@ -415,7 +419,7 @@ public class PlayerMovement : MonoBehaviour
                 flyAnimator.SetBool(IsDoubleDashing, true);
 
             onPlayerDodge?.Dispatch();
-            smartDodgeDir.value = inputDirectionTo;
+            //smartDodgeDir.value = inputDirectionTo;
         }
     }
 
@@ -487,6 +491,7 @@ public class PlayerMovement : MonoBehaviour
         _dodgeDirection = Random.insideUnitCircle.normalized;
         Vector3 finalDodgePos;
 
+
         if (stats.IsInsideElevator)
             finalDodgePos = _dodgeDirection * 1.3f;
         else
@@ -499,6 +504,7 @@ public class PlayerMovement : MonoBehaviour
             originalPos = Vector3.zero;
         else
             originalPos = transform.position;
+
 
         var hasRotated = false;
 

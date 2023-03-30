@@ -128,6 +128,25 @@ public class PressurePlate : MonoBehaviour
         StartCoroutine(UpdateCablePositions());
     }
     */
+
+    private void OnDrawGizmos()
+    {
+        var eventCount = OnPress.GetPersistentEventCount();
+        if (eventCount > 0)
+        {
+            var targets = new Transform[eventCount];
+            Gizmos.color = Color.red;
+
+            for (var i = 0; i < eventCount; i++)
+            {
+                if (OnPress.GetPersistentTarget(i) == null) continue;
+                targets[i] = ((Component)OnPress.GetPersistentTarget(i)).transform;
+
+                if (targets[i] != null)
+                    Gizmos.DrawLine(transform.position, targets[i].position);
+            }
+        }
+    }
 }
 
 public interface IPressurePlateListener

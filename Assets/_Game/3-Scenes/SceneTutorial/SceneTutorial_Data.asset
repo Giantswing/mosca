@@ -15,9 +15,10 @@ MonoBehaviour:
   campaign: {fileID: 11400000, guid: a36363c6493c2fc49a902af9627a51e9, type: 2}
   scene:
     sceneAsset: {fileID: 102900000, guid: 0a5a8cfb2a96bb34695afded1e9daa6a, type: 3}
-    required: 1
+    required: 0
     buildIndex: -1
   sceneName: Tutorial
+  sceneInternalName: 
   timeToWin: 55
   deathCounter: 0
   stars: 0

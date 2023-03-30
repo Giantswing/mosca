@@ -12,6 +12,8 @@ public class DSwitcherScript : MonoBehaviour, IPressurePlateListener
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private bool canBeActivated = true;
 
+    [SerializeField] private bool isStuck = false;
+
 
     private WaitForSeconds delay = new(0.1f);
 
@@ -33,6 +35,7 @@ public class DSwitcherScript : MonoBehaviour, IPressurePlateListener
 
     public void Hit(Vector3 otherPos)
     {
+        if (isStuck) return;
         if (isHorizontal)
         {
             if (otherPos.y > transform.position.y)

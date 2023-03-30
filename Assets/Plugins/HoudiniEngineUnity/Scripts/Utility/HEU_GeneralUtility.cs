@@ -31,7 +31,7 @@ using System.Globalization;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
-using UnityEditorInternal;
+//using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
@@ -1708,8 +1708,8 @@ namespace HoudiniEngineUnity
 
                 if (!bSkip)
                 {
-                    ComponentUtility.CopyComponent(srcComp);
-                    ComponentUtility.PasteComponentAsNew(destGO);
+                    //ComponentUtility.CopyComponent(srcComp);
+                    //ComponentUtility.PasteComponentAsNew(destGO);
                 }
             }
 #endif

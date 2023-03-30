@@ -8,7 +8,7 @@ public class LevelSO : ScriptableObject
     public CampaignSO campaign;
     public SceneField scene;
     public string sceneName;
-
+    public string sceneInternalName;
     public float timeToWin;
 
     [Space(25)] public int deathCounter = 0;

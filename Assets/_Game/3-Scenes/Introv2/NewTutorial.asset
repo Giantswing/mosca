@@ -18,10 +18,11 @@ MonoBehaviour:
     required: 0
     buildIndex: 3
   sceneName: New beginnings
+  sceneInternalName: new-intro-v2
   timeToWin: 135
   deathCounter: 7
   stars: 3
-  isThisLastOne: 1
+  isThisLastOne: 0
   index: 0
   isBSide: 0
   hasBSide: 0

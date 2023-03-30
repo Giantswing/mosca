@@ -19,4 +19,6 @@ public class CharacterSO : ScriptableObject
     public List<Emotion> emotions;
 
     public SimpleAudioEvent talkSound;
+
+    public Emotion startingEmotion;
 }

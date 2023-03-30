@@ -21,15 +21,17 @@ public class FlyOnDeathBehaviour : MonoBehaviour
 
         DOTween.Kill(transform);
 
-        GetComponent<Rigidbody>().velocity = dir * 14f;
+        var rb = GetComponent<Rigidbody>();
+        rb.isKinematic = false;
+        rb.velocity = dir * 14f;
 
         transform.rotation = quaternion.identity;
 
-        transform.DORotate(new Vector3(0, 0, 360), 0.5f, RotateMode.FastBeyond360)
+        transform.DORotate(new Vector3(0, 0, 360), 0.35f, RotateMode.FastBeyond360)
             .SetLoops(10, LoopType.Incremental)
             .SetEase(Ease.Linear);
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.6f);
 
         EffectHandler.SpawnFX(5, transform.position, Vector3.zero, Vector3.zero, 0);
 

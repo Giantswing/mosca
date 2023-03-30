@@ -103,6 +103,42 @@ public class DialogueManager : MonoBehaviour
         //char2.characterDialogueBox.localScale = new Vector3(-1, 1, 1);
     }
 
+    private void StartDefaultCharacters()
+    {
+        var foundChar1Image = false;
+        var foundChar2Image = false;
+
+        for (var i = 0; i < instance.currentDialogueSO.dialogueList.Count; i++)
+        {
+            if (instance.currentDialogueSO.dialogueList[i].leftSide && foundChar1Image == false)
+            {
+                instance.characterImages[0].material
+                    .SetTexture(MainTex,
+                        instance.currentDialogueSO.dialogueList[i].character.startingEmotion.sprite);
+                foundChar1Image = true;
+            }
+
+            if (!instance.currentDialogueSO.dialogueList[i].leftSide && foundChar2Image == false)
+            {
+                instance.characterImages[1].material
+                    .SetTexture(MainTex,
+                        instance.currentDialogueSO.dialogueList[i].character.startingEmotion.sprite);
+                foundChar2Image = true;
+            }
+        }
+    }
+
+    private void StartDefaultCharactersFromDialogue()
+    {
+        instance.characterImages[0].material
+            .SetTexture(MainTex,
+                instance.currentDialogueSO.startingLeftEmotion);
+
+        instance.characterImages[1].material
+            .SetTexture(MainTex,
+                instance.currentDialogueSO.startingRightEmotion);
+    }
+
     public static void ShowDialogue(DialogueSO dialogueSO)
     {
         if (instance.currentDialogueIndex != 0) return;
@@ -148,6 +184,8 @@ public class DialogueManager : MonoBehaviour
             }
         }
 
+        //instance.StartDefaultCharacters();
+        instance.StartDefaultCharactersFromDialogue();
         instance.SetUpCurrentDialogue();
     }
 

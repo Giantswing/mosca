@@ -21,13 +21,20 @@ public class STATS : MonoBehaviour
 
     public bool IsInsideElevator = false;
 
+    public enum Team
+    {
+        Neutral,
+        Player,
+        Enemy
+    }
+
 
     public float ST_Speed;
     public SmartData.SmartInt.IntWriter ST_Health;
     public int ST_MaxHealth;
 
     public int ST_Damage;
-    public int ST_Team; //0 => Neutral, 1 => Player, 2 => Enemy
+    public Team ST_Team; //0 => Neutral, 1 => Player, 2 => Enemy
 
     public bool ST_Invincibility;
     public bool ST_CanDoDmg = false;
@@ -98,7 +105,7 @@ public class STATS : MonoBehaviour
             ST_Damage = 0;
 
             SaveLoadSystem.SaveGame();
-            if (ST_Team == 1)
+            if (ST_Team == Team.Player)
             {
                 LevelManager.GetCurrentLevel().deathCounter++;
                 DeathCounterScript.UpdateDeathCounter();
@@ -116,7 +123,7 @@ public class STATS : MonoBehaviour
                 StartCoroutine(InvincibleEffect());
         }
 
-        if (ST_Team == 1) EffectHandler.SpawnFX(4, transform.position, Vector3.zero, Vector3.zero, 0);
+        if (ST_Team == Team.Player) EffectHandler.SpawnFX(4, transform.position, Vector3.zero, Vector3.zero, 0);
     }
 
     private IEnumerator InvincibleEffect()
@@ -141,7 +148,7 @@ public class STATS : MonoBehaviour
 
     private void Die()
     {
-        if (ST_Team == 1 && isAlive)
+        if (ST_Team == Team.Player && isAlive)
         {
             transitionType.value = (int)LevelLoader.LevelTransitionState.Restart;
             transitionEvent.Dispatch();

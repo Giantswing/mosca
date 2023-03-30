@@ -6,6 +6,8 @@ using UnityEditorInternal;
 public class DialogueSOEditor : Editor
 {
     private ReorderableList dialogueList;
+    private Texture startingLeftEmotion;
+    private Texture startingRightEmotion;
 
     private void OnEnable()
     {
@@ -61,12 +63,27 @@ public class DialogueSOEditor : Editor
             element.FindPropertyRelative("leftSide").boolValue = false;
             serializedObject.ApplyModifiedProperties();
         };
+
+        //add callback for when the Textures are changed
+        startingLeftEmotion = ((DialogueSO)target).startingLeftEmotion;
+        startingRightEmotion = ((DialogueSO)target).startingRightEmotion;
     }
 
     public override void OnInspectorGUI()
     {
         serializedObject.Update();
+
+        ((DialogueSO)target).startingLeftEmotion = (Texture)EditorGUILayout.ObjectField("Starting Left Emotion",
+            ((DialogueSO)target).startingLeftEmotion, typeof(Texture), false);
+        ((DialogueSO)target).startingRightEmotion = (Texture)EditorGUILayout.ObjectField("Starting Right Emotion",
+            ((DialogueSO)target).startingRightEmotion, typeof(Texture), false);
+
         dialogueList.DoLayoutList();
         serializedObject.ApplyModifiedProperties();
+
+        //set dirty so that the textures are updated
+        if (startingLeftEmotion != ((DialogueSO)target).startingLeftEmotion ||
+            startingRightEmotion != ((DialogueSO)target).startingRightEmotion)
+            EditorUtility.SetDirty(target);
     }
 }

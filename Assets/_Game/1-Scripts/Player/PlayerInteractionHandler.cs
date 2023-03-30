@@ -69,7 +69,7 @@ public class PlayerInteractionHandler : MonoBehaviour, IPressurePlateListener
             {
                 var xPos = Vector3.left * 1.5f + Vector3.right * (0.75f * i);
                 holdingItems[i].itemTransform.position = Vector3.Lerp(holdingItems[i].itemTransform.position,
-                    transform.position + Vector3.up * 0.75f + xPos, Time.deltaTime * 10);
+                    transform.position + Vector3.up * 0.75f + xPos * pM.isFacingRight, Time.deltaTime * 10);
             }
             else
             {
@@ -139,8 +139,35 @@ public class PlayerInteractionHandler : MonoBehaviour, IPressurePlateListener
                     if (pM.IncreaseCheckpoint(checkpoint.checkpointNumber))
                         checkpoint.isActivated = true;
                 break;
+            case "Traveler":
+                var traveler = collision.GetComponent<Traveler>();
+                traveler.StartTravel(transform, (exitsToTheLeft) =>
+                {
+                    pM.EnablePlayer();
+                    pM.my3DModel.transform.DOKill();
+                    if (!exitsToTheLeft)
+                        pM.my3DModel.transform.DOLocalRotate(new Vector3(0, 0, 0), .3f, RotateMode.FastBeyond360);
+                    else
+                        pM.my3DModel.transform.DOLocalRotate(new Vector3(0, 180, 0), .3f, RotateMode.FastBeyond360);
+
+                    stats.ST_Invincibility = false;
+                });
+
+
+                stats.ST_Invincibility = true;
+                if (pM.isFacingRight == 1)
+                    pM.my3DModel.transform.DOLocalRotate(new Vector3(0, 0, -360), .3f, RotateMode.FastBeyond360)
+                        .SetLoops(-1, LoopType.Incremental).SetEase(Ease.Linear);
+                else
+                    pM.my3DModel.transform.DOLocalRotate(new Vector3(0, 0, -360), .3f, RotateMode.FastBeyond360)
+                        .SetLoops(-1, LoopType.Incremental).SetEase(Ease.Linear);
+
+                pM.DisablePlayer();
+
+                break;
         }
     }
+
 
     private void OnTriggerExit(Collider other)
     {

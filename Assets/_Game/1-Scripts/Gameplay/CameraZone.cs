@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,4 +12,13 @@ public class CameraZone : MonoBehaviour
     [Range(-2, 2)] public float sideAngleStrength = 1;
 
     [SerializeField] private bool disableFlip = false;
+
+    public bool isCameraTarget;
+
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireCube(GetComponent<BoxCollider>().bounds.center, GetComponent<BoxCollider>().bounds.size);
+    }
 }

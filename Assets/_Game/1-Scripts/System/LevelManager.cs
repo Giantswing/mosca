@@ -65,20 +65,13 @@ public class LevelManager : MonoBehaviour
         _score = 0;
         _maxScore = 0;
 
-        /*
-        if (levelData == null) levelData = CurrentLevelHolder.GetCurrentLevel();
-        campaignData.UpdateLevelInfo();
-        */
-
         levelData = campaignData.defaultScene;
         campaignData.levels.ForEach(x =>
         {
-            var levelName = x.scene.EditorSceneAsset.name;
+            var levelName = x.sceneInternalName;
             if (levelName == SceneManager.GetActiveScene().name) levelData = x;
         });
-
         campaignData.UpdateLevelInfo();
-        SaveLoadSystem.LoadGame();
     }
 
 
@@ -98,6 +91,7 @@ public class LevelManager : MonoBehaviour
 
     private void Start()
     {
+        SaveLoadSystem.LoadGame();
         portal = GameObject.FindGameObjectWithTag("Meta");
         portal.SetActive(false);
 

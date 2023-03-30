@@ -14,7 +14,7 @@ public class MovePoint
     public float waitTime;
 }
 
-public class MoverScript : MonoBehaviour
+public class MoverScript : MonoBehaviour, IPressurePlateListener
 {
     [SerializeField] private bool pingPong;
     [SerializeField] private bool smoothMove = true;
@@ -75,6 +75,7 @@ public class MoverScript : MonoBehaviour
         Move();
     }
 
+    /*
     private void OnDestroy()
     {
         if (gameObject.name == "Mover")
@@ -87,6 +88,7 @@ public class MoverScript : MonoBehaviour
             if (rail.name.StartsWith(gameObject.name))
                 EditorApplication.delayCall += () => { DestroyImmediate(rail); };
     }
+    */
 
     private void OnDrawGizmos()
     {
@@ -113,6 +115,7 @@ public class MoverScript : MonoBehaviour
         //SpawnRails();
     }
 
+    /*
     private void SpawnRails()
     {
         _startPosition = transform.position;
@@ -123,7 +126,7 @@ public class MoverScript : MonoBehaviour
                 if (rail != null)
                     EditorApplication.delayCall += () => { DestroyImmediate(rail); };
 
-*/
+
         if (gameObject.name == "Mover")
             gameObject.name = "Mover (0)";
 
@@ -153,7 +156,7 @@ public class MoverScript : MonoBehaviour
             moverRails[i].transform.localScale = new Vector3(1, scale * 0.5f, 1);
         }
     }
-
+*/
     private void IterateMovePoint()
     {
         audioSource.pitch = Random.Range(0.9f, 1.1f);

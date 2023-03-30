@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 5440256830388789495}
   - component: {fileID: 5440256830388789488}
   - component: {fileID: 5440256830388789494}
+  - component: {fileID: 682861196290228799}
   m_Layer: 0
   m_Name: MosquitoEnemy
   m_TagString: Untagged
@@ -88,6 +89,7 @@ MonoBehaviour:
   _renderer: {fileID: 2020998861784347837}
   normalMaterial: {fileID: 0}
   invincibilityMaterial: {fileID: 2100000, guid: 226adf9a21da1ea4493948e9726d7789, type: 2}
+  IsInsideElevator: 0
   ST_Speed: 2
   ST_Health:
     _owner: {fileID: 9104996455489809032}
@@ -165,11 +167,13 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onlyDamageByExplosions: 0
+  isThisAnExplosion: 0
   dmgDirection: {x: 0, y: 0, z: 0}
   transitionEvent:
-    _owner: {fileID: 0}
-    _ownerName: 
-    _propertyPath: 
+    _owner: {fileID: 9104996455489809032}
+    _ownerName: MosquitoEnemy
+    _propertyPath: transitionEvent
     _autoListen: 0
     _multiIndex: 0
     _smartEvent: {fileID: 0}
@@ -179,9 +183,9 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
   transitionType:
-    _owner: {fileID: 0}
-    _ownerName: 
-    _propertyPath: 
+    _owner: {fileID: 9104996455489809032}
+    _ownerName: MosquitoEnemy
+    _propertyPath: transitionType
     _autoListen: 0
     _multiIndex: 0
     _refType: 2
@@ -251,6 +255,19 @@ MonoBehaviour:
   rewards:
   - rewardPrefab: {fileID: 8023622830044985023, guid: da22c02a65605a34daa362c3ba402d6a, type: 3}
     count: 4
+--- !u!114 &682861196290228799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9104996455489809032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65c27d95d6942fd449bab205462739c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myStats: {fileID: 9104996455489809031}
 --- !u!1 &9104996455684143568
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83cc2216f9409da4fa6fb4f0d97a2976, type: 3}
+  m_Name: TravelerPoint
+  m_EditorClassIdentifier: 
+  clips:
+  - {fileID: 8300000, guid: b47f41c0d735c894cae226a7a9a81f5f, type: 3}
+  volume:
+    minValue: 0.9554367
+    maxValue: 1
+  pitch:
+    minValue: 0.9358288
+    maxValue: 1.0606058

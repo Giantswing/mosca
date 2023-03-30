@@ -537,7 +537,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39d040daf1a333c449e041ecf90b7e6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueSO: {fileID: 11400000, guid: 8b98257a134cbc443b4d976bddaa93de, type: 2}
+  dialogueSO:
+  - {fileID: 11400000, guid: 76afa8282e1f30f49a9e5ae274f15729, type: 2}
   prompt: {fileID: 3037653132565544684}
   promptButton: {fileID: 3623862365355397835}
   promptText: {fileID: 3623862365647364252}
@@ -556,3 +557,10 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
   inputActionAsset: {fileID: -944628639613478452, guid: 0b2cbcc118471e84e969b52f5a6485e0, type: 3}
+  onEnterTrigger:
+    m_PersistentCalls:
+      m_Calls: []
+  onOutsideScreen:
+    m_PersistentCalls:
+      m_Calls: []
+  currentDialogueIndex: 0

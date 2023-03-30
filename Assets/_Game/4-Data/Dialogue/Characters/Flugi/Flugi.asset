@@ -29,3 +29,6 @@ MonoBehaviour:
   - name: Scared
     sprite: {fileID: 2800000, guid: e6e177824f0b134468ebd64e40866b8a, type: 3}
   talkSound: {fileID: 11400000, guid: 2f5ca8cd5a082a34283ccbec8458efdc, type: 2}
+  startingEmotion:
+    name: Neutral
+    sprite: {fileID: 2800000, guid: 58529c88ba3e32b4b9018c5a94616606, type: 3}
