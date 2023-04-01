@@ -43,6 +43,8 @@ public class InsecticideCanv2 : MonoBehaviour
 
     [Space(25)] [SerializeField] private PlayerReferenceSO playerReference;
 
+    private Vector3 _startingScale;
+
 
     private void Start()
     {
@@ -63,6 +65,8 @@ public class InsecticideCanv2 : MonoBehaviour
         _WaitStartingOffset = new WaitForSeconds((burstDuration + timeBetweenBursts) * startingOffsetMultiplier);
 
         particles.Stop();
+
+        _startingScale = transform.localScale;
 
         if (startingOffsetMultiplier > 0)
             StartCoroutine(StartingOffsetCoroutine());
@@ -86,6 +90,7 @@ public class InsecticideCanv2 : MonoBehaviour
         _targetDistance = rayMaxLength;
 
         transform.DOKill();
+        transform.localScale = _startingScale;
         transform.DOShakePosition(burstDuration * 2f, 0.1f, 10, 90, false, true);
         transform.DOShakeScale(burstDuration * 2f, 0.03f, 10, 90, false);
 

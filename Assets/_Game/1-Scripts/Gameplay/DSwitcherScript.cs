@@ -13,6 +13,7 @@ public class DSwitcherScript : MonoBehaviour, IPressurePlateListener
     [SerializeField] private bool canBeActivated = true;
 
     [SerializeField] private bool isStuck = false;
+    [SerializeField] private Transform screw;
 
 
     private WaitForSeconds delay = new(0.1f);
@@ -84,6 +85,8 @@ public class DSwitcherScript : MonoBehaviour, IPressurePlateListener
             return;
 
         endRot += 90 * clockwise;
+        screw.DOLocalMoveZ(screw.localPosition.z + 0.35f * clockwise, 0.2f).SetEase(Ease.InOutQuad)
+            .SetLoops(2, LoopType.Yoyo);
 
         _mySequence.Append(transform.DORotate(new Vector3(0, 0, endRot), 1.35f)
             .SetEase(Ease.OutBounce));

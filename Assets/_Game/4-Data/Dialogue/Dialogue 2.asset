@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30225cbc1910b7442bb64c5b6d6edb84, type: 3}
+  m_Name: Dialogue 2
+  m_EditorClassIdentifier: 
+  dialogueList:
+  - character: {fileID: 11400000, guid: b2d37084354b7ce48849668fdc0f29bc, type: 2}
+    dialogueText: Ves como era verda
+    emotionIndex: 0
+    leftSide: 0
+  - character: {fileID: 11400000, guid: 3aa5a4cfd4369e9479bb19e47c27351c, type: 2}
+    dialogueText: Zi
+    emotionIndex: 6
+    leftSide: 1
+  startingLeftEmotion: {fileID: 2800000, guid: 58529c88ba3e32b4b9018c5a94616606, type: 3}
+  startingRightEmotion: {fileID: 2800000, guid: 27f6b823daf7b754ba64300304530fd2, type: 3}

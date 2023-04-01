@@ -21,7 +21,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _CharTexture:
-        m_Texture: {fileID: 2800000, guid: e5f6db970054e834cab0005b1e23746c, type: 3}
+        m_Texture: {fileID: 2800000, guid: 58529c88ba3e32b4b9018c5a94616606, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
@@ -51,10 +51,10 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaCutoff: 0.5
-    - _Brightness: 0.19999999
+    - _Brightness: 1
     - _ColorMask: 15
     - _OpacityMult: 0
-    - _Saturation: 0
+    - _Saturation: 1
     - _Stencil: 0
     - _StencilComp: 8
     - _StencilOp: 0

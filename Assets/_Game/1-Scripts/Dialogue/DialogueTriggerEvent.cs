@@ -18,6 +18,8 @@ public class DialogueTriggerEvent : MonoBehaviour
     [SerializeField] private UnityEvent onEnterTrigger;
     [SerializeField] private UnityEvent onOutsideScreen;
 
+    public bool isInverted = false;
+
     public int currentDialogueIndex = 0;
     [SerializeField] private List<Transform> objectsToDestroyOrCollect;
     private bool _hasObjectsToDestroyOrCollect = false;

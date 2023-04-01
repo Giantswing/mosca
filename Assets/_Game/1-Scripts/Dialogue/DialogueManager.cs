@@ -50,6 +50,8 @@ public class DialogueManager : MonoBehaviour
     private static readonly int MainTex = Shader.PropertyToID("_CharTexture");
     private static readonly int OpacityMult = Shader.PropertyToID("_OpacityMult");
 
+    public static bool isInverted = false;
+
 
     private void Awake()
     {
@@ -65,8 +67,11 @@ public class DialogueManager : MonoBehaviour
 
     private void InitializeCharacterPrefabs()
     {
-        var char1 = Instantiate(dialoguePrefab, dialogueParent.transform).GetComponent<DialogueReferences>();
-        var char2 = Instantiate(dialoguePrefab, dialogueParent.transform).GetComponent<DialogueReferences>();
+        DialogueReferences char1, char2;
+
+        char1 = Instantiate(dialoguePrefab, dialogueParent.transform).GetComponent<DialogueReferences>();
+        char2 = Instantiate(dialoguePrefab, dialogueParent.transform).GetComponent<DialogueReferences>();
+
 
         characters[0] = char1.character;
         characters[1] = char2.character;
@@ -130,11 +135,11 @@ public class DialogueManager : MonoBehaviour
 
     private void StartDefaultCharactersFromDialogue()
     {
-        instance.characterImages[0].material
+        instance.characterImages[isInverted ? 1 : 0].material
             .SetTexture(MainTex,
                 instance.currentDialogueSO.startingLeftEmotion);
 
-        instance.characterImages[1].material
+        instance.characterImages[isInverted ? 0 : 1].material
             .SetTexture(MainTex,
                 instance.currentDialogueSO.startingRightEmotion);
     }
@@ -142,6 +147,7 @@ public class DialogueManager : MonoBehaviour
     public static void ShowDialogue(DialogueSO dialogueSO)
     {
         if (instance.currentDialogueIndex != 0) return;
+
 
         instance.canvasGroup.alpha = 0;
         DOTween.To(() => instance.canvasGroup.alpha, x => instance.canvasGroup.alpha = x, 1, 0.5f);
@@ -155,6 +161,7 @@ public class DialogueManager : MonoBehaviour
 
         var children = instance.dialogueParent.GetComponentsInChildren<RectTransform>();
         //instance.uiAnimator.StartAnimation(children, 0.15f, 0.05f, Ease.OutCirc);
+
 
         instance.currentDialogueSO = dialogueSO;
         instance.currentDialogueIndex = 0;
@@ -191,8 +198,17 @@ public class DialogueManager : MonoBehaviour
 
     public void SetUpCurrentDialogue()
     {
-        instance.currentCharacterReference = currentDialogueSO.dialogueList[currentDialogueIndex].leftSide ? 0 : 1;
-        instance.otherCharacterReference = currentDialogueSO.dialogueList[currentDialogueIndex].leftSide ? 1 : 0;
+        if (!isInverted)
+        {
+            instance.currentCharacterReference = currentDialogueSO.dialogueList[currentDialogueIndex].leftSide ? 0 : 1;
+            instance.otherCharacterReference = currentDialogueSO.dialogueList[currentDialogueIndex].leftSide ? 1 : 0;
+        }
+        else
+        {
+            instance.currentCharacterReference = currentDialogueSO.dialogueList[currentDialogueIndex].leftSide ? 1 : 0;
+            instance.otherCharacterReference = currentDialogueSO.dialogueList[currentDialogueIndex].leftSide ? 0 : 1;
+        }
+
 
         //instance.characters[0].gameObject.SetActive(currentDialogueSO.dialogue[currentDialogueIndex].leftSide);
         //instance.characters[1].gameObject.SetActive(!currentDialogueSO.dialogue[currentDialogueIndex].leftSide);
@@ -245,7 +261,7 @@ public class DialogueManager : MonoBehaviour
             if (i % 2 == 0)
                 talkSound.Play(audioSource);
 
-            var amount = 0.02f;
+            var amount = 0.025f;
             if (i % 3 == 0)
                 characterImages[currentCharacterReference].transform
                     .DOPunchScale(
@@ -259,7 +275,13 @@ public class DialogueManager : MonoBehaviour
 
         finishedWithCurrentText = true;
         //make button prompt scale go up and down
-        var side = currentDialogueSO.dialogueList[currentDialogueIndex].leftSide ? 1 : -1;
+
+        int side;
+        if (!isInverted)
+            side = currentDialogueSO.dialogueList[currentDialogueIndex].leftSide ? 1 : -1;
+        else
+            side = currentDialogueSO.dialogueList[currentDialogueIndex].leftSide ? -1 : 1;
+
         characterButtonPrompt[currentCharacterReference].DOScale(new Vector3(1.2f * side, 1.2f, 1.2f), 0.2f)
             .SetLoops(-1, LoopType.Yoyo);
     }
@@ -271,7 +293,12 @@ public class DialogueManager : MonoBehaviour
         characterTexts[instance.currentCharacterReference].text = textToShow;
         finishedWithCurrentText = true;
 
-        var side = currentDialogueSO.dialogueList[currentDialogueIndex].leftSide ? 1 : -1;
+        int side;
+        if (!isInverted)
+            side = currentDialogueSO.dialogueList[currentDialogueIndex].leftSide ? 1 : -1;
+        else
+            side = currentDialogueSO.dialogueList[currentDialogueIndex].leftSide ? -1 : 1;
+
         characterButtonPrompt[currentCharacterReference].DOScale(new Vector3(1.2f * side, 1.2f, 1.2f), 0.2f)
             .SetLoops(-1, LoopType.Yoyo);
     }

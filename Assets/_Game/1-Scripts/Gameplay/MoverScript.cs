@@ -64,6 +64,14 @@ public class MoverScript : MonoBehaviour, IPressurePlateListener
         }
     }
 
+    private int CheckRotationDirection(Vector3 pos1, Vector3 pos2)
+    {
+        if (pos1.x > pos2.x || pos1.y < pos2.y)
+            return 1;
+        else
+            return -1;
+    }
+
     private void OnDisable()
     {
         transform.DOKill();
@@ -226,7 +234,11 @@ public class MoverScript : MonoBehaviour, IPressurePlateListener
                 () => { StartCoroutine(WaitMove()); };
 
 
-            my3dModel.DORotate(new Vector3(0, 0, my3dModel.rotation.eulerAngles.z + 10 * distanceToNextPoint * 15),
+            my3dModel.DORotate(
+                new Vector3(0, 0,
+                    my3dModel.rotation.eulerAngles.z + 10 *
+                    CheckRotationDirection(transform.position, _startPosition + MovePoints[_currentMovePoint].offset) *
+                    distanceToNextPoint * 15),
                 movementDuration,
                 RotateMode.FastBeyond360).SetEase(ease);
         }

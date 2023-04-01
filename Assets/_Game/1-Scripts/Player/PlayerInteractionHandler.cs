@@ -135,7 +135,10 @@ public class PlayerInteractionHandler : MonoBehaviour, IPressurePlateListener
                 break;
             case "Checkpoint":
                 var checkpoint = collision.GetComponent<CheckpointScript>();
-                if (checkpoint.isActivated == false)
+
+                if (checkpoint.isThisCheckPointStatic)
+                    pM._staticCheckpoint = checkpoint.transform;
+                else if (checkpoint.isActivated == false)
                     if (pM.IncreaseCheckpoint(checkpoint.checkpointNumber))
                         checkpoint.isActivated = true;
                 break;
@@ -173,6 +176,9 @@ public class PlayerInteractionHandler : MonoBehaviour, IPressurePlateListener
     {
         if (other.CompareTag("CameraZone"))
             pC.UpdateCameraZone(null);
+
+        else if (other.CompareTag("Checkpoint"))
+            pM._staticCheckpoint = null;
     }
 
     public void GlowPlayer(Color color)

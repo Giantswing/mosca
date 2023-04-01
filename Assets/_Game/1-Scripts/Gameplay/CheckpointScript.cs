@@ -8,11 +8,15 @@ public class CheckpointScript : MonoBehaviour
     public bool isActivated = false;
     public int checkpointNumber;
     public bool pauseCheckpoint = false;
+    public bool isThisCheckPointStatic = false;
 
     private void Start()
     {
-        LevelManager.GetCheckpoints().Add(this);
-        LevelManager.ReorderCheckpoints();
+        if (!isThisCheckPointStatic)
+        {
+            LevelManager.GetCheckpoints().Add(this);
+            LevelManager.ReorderCheckpoints();
+        }
     }
 
     private void OnDrawGizmos()

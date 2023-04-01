@@ -65,6 +65,8 @@ MonoBehaviour:
   switchSound: {fileID: 11400000, guid: 3f92a3b4e8a2a4a43a2f3b06aa41d257, type: 2}
   audioSource: {fileID: 6634240224133862494}
   canBeActivated: 1
+  isStuck: 0
+  screw: {fileID: 4994172974127462956}
 --- !u!82 &6634240224133862494
 AudioSource:
   m_ObjectHideFlags: 0

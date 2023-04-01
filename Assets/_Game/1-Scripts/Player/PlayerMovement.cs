@@ -85,6 +85,7 @@ public class PlayerMovement : MonoBehaviour
     private bool _canDodge = true;
     private bool _checkForCheckpoint = true;
     private CheckpointScript[] _checkpoints;
+    public Transform _staticCheckpoint;
     private int _currentCheckpoint;
     private Vector3 _dodgeDirection;
     private bool _doubleDash;
@@ -353,35 +354,52 @@ public class PlayerMovement : MonoBehaviour
     {
         _checkForCheckpoint = false;
         _timeStandingStill = 0;
-        if (_checkpoints.Length == 0) return;
+        var finalCheckpointPos = Vector3.zero;
+        var maxDist = maxDistanceToCheckpoint;
 
-        if (_currentCheckpoint == _checkpoints.Length) return;
-
-        if (_checkpoints[_currentCheckpoint].isActivated ||
-            _checkpoints[_currentCheckpoint].pauseCheckpoint ||
-            _currentCheckpoint > _checkpoints.Length) return;
-
-        if (Vector3.Distance(_transform.position, _checkpoints[_currentCheckpoint].transform.position) <
-            maxDistanceToCheckpoint)
+        if (_staticCheckpoint != null)
         {
-            if (_checkpoints[_currentCheckpoint].transform.position.x > _transform.position.x && isFacingRight == -1)
+            finalCheckpointPos = _staticCheckpoint.transform.position;
+            maxDist = 6f;
+        }
+        else
+        {
+            if (_checkpoints.Length == 0) return;
+
+            if (_currentCheckpoint == _checkpoints.Length) return;
+
+            if (_checkpoints[_currentCheckpoint].isActivated ||
+                _checkpoints[_currentCheckpoint].pauseCheckpoint ||
+                _currentCheckpoint > _checkpoints.Length) return;
+
+            finalCheckpointPos = _checkpoints[_currentCheckpoint].transform.position;
+            //maxDist = maxDistanceToCheckpoint;
+        }
+
+        if (Vector3.Distance(_transform.position, finalCheckpointPos) <
+            maxDist)
+        {
+            if (finalCheckpointPos.x > _transform.position.x &&
+                isFacingRight == -1)
                 FlipPlayer(1, 0.5f);
-            else if (_checkpoints[_currentCheckpoint].transform.position.x < _transform.position.x &&
+            else if (finalCheckpointPos.x < _transform.position.x &&
                      isFacingRight == 1)
                 FlipPlayer(-1, 0.5f);
         }
     }
 
-    public void FlipPlayer(int direction, float speed)
+    public void FlipPlayer(int direction, float speed = 0.5f)
     {
         if (direction == 1)
         {
+            if (isFacingRight == 1) return;
             my3DModel.transform.DOLocalRotate(new Vector3(0, 0, 0), speed);
             _timeBackwards = 0;
             isFacingRight = 1;
         }
         else
         {
+            if (isFacingRight == -1) return;
             my3DModel.transform.DOLocalRotate(new Vector3(0, 180, 0), speed);
             _timeBackwards = 0;
             isFacingRight = -1;

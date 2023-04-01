@@ -47,7 +47,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaCutoff: 0.5
-    - _Brightness: 0.585
+    - _Brightness: 0.325
     - _Float1: 1
     - _QueueControl: 0
     - _QueueOffset: 0
