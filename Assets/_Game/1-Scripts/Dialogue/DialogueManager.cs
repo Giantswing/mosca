@@ -254,9 +254,27 @@ public class DialogueManager : MonoBehaviour
         finishedWithCurrentText = false;
         var currentText = textToShow;
         characterTexts[instance.currentCharacterReference].text = "";
+
+
         for (var i = 0; i < textToShow.Length; i++)
         {
             characterTexts[instance.currentCharacterReference].text += textToShow[i];
+
+
+            //if the current character is the symbol < then add as many currentDialogueIndex until we find the character >
+
+
+            if (textToShow[i] == '<')
+            {
+                var foundEnd = false;
+                while (!foundEnd)
+                {
+                    i++;
+                    characterTexts[instance.currentCharacterReference].text += textToShow[i];
+                    if (textToShow[i] == '>') foundEnd = true;
+                }
+            }
+
 
             if (i % 2 == 0)
                 talkSound.Play(audioSource);
@@ -316,6 +334,7 @@ public class DialogueManager : MonoBehaviour
             instance.StopCoroutine(instance.ShowTextRoutine());
             instance.textToShow = "";
             instance.currentDialogueIndex++;
+
             instance.SetUpCurrentDialogue();
         }
         else

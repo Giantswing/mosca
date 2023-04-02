@@ -109,4 +109,17 @@ public class DSwitcherScript : MonoBehaviour, IPressurePlateListener
         yield return delay;
         canBeActivated = true;
     }
+
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        //draw a rectangle the same size as the model
+        var bounds = GetComponentInChildren<Renderer>().bounds.size;
+
+        //rotate bounds 90 degrees
+        (bounds.x, bounds.y) = (bounds.y, bounds.x);
+
+        Gizmos.DrawWireCube(transform.position, bounds);
+    }
 }

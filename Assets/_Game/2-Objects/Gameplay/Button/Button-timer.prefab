@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7007840410584676809}
   - component: {fileID: 6906581311158971576}
   - component: {fileID: 537144882686179763}
+  - component: {fileID: 2687991090722229857}
   m_Layer: 0
   m_Name: Button-timer
   m_TagString: Button
@@ -298,6 +299,18 @@ MonoBehaviour:
   targets: []
   starting_offset: {x: 0, y: 0, z: 1}
   target_offset: {x: 0, y: 0, z: 1}
+--- !u!114 &2687991090722229857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 946773863622964029}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3332845a5a32806418a7db7929ae543f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3470295199832204653
 GameObject:
   m_ObjectHideFlags: 0

@@ -53,6 +53,9 @@ public class PlayerCamera : MonoBehaviour
     private VolumeProfile _volumeProfile;
     private DepthOfField _dofFX;
 
+    [Space(10)] [Header("Effects")] [SerializeField]
+    private ParticleSystem _dashEffect;
+
     /***********************************/
 
     private void Awake()
@@ -71,6 +74,11 @@ public class PlayerCamera : MonoBehaviour
         _cameraSideAngleStrengthTo = 1;
         _cameraSideAngleStrength = 1;
         _cameraInputTo = Vector2.zero;
+    }
+
+    public void SpawnDashEffect()
+    {
+        _dashEffect.Emit(1);
     }
 
     private void FixedUpdate()

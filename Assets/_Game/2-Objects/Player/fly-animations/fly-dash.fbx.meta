@@ -67,15 +67,15 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.5895346
-        functionName: StopDashBoost
+      - time: 0.5062137
+        functionName: AllowDoubleDash
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.4452381
-        functionName: AllowDoubleDash
+      - time: 0.5895346
+        functionName: StopDashBoost
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0

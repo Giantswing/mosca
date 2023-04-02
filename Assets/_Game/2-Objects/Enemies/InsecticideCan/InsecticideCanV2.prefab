@@ -181,7 +181,7 @@ GameObject:
   - component: {fileID: 7643935853222048702}
   - component: {fileID: 7643935853222048700}
   - component: {fileID: 7643935853222048701}
-  m_Layer: 11
+  m_Layer: 16
   m_Name: 3dmodel
   m_TagString: Untagged
   m_Icon: {fileID: 0}

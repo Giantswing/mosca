@@ -24,7 +24,8 @@ MonoBehaviour:
     leftSide: 1
   - character: {fileID: 11400000, guid: b2d37084354b7ce48849668fdc0f29bc, type: 2}
     dialogueText: ' It''s been quite the adventure, hasn''t it? By the way, have
-      you ever tried doing a double dash? It can help you move faster.'
+      you ever tried <b><color=#FF886C>doing a double dash</color></b>? It can help
+      you move faster.'
     emotionIndex: 0
     leftSide: 0
   - character: {fileID: 11400000, guid: 3aa5a4cfd4369e9479bb19e47c27351c, type: 2}
@@ -32,8 +33,9 @@ MonoBehaviour:
     emotionIndex: 5
     leftSide: 1
   - character: {fileID: 11400000, guid: b2d37084354b7ce48849668fdc0f29bc, type: 2}
-    dialogueText: ' A double dash! If you dash again just as you finish your first
-      dash, you''ll get a speed boost. It''s a neat trick.'
+    dialogueText: ' A double dash! If you dash again <b><color=#FF886C>just as you
+      finish your first dash</color></b>, you''ll get a speed boost. It''s a neat
+      trick.'
     emotionIndex: 0
     leftSide: 0
   - character: {fileID: 11400000, guid: 3aa5a4cfd4369e9479bb19e47c27351c, type: 2}
@@ -45,8 +47,8 @@ MonoBehaviour:
     emotionIndex: 0
     leftSide: 0
   - character: {fileID: 11400000, guid: b2d37084354b7ce48849668fdc0f29bc, type: 2}
-    dialogueText: Oh by the way, there is a fly coin behind me, you can thank me
-      later!
+    dialogueText: Oh by the way, there is a <b><color=#FF886C>fly coin behind me</color></b>,
+      just to make sure you're not skipping our conversations!
     emotionIndex: 0
     leftSide: 0
   startingLeftEmotion: {fileID: 2800000, guid: 58529c88ba3e32b4b9018c5a94616606, type: 3}

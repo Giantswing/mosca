@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Events;
@@ -78,7 +79,7 @@ public class PlayerMovement : MonoBehaviour
     [HideInInspector] public bool isDodging;
     private readonly WaitForSeconds _dodgeDuration = new(0.3f);
     private readonly float _speedBoostMax = 2f;
-    private readonly float _timerToDoubleDashMax = .35f;
+    private readonly float _timerToDoubleDashMax = .1f;
     private readonly float _touchFixSpeed = .5f;
     private readonly float acceleration = .1f;
     private readonly float speedMultiplier = 7f;
@@ -119,9 +120,9 @@ public class PlayerMovement : MonoBehaviour
     private float maxTouchDistance;
 
     ////////////////////////
+    [SerializeField] private List<Transform> interactables = new();
+    private float _lastDashTime;
 
-
-    // Start is called before the first frame update
     private void Start()
     {
         inputDirectionTo = Vector2.zero;
@@ -169,9 +170,17 @@ public class PlayerMovement : MonoBehaviour
         frozen -= Time.deltaTime;
 
         if (_timerToDoubleDash > 0)
+        {
             _timerToDoubleDash -= Time.deltaTime;
-        else
-            _timerToDoubleDash = 0;
+            if (_timerToDoubleDash < 0) _timerToDoubleDash = 0;
+        }
+
+        if (_timerToDoubleDash < 0)
+        {
+            _timerToDoubleDash += Time.deltaTime;
+            if (_timerToDoubleDash > 0) _timerToDoubleDash = 0;
+        }
+
 
         if (_speedBoost > 1) _speedBoost -= Time.deltaTime;
 
@@ -424,6 +433,11 @@ public class PlayerMovement : MonoBehaviour
     {
         if (imDisabled) return;
 
+        if (context.canceled) return;
+        onPlayerDodge?.Dispatch();
+
+
+        /*
         if (inputDirectionTo == Vector2.zero && isDodging == false && _canDodge)
         {
             flyAnimator.SetBool(IsDodging, true);
@@ -431,14 +445,22 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (inputDirectionTo != Vector2.zero)
         {
-            if (!isDashing && _timerToDoubleDash <= 0)
-                flyAnimator.SetBool(IsDashing, true);
-            else if (_timerToDoubleDash > 0)
-                flyAnimator.SetBool(IsDoubleDashing, true);
+        */
+        var lastDashTime = Time.time - _lastDashTime;
 
-            onPlayerDodge?.Dispatch();
-            //smartDodgeDir.value = inputDirectionTo;
+        if (!isDashing && _timerToDoubleDash == 0 && flyAnimator.GetBool(IsDashing) == false && lastDashTime > .5f)
+        {
+            flyAnimator.SetBool(IsDashing, true);
+            isDashing = true;
+            _lastDashTime = Time.time;
+            return;
         }
+
+        if (_timerToDoubleDash > 0 && inputDirectionTo.magnitude > 0.8f) flyAnimator.SetBool(IsDoubleDashing, true);
+
+        if (isDashing)
+            //print("wrong dash");
+            _timerToDoubleDash = -0.3f;
     }
 
     public void TouchInput(InputAction.CallbackContext context)
@@ -564,12 +586,71 @@ public class PlayerMovement : MonoBehaviour
         };
     }
 
+    private Vector2 CalculateDashDirection()
+    {
+        if (inputDirectionTo.magnitude <= 0.25f)
+        {
+            var objects = new Collider[10];
+            var numOfObjects = Physics.OverlapSphereNonAlloc(transform.position, 2f, objects);
+
+            interactables.Clear();
+
+            for (var i = 0; i < numOfObjects; i++)
+            {
+                var interactable = objects[i].GetComponent<IInteractableWithDash>();
+
+                if (interactable != null) interactables.Add(objects[i].transform);
+            }
+
+            float closestDistance = 1000;
+            var closestPosition = Vector3.zero;
+
+            foreach (var interactable in interactables)
+            {
+                var distance = Vector2.Distance(transform.position, interactable.position);
+                if (distance < closestDistance)
+                {
+                    closestDistance = distance;
+                    closestPosition = interactable.position;
+                }
+            }
+
+            if (closestDistance == 1000)
+            {
+                return new Vector2(isFacingRight, 0) * 1.35f;
+            }
+
+            else
+            {
+                var diff = closestPosition - transform.position;
+                var angle = Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg;
+
+                //fit movementDirection to from -1 to 1 depending on angle
+                var movementDirection =
+                    new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad));
+
+
+                return movementDirection;
+            }
+        }
+        else
+        {
+            //map inputDirectionTo to -1 to 1
+
+
+            inputDirectionTo = inputDirectionTo.normalized;
+
+            return inputDirectionTo;
+        }
+    }
+
     public void StartDashBoost()
     {
         pC.closeUpOffsetTo = 1f;
         pC.closeUpOffset = 0;
         _speedBoost = _speedBoostMax;
-        inputDirection = inputDirectionTo;
+
+        inputDirection = CalculateDashDirection();
         hSpeed = inputDirection.x;
         vSpeed = inputDirection.y;
         isDashing = true;
@@ -582,7 +663,7 @@ public class PlayerMovement : MonoBehaviour
     {
         pC.closeUpOffsetTo = 1f;
         pC.closeUpOffset = 0;
-        _speedBoost = _speedBoostMax * 1.5f;
+        _speedBoost = _speedBoostMax * 1.15f;
         inputDirection = inputDirectionTo;
         hSpeed = inputDirection.x;
         vSpeed = inputDirection.y;
@@ -612,7 +693,11 @@ public class PlayerMovement : MonoBehaviour
 
     public void AllowDoubleDash()
     {
-        _timerToDoubleDash = _timerToDoubleDashMax;
+        if (_timerToDoubleDash >= 0)
+        {
+            _timerToDoubleDash = _timerToDoubleDashMax;
+            pC.SpawnDashEffect();
+        }
     }
 
     /******************************************************************/
@@ -630,8 +715,7 @@ public class PlayerMovement : MonoBehaviour
     public void EnablePlayer()
     {
         imDisabled = false;
-    }
-/*
+    } /*
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;

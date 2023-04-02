@@ -44,7 +44,7 @@ public class InsecticideCanv2 : MonoBehaviour
     [Space(25)] [SerializeField] private PlayerReferenceSO playerReference;
 
     private Vector3 _startingScale;
-
+    private Vector3 _startingLocalPos;
 
     private void Start()
     {
@@ -67,6 +67,7 @@ public class InsecticideCanv2 : MonoBehaviour
         particles.Stop();
 
         _startingScale = transform.localScale;
+        _startingLocalPos = transform.localPosition;
 
         if (startingOffsetMultiplier > 0)
             StartCoroutine(StartingOffsetCoroutine());
@@ -91,6 +92,7 @@ public class InsecticideCanv2 : MonoBehaviour
 
         transform.DOKill();
         transform.localScale = _startingScale;
+        transform.localPosition = _startingLocalPos;
         transform.DOShakePosition(burstDuration * 2f, 0.1f, 10, 90, false, true);
         transform.DOShakeScale(burstDuration * 2f, 0.03f, 10, 90, false);
 

@@ -14,20 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueList:
   - character: {fileID: 11400000, guid: b2d37084354b7ce48849668fdc0f29bc, type: 2}
-    dialogueText: Que dice el chopeins
+    dialogueText: Pollillo
     emotionIndex: 0
     leftSide: 0
   - character: {fileID: 11400000, guid: b2d37084354b7ce48849668fdc0f29bc, type: 2}
-    dialogueText: Te he escondido una monea aqui detras, coetela
+    dialogueText: Polliiiiillo
     emotionIndex: 0
     leftSide: 0
-  - character: {fileID: 11400000, guid: 3aa5a4cfd4369e9479bb19e47c27351c, type: 2}
-    dialogueText: Que me dices
-    emotionIndex: 5
-    leftSide: 1
-  - character: {fileID: 11400000, guid: 3aa5a4cfd4369e9479bb19e47c27351c, type: 2}
-    dialogueText: Voy ahora mismo
-    emotionIndex: 1
-    leftSide: 1
   startingLeftEmotion: {fileID: 2800000, guid: 58529c88ba3e32b4b9018c5a94616606, type: 3}
   startingRightEmotion: {fileID: 2800000, guid: 27f6b823daf7b754ba64300304530fd2, type: 3}

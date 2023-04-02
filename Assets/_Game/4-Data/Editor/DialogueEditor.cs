@@ -13,7 +13,8 @@ public class DialogueSOEditor : Editor
     {
         dialogueList = new ReorderableList(serializedObject, serializedObject.FindProperty("dialogueList"), true, true,
             true, true);
-        dialogueList.elementHeight = EditorGUIUtility.singleLineHeight * 4 + 10;
+        dialogueList.elementHeight =
+            EditorGUIUtility.singleLineHeight * 7 + 20; // Increased the height to fit 6 lines of text
 
         dialogueList.drawHeaderCallback = (Rect rect) => { EditorGUI.LabelField(rect, "Dialogue List"); };
 
@@ -26,7 +27,8 @@ public class DialogueSOEditor : Editor
                 element.FindPropertyRelative("character"));
             EditorGUI.PropertyField(
                 new Rect(rect.x, rect.y + EditorGUIUtility.singleLineHeight + 2, rect.width,
-                    EditorGUIUtility.singleLineHeight), element.FindPropertyRelative("dialogueText"));
+                    EditorGUIUtility.singleLineHeight * 4), // Increased the height to fit 4 lines of text
+                element.FindPropertyRelative("dialogueText"), true);
 
             //show emotion as a dropdown
             var emotion = element.FindPropertyRelative("emotionIndex");
@@ -38,7 +40,7 @@ public class DialogueSOEditor : Editor
                     emotionNames[i] = ((CharacterSO)character.objectReferenceValue).emotions[i].name;
 
                 emotion.intValue = EditorGUI.Popup(
-                    new Rect(rect.x, rect.y + (EditorGUIUtility.singleLineHeight + 2) * 2, rect.width,
+                    new Rect(rect.x, rect.y + (EditorGUIUtility.singleLineHeight + 2) * 5, rect.width,
                         EditorGUIUtility.singleLineHeight), emotion.intValue, emotionNames);
             }
             else
@@ -47,7 +49,7 @@ public class DialogueSOEditor : Editor
             }
 
             EditorGUI.PropertyField(
-                new Rect(rect.x, rect.y + (EditorGUIUtility.singleLineHeight + 2) * 3, rect.width / 2,
+                new Rect(rect.x, rect.y + (EditorGUIUtility.singleLineHeight + 2) * 6, rect.width / 2,
                     EditorGUIUtility.singleLineHeight), element.FindPropertyRelative("leftSide"));
         };
 

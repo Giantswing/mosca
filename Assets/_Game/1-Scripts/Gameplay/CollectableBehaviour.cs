@@ -30,7 +30,10 @@ public class CollectableBehaviour : MonoBehaviour
     [HideInInspector]
     public enum PickUpAnimation
     {
-        Rotatable
+        Rotatable,
+        RotatableSlow,
+        Static,
+        Floating
     }
 
     public Collider getCollider()
@@ -80,6 +83,15 @@ public class CollectableBehaviour : MonoBehaviour
             case PickUpAnimation.Rotatable:
                 displayObject.DOLocalRotate(new Vector3(0, 360, 0), 2f, RotateMode.FastBeyond360)
                     .SetLoops(-1, LoopType.Incremental).SetEase(Ease.Linear);
+                break;
+
+            case PickUpAnimation.RotatableSlow:
+
+                displayObject.DOLocalRotate(new Vector3(0, 360, 0), 8f, RotateMode.FastBeyond360)
+                    .SetLoops(-1, LoopType.Incremental).SetEase(Ease.Linear);
+                break;
+            case PickUpAnimation.Floating:
+                displayObject.DOLocalMoveY(0.2f, 1f).SetLoops(-1, LoopType.Yoyo);
                 break;
         }
 

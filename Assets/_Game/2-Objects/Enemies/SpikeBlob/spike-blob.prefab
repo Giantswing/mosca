@@ -13,8 +13,7 @@ GameObject:
   - component: {fileID: 3076937906754782047}
   - component: {fileID: 3697613617283955797}
   - component: {fileID: 3697613617283955799}
-  - component: {fileID: 4241255031619053431}
-  m_Layer: 11
+  m_Layer: 16
   m_Name: spike-blob
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -32,7 +31,8 @@ Transform:
   m_LocalPosition: {x: 26.508997, y: 6.644294, z: 0.21029}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1651586254666533946}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -90, y: 180, z: -179.998}
@@ -177,13 +177,45 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _myRenderer: {fileID: 3076937906754782047}
---- !u!65 &4241255031619053431
+--- !u!1 &4107881366326158054
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1651586254666533946}
+  - component: {fileID: 325055400950990861}
+  m_Layer: 11
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1651586254666533946
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4107881366326158054}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4249241244444817456}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &325055400950990861
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3581354328258126474}
+  m_GameObject: {fileID: 4107881366326158054}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1

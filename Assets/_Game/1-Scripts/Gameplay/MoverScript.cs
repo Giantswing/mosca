@@ -212,42 +212,29 @@ public class MoverScript : MonoBehaviour, IPressurePlateListener
 
     private void Move()
     {
-        //_startPosition = Vector3.zero;
-
         var distanceToNextPoint =
             Vector3.Distance(transform.position, _startPosition + MovePoints[_currentMovePoint].offset);
 
+        var movementDuration = duration == 0 ? distanceToNextPoint / moveSpeed : duration;
 
-        /*
-        var distanceToNextPoint =
-            Vector3.Distance(myParent.position, myParent.position + MovePoints[_currentMovePoint].offset);
-            */
-
-        var movementDuration = distanceToNextPoint / moveSpeed;
+        my3dModel.DORotate(
+            new Vector3(0, 0,
+                my3dModel.rotation.eulerAngles.z + 10 *
+                CheckRotationDirection(transform.position, _startPosition + MovePoints[_currentMovePoint].offset) *
+                distanceToNextPoint * 15),
+            movementDuration,
+            RotateMode.FastBeyond360).SetEase(ease);
 
         myParent.DOLocalRotate(MovePoints[_currentMovePoint].rotation, movementDuration).SetEase(Ease.Linear);
 
         if (duration == 0)
-        {
             transform.DOMove(_startPosition + MovePoints[_currentMovePoint].offset,
                     movementDuration).SetEase(ease).onComplete +=
                 () => { StartCoroutine(WaitMove()); };
-
-
-            my3dModel.DORotate(
-                new Vector3(0, 0,
-                    my3dModel.rotation.eulerAngles.z + 10 *
-                    CheckRotationDirection(transform.position, _startPosition + MovePoints[_currentMovePoint].offset) *
-                    distanceToNextPoint * 15),
-                movementDuration,
-                RotateMode.FastBeyond360).SetEase(ease);
-        }
         else
-        {
             transform.DOMove(_startPosition + MovePoints[_currentMovePoint].offset,
                     duration).SetEase(ease).onComplete +=
                 () => { StartCoroutine(WaitMove()); };
-        }
     }
 
     private IEnumerator WaitMove()

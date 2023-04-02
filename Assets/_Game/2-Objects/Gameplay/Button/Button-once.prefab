@@ -179,6 +179,7 @@ GameObject:
   - component: {fileID: 6945348560268767204}
   - component: {fileID: 54315940312447412}
   - component: {fileID: 5185334364812560829}
+  - component: {fileID: 420607477421846923}
   m_Layer: 0
   m_Name: Button-once
   m_TagString: Button
@@ -214,8 +215,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.67, y: 1, z: 2.14}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 2.67, y: 0.58, z: 2.14}
+  m_Center: {x: 0, y: -0.17, z: 0}
 --- !u!114 &6945348560268767204
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -367,3 +368,15 @@ MonoBehaviour:
   targets: []
   starting_offset: {x: 0, y: 0, z: 0}
   target_offset: {x: 0, y: 0, z: 0}
+--- !u!114 &420607477421846923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7828307724439843648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3332845a5a32806418a7db7929ae543f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

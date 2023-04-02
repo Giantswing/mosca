@@ -8,7 +8,7 @@ using UnityEngine;
 public class Chat
 {
     public CharacterSO character;
-    public string dialogueText;
+    [TextArea(3, 10)] public string dialogueText;
     public int emotionIndex;
     public bool leftSide;
 }

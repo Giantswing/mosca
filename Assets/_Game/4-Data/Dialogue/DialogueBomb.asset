@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueList:
   - character: {fileID: 11400000, guid: b2d37084354b7ce48849668fdc0f29bc, type: 2}
-    dialogueText: Yo, Flugi! Looking for something explosive to spice up your day?
+    dialogueText: Yo, Flugi! Looking for something <b><color=#FF886C>explosive</color></b>
+      to spice up your day?
     emotionIndex: 0
     leftSide: 0
   - character: {fileID: 11400000, guid: 3aa5a4cfd4369e9479bb19e47c27351c, type: 2}
@@ -22,8 +23,8 @@ MonoBehaviour:
     emotionIndex: 6
     leftSide: 1
   - character: {fileID: 11400000, guid: b2d37084354b7ce48849668fdc0f29bc, type: 2}
-    dialogueText: Bombs, buddy! Powerful little things that can break through walls,
-      defeat enemies, and solve puzzles.
+    dialogueText: Bombs, buddy! Powerful little things that can <b><color=#FF886C>break
+      through walls</color></b>, defeat enemies, and solve puzzles.
     emotionIndex: 0
     leftSide: 0
   - character: {fileID: 11400000, guid: b2d37084354b7ce48849668fdc0f29bc, type: 2}
@@ -31,7 +32,7 @@ MonoBehaviour:
     emotionIndex: 0
     leftSide: 0
   - character: {fileID: 11400000, guid: b2d37084354b7ce48849668fdc0f29bc, type: 2}
-    dialogueText: Oh, and speaking of explosions, have you heard about Pyro?
+    dialogueText: Oh, and speaking of explosions, have you heard about <b><color=#FF886C>Pyro</color></b>?
     emotionIndex: 0
     leftSide: 0
   - character: {fileID: 11400000, guid: 3aa5a4cfd4369e9479bb19e47c27351c, type: 2}
@@ -60,7 +61,7 @@ MonoBehaviour:
     leftSide: 0
   - character: {fileID: 11400000, guid: b2d37084354b7ce48849668fdc0f29bc, type: 2}
     dialogueText: Just fly up to one of them and do a dash to throw it in that direction,
-      and do it fast!
+      and <b><color=#FF886C>do it fast!</color></b>
     emotionIndex: 0
     leftSide: 0
   - character: {fileID: 11400000, guid: 3aa5a4cfd4369e9479bb19e47c27351c, type: 2}
