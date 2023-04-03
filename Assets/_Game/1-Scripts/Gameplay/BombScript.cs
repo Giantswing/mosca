@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 
-public class BombScript : CollectableBehaviour, IPressurePlateListener
+public class BombScript : CollectableBehaviour, IPressurePlateListener, ICollisionIgnore
 {
     private Vector3 _startPosition;
     private Transform _parentTransform;
@@ -121,6 +121,11 @@ public class BombScript : CollectableBehaviour, IPressurePlateListener
         _canExplode = true;
     }
 
+    public Collider GetCollider()
+    {
+        return collisionCollider;
+    }
+
     public void Reset()
     {
         if (isFollowing == 0) return;
@@ -163,6 +168,10 @@ public class BombScript : CollectableBehaviour, IPressurePlateListener
     private void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.CompareTag("Player"))
+        {
+            Physics.IgnoreCollision(other.collider, collisionCollider, true);
+        }
+        else if (other.gameObject.GetComponent<CollisionIgnorer>() != null)
         {
             Physics.IgnoreCollision(other.collider, collisionCollider, true);
         }

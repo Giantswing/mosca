@@ -23,6 +23,7 @@ public class LevelSO : ScriptableObject
 
     public bool hasBSide;
     public LevelSO bSideScene;
+    public AudioClip levelMusic;
 
     /*
 

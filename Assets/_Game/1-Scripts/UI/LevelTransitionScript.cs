@@ -37,6 +37,7 @@ public class LevelTransitionScript : MonoBehaviour
     {
         if (_isTransitioning) return;
 
+        transitionImage.material.DOKill();
         GlobalAudioManager.PlaySound(startTransitionAudioEvent);
         _isTransitioning = true;
         transitionImage.gameObject.SetActive(true);
@@ -58,6 +59,7 @@ public class LevelTransitionScript : MonoBehaviour
 
     public void ReverseTransition(Vector3 portalPosition)
     {
+        transitionImage.material.DOKill();
         GC.Collect();
 
         GlobalAudioManager.PlaySound(endTransitionAudioEvent);
