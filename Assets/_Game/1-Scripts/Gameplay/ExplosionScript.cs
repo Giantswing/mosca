@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 public class ExplosionScript : MonoBehaviour
 {
@@ -54,6 +55,9 @@ public class ExplosionScript : MonoBehaviour
                 else
                     receiver.GetComponent<STATS>().TakeDamage(1, transform.position, true);
             }
+
+            if (receiver.TryGetComponent(out IGenericInteractable interactable))
+                interactable.Interact(transform.position);
         }
     }
 }

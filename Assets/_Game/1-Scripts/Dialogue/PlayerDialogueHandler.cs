@@ -56,6 +56,7 @@ public class PlayerDialogueHandler : MonoBehaviour
 
     public void StopDialogue()
     {
+        pM.EnablePlayer();
         isDialogueActive = false;
         DialogueManager.enabled = false;
         currentDialogueTriggerEvent.ShowPrompt();

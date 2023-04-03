@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 841146097224387771}
   - component: {fileID: 4144701032626587792}
   - component: {fileID: 963206445252251775}
+  - component: {fileID: 3584922470776843297}
   m_Layer: 0
   m_Name: Mover
   m_TagString: Untagged
@@ -88,6 +89,7 @@ MonoBehaviour:
   moverRailPrefab: {fileID: 7277883555217476446, guid: b47bc4c6ffce4de438b15e8b388864e4, type: 3}
   moverRails:
   - {fileID: 0}
+  isAutomatic: 1
   MovePoints:
   - offset: {x: 0, y: 0, z: 0}
     rotation: {x: 0, y: 0, z: 0}
@@ -193,6 +195,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!135 &3584922470776843297
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2370041942362765062}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8227846458796825497
 GameObject:
   m_ObjectHideFlags: 0

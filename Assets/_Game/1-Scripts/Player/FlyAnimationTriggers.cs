@@ -12,30 +12,31 @@ public class FlyAnimationTriggers : MonoBehaviour
         flyMovement = GetComponentInParent<PlayerMovement>();
     }
 
+
     public void StopDashBoost()
     {
-        flyMovement.StopDashBoost();
+        //flyMovement.StopDashBoost();
     }
 
 
     public void StartDashBoost()
     {
-        flyMovement.StartDashBoost();
+        //flyMovement.StartDashBoost();
     }
 
 
     public void StartDoubleDash()
     {
-        flyMovement.StartDoubleDash();
+        //flyMovement.StartDoubleDash();
     }
 
     public void StopDoubleDash()
     {
-        flyMovement.StopDoubleDash();
+        //flyMovement.StopDoubleDash();
     }
 
     public void AllowDoubleDash()
     {
-        flyMovement.AllowDoubleDash();
+        //flyMovement.AllowDoubleDash();
     }
 }

@@ -9,7 +9,7 @@ namespace UI
 
         private void OnEnable()
         {
-            PlayerMovement.onTouchInput += UpdateStickUI;
+            //PlayerMovement.onTouchInput += UpdateStickUI;
 
             startingPosRectImage.gameObject.SetActive(false);
             currentPosRectImage.gameObject.SetActive(false);
@@ -34,7 +34,7 @@ namespace UI
 
         private void OnDisable()
         {
-            PlayerMovement.onTouchInput -= UpdateStickUI;
+            //PlayerMovement.onTouchInput -= UpdateStickUI;
         }
     }
 }

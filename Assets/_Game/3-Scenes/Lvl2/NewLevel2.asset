@@ -20,7 +20,7 @@ MonoBehaviour:
   sceneName: Fight
   sceneInternalName: new-lvl2-scene
   timeToWin: 180
-  deathCounter: 8
+  deathCounter: 10
   stars: 3
   isThisLastOne: 0
   index: 1

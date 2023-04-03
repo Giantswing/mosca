@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
 
-public class ButtonScript : MonoBehaviour
+public class ButtonScript : MonoBehaviour, IGenericInteractable
 {
     [SerializeField] private Transform button;
     [SerializeField] private AudioSource audioSource;
@@ -58,6 +58,11 @@ public class ButtonScript : MonoBehaviour
             else if (CanBePressedMultipleTimes)
                 ResetButton();
         });
+    }
+
+    public void Interact(Vector3 pos)
+    {
+        Press();
     }
 
 

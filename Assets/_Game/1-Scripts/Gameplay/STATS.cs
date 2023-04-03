@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 
 public class STATS : MonoBehaviour
@@ -10,12 +12,11 @@ public class STATS : MonoBehaviour
     [Header("Sound")] [SerializeField] private SimpleAudioEvent deathSoundEvent;
     [SerializeField] private bool playDeathSound = false;
 
-    [Space(5)] [Header("Sound")] [SerializeField]
-    private SimpleAudioEvent hitSoundEvent;
+    [Space(5)] [SerializeField] private SimpleAudioEvent hitSoundEvent;
 
     [SerializeField] private bool playHitSound = false;
 
-    [Space(10)] [SerializeField] private Renderer _renderer;
+    [Space(10)] public Renderer myRenderer;
     [SerializeField] private Material normalMaterial;
     [SerializeField] private Material invincibilityMaterial;
 
@@ -30,6 +31,7 @@ public class STATS : MonoBehaviour
 
 
     public float ST_Speed;
+    public float ST_SpeedBoost;
     public SmartData.SmartInt.IntWriter ST_Health;
     public int ST_MaxHealth;
 
@@ -48,16 +50,19 @@ public class STATS : MonoBehaviour
 
     [SerializeField] private bool onlyDamageByExplosions = false;
     [SerializeField] private bool isThisAnExplosion = false;
+    public bool isPlayer = false;
+    public bool canBeTeleported = false;
 
 
     private bool HasInvincibilityMaterial = false;
 
     [HideInInspector] public Vector3 dmgDirection;
 
-    public SmartData.SmartEvent.EventDispatcher transitionEvent;
-    public SmartData.SmartInt.IntWriter transitionType;
-
     private bool isAlive = true;
+
+
+    /* TWEENS */
+    private Tweener _speedBoostTween;
 
     private void Start()
     {
@@ -65,9 +70,24 @@ public class STATS : MonoBehaviour
 
 
         if (ST_InvincibilityTimer > 0)
+            if (myRenderer != null)
+            {
+                normalMaterial = myRenderer.sharedMaterial;
+                HasInvincibilityMaterial = true;
+            }
+    }
+
+    public void ChangeSpeedBoost(float newSpeedBoost, float changeSpeed = 0, float delay = 0)
+    {
+        if (changeSpeed == 0)
         {
-            normalMaterial = _renderer.sharedMaterial;
-            HasInvincibilityMaterial = true;
+            _speedBoostTween?.Kill();
+            ST_SpeedBoost = newSpeedBoost;
+        }
+        else
+        {
+            _speedBoostTween =
+                DOTween.To(() => ST_SpeedBoost, x => ST_SpeedBoost = x, newSpeedBoost, changeSpeed);
         }
     }
 
@@ -132,9 +152,9 @@ public class STATS : MonoBehaviour
 
         for (var i = 0; i < repeat; i++)
         {
-            _renderer.sharedMaterial = invincibilityMaterial;
+            myRenderer.sharedMaterial = invincibilityMaterial;
             yield return new WaitForSeconds(ST_InvincibilityTimer / repeat);
-            _renderer.sharedMaterial = normalMaterial;
+            myRenderer.sharedMaterial = normalMaterial;
             yield return new WaitForSeconds(ST_InvincibilityTimer / repeat);
         }
     }
@@ -148,16 +168,21 @@ public class STATS : MonoBehaviour
 
     private void Die()
     {
+        /*
         if (ST_Team == Team.Player && isAlive)
         {
-            transitionType.value = (int)LevelLoader.LevelTransitionState.Restart;
-            transitionEvent.Dispatch();
+            //transitionType.value = (int)LevelLoader.LevelTransitionState.Restart;
+            //transitionEvent.Dispatch();
         }
         else
         {
             ST_DeathEvent?.Invoke();
             if (playDeathSound)
                 GlobalAudioManager.PlaySound(deathSoundEvent, transform.position);
-        }
+        }*/
+
+        ST_DeathEvent?.Invoke();
+        if (playDeathSound)
+            GlobalAudioManager.PlaySound(deathSoundEvent, transform.position);
     }
 }

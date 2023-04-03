@@ -20,11 +20,15 @@ public class TeleporterScript : MonoBehaviour
     private WaitForSeconds _teleportDelayWait;
     private float _forceMultiplier = 2.5f;
     private Vector2 previousPlayerDirection;
+    [SerializeField] private BoxCollider myCollider;
+    [SerializeField] private float TimeToActivateAgain = 1f;
+    private WaitForSeconds _WaitTimeToActivateAgain;
 
 
     [Space(10)] [SerializeField] private SimpleAudioEvent teleportSoundEvent;
     [SerializeField] private AudioSource teleportSoundSource;
 
+    /*
     private enum TeleportDirection
     {
         Up,
@@ -34,18 +38,28 @@ public class TeleporterScript : MonoBehaviour
     };
 
     [SerializeField] private TeleportDirection teleportDirection;
+    */
+
+    [Space(15)] [SerializeField] private float teleportStrength = 3f;
+    [SerializeField] private float teleportDuration = .5f;
+
+    private void Awake()
+    {
+        myCollider = GetComponentInChildren<BoxCollider>();
+        _WaitTimeToActivateAgain = new WaitForSeconds(TimeToActivateAgain);
+    }
 
     private void Start()
     {
         _teleportDelayWait = new WaitForSeconds(teleportDelay);
-        _teleportCollider = GetComponent<BoxCollider>();
+
         _meshRenderer = GetComponentInChildren<MeshRenderer>();
         _originalSize = transform.localScale;
 
         if (isOnlyExit)
         {
             _meshRenderer.enabled = false;
-            _teleportCollider.enabled = false;
+            myCollider.enabled = false;
             _meshRenderer.gameObject.SetActive(false);
         }
     }
@@ -55,7 +69,7 @@ public class TeleporterScript : MonoBehaviour
         if (!isEnabled || otherTeleporter == null) return;
 
         _playerMovement = target.GetComponent<PlayerMovement>();
-        var outputDir = otherTeleporter.CalculateDirection();
+        var outputDir = transform.right;
 
         target.transform.position =
             otherTeleporter.transform.position + new Vector3(outputDir.x * 0.75f, outputDir.y * 0.75f, 0);
@@ -69,11 +83,113 @@ public class TeleporterScript : MonoBehaviour
         otherTeleporter.StartTeleportCooldownCoroutine(_playerMovement);
     }
 
-    public void PlayParticles()
+    private IEnumerator NewTeleport(GameObject target)
     {
-        teleportParticles.Emit(25);
+        myCollider.enabled = false;
+        otherTeleporter.myCollider.enabled = false;
+
+        if (!isEnabled || otherTeleporter == null) yield return null;
+
+        var zDifference = target.transform.position.z - transform.position.z;
+
+        //var outputDir = otherTeleporter.CalculateDirection();
+        var outputDir = otherTeleporter.transform.right;
+
+        PlayParticles();
+        transform.DOShakeRotation(0.5f, 10f, 10, 90f, false);
+        transform.DOShakeScale(0.5f, 0.1f, 10, 90f, false);
+        target.transform.DOShakeScale(0.5f, 0.5f, 10, 90f, false);
+
+
+        if (target.TryGetComponent(out ICustomTeleport customTeleport))
+            /*
+            target.transform.position = otherTeleporter.transform.position +
+                                        new Vector3(outputDir.x * 1.35f, outputDir.y * 1.35f, zDifference);
+                                        */
+            customTeleport.CustomTeleport(otherTeleporter.transform, transform);
+        else if (target.TryGetComponent(out Rigidbody rb))
+            RigidbodyTeleport(rb, target, outputDir, zDifference);
+        else
+            NormalTeleport(target, outputDir, zDifference);
+
+
+        if (otherTeleporter.isOnlyExit)
+        {
+            otherTeleporter.myCollider.enabled = false;
+            otherTeleporter.transform.localScale = _originalSize;
+            otherTeleporter._meshRenderer.enabled = true;
+            otherTeleporter._meshRenderer.gameObject.SetActive(true);
+            otherTeleporter.transform.DOScale(0, 1.2f).SetEase(Ease.InElastic).SetDelay(0.1f).onComplete +=
+                () =>
+                {
+                    otherTeleporter._meshRenderer.enabled = false;
+                    otherTeleporter._meshRenderer.gameObject.SetActive(false);
+                };
+        }
+        else
+        {
+            DOVirtual.DelayedCall(0.25f, () =>
+            {
+                otherTeleporter.transform.DOShakeRotation(0.5f, 10f, 10, 90f, false);
+                otherTeleporter.transform.DOShakeScale(0.5f, 0.1f, 10, 90f, false);
+            });
+        }
+
+        teleportSoundEvent.Play(teleportSoundSource);
+        otherTeleporter.PlayParticles();
+
+        yield return _WaitTimeToActivateAgain;
+
+        if (!isOnlyExit)
+            myCollider.enabled = true;
+        otherTeleporter.myCollider.enabled = true;
     }
 
+    private void RigidbodyTeleport(Rigidbody rb, GameObject target, Vector3 outputDir, float zDifference)
+    {
+        var rbVelocity = rb.velocity;
+        var localVelocity = transform.InverseTransformDirection(rbVelocity);
+        var rotatedVelocity =
+            Quaternion.FromToRotation(transform.forward, otherTeleporter.transform.forward) * -localVelocity;
+        var worldVelocity = otherTeleporter.transform.TransformDirection(rotatedVelocity);
+        target.transform.position = otherTeleporter.transform.position +
+                                    new Vector3(outputDir.x * 0.75f, outputDir.y * 0.75f, zDifference);
+        rb.velocity = worldVelocity;
+    }
+
+    private void NormalTeleport(GameObject target, Vector3 outputDir, float zDifference)
+    {
+        target.transform.position = otherTeleporter.transform.position +
+                                    new Vector3(outputDir.x * -0.35f, outputDir.y * -0.35f, zDifference);
+
+
+        target.transform.DOLocalMove(
+            otherTeleporter.transform.position + new Vector3(outputDir.x * teleportStrength,
+                outputDir.y * teleportStrength, zDifference),
+            teleportDuration).SetEase(Ease.InBack);
+    }
+
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.TryGetComponent(out STATS stats))
+        {
+            if (stats.canBeTeleported && !IgnoredParentObjects.shouldBeIgnored(stats.transform))
+                StartCoroutine(NewTeleport(stats.gameObject));
+        }
+        else if (other.gameObject.TryGetComponent(out ICustomTeleport customTeleport))
+        {
+            StartCoroutine(NewTeleport(customTeleport.ReturnGameobject()));
+        }
+    }
+
+
+    public void PlayParticles()
+    {
+        DOVirtual.DelayedCall(0.2f, () => { teleportParticles.Emit(25); });
+    }
+
+    /*
     public Vector2 CalculateDirection()
     {
         Vector2 outputDir;
@@ -98,6 +214,7 @@ public class TeleporterScript : MonoBehaviour
 
         return outputDir;
     }
+    */
 
     public void StartTeleportCooldownCoroutine(PlayerMovement playerMov)
     {
@@ -135,6 +252,13 @@ public class TeleporterScript : MonoBehaviour
 
     private void OnDrawGizmos()
     {
+        Gizmos.color = Color.green;
+        Gizmos.DrawLine(transform.position, transform.position + transform.right * 2f);
+
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawLine(transform.position, transform.position + transform.up * 2f);
+
+
         if (otherTeleporter == null) return;
 
         if (main)

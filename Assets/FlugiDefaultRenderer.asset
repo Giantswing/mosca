@@ -116,13 +116,13 @@ MonoBehaviour:
   debugShaders:
     debugReplacementPS: {fileID: 4800000, guid: cf852408f2e174538bcd9b7fda1c5ae7, type: 3}
   m_RendererFeatures:
+  - {fileID: -5140426309762940234}
   - {fileID: 4992446567999440147}
   - {fileID: 1328802345941202894}
   - {fileID: -2624128012551657153}
   - {fileID: -8084952099294711091}
-  - {fileID: -5140426309762940234}
   - {fileID: 6623989552421501943}
-  m_RendererFeatureMap: 1385b9d5b3bb4845cef7877eb1da70123fe9b4ce793995dbcd727dcfe67acc8fb60282a48189a9b8f77bfb0b6723ed5b
+  m_RendererFeatureMap: b60282a48189a9b81385b9d5b3bb4845cef7877eb1da70123fe9b4ce793995dbcd727dcfe67acc8ff77bfb0b6723ed5b
   m_UseNativeRenderPass: 0
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}

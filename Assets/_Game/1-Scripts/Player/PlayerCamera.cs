@@ -1,3 +1,4 @@
+using System;
 using Cinemachine;
 using UnityEngine;
 using UnityEngine.Events;
@@ -9,6 +10,7 @@ public class PlayerCamera : MonoBehaviour
 {
     public static UnityAction<bool> OnMapToggle;
     [SerializeField] private PlayerMovement pM;
+    private PlayerInteractionHandler _playerInteractionHandler;
     [SerializeField] private CinemachineVirtualCamera virtualCamera;
 
     [SerializeField] private float defaultCameraZOffset = -7f;
@@ -63,6 +65,7 @@ public class PlayerCamera : MonoBehaviour
         _screenFXSystem = FindObjectOfType<ScreenFXSystem>();
         _volumeProfile = _screenFXSystem.GetComponent<Volume>().profile;
         _dofFX = _volumeProfile.TryGet<DepthOfField>(out _dofFX) ? _dofFX : null;
+        _playerInteractionHandler = GetComponent<PlayerInteractionHandler>();
     }
 
     private void Start()
@@ -123,17 +126,9 @@ public class PlayerCamera : MonoBehaviour
 
     private void UpdatePlayerFollower()
     {
-        /*
         playerFollower.position = Vector3.Lerp(playerFollower.position,
-            new Vector3(pM.transform.position.x, pM.transform.position.y, defaultCameraZOffset) +
-            new Vector3(_horCameraOffset, _vertCameraOffset, _zoomCameraOffset) + new Vector3(0, 0, closeUpOffset),
-            Time.deltaTime * cameraOffsetStrength);
-            */
-
-        playerFollower.position = Vector3.Lerp(playerFollower.position, transform.position +
-                                                                        new Vector3(_horCameraOffset + _cameraInput.x,
-                                                                            _vertCameraOffset + _cameraInput.y, 0),
-            Time.deltaTime * 6f);
+            transform.position + new Vector3(_horCameraOffset + _cameraInput.x, _vertCameraOffset + _cameraInput.y,
+                closeUpOffset - 3.5f * (_playerInteractionHandler.HasThrowableItem() ? 1 : 0)), Time.deltaTime * 6f);
     }
 
     private void CalculateCameraOffset()
@@ -153,10 +148,12 @@ public class PlayerCamera : MonoBehaviour
         _zoomCameraOffsetTo = pM.inputDirection.magnitude * 2.5f + _cameraZoneZoom * -3f;
         _zoomCameraOffset += (_zoomCameraOffsetTo - _zoomCameraOffset) * Time.deltaTime * 0.7f;
 
+        /*
         closeUpOffset += (closeUpOffsetTo - closeUpOffset) * Time.deltaTime * 1f;
 
         if (closeUpOffsetTo > 0)
             closeUpOffsetTo -= Time.deltaTime * 2f;
+            */
 
 
         _virtualCameraTransposer.m_FollowOffset =

@@ -151,7 +151,7 @@ public class CollectableBehaviour : MonoBehaviour
                     {
                         GlobalAudioManager.PlaySound(collectSound, transform.position);
                         Destroy(gameObject);
-                        PlayerInteractionHandler.GlowPlayerStatic(pickUpCoinColor);
+                        GlowHandler.GlowStatic(pickUpCoinColor);
                     });
                 }
                 else

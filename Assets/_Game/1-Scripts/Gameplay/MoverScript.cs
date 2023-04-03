@@ -14,7 +14,7 @@ public class MovePoint
     public float waitTime;
 }
 
-public class MoverScript : MonoBehaviour, IPressurePlateListener
+public class MoverScript : MonoBehaviour, IPressurePlateListener, ICustomTeleport
 {
     [SerializeField] private bool pingPong;
     [SerializeField] private bool smoothMove = true;
@@ -28,7 +28,7 @@ public class MoverScript : MonoBehaviour, IPressurePlateListener
     [SerializeField] private GameObject[] moverRails;
 
     [SerializeField] private bool isAutomatic = true;
-
+    private Tween _currentMovementTween;
 
     public List<MovePoint> MovePoints = new();
 
@@ -64,12 +64,44 @@ public class MoverScript : MonoBehaviour, IPressurePlateListener
         }
     }
 
+    public GameObject ReturnGameobject()
+    {
+        return gameObject;
+    }
+
     private int CheckRotationDirection(Vector3 pos1, Vector3 pos2)
     {
         if (pos1.x > pos2.x || pos1.y < pos2.y)
             return 1;
         else
             return -1;
+    }
+
+    public void CustomTeleport(Transform teleporterTransform, Transform originalTeleporterTransform)
+    {
+        var original_difference = originalTeleporterTransform.position - transform.position;
+
+        foreach (var movePoint in MovePoints)
+        {
+            var originalOffset = originalTeleporterTransform.position - _startPosition;
+            var distToPortal = _startPosition + movePoint.offset - originalTeleporterTransform.position +
+                               original_difference;
+
+            var newOffset = Quaternion.Euler(0, 0,
+                                teleporterTransform.rotation.eulerAngles.z -
+                                originalTeleporterTransform.rotation.eulerAngles.z
+                            ) *
+                            -distToPortal;
+
+            newOffset += originalOffset;
+            movePoint.offset = newOffset - original_difference;
+
+            movePoint.offset += teleporterTransform.position - originalTeleporterTransform.position;
+        }
+
+        transform.position = teleporterTransform.position - original_difference;
+        _currentMovementTween.Kill();
+        Move(true);
     }
 
     private void OnDisable()
@@ -210,7 +242,7 @@ public class MoverScript : MonoBehaviour, IPressurePlateListener
         }
     }
 
-    private void Move()
+    private void Move(bool isInmediate = false)
     {
         var distanceToNextPoint =
             Vector3.Distance(transform.position, _startPosition + MovePoints[_currentMovePoint].offset);
@@ -227,14 +259,11 @@ public class MoverScript : MonoBehaviour, IPressurePlateListener
 
         myParent.DOLocalRotate(MovePoints[_currentMovePoint].rotation, movementDuration).SetEase(Ease.Linear);
 
-        if (duration == 0)
-            transform.DOMove(_startPosition + MovePoints[_currentMovePoint].offset,
-                    movementDuration).SetEase(ease).onComplete +=
-                () => { StartCoroutine(WaitMove()); };
-        else
-            transform.DOMove(_startPosition + MovePoints[_currentMovePoint].offset,
-                    duration).SetEase(ease).onComplete +=
-                () => { StartCoroutine(WaitMove()); };
+
+        _currentMovementTween = transform.DOMove(_startPosition + MovePoints[_currentMovePoint].offset,
+            duration == 0 ? movementDuration : duration).SetEase(isInmediate ? Ease.OutQuad : ease);
+
+        _currentMovementTween.onComplete += () => { StartCoroutine(WaitMove()); };
     }
 
     private IEnumerator WaitMove()

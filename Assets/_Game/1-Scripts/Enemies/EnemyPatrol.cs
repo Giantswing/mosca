@@ -12,16 +12,27 @@ public class PatrolPoint
     public float waitTime;
 }
 
-public class EnemyPatrol : MonoBehaviour
+public class EnemyPatrol : MonoBehaviour, ICustomTeleport
 {
     [SerializeField] private STATS stats;
-
     public List<PatrolPoint> patrolPoints = new();
     private int _currentPatrolPoint = 0;
     private Vector3 _startPosition;
+    private Vector3 _startLastMovement;
 
     private Tween _currentMovementTween;
     private WaitForSeconds _wait = new(1f);
+    private Transform LastTeleporterUsed;
+
+    private List<Color> patrolColors = new()
+    {
+        Color.red,
+        Color.green,
+        Color.blue,
+        Color.yellow,
+        Color.cyan,
+        Color.magenta
+    };
 
     private void Start()
     {
@@ -32,22 +43,97 @@ public class EnemyPatrol : MonoBehaviour
             IteratePatrolPoint();
             Patrol();
         }
+
+        patrolColors.Clear();
+        for (var i = 0; i < patrolPoints.Count; i++)
+            patrolColors.Add(new Color(UnityEngine.Random.Range(0f, 1f), UnityEngine.Random.Range(0f, 1f),
+                UnityEngine.Random.Range(0f, 1f)));
     }
 
-    private void Patrol()
+    private void Patrol(bool isImmediate = false)
     {
+        _startLastMovement = transform.position;
+        Debug.DrawLine(transform.position, transform.position + Vector3.up,
+            Color.magenta, 1f);
+        //print(_startLastMovement);
+        var movementEase = isImmediate ? Ease.OutQuad : Ease.InOutQuad;
         var distanceToNextPoint =
-            Vector3.Distance(transform.position, _startPosition + patrolPoints[_currentPatrolPoint].offset);
+            Vector3.Distance(transform.position,
+                _startPosition + patrolPoints[_currentPatrolPoint].offset);
 
-        _currentMovementTween = transform.DOMove(_startPosition + patrolPoints[_currentPatrolPoint].offset,
-            distanceToNextPoint / stats.ST_Speed * .5f).SetEase(Ease.InOutQuad);
+
+        _currentMovementTween = transform.DOMove(
+            _startPosition + patrolPoints[_currentPatrolPoint].offset,
+            distanceToNextPoint / stats.ST_Speed * .5f).SetEase(movementEase);
         _currentMovementTween.onComplete +=
             () => { StartCoroutine(WaitPatrol()); };
+
+
+        /*
+        _currentMovementTween = transform.DOMove(
+            CalculateEndingPos(_currentPatrolPoint),
+            distanceToNextPoint / stats.ST_Speed * .5f).SetEase(movementEase);
+        _currentMovementTween.onComplete +=
+            () => { StartCoroutine(WaitPatrol()); };
+            */
+    }
+
+    private Vector3 CalculateEndingPos(int PatrolPoint)
+    {
+        var result = _startPosition;
+        for (var i = 0; i < PatrolPoint; i++) result += patrolPoints[i].offset;
+
+        return result;
     }
 
     public void InterruptPatrol()
     {
         StartCoroutine(InterruptPatrolRoutine());
+    }
+
+
+    public void CustomTeleport(Transform teleporterTransform, Transform originalTeleporterTransform)
+    {
+        var original_difference = originalTeleporterTransform.position - transform.position;
+        original_difference = Vector3.zero;
+
+
+        foreach (var patrolPoint in patrolPoints)
+        {
+            var originalOffset = originalTeleporterTransform.position - _startPosition;
+            var distToPortal = _startPosition + patrolPoint.offset - originalTeleporterTransform.position +
+                               original_difference;
+
+            Debug.DrawLine(originalTeleporterTransform.position, originalTeleporterTransform.position + distToPortal,
+                patrolColors[patrolPoints.IndexOf(patrolPoint)], 1.5f);
+
+
+            var newOffset = Quaternion.Euler(0, 0,
+                                teleporterTransform.rotation.eulerAngles.z -
+                                originalTeleporterTransform.rotation.eulerAngles.z
+                            ) *
+                            -distToPortal;
+
+            newOffset += originalOffset;
+            patrolPoint.offset = newOffset - original_difference;
+
+            patrolPoint.offset += teleporterTransform.position - originalTeleporterTransform.position;
+        }
+
+
+        transform.position = teleporterTransform.position - original_difference;
+        _currentMovementTween.Kill();
+        Patrol(true);
+    }
+
+    public GameObject ReturnGameobject()
+    {
+        return gameObject;
+    }
+
+    private void TestRay(Vector3 pos)
+    {
+        Debug.DrawLine(pos, pos + Vector3.up * 10, Color.red, 1.5f);
     }
 
     private IEnumerator InterruptPatrolRoutine()
@@ -79,15 +165,12 @@ public class EnemyPatrol : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        /*
-        if (patrolPoints.Count > 0)
-            _startPosition = transform.position;
-        */
+        var pos = Application.isPlaying ? _startPosition : transform.position;
 
         for (var i = 0; i < patrolPoints.Count; i++)
         {
-            Gizmos.color = Color.white;
-            Gizmos.DrawWireSphere(transform.position + patrolPoints[i].offset, 0.5f);
+            Gizmos.color = patrolColors[i];
+            Gizmos.DrawWireSphere(pos + patrolPoints[i].offset, 0.5f);
         }
     }
 }

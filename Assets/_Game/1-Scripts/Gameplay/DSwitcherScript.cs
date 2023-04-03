@@ -5,7 +5,7 @@ using DG.Tweening;
 using Unity.Jobs;
 using UnityEngine;
 
-public class DSwitcherScript : MonoBehaviour, IPressurePlateListener
+public class DSwitcherScript : MonoBehaviour, IPressurePlateListener, IGenericInteractable
 {
     public bool isHorizontal = true;
     [SerializeField] private SimpleAudioEvent switchSound;
@@ -16,7 +16,7 @@ public class DSwitcherScript : MonoBehaviour, IPressurePlateListener
     [SerializeField] private Transform screw;
 
 
-    private WaitForSeconds delay = new(0.1f);
+    private WaitForSeconds delay = new(0.5f);
 
     private Sequence _mySequence;
 
@@ -69,6 +69,11 @@ public class DSwitcherScript : MonoBehaviour, IPressurePlateListener
         }
     }
 
+    public void Interact(Vector3 otherPos)
+    {
+        Hit(otherPos);
+    }
+
     public void Hit()
     {
         Rotate(1);
@@ -88,7 +93,7 @@ public class DSwitcherScript : MonoBehaviour, IPressurePlateListener
         screw.DOLocalMoveZ(screw.localPosition.z + 0.35f * clockwise, 0.2f).SetEase(Ease.InOutQuad)
             .SetLoops(2, LoopType.Yoyo);
 
-        _mySequence.Append(transform.DORotate(new Vector3(0, 0, endRot), 1.35f)
+        _mySequence.Append(transform.DORotate(new Vector3(0, 0, endRot), 1.5f)
             .SetEase(Ease.OutBounce));
 
         /*

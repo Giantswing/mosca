@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1766478413}
   - component: {fileID: 5055479083801734597}
   - component: {fileID: 334909934059985620}
+  - component: {fileID: 5851765277487543902}
   m_Layer: 0
   m_Name: Bomb
   m_TagString: Collectable
@@ -185,6 +186,60 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5851765277487543902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1595248511256459796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fd8e5d50ba833f4786e10b760bb1498, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deathSoundEvent: {fileID: 0}
+  playDeathSound: 0
+  hitSoundEvent: {fileID: 0}
+  playHitSound: 0
+  myRenderer: {fileID: 0}
+  normalMaterial: {fileID: 0}
+  invincibilityMaterial: {fileID: 0}
+  IsInsideElevator: 0
+  ST_Speed: 0
+  ST_SpeedBoost: 0
+  ST_Health:
+    _owner: {fileID: 1595248511256459796}
+    _ownerName: Bomb
+    _propertyPath: ST_Health
+    _autoListen: 0
+    _multiIndex: 0
+    _refType: 0
+    _value: 999
+    _smartConst: {fileID: 0}
+    _smartVar: {fileID: 0}
+    _smartMulti: {fileID: 0}
+    _onUpdate:
+      m_PersistentCalls:
+        m_Calls: []
+  ST_MaxHealth: 999
+  ST_Damage: 0
+  ST_Team: 0
+  ST_Invincibility: 0
+  ST_CanDoDmg: 0
+  ST_InvincibilityTimer: 0
+  ST_Reward: 0
+  _hasHitEvent: 0
+  ST_HitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  ST_DeathEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  onlyDamageByExplosions: 0
+  isThisAnExplosion: 0
+  canBeTeleported: 1
+  dmgDirection: {x: 0, y: 0, z: 0}
 --- !u!1001 &8410202133193877556
 PrefabInstance:
   m_ObjectHideFlags: 0

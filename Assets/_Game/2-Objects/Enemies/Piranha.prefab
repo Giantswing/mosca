@@ -5090,11 +5090,12 @@ MonoBehaviour:
   playDeathSound: 0
   hitSoundEvent: {fileID: 11400000, guid: 14d863d64f65b3745aec184bd208ccef, type: 2}
   playHitSound: 1
-  _renderer: {fileID: 127006487376486637}
+  myRenderer: {fileID: 0}
   normalMaterial: {fileID: 0}
   invincibilityMaterial: {fileID: 2100000, guid: 226adf9a21da1ea4493948e9726d7789, type: 2}
   IsInsideElevator: 0
   ST_Speed: 2
+  ST_SpeedBoost: 0
   ST_Health:
     _owner: {fileID: 1207739239262744151}
     _ownerName: Piranha
@@ -5161,33 +5162,9 @@ MonoBehaviour:
         m_CallState: 2
   onlyDamageByExplosions: 0
   isThisAnExplosion: 0
+  isPlayer: 0
+  canBeTeleported: 0
   dmgDirection: {x: 0, y: 0, z: 0}
-  transitionEvent:
-    _owner: {fileID: 1207739239262744151}
-    _ownerName: Piranha
-    _propertyPath: transitionEvent
-    _autoListen: 0
-    _multiIndex: 0
-    _smartEvent: {fileID: 0}
-    _smartMulti: {fileID: 0}
-    _useMulti: 0
-    _onEvent:
-      m_PersistentCalls:
-        m_Calls: []
-  transitionType:
-    _owner: {fileID: 1207739239262744151}
-    _ownerName: Piranha
-    _propertyPath: transitionType
-    _autoListen: 0
-    _multiIndex: 0
-    _refType: 2
-    _value: 0
-    _smartConst: {fileID: 0}
-    _smartVar: {fileID: 0}
-    _smartMulti: {fileID: 0}
-    _onUpdate:
-      m_PersistentCalls:
-        m_Calls: []
 --- !u!114 &1207739239262744154
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5307,11 +5284,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46265a38e5b024e4694e7336e53a1521, type: 3}
---- !u!137 &127006487376486637 stripped
-SkinnedMeshRenderer:
-  m_CorrespondingSourceObject: {fileID: -7997839014284068744, guid: 46265a38e5b024e4694e7336e53a1521, type: 3}
-  m_PrefabInstance: {fileID: 1207739238480124053}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1677723958949314430 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 46265a38e5b024e4694e7336e53a1521, type: 3}

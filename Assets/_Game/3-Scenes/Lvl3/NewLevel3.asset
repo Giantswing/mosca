@@ -20,7 +20,7 @@ MonoBehaviour:
   sceneName: Going around
   sceneInternalName: new-lvl3-scene
   timeToWin: 180
-  deathCounter: 7
+  deathCounter: 10
   stars: 0
   isThisLastOne: 1
   index: 2

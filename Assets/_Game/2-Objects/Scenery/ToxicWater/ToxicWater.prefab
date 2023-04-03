@@ -74,11 +74,12 @@ MonoBehaviour:
   playDeathSound: 0
   hitSoundEvent: {fileID: 0}
   playHitSound: 0
-  _renderer: {fileID: 0}
+  myRenderer: {fileID: 0}
   normalMaterial: {fileID: 0}
   invincibilityMaterial: {fileID: 0}
   IsInsideElevator: 0
   ST_Speed: 0
+  ST_SpeedBoost: 0
   ST_Health:
     _owner: {fileID: 3455700863804286203}
     _ownerName: ToxicWater
@@ -109,33 +110,9 @@ MonoBehaviour:
       m_Calls: []
   onlyDamageByExplosions: 0
   isThisAnExplosion: 0
+  isPlayer: 0
+  canBeTeleported: 0
   dmgDirection: {x: 0, y: 0, z: 0}
-  transitionEvent:
-    _owner: {fileID: 3455700863804286203}
-    _ownerName: ToxicWater
-    _propertyPath: transitionEvent
-    _autoListen: 0
-    _multiIndex: 0
-    _smartEvent: {fileID: 0}
-    _smartMulti: {fileID: 0}
-    _useMulti: 0
-    _onEvent:
-      m_PersistentCalls:
-        m_Calls: []
-  transitionType:
-    _owner: {fileID: 3455700863804286203}
-    _ownerName: ToxicWater
-    _propertyPath: transitionType
-    _autoListen: 0
-    _multiIndex: 0
-    _refType: 2
-    _value: 0
-    _smartConst: {fileID: 0}
-    _smartVar: {fileID: 0}
-    _smartMulti: {fileID: 0}
-    _onUpdate:
-      m_PersistentCalls:
-        m_Calls: []
 --- !u!23 &1551672052
 MeshRenderer:
   m_ObjectHideFlags: 0
