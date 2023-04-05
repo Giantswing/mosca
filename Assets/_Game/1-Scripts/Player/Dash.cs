@@ -16,6 +16,7 @@ public class Dash : MonoBehaviour
     private PlayerAnimationHandler _playerAnimationHandler;
     private PlayerCamera _playerCamera;
     private PlayerInteractionHandler _playerInteractionHandler;
+    private ChargeShot _chargeShot;
     [SerializeField] private SphereCollider dashCollider;
     [SerializeField] private SphereCollider normalCollider;
 
@@ -81,6 +82,7 @@ public class Dash : MonoBehaviour
         _playerAnimationHandler = GetComponent<PlayerAnimationHandler>();
         _playerCamera = GetComponent<PlayerCamera>();
         _playerInteractionHandler = GetComponent<PlayerInteractionHandler>();
+        _chargeShot = GetComponent<ChargeShot>();
         stats = GetComponent<STATS>();
         my3dModel = stats.myRenderer.transform.parent.transform;
 
@@ -273,11 +275,21 @@ public class Dash : MonoBehaviour
 
         _playerAnimationHandler.SetIsDashing(true);
 
+        /*
         if (Mathf.Sign(_playerMovement.inputDirectionTo.x) == _playerMovement.isFacingRight)
         {
+            var punchRotation = transform.right * -1f;
+            var rotation = Quaternion.Euler(0, 0, transform.rotation.z - 180f);
+            punchRotation = rotation * punchRotation;
+
             my3dModel.localPosition = Vector3.zero;
-            my3dModel.DOPunchPosition(transform.right * -0.65f, 0.7f, 1, 0.1f);
+            my3dModel.DOPunchPosition(punchRotation * -0.5f, 0.7f, 1, 0.1f);
         }
+        */
+
+        my3dModel.localPosition = Vector3.zero;
+        my3dModel.DOLocalMoveX(my3dModel.localPosition.x - 0.8f, 0.15f)
+            .SetEase(Ease.InOutBounce).SetLoops(1, LoopType.Yoyo);
 
 
         stats.ChangeSpeedBoost(dashSpeedBoostMultiplier * 0.5f);
@@ -334,8 +346,20 @@ public class Dash : MonoBehaviour
             .SetEase(Ease.OutQuad);
 
         stats.ChangeSpeedBoost(doubleDashSpeedBoostMultiplier);
+
+        /*
+        var punchRotation = transform.right * _playerMovement.isFacingRight;
+        var rotation = Quaternion.Euler(0, 0, transform.rotation.z + 90);
+        punchRotation = rotation * punchRotation;
+        */
+
         my3dModel.localPosition = Vector3.zero;
-        my3dModel.DOPunchPosition(transform.right * 1f, 0.6f, 1, 0.1f);
+        /*
+        my3dModel.DOPunchPosition(punchRotation * 3f * _playerMovement.isFacingRight, 0.6f, 1, 0.1f);
+        */
+        //doMoveX and have it go back to its original position after 
+        my3dModel.DOLocalMoveX(my3dModel.localPosition.x + 0.8f, 0.35f)
+            .SetEase(Ease.InOutBounce).SetLoops(1, LoopType.Yoyo);
 
         _playerMovement.inputDirection = _playerMovement.inputDirectionTo;
         _playerMovement.hSpeed = _playerMovement.inputDirection.x;
@@ -369,5 +393,11 @@ public class Dash : MonoBehaviour
         canDashAgain = false;
         yield return _WaitToAllowDashAgain;
         canDashAgain = true;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawLine(transform.position, transform.position - transform.right);
     }
 }

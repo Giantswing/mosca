@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db038a0bd787d7140bf55c22020aaf2c, type: 3}
+  m_Name: SandboxTest
+  m_EditorClassIdentifier: 
+  campaign: {fileID: 11400000, guid: a36363c6493c2fc49a902af9627a51e9, type: 2}
+  scene:
+    sceneAsset: {fileID: 102900000, guid: da1cdac6dce2ba2468e5d62a6ee0da0b, type: 3}
+    required: 0
+    buildIndex: 6
+  sceneName: Sandbox
+  sceneInternalName: sandboxTest
+  timeToWin: 450
+  deathCounter: 0
+  stars: 0
+  isThisLastOne: 1
+  index: 3
+  isBSide: 0
+  hasBSide: 0
+  bSideScene: {fileID: 0}
+  levelMusic: {fileID: 0}

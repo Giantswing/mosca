@@ -35,6 +35,8 @@ public class HealthContainer : MonoBehaviour
 
     public void PlayerHealthChange()
     {
+        if (playerHealth.value <= 0) return;
+
         if (playerHealth.value > playerMaxHealth.value)
             playerHealth.value = playerMaxHealth.value;
 

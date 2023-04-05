@@ -261,7 +261,7 @@ public class MoverScript : MonoBehaviour, IPressurePlateListener, ICustomTelepor
 
 
         _currentMovementTween = transform.DOMove(_startPosition + MovePoints[_currentMovePoint].offset,
-            duration == 0 ? movementDuration : duration).SetEase(isInmediate ? Ease.OutQuad : ease);
+            duration == 0 ? movementDuration : duration).SetEase(isInmediate && duration == 0 ? Ease.OutQuad : ease);
 
         _currentMovementTween.onComplete += () => { StartCoroutine(WaitMove()); };
     }

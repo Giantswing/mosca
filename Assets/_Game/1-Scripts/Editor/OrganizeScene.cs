@@ -93,7 +93,8 @@ public class OrganizeScene : ScriptableObject
 
         foreach (var selectedObj in Instance.allGameObjects) //cycle through all objects
             for (var i = 0; i < Instance.organizeFolders.Length; i++) //cycle through all folders
-                foreach (var folderObj in Instance.organizeFolders[i].objects) //cycle through all objects in the folder
+                foreach (var folderObj in Instance.organizeFolders[i].objects)
+                    //cycle through all objects in the folder
                     if (selectedObj.name.Contains(folderObj.name))
                     {
                         //check if selectedObj has a mover parent
@@ -114,7 +115,11 @@ public class OrganizeScene : ScriptableObject
             for (var i = 0; i < Instance.organizeFolders.Length; i++) //cycle through all folders
                 foreach (var obj in Instance.organizeFolders[i].objectsNames) //cycle through all objects in the folder
                     if (selectedObj.name.Contains(obj))
+                    {
                         selectedObj.transform.parent = folders[i].transform;
+
+                        if (selectedObj.name.Contains("lvlmodel_")) selectedObj.transform.localPosition = Vector3.zero;
+                    }
 
 
         var assembly = Assembly.GetAssembly(typeof(ActiveEditorTracker));
@@ -122,6 +127,21 @@ public class OrganizeScene : ScriptableObject
         var method = type.GetMethod("Clear");
         method.Invoke(new object(), null);
     }
+
+    private static GameObject activeObject;
+
+    [MenuItem("Tools/Move to bottom ^e")]
+    private static void MoveToBottom()
+    {
+        activeObject = Selection.activeGameObject;
+        if (activeObject == null) return;
+        activeObject.transform.SetAsLastSibling();
+
+        //focus on the object
+        Selection.activeGameObject = null;
+        Selection.activeGameObject = activeObject;
+    }
+
 
 #endif
 }

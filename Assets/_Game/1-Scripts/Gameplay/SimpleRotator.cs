@@ -7,15 +7,8 @@ public class SimpleRotator : MonoBehaviour
     [SerializeField] private Vector3 rotationSpeed;
     [SerializeField] private Ease ease;
 
-
-    private void OnEnable()
+    private void Update()
     {
-        transform.DORotate(rotationSpeed, 1f, RotateMode.FastBeyond360).SetEase(ease)
-            .SetLoops(-1, LoopType.Incremental);
-    }
-
-    private void OnDisable()
-    {
-        transform.DOKill();
+        transform.Rotate(rotationSpeed * Time.deltaTime);
     }
 }

@@ -11,8 +11,11 @@ public class MainMenuScript : MonoBehaviour
     [SerializeField] private RectTransform mainLogo;
     [SerializeField] private RectTransform menuButtons;
     [SerializeField] private RectTransform optionButtons;
+    [SerializeField] private RectTransform creditsButtons;
     [SerializeField] private TextMeshProUGUI versionText;
     [HideInInspector] public bool isOptionMenuOpen = false;
+    [HideInInspector] public bool isCreditsMenuOpen = false;
+
     [SerializeField] private CampaignSO campaignSO;
 
     [Space(10)] [SerializeField] private GameObject backgroundFliesObject;
@@ -42,7 +45,11 @@ public class MainMenuScript : MonoBehaviour
         startGameAction.performed += _ => StartMenu();
         startGameAction.Enable();
 
-        goBackAction.performed += _ => ExitMenuOptions();
+        goBackAction.performed += _ =>
+        {
+            ExitMenuOptions();
+            ExitCreditOptions();
+        };
         goBackAction.Enable();
 
         if (Application.platform == RuntimePlatform.Android)
@@ -101,6 +108,20 @@ public class MainMenuScript : MonoBehaviour
         }
     }
 
+    public void ShowCredits()
+    {
+        if (!_isTransitioning && _timeSinceSplashScreen > 0.5f)
+        {
+            isCreditsMenuOpen = true;
+            creditsButtons.gameObject.SetActive(true);
+            menuButtons.DOMoveX(Screen.width * 0.45f, 0.5f);
+            creditsButtons.DOMoveX(Screen.width * 0.8f, 0.5f);
+
+            EventSystemScript.ChangeFirstSelected(creditsButtons.gameObject.GetComponentsInChildren<RectTransform>()[2]
+                .gameObject);
+        }
+    }
+
     private void Update()
     {
         if (!_isShowingSplashScreen)
@@ -132,6 +153,18 @@ public class MainMenuScript : MonoBehaviour
             isOptionMenuOpen = false;
             menuButtons.DOMoveX(Screen.width * 0.7f, 0.5f);
             optionButtons.DOMoveX(Screen.width * 1.25f, 0.5f);
+            EventSystemScript.ChangeFirstSelected(menuButtons.gameObject.GetComponentsInChildren<RectTransform>()[3]
+                .gameObject);
+        }
+    }
+
+    public void ExitCreditOptions()
+    {
+        if (!_isTransitioning && _timeSinceSplashScreen > 0.5f && isCreditsMenuOpen)
+        {
+            isCreditsMenuOpen = false;
+            menuButtons.DOMoveX(Screen.width * 0.7f, 0.5f);
+            creditsButtons.DOMoveX(Screen.width * 1.25f, 0.5f);
             EventSystemScript.ChangeFirstSelected(menuButtons.gameObject.GetComponentsInChildren<RectTransform>()[3]
                 .gameObject);
         }

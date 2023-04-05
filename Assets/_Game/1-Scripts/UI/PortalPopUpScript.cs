@@ -39,11 +39,14 @@ public class PortalPopUpScript : MonoBehaviour
         yield return new WaitForSecondsRealtime(2f);
 
         popUpText.DOFade(0, 0.1f);
+        popUpBG.DOSizeDelta(new Vector2(0, 0), 0.3f).onComplete += () => { Destroy(gameObject); };
+        /*
         popUpBG.DOSizeDelta(new Vector2(50f, 50f), 0.3f).onComplete += () =>
         {
             isIcon = true;
-            popUpIcon.DOFade(1f, 0.2f);
+            popUpIcon.DOFade(0f, 0.2f).onComplete += () => { Destroy(gameObject); };
         };
+        */
     }
 
     private void Update()

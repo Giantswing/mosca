@@ -171,10 +171,6 @@ public class BombScript : CollectableBehaviour, IPressurePlateListener, ICollisi
         {
             Physics.IgnoreCollision(other.collider, collisionCollider, true);
         }
-        else if (other.gameObject.GetComponent<CollisionIgnorer>() != null)
-        {
-            Physics.IgnoreCollision(other.collider, collisionCollider, true);
-        }
         else
         {
             if (_canExplode)

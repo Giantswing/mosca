@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using DG.Tweening;
 using SmartData.SmartEvent;
+using Unity.Jobs;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
@@ -19,7 +20,12 @@ public class PlayerInteractionHandler : MonoBehaviour, IPressurePlateListener
     private PlayerMovement playerMovement;
     private PlayerCamera playerCamera;
     private PlayerSoundManager playerSoundManager;
-    [SerializeField] private GameObject playerPickupArea;
+    private Crown crown;
+    public GameObject playerPickupArea;
+    public GameObject my3DModel;
+    public GameObject myLight;
+    public Collider[] myColliders;
+
     private Dash dash;
     private GlowHandler glowHandler;
     private STATS stats;
@@ -62,10 +68,13 @@ public class PlayerInteractionHandler : MonoBehaviour, IPressurePlateListener
     private void Start()
     {
         instance = this;
+        crown = GetComponentInChildren<Crown>();
         var obj = Instantiate(playerPickupArea);
         var pickupArea = obj.GetComponent<PlayerPickupArea>();
 
-        pickupArea.player = gameObject.transform;
+        //pickupArea.player = gameObject.transform;
+        pickupArea.player = crown.transform;
+        pickupArea.truePlayer = transform;
         pickupArea.pI = this;
         pickupArea.pM = playerMovement;
 
@@ -79,6 +88,7 @@ public class PlayerInteractionHandler : MonoBehaviour, IPressurePlateListener
 
     private void Update()
     {
+        //print(holdingItems.Count);
         if (holdingItems.Count == 0) return;
 
         for (var i = 0; i < holdingItems.Count; i++)
@@ -91,7 +101,7 @@ public class PlayerInteractionHandler : MonoBehaviour, IPressurePlateListener
             else
             {
                 holdingItems[i].itemTransform.position = Vector3.Lerp(holdingItems[i].itemTransform.position,
-                    transform.position + Vector3.up * 1.3f, Time.deltaTime * 10);
+                    transform.position + Vector3.up * .75f, Time.deltaTime * 10);
             }
     }
 
@@ -166,12 +176,23 @@ public class PlayerInteractionHandler : MonoBehaviour, IPressurePlateListener
                 {
                     playerMovement.EnablePlayer();
                     playerMovement.my3DModel.transform.DOKill();
+
                     if (!exitsToTheLeft)
                         playerMovement.my3DModel.transform.DOLocalRotate(new Vector3(0, 0, 0), .3f,
                             RotateMode.FastBeyond360);
                     else
                         playerMovement.my3DModel.transform.DOLocalRotate(new Vector3(0, 180, 0), .3f,
                             RotateMode.FastBeyond360);
+
+/*
+                    playerMovement.my3DModel.transform.DOLocalRotate(new Vector3(0, 0, 0), .1f,
+                        RotateMode.FastBeyond360).onComplete += () =>
+                    {
+                    */
+                    if (exitsToTheLeft) playerMovement.FlipPlayer(-1);
+                    else
+                        playerMovement.FlipPlayer(1);
+                    //};
 
                     stats.ST_Invincibility = false;
                 });
@@ -202,8 +223,34 @@ public class PlayerInteractionHandler : MonoBehaviour, IPressurePlateListener
 
     public void Die()
     {
-        transitionType.value = (int)LevelLoader.LevelTransitionState.Restart;
-        transitionEvent.Dispatch();
+        if (Reviver.instance == null || !Reviver.CanRevive())
+        {
+            transitionType.value = (int)LevelLoader.LevelTransitionState.Restart;
+            transitionEvent.Dispatch();
+        }
+        else
+        {
+            print("reviver exists, trying to revive");
+            Reviver.instance.Revive(transform);
+        }
+    }
+
+    public void HidePlayer()
+    {
+        myLight.SetActive(false);
+        my3DModel.SetActive(false);
+        playerPickupArea.SetActive(false);
+        foreach (var col in myColliders)
+            col.enabled = false;
+    }
+
+    public void ShowPlayer()
+    {
+        myLight.SetActive(true);
+        my3DModel.SetActive(true);
+        playerPickupArea.SetActive(true);
+        myColliders[0].enabled = true;
+        myColliders[1].enabled = true;
     }
 
 
@@ -229,6 +276,7 @@ public class PlayerInteractionHandler : MonoBehaviour, IPressurePlateListener
         _otherStats = collision.gameObject.GetComponent<STATS>();
         if (_otherStats != null && _otherStats.ST_Invincibility == false && _otherStats.ST_Team != stats.ST_Team)
         {
+            //ENEMY TAKES DAMAGE
             if (dash.isDashing &&
                 _otherStats.ST_MaxHealth != 999) //if i'm dashing and the enemy is not invulnerable
             {
@@ -258,6 +306,7 @@ public class PlayerInteractionHandler : MonoBehaviour, IPressurePlateListener
             }
             else
             {
+                //PLAYER TAKES DAMAGE
                 if (stats.ST_Invincibility == false && _otherStats.ST_Damage > 0 &&
                     _otherStats.ST_CanDoDmg) //if im not dashing and the enemy can attack
                 {
@@ -269,7 +318,20 @@ public class PlayerInteractionHandler : MonoBehaviour, IPressurePlateListener
 
                     stats.TakeDamage(_otherStats.ST_Damage, _otherStats.transform.position, false);
 
-                    holdingItems.Clear();
+
+                    //holdingItems.Clear();
+
+
+                    //remove holding Items that are not throwable
+
+                    for (var i = 0; i < holdingItems.Count; i++)
+                        if (holdingItems[i].isThrowable == false)
+                        {
+                            holdingItems.RemoveAt(i);
+                            i--;
+                        }
+
+
                     onPlayerHealthChanged.Dispatch();
 
                     ScreenFXSystem.FreezeFrames(.3f);

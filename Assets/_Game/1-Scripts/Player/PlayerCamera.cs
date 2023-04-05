@@ -58,6 +58,7 @@ public class PlayerCamera : MonoBehaviour
     [Space(10)] [Header("Effects")] [SerializeField]
     private ParticleSystem _dashEffect;
 
+
     /***********************************/
 
     private void Awake()
@@ -130,6 +131,7 @@ public class PlayerCamera : MonoBehaviour
             transform.position + new Vector3(_horCameraOffset + _cameraInput.x, _vertCameraOffset + _cameraInput.y,
                 closeUpOffset - 3.5f * (_playerInteractionHandler.HasThrowableItem() ? 1 : 0)), Time.deltaTime * 6f);
     }
+
 
     private void CalculateCameraOffset()
     {

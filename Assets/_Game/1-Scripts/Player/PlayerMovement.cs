@@ -17,9 +17,10 @@ public class PlayerMovement : MonoBehaviour, ICustomTeleport
     [SerializeField] private PlayerCamera pC;
     [SerializeField] private PlayerSoundManager pS;
     [SerializeField] private PlayerInteractionHandler pI;
+    private ChargeShot _chargeShot;
     private PlayerReceiveInput _playerReceiveInput;
 
-    private const float TimeToSwitch = .35f;
+    private float TimeToSwitch = .35f;
 
 
     [HideInInspector] public float frozen;
@@ -75,8 +76,6 @@ public class PlayerMovement : MonoBehaviour, ICustomTeleport
     private bool imDisabled;
 
 
-    ////////////////////////
-
     private void OnEnable()
     {
         var playerReceiveInput = GetComponent<PlayerReceiveInput>();
@@ -100,6 +99,7 @@ public class PlayerMovement : MonoBehaviour, ICustomTeleport
         _playerAnimationHandler = GetComponent<PlayerAnimationHandler>();
         _playerReceiveInput = GetComponent<PlayerReceiveInput>();
         _playerInput = GetComponent<PlayerInput>();
+        _chargeShot = GetComponent<ChargeShot>();
     }
 
 
@@ -144,6 +144,7 @@ public class PlayerMovement : MonoBehaviour, ICustomTeleport
 
         hSpeed += (inputDirectionTo.x - hSpeed) * acceleration * Time.deltaTime * 50f;
         vSpeed += (inputDirectionTo.y - vSpeed) * acceleration * Time.deltaTime * 50f;
+
         inputDirection = new Vector2(hSpeed, vSpeed);
 
         CheckIfPlayerShouldFlip();
@@ -155,10 +156,21 @@ public class PlayerMovement : MonoBehaviour, ICustomTeleport
 
     private void FixedUpdate()
     {
+        Move();
+    }
+
+    public void Move()
+    {
         if (frozen <= 0)
-            _myRigidbody.velocity = new Vector3(
-                inputDirection.x * stats.ST_Speed * stats.ST_SpeedBoost + _windForce.x + customForce.x,
-                inputDirection.y * stats.ST_Speed * stats.ST_SpeedBoost + _windForce.y + customForce.y, 0);
+            if (_chargeShot.chargeShot == 0)
+                _myRigidbody.velocity = new Vector3(
+                    inputDirection.x * stats.ST_Speed * stats.ST_SpeedBoost + _windForce.x + customForce.x,
+                    inputDirection.y * stats.ST_Speed * stats.ST_SpeedBoost + _windForce.y + customForce.y, 0);
+            else
+                _myRigidbody.velocity = Mathf.Lerp(_myRigidbody.velocity.x, 0, Time.deltaTime * 10f) *
+                                        Vector3.right +
+                                        Mathf.Lerp(_myRigidbody.velocity.y, 0, Time.deltaTime * 10f) *
+                                        Vector3.up;
     }
 
     public static Transform ReturnPlayerTransform()
@@ -216,7 +228,7 @@ public class PlayerMovement : MonoBehaviour, ICustomTeleport
     private void UpdatePlayerRotation()
     {
         var rot = _zRotTo;
-        if (_dash.isDashing)
+        if (_dash.isDashing || _chargeShot.chargeShot != 0)
         {
             _modelRotation = Mathf.LerpAngle(_modelRotation,
                 Mathf.Atan2(vSpeed, hSpeed) * Mathf.Rad2Deg -
@@ -245,6 +257,8 @@ public class PlayerMovement : MonoBehaviour, ICustomTeleport
 
     private void CheckIfPlayerShouldFlip()
     {
+        TimeToSwitch = _chargeShot.chargeShot == 0 ? 0.35f : 0;
+
         if (hSpeed >= .25f && isFacingRight != 1)
             _timeBackwards += Time.deltaTime;
 
@@ -266,7 +280,7 @@ public class PlayerMovement : MonoBehaviour, ICustomTeleport
         transform.position = teleporterTransform.position +
                              new Vector3(0, 0, zDifference);
 
-        customForce = teleporterTransform.right * 20f;
+        customForce = teleporterTransform.right * 13f;
 
         DOTween.To(() => customForce, x => customForce = x, Vector3.zero, 0.6f);
 

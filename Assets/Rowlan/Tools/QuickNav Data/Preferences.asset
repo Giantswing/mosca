@@ -17,7 +17,7 @@ MonoBehaviour:
   - context: 0
     title: 
     unityObject: {fileID: 0}
-    objectGuid: GlobalObjectId_V1-2-045bce62367d06f4dba5b53c12937536-2885765762046121824-2005437278
+    objectGuid: GlobalObjectId_V1-2-da1cdac6dce2ba2468e5d62a6ee0da0b-2625934504131464498-104632724
   favorites:
   - context: 2
     title: Rewards
@@ -95,6 +95,10 @@ MonoBehaviour:
     title: Gameplay
     unityObject: {fileID: 0}
     objectGuid: GlobalObjectId_V1-0-00000000000000000000000000000000-0-0
+  - context: 1
+    title: 
+    unityObject: {fileID: 399787007673084186, guid: 77925250156cf3a4c8a60a1c6c78575f, type: 3}
+    objectGuid: GlobalObjectId_V1-1-77925250156cf3a4c8a60a1c6c78575f-399787007673084186-0
   - context: 1
     title: 
     unityObject: {fileID: 3472925505940734603, guid: 720fdab829a07284f8e3a17d08db3a37, type: 3}

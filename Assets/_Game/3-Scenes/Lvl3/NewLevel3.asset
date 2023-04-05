@@ -19,10 +19,10 @@ MonoBehaviour:
     buildIndex: 5
   sceneName: Going around
   sceneInternalName: new-lvl3-scene
-  timeToWin: 180
-  deathCounter: 10
-  stars: 0
-  isThisLastOne: 1
+  timeToWin: 430
+  deathCounter: 42
+  stars: 1
+  isThisLastOne: 0
   index: 2
   isBSide: 0
   hasBSide: 0

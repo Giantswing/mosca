@@ -131,7 +131,7 @@ MonoBehaviour:
         m_Calls: []
   collisionCollider: {fileID: 334909934059985620}
   playerReference: {fileID: 11400000, guid: 801276c36f554ca47ad4a6598a0e6fae, type: 2}
-  lifeTime: 5
+  lifeTime: 6
   thresholdForce: 0.1
   explosionPrefab: {fileID: 4927078007294123516, guid: d6635fcfda9fa874ebf839994e3144d1, type: 3}
   flashingMaterial: {fileID: 2100000, guid: dc7d4fdef35e7f34d87205e136af4cc9, type: 2}
@@ -238,6 +238,7 @@ MonoBehaviour:
       m_Calls: []
   onlyDamageByExplosions: 0
   isThisAnExplosion: 0
+  isPlayer: 0
   canBeTeleported: 1
   dmgDirection: {x: 0, y: 0, z: 0}
 --- !u!1001 &8410202133193877556

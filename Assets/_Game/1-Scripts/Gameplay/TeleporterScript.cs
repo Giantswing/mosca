@@ -23,6 +23,7 @@ public class TeleporterScript : MonoBehaviour
     [SerializeField] private BoxCollider myCollider;
     [SerializeField] private float TimeToActivateAgain = 1f;
     private WaitForSeconds _WaitTimeToActivateAgain;
+    private Vector3 startLocalRotation;
 
 
     [Space(10)] [SerializeField] private SimpleAudioEvent teleportSoundEvent;
@@ -47,6 +48,7 @@ public class TeleporterScript : MonoBehaviour
     {
         myCollider = GetComponentInChildren<BoxCollider>();
         _WaitTimeToActivateAgain = new WaitForSeconds(TimeToActivateAgain);
+        startLocalRotation = transform.localEulerAngles;
     }
 
     private void Start()
@@ -85,7 +87,7 @@ public class TeleporterScript : MonoBehaviour
 
     private IEnumerator NewTeleport(GameObject target)
     {
-        myCollider.enabled = false;
+        //myCollider.enabled = false;
         otherTeleporter.myCollider.enabled = false;
 
         if (!isEnabled || otherTeleporter == null) yield return null;
@@ -96,7 +98,10 @@ public class TeleporterScript : MonoBehaviour
         var outputDir = otherTeleporter.transform.right;
 
         PlayParticles();
-        transform.DOShakeRotation(0.5f, 10f, 10, 90f, false);
+        transform.DOShakeRotation(0.5f, 10f, 10, 90f, false).onComplete += () =>
+        {
+            transform.localEulerAngles = startLocalRotation;
+        };
         transform.DOShakeScale(0.5f, 0.1f, 10, 90f, false);
         target.transform.DOShakeScale(0.5f, 0.5f, 10, 90f, false);
 
@@ -140,8 +145,11 @@ public class TeleporterScript : MonoBehaviour
 
         yield return _WaitTimeToActivateAgain;
 
+        /*
         if (!isOnlyExit)
             myCollider.enabled = true;
+            */
+
         otherTeleporter.myCollider.enabled = true;
     }
 

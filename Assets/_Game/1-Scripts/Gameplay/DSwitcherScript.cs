@@ -9,7 +9,9 @@ public class DSwitcherScript : MonoBehaviour, IPressurePlateListener, IGenericIn
 {
     public bool isHorizontal = true;
     [SerializeField] private SimpleAudioEvent switchSound;
+    [SerializeField] private SimpleAudioEvent tapSound;
     [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioSource audioSourceHit;
     [SerializeField] private bool canBeActivated = true;
 
     [SerializeField] private bool isStuck = false;
@@ -89,6 +91,7 @@ public class DSwitcherScript : MonoBehaviour, IPressurePlateListener, IGenericIn
         if (canBeActivated == false)
             return;
 
+
         endRot += 90 * clockwise;
         screw.DOLocalMoveZ(screw.localPosition.z + 0.35f * clockwise, 0.2f).SetEase(Ease.InOutQuad)
             .SetLoops(2, LoopType.Yoyo);
@@ -104,6 +107,7 @@ public class DSwitcherScript : MonoBehaviour, IPressurePlateListener, IGenericIn
 
         isHorizontal = !isHorizontal;
         switchSound.Play(audioSource);
+        tapSound.Play(audioSourceHit);
         canBeActivated = false;
 
         StartCoroutine(reActivate());

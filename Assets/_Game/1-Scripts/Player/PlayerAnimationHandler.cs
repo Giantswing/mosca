@@ -9,6 +9,7 @@ public class PlayerAnimationHandler : MonoBehaviour
     private static readonly int IsDashing = Animator.StringToHash("IsDashing");
     private static readonly int IsDoubleDashing = Animator.StringToHash("IsDoubleDashing");
     private static readonly int IsDodging = Animator.StringToHash("IsDodging");
+    private static readonly int ChargingShot = Animator.StringToHash("ChargingShot");
     private Animator flyAnimator;
     private PlayerMovement playerMovement;
 
@@ -52,5 +53,10 @@ public class PlayerAnimationHandler : MonoBehaviour
     public void SetIsDodging(bool isDodging)
     {
         flyAnimator.SetBool(IsDodging, isDodging);
+    }
+
+    public void SetChargingShot(int chargingShot)
+    {
+        flyAnimator.SetInteger(ChargingShot, chargingShot);
     }
 }

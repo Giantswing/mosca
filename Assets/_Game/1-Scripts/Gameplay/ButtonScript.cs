@@ -13,7 +13,7 @@ public class ButtonScript : MonoBehaviour, IGenericInteractable
     [SerializeField] private SimpleAudioEvent clockSound;
     [SerializeField] private SimpleAudioEvent buttonSound;
     private float _buttonStartPos;
-    public UnityEvent OnPress;
+
     [SerializeField] private bool CanBePressedMultipleTimes = false;
     [SerializeField] private bool isPressed = false;
 
@@ -27,6 +27,11 @@ public class ButtonScript : MonoBehaviour, IGenericInteractable
     private WaitForSeconds _wait_quarter = new(0.25f);
 
     [SerializeField] private CableGenerator cableGenerator;
+
+    [Space(25)] public UnityEvent OnPress;
+
+    [Space(10)] public bool hasReleaseEvent = false;
+    public UnityEvent OnRelease;
 
 
     private void Start()
@@ -84,7 +89,11 @@ public class ButtonScript : MonoBehaviour, IGenericInteractable
         }
 
         stopwatchSound.Stop();
-        OnPress.Invoke();
+        if (!hasReleaseEvent)
+            OnPress.Invoke();
+        else
+            OnRelease.Invoke();
+
         ResetButton();
         StopAllCoroutines();
     }

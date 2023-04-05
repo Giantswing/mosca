@@ -58,7 +58,7 @@ public class STATS : MonoBehaviour
 
     [HideInInspector] public Vector3 dmgDirection;
 
-    private bool isAlive = true;
+    public bool isAlive = true;
 
 
     /* TWEENS */
@@ -119,20 +119,25 @@ public class STATS : MonoBehaviour
         ST_Health.value -= dmg;
         dmgDirection = originDmgPos;
 
-        if (ST_Health <= 0 && isAlive)
+        if (ST_Health <= 0)
         {
             ST_CanDoDmg = false;
             ST_Damage = 0;
-
             SaveLoadSystem.SaveGame();
+
             if (ST_Team == Team.Player)
-            {
-                LevelManager.GetCurrentLevel().deathCounter++;
-                DeathCounterScript.UpdateDeathCounter();
-            }
+                if (!Reviver.CanRevive())
+                {
+                    LevelManager.GetCurrentLevel().deathCounter++;
+                    DeathCounterScript.UpdateDeathCounter();
+                }
+                else
+                {
+                    ST_CanDoDmg = true;
+                    ST_Damage = 1;
+                }
 
             Die();
-            isAlive = false;
         }
         else
         {

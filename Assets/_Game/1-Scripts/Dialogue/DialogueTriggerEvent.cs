@@ -19,7 +19,7 @@ public class DialogueTriggerEvent : MonoBehaviour
     [SerializeField] private UnityEvent onOutsideScreen;
 
     public bool isInverted = false;
-
+    public bool continueAtEndOfDialogue = false;
     public int currentDialogueIndex = 0;
     [SerializeField] private List<Transform> objectsToDestroyOrCollect;
     private bool _hasObjectsToDestroyOrCollect = false;
@@ -62,7 +62,8 @@ public class DialogueTriggerEvent : MonoBehaviour
 
     public void IncreaseDialogueIndex()
     {
-        currentDialogueIndex++;
+        if (currentDialogueIndex < dialogueSO.Length - 1)
+            currentDialogueIndex++;
     }
 
     public void SetDialogueIndex(int index)

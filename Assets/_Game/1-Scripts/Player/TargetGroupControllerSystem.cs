@@ -19,7 +19,33 @@ public class TargetGroupControllerSystem : MonoBehaviour
         Instance = this;
     }
 
-    public static void AddTarget(Transform target, float weight, float radius)
+    public static void ModifyTargetImmediate(Transform target, float weight, float radius)
+    {
+        var index = Instance._targetGroup.FindMember(target);
+        if (index == -1)
+            return;
+
+        Instance._targetGroup.m_Targets[index].weight = weight;
+        Instance._targetGroup.m_Targets[index].radius = radius;
+    }
+
+    public static void ModifyTarget(Transform target, float weight, float radius, float duration = 2f)
+    {
+        var index = Instance._targetGroup.FindMember(target);
+        if (index == -1)
+            return;
+
+        var weightTo = weight;
+        var radiusTo = radius;
+        DOTween.To(() => Instance._targetGroup.m_Targets[index].weight,
+            x => Instance._targetGroup.m_Targets[index].weight = x, weightTo,
+            duration).SetEase(Ease.InOutQuad);
+        DOTween.To(() => Instance._targetGroup.m_Targets[index].radius,
+            x => Instance._targetGroup.m_Targets[index].radius = x, radiusTo,
+            duration).SetEase(Ease.InOutQuad);
+    }
+
+    public static void AddTarget(Transform target, float weight, float radius, float duration = 2f)
     {
         for (var i = 0; i < Instance._targetGroup.m_Targets.Length; i++)
             if (Instance._targetGroup.m_Targets[i].target == target)
@@ -32,7 +58,7 @@ public class TargetGroupControllerSystem : MonoBehaviour
 
         DOTween.To(() => Instance._targetGroup.m_Targets[Instance._targetGroup.m_Targets.Length - 1].weight,
             x => Instance._targetGroup.m_Targets[Instance._targetGroup.m_Targets.Length - 1].weight = x, weightTo,
-            2f).SetEase(Ease.InOutQuad);
+            duration).SetEase(Ease.InOutQuad);
     }
 
 

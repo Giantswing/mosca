@@ -7,6 +7,7 @@ using UnityEngine;
 public class PlayerPickupArea : MonoBehaviour
 {
     public Transform player;
+    public Transform truePlayer;
     public PlayerInteractionHandler pI;
     public PlayerMovement pM;
     private Transform _transform;
@@ -32,7 +33,7 @@ public class PlayerPickupArea : MonoBehaviour
                 var collectable = collision.gameObject.GetComponent<CollectableBehaviour>();
 
                 if (collectable != null && collectable.isFollowing == 0)
-                    collectable.Collect(player);
+                    collectable.Collect(player, truePlayer);
                 break;
         }
     }

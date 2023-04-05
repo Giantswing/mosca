@@ -19,7 +19,7 @@ MonoBehaviour:
     buildIndex: 3
   sceneName: New beginnings
   sceneInternalName: new-intro-v2
-  timeToWin: 135
+  timeToWin: 280
   deathCounter: 7
   stars: 3
   isThisLastOne: 0

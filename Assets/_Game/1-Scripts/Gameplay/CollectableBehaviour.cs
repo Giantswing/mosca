@@ -13,6 +13,7 @@ public class CollectableBehaviour : MonoBehaviour
 
     [HideInInspector] public int isFollowing = 0;
     [HideInInspector] public Transform _whoToFollow;
+    [HideInInspector] public Transform _whoToFollowTrue;
 
     public Transform displayObject;
     [SerializeField] private BoxCollider myCollider;
@@ -136,7 +137,7 @@ public class CollectableBehaviour : MonoBehaviour
                 transform.SetParent(null);
                 if (pickUp == PickUp.Throwable)
                 {
-                    var playerInteraction = _whoToFollow.gameObject.GetComponent<PlayerInteractionHandler>();
+                    var playerInteraction = _whoToFollowTrue.gameObject.GetComponent<PlayerInteractionHandler>();
                     if (playerInteraction == null) return;
                     isFollowing = 3;
                     transform.DOLocalRotate(Vector3.zero, 0.5f);
@@ -158,7 +159,7 @@ public class CollectableBehaviour : MonoBehaviour
                 {
                     if (collectSound != null)
                         GlobalAudioManager.PlaySound(collectSound, transform.position);
-                    var playerInteraction = _whoToFollow.gameObject.GetComponent<PlayerInteractionHandler>();
+                    var playerInteraction = _whoToFollowTrue.gameObject.GetComponent<PlayerInteractionHandler>();
                     if (playerInteraction == null) return;
                     isFollowing = 3;
                     myCollider.size = new Vector3(3, 3, 3);
@@ -171,7 +172,7 @@ public class CollectableBehaviour : MonoBehaviour
 
     public void RemoveHolder()
     {
-        var playerInteraction = _whoToFollow.gameObject.GetComponent<PlayerInteractionHandler>();
+        var playerInteraction = _whoToFollowTrue.gameObject.GetComponent<PlayerInteractionHandler>();
         if (playerInteraction == null) return;
 
         playerInteraction.holdingItems.Remove(_holdableItem);
@@ -197,12 +198,13 @@ public class CollectableBehaviour : MonoBehaviour
         DOTween.Kill(displayObject);
     }
 
-    public void Collect(Transform follow)
+    public void Collect(Transform follow, Transform truePlayer)
     {
         if (isFollowing == 0)
         {
             isFollowing = 1;
             _whoToFollow = follow;
+            _whoToFollowTrue = truePlayer;
 
             var awayDirection = (transform.position - follow.position).normalized;
             var awayPosition = transform.position + awayDirection * 1.4f;
