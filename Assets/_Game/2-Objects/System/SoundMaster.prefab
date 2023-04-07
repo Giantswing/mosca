@@ -1,0 +1,145 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1189704060341639789
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1189704060341639786}
+  - component: {fileID: 1189704060341639787}
+  m_Layer: 0
+  m_Name: SoundMaster
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1189704060341639786
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1189704060341639789}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1189704060341639787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1189704060341639789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f372aa8bba9c86f44931dd3a1845b23e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxInstances: 50
+  soundList:
+  - name: Fly Dodge
+    audioEvent: {fileID: 11400000, guid: 53c35963576a65b4cbcb58e12d27c459, type: 2}
+    count: 0
+    duration: 0
+  - name: Wall Hit
+    audioEvent: {fileID: 11400000, guid: bb33dffbecc045a4b87a71592d7a8106, type: 2}
+    count: 0
+    duration: 0
+  - name: Coin Collect
+    audioEvent: {fileID: 11400000, guid: c8d43bb10d4d1014c824d3a1b89256e8, type: 2}
+    count: 0
+    duration: 0
+  - name: Bomb Beep
+    audioEvent: {fileID: 11400000, guid: 11fc9afd118763845bf53c46a239f3ad, type: 2}
+    count: 0
+    duration: 0
+  - name: Explosion
+    audioEvent: {fileID: 11400000, guid: ac57cf55994cdb741b36f83e4d7736ec, type: 2}
+    count: 0
+    duration: 0
+  - name: Door Closing
+    audioEvent: {fileID: 11400000, guid: a7a681455215e54499f6f12a6d1b7dc6, type: 2}
+    count: 0
+    duration: 0
+  - name: Door Hit
+    audioEvent: {fileID: 11400000, guid: a3a91b369c833574eb7a99a056d34196, type: 2}
+    count: 0
+    duration: 0
+  - name: Secret Wall
+    audioEvent: {fileID: 11400000, guid: ae20bdb5cc3912d40af076daee09111c, type: 2}
+    count: 0
+    duration: 0
+  - name: Lock Opening
+    audioEvent: {fileID: 11400000, guid: d264d8906a6a15c46a7be7f44f91fd6c, type: 2}
+    count: 0
+    duration: 0
+  - name: Fly Swatter Hit
+    audioEvent: {fileID: 11400000, guid: b5ef505c3a75f204d9ba347f758f9a7a, type: 2}
+    count: 0
+    duration: 0
+  - name: UI Notification
+    audioEvent: {fileID: 11400000, guid: c0c823984fc2bad4694a97d998ef4c8a, type: 2}
+    count: 0
+    duration: 0
+  - name: Level Portal Transition In
+    audioEvent: {fileID: 11400000, guid: 7b2c629c38bbe1646949d19be2fe329c, type: 2}
+    count: 0
+    duration: 0
+  - name: Level Portal Transition Out
+    audioEvent: {fileID: 11400000, guid: 25f354438d5005b40b8980de197cfb6b, type: 2}
+    count: 0
+    duration: 0
+  - name: KeyBreak
+    audioEvent: {fileID: 11400000, guid: 01051bb48d399ce4183415cd57f6cba5, type: 2}
+    count: 0
+    duration: 0
+  - name: InsecticideGas
+    audioEvent: {fileID: 11400000, guid: 96357711f0ec5be45b394aee4015e00d, type: 2}
+    count: 0
+    duration: 0
+  - name: Crown Hit
+    audioEvent: {fileID: 11400000, guid: 53b6db0a92decaf478dd6134bdc7a94b, type: 2}
+    count: 0
+    duration: 0
+  - name: Bubble Hit
+    audioEvent: {fileID: 11400000, guid: 7dc4a97eb43cc3844a1b3632040e3cfd, type: 2}
+    count: 0
+    duration: 0
+  - name: Crown Charge
+    audioEvent: {fileID: 11400000, guid: b010dd18b25bcc843a2f4fb3a16fa08a, type: 2}
+    count: 0
+    duration: 0
+  - name: Crown Return Hit
+    audioEvent: {fileID: 11400000, guid: cf5f0b663df98a245adad7af2c201b96, type: 2}
+    count: 0
+    duration: 0
+  - name: Electric Power Up
+    audioEvent: {fileID: 11400000, guid: 81f3d9b6184589a41a432ad8ba3beab3, type: 2}
+    count: 0
+    duration: 0
+  - name: Electric Power Off
+    audioEvent: {fileID: 11400000, guid: c1d98fe42cbe25c4cb67943fd4dc061c, type: 2}
+    count: 0
+    duration: 0
+  - name: Reviver Detecting
+    audioEvent: {fileID: 11400000, guid: 9df19515056fcac479f261dcc28ec064, type: 2}
+    count: 0
+    duration: 0
+  - name: Reviver Reviving
+    audioEvent: {fileID: 11400000, guid: 2e5ddb8a1ff14d347adb0f9392044da5, type: 2}
+    count: 0
+    duration: 0
+  - name: Crown Throw
+    audioEvent: {fileID: 11400000, guid: 4821e008799eecf4aa46a2cbbfce1356, type: 2}
+    count: 0
+    duration: 0
+  maxSoundDistance: 50

@@ -15,6 +15,14 @@ public class PlayerInputSet : MonoBehaviour
         Instance = this;
     }
 
+    public static int GetPlayerInput()
+    {
+        if (Instance != null)
+            return Instance.currentControlSchemeWriter.value;
+        else
+            return 1;
+    }
+
 
     public void TestMethod()
     {

@@ -115,7 +115,7 @@ Transform:
   m_GameObject: {fileID: 6414386990272127903}
   m_LocalRotation: {x: -0.7069834, y: 0, z: 0, w: 0.7072302}
   m_LocalPosition: {x: 7.0392923, y: 3, z: -0.12845802}
-  m_LocalScale: {x: 47.4, y: 47.399998, z: 47.399998}
+  m_LocalScale: {x: 47.4, y: 47.4, z: 47.4}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 5477879326306231148}
@@ -196,7 +196,7 @@ MonoBehaviour:
   ST_SpeedBoost: 0
   ST_Health:
     _owner: {fileID: 6414386990272127903}
-    _ownerName: Box
+    _ownerName: Box (1)
     _propertyPath: ST_Health
     _autoListen: 0
     _multiIndex: 0
@@ -251,6 +251,7 @@ MonoBehaviour:
   isPlayer: 0
   canBeTeleported: 0
   dmgDirection: {x: 0, y: 0, z: 0}
+  isAlive: 1
 --- !u!114 &4361510537731124130
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -279,7 +280,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 780952d7afafca94985177427633bd35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FXIndex: 1
+  FXIndex: 2
 --- !u!65 &474417256427825120
 BoxCollider:
   m_ObjectHideFlags: 0

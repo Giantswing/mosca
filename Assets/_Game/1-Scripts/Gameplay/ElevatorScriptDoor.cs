@@ -20,12 +20,15 @@ public class ElevatorScriptDoor : MonoBehaviour
     private Vector3 closePos;
     private bool isInElevator;
     public bool isDoorOpen;
+    private bool canDoSound = false;
 
     private void Start()
     {
         easeOpen = Ease.InOutQuad;
         easeClose = Ease.OutBounce;
         closingFx = GetComponent<ParticleSystem>();
+
+        DOVirtual.DelayedCall(0.5f, () => canDoSound = true);
 
 
         if (isDoorOpen)
@@ -53,7 +56,8 @@ public class ElevatorScriptDoor : MonoBehaviour
             transform.DOComplete();
             doorClosingSound.pitch.minValue = 1.2f;
             doorClosingSound.pitch.maxValue = 1.4f;
-            GlobalAudioManager.PlaySound(doorClosingSound, transform.position);
+
+
             isDoorOpen = true;
 
             /*
@@ -65,6 +69,9 @@ public class ElevatorScriptDoor : MonoBehaviour
 
             _tweens.Enqueue(transform.DOLocalMoveY(openPos.y, 1f).SetEase(easeOpen).onComplete +=
                 OnCompleteAnimation);
+
+            if (canDoSound)
+                SoundMaster.PlaySound(transform.position, (int)SoundList.DoorClosing, "", true);
         }
     }
 
@@ -84,17 +91,20 @@ public class ElevatorScriptDoor : MonoBehaviour
             transform.DOComplete();
             doorClosingSound.pitch.minValue = 0.9f;
             doorClosingSound.pitch.maxValue = 1.1f;
-            GlobalAudioManager.PlaySound(doorClosingSound, transform.position);
-            isDoorOpen = false;
 
+            isDoorOpen = false;
 
             _tweens.Enqueue(transform.DOLocalMoveY(closePos.y, 1f).SetEase(easeClose).onComplete +=
                 OnCompleteAnimation);
 
+            if (canDoSound)
+                SoundMaster.PlaySound(transform.position, (int)SoundList.DoorClosing, "", true);
+
             transform.DOLocalMoveX(transform.localPosition.x, 0.4f).onComplete += () =>
             {
                 closingFx.Emit(20);
-                GlobalAudioManager.PlaySound(doorHitSound, transform.position);
+                if (canDoSound)
+                    SoundMaster.PlaySound(transform.position, (int)SoundList.DoorHit, "", true);
             };
         }
     }

@@ -55,6 +55,7 @@ public class Reviver : MonoBehaviour
 
     private IEnumerator Revive_Coroutine(Transform player)
     {
+        SoundMaster.PlaySound(transform.position, (int)SoundList.ReviverReviving, "", true);
         playerHealth.value = playerMaxHealth.value;
         playerReference.playerMovement.DisablePlayer();
         playerReference.playerMovement.inputDirectionTo = Vector2.zero;
@@ -102,7 +103,7 @@ public class Reviver : MonoBehaviour
 
         topPart.transform.DOLocalRotate(new Vector3(-90f, 0, 180f), 0.5f).SetEase(Ease.InBack).onComplete += () =>
         {
-            topPart.transform.DOLocalMoveY(0.38f, 0.5f).SetEase(Ease.InBack);
+            topPart.transform.DOLocalMoveY(0.38f, 0.5f).SetEase(Ease.OutBounce);
         };
     }
 
@@ -123,6 +124,7 @@ public class Reviver : MonoBehaviour
     {
         if (isActivated || hasBeenUsed) return;
 
+        SoundMaster.PlaySound(transform.position, (int)SoundList.ReviverDetecting, "", true);
         activeReviver = this;
         isActivated = true;
         foreach (var child in meshRenderers) child.material = onMaterial;

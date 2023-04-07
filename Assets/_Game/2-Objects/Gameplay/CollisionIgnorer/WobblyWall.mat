@@ -42,10 +42,10 @@ Material:
     - _ArcOffset: 0
     - _Float1: -0.117
     - _Float2: 0.07
-    - _FresnelBias: -0.53
-    - _FresnelPower: 1.15
-    - _FresnelScale: 1.19
-    - _Opacity: 1
+    - _FresnelBias: 0.3
+    - _FresnelPower: 2.44
+    - _FresnelScale: -0.12
+    - _Opacity: 0.516
     - _QueueControl: 0
     - _QueueOffset: 0
     - _TessEdgeLength: 16
@@ -55,8 +55,8 @@ Material:
     - _TessPhongStrength: 0.5
     - _TessValue: 16
     - _wobbleSpeed: 0.446
-    - _wobbleStrenght: 1.276
+    - _wobbleStrenght: 1.097
     m_Colors:
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
-    - _LightColor: {r: 0.37742534, g: 0.28627455, b: 1, a: 1}
+    - _LightColor: {r: 1.1965326, g: 2.6387143, b: 2.670157, a: 1}
   m_BuildTextureStacks: []

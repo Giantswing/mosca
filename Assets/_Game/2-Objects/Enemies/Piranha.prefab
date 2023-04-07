@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1207739237650447974}
   m_LocalRotation: {x: -0, y: -0, z: -0.70710546, w: 0.7071082}
-  m_LocalPosition: {x: -0.09, y: 0.23, z: 0}
+  m_LocalPosition: {x: 0.7, y: 0.23, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4970,7 +4970,7 @@ MonoBehaviour:
   jumpHeight: 5.46
   jumpSpeed: 1
   jumpStopTime: 0.7
-  waterHeight: 2.18
+  waterHeight: 1.77
   my3dModel: {fileID: 1207739237650447977}
   startingTimeOffset: 0
   splashParticles: {fileID: 1207739238015393285}
@@ -5098,7 +5098,7 @@ MonoBehaviour:
   ST_SpeedBoost: 0
   ST_Health:
     _owner: {fileID: 1207739239262744151}
-    _ownerName: Piranha
+    _ownerName: Piranha (2)
     _propertyPath: ST_Health
     _autoListen: 0
     _multiIndex: 0
@@ -5165,6 +5165,7 @@ MonoBehaviour:
   isPlayer: 0
   canBeTeleported: 0
   dmgDirection: {x: 0, y: 0, z: 0}
+  isAlive: 1
 --- !u!114 &1207739239262744154
 MonoBehaviour:
   m_ObjectHideFlags: 0

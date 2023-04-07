@@ -83,7 +83,7 @@ public class WinScreenScript : MonoBehaviour
     private IEnumerator StartWinScreenAnimationRoutine()
     {
         yield return new WaitForSeconds(.5f);
-        GlobalAudioManager.PlaySound(startWinScreenAudioEvent);
+        SoundMaster.PlayTargetSound(transform.position, startWinScreenAudioEvent, false);
 
         var currentLevel = LevelManager.GetCurrentLevel();
         levelNameText.SetText(currentLevel.sceneName);
@@ -140,7 +140,7 @@ public class WinScreenScript : MonoBehaviour
         {
             winStarAudioEvent.pitch.minValue = 1f + 0.1f * i;
             winStarAudioEvent.pitch.maxValue = winStarAudioEvent.pitch.minValue;
-            GlobalAudioManager.PlaySound(winStarAudioEvent);
+            SoundMaster.PlayTargetSound(transform.position, winStarAudioEvent, false);
             yield return wait_sm;
         }
     }

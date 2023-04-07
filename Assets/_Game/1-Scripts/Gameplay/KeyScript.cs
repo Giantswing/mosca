@@ -42,13 +42,11 @@ public class KeyScript : CollectableBehaviour
         getCollider().enabled = false;
 
         transform.DOShakePosition(0.45f, 1f, 10, 90, false);
-        transform.DOShakeScale(1f, 5f, 10, 90, false).onComplete += () =>
+        transform.DOShakeScale(1f, 0.3f, 10, 90, false).onComplete += () =>
         {
-            EffectHandler.SpawnFX((int)EffectHandler.EffectType.KeyBreak, transform.position, Vector3.zero,
-                Vector3.zero,
-                0);
+            FXMaster.SpawnFX(transform.position, (int)FXTypes.KeyBreak);
+            SoundMaster.PlaySound(transform.position, (int)SoundList.KeyBreak, "", true);
 
-            GlobalAudioManager.PlaySound(breakSound, transform.position);
 
             if (!_hasParent)
             {

@@ -15,10 +15,11 @@ public class PressurePlate : MonoBehaviour
     public UnityEvent OnRelease;
 
     [SerializeField] private float releaseTime = 0.1f;
-    [SerializeField] private bool canBeActivated = true;
-    private WaitForSeconds delay = new(1f);
+    [SerializeField] private List<Transform> targets = new();
+
     private bool isActive = false;
-    private Collider otherCollider;
+    private bool canCheck = true;
+
     [SerializeField] private CableGenerator cableGenerator;
 
 
@@ -40,94 +41,61 @@ public class PressurePlate : MonoBehaviour
         }
     }
 
+    private void CheckActivation()
+    {
+        if (targets.Count == 0)
+        {
+            DOVirtual.DelayedCall(releaseTime, () =>
+            {
+                if (!isActive) return;
+                isActive = false;
+                SoundMaster.PlaySound(transform.position, (int)SoundList.ElectricPowerOff, "", true);
+
+                foreach (var mRenderer in meshRenderer)
+                    mRenderer.material = inactiveMaterial;
+
+                OnRelease.Invoke();
+            });
+        }
+        else
+        {
+            if (isActive) return;
+            isActive = true;
+            SoundMaster.PlaySound(transform.position, (int)SoundList.ElectricPowerUp, "", true);
+            foreach (var mRenderer in meshRenderer)
+                mRenderer.material = activeMaterial;
+
+            OnPress.Invoke();
+        }
+    }
+
     private void OnTriggerStay(Collider other)
     {
-        if (other.GetComponent<IPressurePlateListener>() == null || !canBeActivated) return;
+        if (canCheck && other.TryGetComponent(out IPressurePlateListener listener))
+        {
+            if (!targets.Contains(listener.transform))
+                targets.Add(other.transform);
 
-        otherCollider = other;
-
-        foreach (var mRenderer in meshRenderer)
-            mRenderer.material = activeMaterial;
-
-        isActive = true;
-        canBeActivated = false;
-        OnPress.Invoke();
+            if (!isActive)
+                CheckActivation();
+            /*
+            canCheck = false;
+            DOVirtual.DelayedCall(0.1f, () => canCheck = true);
+            */
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.GetComponent<IPressurePlateListener>() == null || !isActive) return;
-
-        if (otherCollider != other) return;
-
-        canBeActivated = false;
-
-        StartCoroutine(reActivate());
-        transform.DOLocalMoveX(transform.localPosition.x, releaseTime).onComplete += () => { Disable(); };
-    }
-
-    private void Disable()
-    {
-        foreach (var mRenderer in meshRenderer)
-            mRenderer.material = inactiveMaterial;
-        OnRelease.Invoke();
-    }
-
-    private IEnumerator reActivate()
-    {
-        yield return delay;
-        canBeActivated = true;
-        isActive = false;
-    }
-
-    /*
-    private void CreateCable()
-    {
-        //get how many events are connected to the onpress unity event
-        var eventCount = OnPress.GetPersistentEventCount();
-
-        //create as many linerenderer components as there are events and add those components to the object
-        cables = new LineRenderer[eventCount];
-
-        //for each cable, create line renderer component and assign it to the cables
-        for (var i = 0; i < cables.Length; i++)
+        if (other.TryGetComponent(out IPressurePlateListener listener))
         {
-            var child = new GameObject();
-            child.transform.parent = transform;
-            var startingPos = transform.position + new Vector3(0, 0, 0f);
-            var targetPos = ((Component)OnPress.GetPersistentTarget(i)).transform.position + new Vector3(0, 0, 1f);
-            cables[i] = child.gameObject.AddComponent<LineRenderer>();
-            cables[i].positionCount = 2 + cableHangPoints;
-            cables[i].SetPosition(0, startingPos);
-            cables[i].SetPosition(1 + cableHangPoints, targetPos);
+            if (targets.Contains(listener.transform))
+                targets.Remove(other.transform);
 
-            //set the positions of the hanging points
-            for (var j = 0; j < cableHangPoints; j++)
-            {
-                //get intermediary position between the two points
-                var intermediaryPos = Vector3.Lerp(startingPos, targetPos, j / (float)cableHangPoints);
-
-                //add vertical offset to the intermediary position, so that the cable hangs down
-                var yOffset =
-                    Mathf.Sin(j / (float)cableHangPoints * Mathf.PI) *
-                    -hangStrength; // adjust the 0.2f value to change the hang intensity
-                intermediaryPos += new Vector3(0, yOffset, 0);
-
-
-                //set the position of the hanging point
-                cables[i].SetPosition(1 + j, intermediaryPos);
-            }
-
-
-            cables[i].startWidth = 0.1f;
-            cables[i].endWidth = 0.1f;
-
-            cables[i].material = cableMaterial;
+            if (isActive) CheckActivation();
         }
-
-        StartCoroutine(UpdateCablePositions());
     }
-    */
+
 
     private void OnDrawGizmos()
     {
@@ -151,4 +119,5 @@ public class PressurePlate : MonoBehaviour
 
 public interface IPressurePlateListener
 {
+    Transform transform { get; }
 }

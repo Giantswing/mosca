@@ -31,7 +31,7 @@ public class PortalPopUpScript : MonoBehaviour
         popUpRect.localScale *= scaleTo;
         popUpRect.DOScale(0, 0.5f).From();
         StartCoroutine(ChangeState());
-        GlobalAudioManager.PlaySound(notificationAudioEvent);
+        SoundMaster.PlaySound(transform.position, (int)SoundList.UINotification, "", false);
     }
 
     private IEnumerator ChangeState()

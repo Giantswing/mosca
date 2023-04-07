@@ -9,11 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7332062900987166104}
+  - component: {fileID: 334909934059985620}
   - component: {fileID: 5655194109876630722}
   - component: {fileID: 2506866968052675291}
   - component: {fileID: 1766478413}
   - component: {fileID: 5055479083801734597}
-  - component: {fileID: 334909934059985620}
   - component: {fileID: 5851765277487543902}
   m_Layer: 0
   m_Name: Bomb
@@ -38,6 +38,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &334909934059985620
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1595248511256459796}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!65 &5655194109876630722
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -81,6 +94,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isFollowing: 0
   _whoToFollow: {fileID: 0}
+  _whoToFollowTrue: {fileID: 0}
   displayObject: {fileID: 8303990352063074271}
   myCollider: {fileID: 5655194109876630722}
   playerHealth:
@@ -173,19 +187,6 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
---- !u!135 &334909934059985620
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1595248511256459796}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &5851765277487543902
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -241,6 +242,7 @@ MonoBehaviour:
   isPlayer: 0
   canBeTeleported: 1
   dmgDirection: {x: 0, y: 0, z: 0}
+  isAlive: 1
 --- !u!1001 &8410202133193877556
 PrefabInstance:
   m_ObjectHideFlags: 0

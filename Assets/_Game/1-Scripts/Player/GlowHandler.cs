@@ -18,6 +18,7 @@ public class GlowHandler : MonoBehaviour
 
     public void Glow(Color color)
     {
+        playerMesh.material.DOKill();
         playerMesh.material.SetFloat(GlowState, 1f);
         playerMesh.material.SetColor(GlowColor, color);
         playerMesh.material.DOFloat(0, GlowState, 0.2f).SetDelay(0.1f);
@@ -25,6 +26,7 @@ public class GlowHandler : MonoBehaviour
 
     public void Glow(Color color, float duration)
     {
+        playerMesh.material.DOKill();
         playerMesh.material.SetFloat(GlowState, 1f);
         playerMesh.material.SetColor(GlowColor, color);
         playerMesh.material.DOFloat(0, GlowState, 0.2f).SetDelay(duration);
@@ -32,6 +34,7 @@ public class GlowHandler : MonoBehaviour
 
     public void Glow()
     {
+        playerMesh.material.DOKill();
         Glow(Color.green);
     }
 

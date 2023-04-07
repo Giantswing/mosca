@@ -16,6 +16,7 @@ public class DSwitcherScript : MonoBehaviour, IPressurePlateListener, IGenericIn
 
     [SerializeField] private bool isStuck = false;
     [SerializeField] private Transform screw;
+    [SerializeField] private float centerOffset = 1f;
 
 
     private WaitForSeconds delay = new(0.5f);
@@ -36,9 +37,14 @@ public class DSwitcherScript : MonoBehaviour, IPressurePlateListener, IGenericIn
         endRot = transform.eulerAngles.z;
     }
 
-    public void Hit(Vector3 otherPos)
+    public void Hit(Vector3 otherPos, bool ignoreCenter = false)
     {
         if (isStuck) return;
+
+        if (ignoreCenter == false)
+            if (Vector3.Distance(otherPos, transform.position) < centerOffset)
+                return;
+
         if (isHorizontal)
         {
             if (otherPos.y > transform.position.y)

@@ -44,7 +44,7 @@ public class SecretWallScriptV2 : MonoBehaviour
             meshRenderer.materials[i].DOFloat(1, DissolveAmount, 1f).OnComplete(() => { Destroy(gameObject); });
 
         //meshRenderer.materials[i].DOFloat(1, DissolveAmount, 2f).OnComplete(() => { Destroy(gameObject); });
-        GlobalAudioManager.PlaySound(foundAudioEvent);
+        SoundMaster.PlaySound(transform.position, (int)SoundList.SecretWall, "", true);
 
         foreach (var occluder in occluderObj) Destroy(occluder.gameObject);
 

@@ -85,7 +85,7 @@ public class Traveler : MonoBehaviour
     {
         yield return null;
 
-        GlobalAudioManager.PlaySound(travelSound, target.position);
+        SoundMaster.PlaySound(transform.position, (int)SoundList.FlyDodge, "", true);
 
         _onEachPoint?.Invoke();
         var point1 = isForward ? currentTravelPoint - 1 : currentTravelPoint + 1;

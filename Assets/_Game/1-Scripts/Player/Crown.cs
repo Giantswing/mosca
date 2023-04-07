@@ -10,9 +10,12 @@ public class Crown : MonoBehaviour, IPressurePlateListener
     private Collider myCol;
     private Transform originalParent;
     private TrailRenderer myTrail;
+    [HideInInspector] public Transform pickUpArea;
 
     [SerializeField] private Transform my3dModel;
     [SerializeField] private MeshRenderer myMeshRenderer;
+    [SerializeField] private AudioSource flyingAudioSource;
+    [SerializeField] private SimpleAudioEvent flyingAudioEvent;
     private Vector3 originalScale;
 
     [Space(15)] [SerializeField] private Transform CrownPostionHand;
@@ -20,6 +23,9 @@ public class Crown : MonoBehaviour, IPressurePlateListener
 
     [Space(15)] [SerializeField] private Transform lightTransform;
     [SerializeField] private Light lightSource;
+
+    [Space(15)] public Color glowColor;
+    public Color errorColor;
 
 
     [Space(15)] public bool isGrabbed = true;
@@ -52,6 +58,12 @@ public class Crown : MonoBehaviour, IPressurePlateListener
     [Range(0, 0.3f)] [SerializeField] private float howMuchStrengthHasInTarget = 0.05f;
 
     private static readonly int Emission = Shader.PropertyToID("_EmissionStrength");
+    private static readonly int EmissionColor = Shader.PropertyToID("_EmissionColor");
+
+    private Coroutine FlyingSoundCoroutine;
+    private WaitForSeconds FlyingSoundWait = new(0.18f);
+    private bool EnteredNoCrownArea = false;
+    private int numCollisions = 0;
 
 
     private void Awake()
@@ -72,10 +84,21 @@ public class Crown : MonoBehaviour, IPressurePlateListener
         TargetGroupControllerSystem.AddTarget(transform, 0, 0, 0.25f);
     }
 
-    public void UpdateMaterial(float strength)
+    public void UpdateMaterial(float strength, Color color)
     {
-        myMeshRenderer.material.SetFloat(Emission, strength * 2f);
-        lightSource.intensity = strength * 2f;
+        myMeshRenderer.material.SetFloat(Emission, strength);
+        myMeshRenderer.material.SetColor(EmissionColor, color);
+        lightSource.intensity = strength;
+        lightSource.color = color;
+    }
+
+    private IEnumerator FlyingSound()
+    {
+        while (true)
+        {
+            flyingAudioEvent.Play(flyingAudioSource);
+            yield return FlyingSoundWait;
+        }
     }
 
     private void Update()
@@ -106,6 +129,13 @@ public class Crown : MonoBehaviour, IPressurePlateListener
                 myRb.drag = 15f;
             }
 
+            if (numCollisions > 3)
+            {
+                returnMode = true;
+                myCol.enabled = false;
+                myRb.drag = 15f;
+            }
+
             //Grab();
             crownDistanceTo = Vector3.Distance(transform.position, originalParent.position);
 
@@ -113,7 +143,7 @@ public class Crown : MonoBehaviour, IPressurePlateListener
             if (myRb.velocity != Vector3.zero)
                 transform.rotation = Quaternion.LookRotation(myRb.velocity);
 
-            if (airTime > 0.5f)
+            if (airTime > 0.2f)
                 if (crownDistanceTo < minDistanceToGrab)
                     Grab();
             //transform the rotation to look forward in the same direction as the velocity
@@ -157,6 +187,11 @@ public class Crown : MonoBehaviour, IPressurePlateListener
     {
         if (!isGrabbed) return;
 
+
+        numCollisions = 0;
+        pickUpArea.gameObject.SetActive(true);
+        EnteredNoCrownArea = false;
+        airTime = 0;
         returnMode = false;
         myRb.drag = 0;
         returnStrength = 0;
@@ -169,6 +204,9 @@ public class Crown : MonoBehaviour, IPressurePlateListener
         myRb.velocity = dir * strength * strengthMultiplíer;
         myRb.velocity = new Vector3(myRb.velocity.x, myRb.velocity.y, 0);
         my3dModel.DOScale(originalScale + Vector3.one * 1f, 0.4f);
+
+        SoundMaster.PlaySound(transform.position, (int)SoundList.CrownThrow, "");
+        FlyingSoundCoroutine = StartCoroutine(FlyingSound());
         //TargetGroupControllerSystem.ModifyTarget(transform, 0.5f, 0, 0.5f);
 
         my3dModel.DOLocalRotate(new Vector3(360, 0, 0), 0.4f, RotateMode.FastBeyond360).SetEase(Ease.Linear)
@@ -187,7 +225,11 @@ public class Crown : MonoBehaviour, IPressurePlateListener
     {
         if (isGrabbed) return;
 
-        UpdateMaterial(0);
+        pickUpArea.gameObject.SetActive(true);
+        UpdateMaterial(0, glowColor);
+        StopCoroutine(FlyingSoundCoroutine);
+
+        SoundMaster.PlaySound(transform.position, (int)SoundList.CrownReturnHit, "", false);
 
         isGrabbed = true;
         myCol.enabled = false;
@@ -223,18 +265,53 @@ public class Crown : MonoBehaviour, IPressurePlateListener
         transform.rotation = Quaternion.Lerp(CrownPostionHand.rotation, CrownPostionHead.rotation, CrownPos);
     }
 
+
     private void OnCollisionEnter(Collision other)
     {
         var normal = other.contacts[0].normal;
         var originalDir = currentVelocity;
+        numCollisions++;
 
         var dir = Vector3.Reflect(originalDir, normal);
 
+        FXMaster.SpawnFX(other.contacts[0].point, (int)FXTypes.Clash);
+        SoundMaster.PlaySound(transform.position, (int)SoundList.CrownHit, "", true);
         Debug.DrawRay(transform.position, dir.normalized, Color.cyan, 3f);
         myRb.velocity = dir * bounceDampening;
 
         if (other.gameObject.TryGetComponent(out IGenericInteractable interactable))
+        {
             interactable.Interact(transform.position);
+        }
+
+        else if (other.gameObject.TryGetComponent(out STATS otherStats))
+        {
+            otherStats.TakeDamage(1, transform.position);
+
+            returnMode = true;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.TryGetComponent(out NoCrownArea noCrownArea))
+        {
+            if (!EnteredNoCrownArea)
+            {
+                EnteredNoCrownArea = true;
+                SoundMaster.PlaySound(transform.position, (int)SoundList.BubbleHit, "", true);
+            }
+
+            transform.DOShakePosition(0.4f, 0.6f, 10, 90, false, true);
+            //myRb.velocity = -myRb.velocity * 0.3f;
+            myRb.drag = 100f;
+            myCol.enabled = false;
+
+            DOVirtual.DelayedCall(0.4f, () => { returnMode = true; });
+
+            UpdateMaterial(0.5f, errorColor);
+            pickUpArea.gameObject.SetActive(false);
+        }
     }
 
     private void OnDrawGizmos()

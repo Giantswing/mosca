@@ -113,8 +113,7 @@ public class STATS : MonoBehaviour
         if (ST_Invincibility) return;
         if (!isExplosion && onlyDamageByExplosions) return;
 
-        if (playHitSound)
-            GlobalAudioManager.PlaySound(hitSoundEvent, transform.position);
+        if (playHitSound) SoundMaster.PlayTargetSound(transform.position, hitSoundEvent, true);
 
         ST_Health.value -= dmg;
         dmgDirection = originDmgPos;
@@ -148,7 +147,9 @@ public class STATS : MonoBehaviour
                 StartCoroutine(InvincibleEffect());
         }
 
-        if (ST_Team == Team.Player) EffectHandler.SpawnFX(4, transform.position, Vector3.zero, Vector3.zero, 0);
+        if (ST_Team == Team.Player) FXMaster.SpawnFX(transform.position, (int)FXTypes.BloodSplat);
+
+        if (ST_Team == Team.Enemy) FXMaster.SpawnFX(transform.position, (int)FXTypes.Strike);
     }
 
     private IEnumerator InvincibleEffect()
@@ -173,21 +174,7 @@ public class STATS : MonoBehaviour
 
     private void Die()
     {
-        /*
-        if (ST_Team == Team.Player && isAlive)
-        {
-            //transitionType.value = (int)LevelLoader.LevelTransitionState.Restart;
-            //transitionEvent.Dispatch();
-        }
-        else
-        {
-            ST_DeathEvent?.Invoke();
-            if (playDeathSound)
-                GlobalAudioManager.PlaySound(deathSoundEvent, transform.position);
-        }*/
-
         ST_DeathEvent?.Invoke();
-        if (playDeathSound)
-            GlobalAudioManager.PlaySound(deathSoundEvent, transform.position);
+        if (playDeathSound) SoundMaster.PlayTargetSound(transform.position, deathSoundEvent, true);
     }
 }

@@ -197,7 +197,7 @@ public class Dash : MonoBehaviour
     {
         _canDodge = false;
 
-        _playerSoundManager.PlayDodgeSound();
+        //_playerSoundManager.PlayDodgeSound();
         _dodgeDirection = Random.insideUnitCircle.normalized;
         Vector3 finalDodgePos;
 
@@ -235,7 +235,6 @@ public class Dash : MonoBehaviour
         isDodging = true;
         //pI.GlowPlayer(dodgeColor);
         //pI.MakeInvincible(true);
-        EffectHandler.SpawnFX(2, transform.position, Vector3.zero, Vector3.zero, 0);
         yield return _dodgeDuration;
         _playerAnimationHandler.SetIsDodging(false);
         isDodging = false;
@@ -307,7 +306,7 @@ public class Dash : MonoBehaviour
         _playerMovement.vSpeed = _playerMovement.inputDirection.y;
         isDashing = true;
         CorrectFacingDirection();
-        _playerSoundManager.PlayDashSound();
+        SoundMaster.PlaySound(transform.position, (int)SoundList.FlyDodge, "", false);
 
 
         yield return _WaitDashDuration;
@@ -336,7 +335,7 @@ public class Dash : MonoBehaviour
     {
         dashCollider.enabled = true;
         onPlayerDash?.Dispatch();
-        _playerSoundManager.PlayDashSound();
+        SoundMaster.PlaySound(transform.position, (int)SoundList.FlyDodge, "", false);
         _playerAnimationHandler.SetIsDoubleDashing(true);
         isDashing = true;
 

@@ -16,7 +16,7 @@ public class CollectableBehaviour : MonoBehaviour
     [HideInInspector] public Transform _whoToFollowTrue;
 
     public Transform displayObject;
-    [SerializeField] private BoxCollider myCollider;
+    [SerializeField] protected BoxCollider myCollider;
     [SerializeField] private SmartData.SmartInt.IntWriter playerHealth;
     [SerializeField] private SmartData.SmartEvent.EventDispatcher onCollect;
     [SerializeField] private Color pickUpCoinColor;
@@ -131,7 +131,7 @@ public class CollectableBehaviour : MonoBehaviour
         {
             var position = _whoToFollow.position;
             _tweener.ChangeEndValue(position, true);
-            var distance = Vector3.Distance(transform.position, position);
+            var distance = Vector3.Distance(transform.position, _whoToFollowTrue.position);
             if (distance < .6f && _isShrinking == false)
             {
                 transform.SetParent(null);
@@ -143,22 +143,23 @@ public class CollectableBehaviour : MonoBehaviour
                     transform.DOLocalRotate(Vector3.zero, 0.5f);
                     playerInteraction.holdingItems.Add(_holdableItem);
                     isPickedUp = true;
-                    GlobalAudioManager.PlaySound(collectSound, transform.position);
+                    SoundMaster.PlayTargetSound(transform.position, collectSound, true);
                 }
                 else if (pickUp != PickUp.Holder)
                 {
                     _isShrinking = true;
                     transform.DOScale(0, .1f).OnComplete(() =>
                     {
-                        GlobalAudioManager.PlaySound(collectSound, transform.position);
+                        SoundMaster.PlayTargetSound(transform.position, collectSound, true);
                         Destroy(gameObject);
                         GlowHandler.GlowStatic(pickUpCoinColor);
+                        DoFinalCollectibleEffect();
                     });
                 }
                 else
                 {
                     if (collectSound != null)
-                        GlobalAudioManager.PlaySound(collectSound, transform.position);
+                        SoundMaster.PlayTargetSound(transform.position, collectSound, true);
                     var playerInteraction = _whoToFollowTrue.gameObject.GetComponent<PlayerInteractionHandler>();
                     if (playerInteraction == null) return;
                     isFollowing = 3;
@@ -178,17 +179,20 @@ public class CollectableBehaviour : MonoBehaviour
         playerInteraction.holdingItems.Remove(_holdableItem);
     }
 
-    public void OnDestroy()
+    public void DoFinalCollectibleEffect()
     {
         if (pickUp == PickUp.Coin)
         {
-            EffectHandler.SpawnFX(3, transform.position, Vector3.zero, Vector3.zero, 0);
+            FXMaster.SpawnFX(transform.position, (int)FXTypes.Coin);
+
 
             LevelManager.OnScoreChanged?.Invoke(scoreValue);
         }
 
         if (pickUp == PickUp.Poop)
         {
+            FXMaster.SpawnFX(transform.position, (int)FXTypes.Heal);
+
             playerHealth.value++;
             onCollect.Dispatch();
         }
@@ -211,14 +215,15 @@ public class CollectableBehaviour : MonoBehaviour
 
 
             transform.DOMove(awayPosition, Random.Range(0.15F, 0.35F), false).SetEase(Ease.InOutCubic).onComplete +=
-                () => { StartFollowingPlayer(follow); };
+                () => { StartFollowingPlayer(follow, truePlayer); };
         }
     }
 
-    public void StartFollowingPlayer(Transform follow)
+    public void StartFollowingPlayer(Transform follow, Transform truePlayer)
     {
         isFollowing = 1;
         _whoToFollow = follow;
+        _whoToFollowTrue = truePlayer;
 
         var tempTransform = transform;
         var tempPosition = tempTransform.position;

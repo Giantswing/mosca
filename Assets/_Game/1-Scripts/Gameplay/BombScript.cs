@@ -28,6 +28,7 @@ public class BombScript : CollectableBehaviour, IPressurePlateListener, ICollisi
     private WaitForSeconds _midFlash = new(0.25f);
     private WaitForSeconds _fastFlash = new(0.1f);
     private WaitForSeconds _flashDuration = new(0.15f);
+    private bool canBePickedUp = true;
 
     private MeshRenderer[] _meshRenderers;
 
@@ -57,7 +58,7 @@ public class BombScript : CollectableBehaviour, IPressurePlateListener, ICollisi
         //map the pitch to the life time
         beepSound.pitch.minValue = Mathf.Lerp(1.2f, .8f, _currentLifeTime / lifeTime);
         beepSound.pitch.maxValue = beepSound.pitch.minValue;
-        GlobalAudioManager.PlaySound(beepSound, transform.position);
+        SoundMaster.PlaySound(transform.position, (int)SoundList.BombBeep, "", true);
 
         yield return _flashDuration;
 
@@ -81,7 +82,7 @@ public class BombScript : CollectableBehaviour, IPressurePlateListener, ICollisi
     {
         base.Update();
 
-        if (isFollowing != 0)
+        if (isFollowing > 0)
         {
             _currentLifeTime -= Time.deltaTime;
 
@@ -108,7 +109,11 @@ public class BombScript : CollectableBehaviour, IPressurePlateListener, ICollisi
         RemoveHolder();
 
         myRigidbody.useGravity = true;
-        myRigidbody.velocity = playerReference.playerRigidbody.velocity * 3f;
+
+        var force = playerReference.playerRigidbody.velocity * 3f;
+        if (force.magnitude < 3f) force = new Vector3(playerReference.playerMovement.isFacingRight * 9f, 1f, 0);
+
+        myRigidbody.velocity = force;
         displayObject.DOKill();
 
         StartCoroutine(BombCoroutine());
@@ -132,6 +137,7 @@ public class BombScript : CollectableBehaviour, IPressurePlateListener, ICollisi
 
         RemoveHolder();
 
+
         if (!_hasParent)
         {
             transform.position = _startPosition;
@@ -142,15 +148,30 @@ public class BombScript : CollectableBehaviour, IPressurePlateListener, ICollisi
             transform.position = _parentTransform.position;
         }
 
-        isFollowing = 0;
+        isFollowing = -1;
         _whoToFollow = null;
         collisionCollider.enabled = false;
+        myCollider.enabled = false;
         myRigidbody.useGravity = false;
+
         transform.rotation = Quaternion.identity;
         myRigidbody.velocity = Vector3.zero;
         myRigidbody.angularVelocity = Vector3.zero;
+
+        transform.localScale = Vector3.zero;
         _canExplode = false;
-        Initialize();
+
+
+        DOVirtual.DelayedCall(1f,
+            () =>
+            {
+                transform.DOScale(1f, 0.5f).SetEase(Ease.OutBounce).onComplete += () =>
+                {
+                    Initialize();
+                    myCollider.enabled = true;
+                    isFollowing = 0;
+                };
+            });
     }
 
     public void Explode()

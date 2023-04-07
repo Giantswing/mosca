@@ -14,7 +14,26 @@ public class CameraZone : MonoBehaviour
     [SerializeField] private bool disableFlip = false;
 
     public bool isCameraTarget;
+    public bool playerInside;
+    private float weight;
+    private float weightTo;
 
+    private void Start()
+    {
+        if (isCameraTarget)
+            TargetGroupControllerSystem.AddTarget(transform, 0, 0);
+    }
+
+    private void Update()
+    {
+        if (!isCameraTarget) return;
+        weight = Mathf.Lerp(weight, weightTo, Time.deltaTime * 2);
+        if (weight < 0.05)
+            weight = 0;
+
+        weightTo = playerInside ? 3 : 0;
+        TargetGroupControllerSystem.ModifyTargetImmediate(transform, weight, 0);
+    }
 
     private void OnDrawGizmos()
     {

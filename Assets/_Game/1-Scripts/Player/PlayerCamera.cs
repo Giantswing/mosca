@@ -103,25 +103,27 @@ public class PlayerCamera : MonoBehaviour
     }
     */
 
-    public void UpdateCameraZone(CameraZone newCameraZone)
+    public void UpdateCameraZone(CameraZone newCameraZone, bool isEntering = true)
     {
-        if (newCameraZone != null)
+        if (isEntering)
         {
             currentCameraZone = newCameraZone;
             _cameraZoneOffset = newCameraZone.cameraOffset;
             _cameraZoneZoom = newCameraZone.cameraZoom;
             _cameraSideAngleStrengthTo = newCameraZone.sideAngleStrength;
-
+            newCameraZone.playerInside = true;
+            /*
             var isTarget = newCameraZone.isCameraTarget;
             if (isTarget) TargetGroupControllerSystem.AddTarget(newCameraZone.transform, 3, 0);
+            */
         }
         else
         {
             _cameraZoneOffset = Vector3.zero;
             _cameraZoneZoom = 0;
             _cameraSideAngleStrengthTo = 1;
-
-            TargetGroupControllerSystem.RemoveTarget(currentCameraZone.transform);
+            newCameraZone.playerInside = false;
+            //TargetGroupControllerSystem.RemoveTarget(currentCameraZone.transform);
         }
     }
 

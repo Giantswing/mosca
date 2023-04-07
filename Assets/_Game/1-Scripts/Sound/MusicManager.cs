@@ -18,7 +18,6 @@ public class MusicManager : MonoBehaviour
     {
         if (instance == null)
         {
-            print("No other music manager found");
             instance = this;
             InitializeComponents();
             BeginMusic();
@@ -26,7 +25,7 @@ public class MusicManager : MonoBehaviour
         else
         {
             var newInstance = this;
-            print("Music manager (" + newInstance.gameObject.name + ") found");
+            //print("Music manager (" + newInstance.gameObject.name + ") found");
 
             var newSong = newInstance.currentSong;
             var newVolume = newInstance.musicVolume;
@@ -65,7 +64,6 @@ public class MusicManager : MonoBehaviour
 
     public void ChangeSong(AudioClip newSong, float VolumeTo)
     {
-        print("changing song");
         DOTween.To(() => musicSource.volume, x => musicSource.volume = x, 0, 0.5f).onComplete += () =>
         {
             currentSong = newSong;

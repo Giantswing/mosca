@@ -60,6 +60,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
+  truePlayer: {fileID: 0}
   pI: {fileID: 0}
   pM: {fileID: 0}
 --- !u!54 &-1592429861579884449

@@ -30,6 +30,9 @@ public class EffectHandler : MonoBehaviour
     public ObjectPool<FXScript> KeyBreakFXPool;
     public FXScript KeyBreakFXPrefab;
 
+    public ObjectPool<FXScript> EnemyHitFXPool;
+    public FXScript EnemyHitFXPrefab;
+
 
     private ObjectPool<FXScript>[] allFXPools;
 
@@ -106,6 +109,15 @@ public class EffectHandler : MonoBehaviour
             false, 1, 3);
 
         allFXPools[6] = KeyBreakFXPool;
+
+        EnemyHitFXPool = new ObjectPool<FXScript>(
+            () => Instantiate(EnemyHitFXPrefab),
+            fx => { fx.gameObject.SetActive(true); },
+            fx => { fx.gameObject.SetActive(false); },
+            fx => { Destroy(fx); },
+            false, 1, 3);
+
+        allFXPools[6] = EnemyHitFXPool;
     }
 
     public static void SpawnFX(int fxIndex, Vector3 spawnPos, Vector3 spawnRot, Vector3 moveDir, float moveSpeed)

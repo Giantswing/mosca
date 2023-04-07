@@ -39,6 +39,7 @@ public class RewardScript : MonoBehaviour
             for (var i = 0; i < reward.count; i++)
             {
                 var rewardObject = Instantiate(reward.rewardPrefab, _position, Quaternion.identity);
+                rewardObject.transform.parent = transform;
                 spawnedRewards.Add(rewardObject);
 
 
@@ -61,6 +62,7 @@ public class RewardScript : MonoBehaviour
             if (dropType == DropType.Explosion)
             {
                 reward.SetActive(true);
+                reward.transform.parent = null;
                 reward.transform.position = _position;
                 float randomDir2D = Random.Range(0, 360);
                 var randomDir3D = new Vector3(Mathf.Cos(randomDir2D), Mathf.Sin(randomDir2D), 0);
@@ -68,7 +70,8 @@ public class RewardScript : MonoBehaviour
                     .onComplete += () =>
                 {
                     reward.GetComponent<CollectableBehaviour>()
-                        .StartFollowingPlayer(PlayerMovement.ReturnPlayerTransform());
+                        .StartFollowingPlayer(PlayerMovement.ReturnPlayerTransform(),
+                            PlayerInteractionHandler.ReturnCrownTransform());
                 };
 
                 //print(PlayerMovement.ReturnPlayerTransform());

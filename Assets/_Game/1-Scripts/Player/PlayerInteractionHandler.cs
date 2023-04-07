@@ -21,6 +21,7 @@ public class PlayerInteractionHandler : MonoBehaviour, IPressurePlateListener
     private PlayerCamera playerCamera;
     private PlayerSoundManager playerSoundManager;
     private Crown crown;
+    private ChargeShot chargeShot;
     public GameObject playerPickupArea;
     public GameObject my3DModel;
     public GameObject myLight;
@@ -63,6 +64,7 @@ public class PlayerInteractionHandler : MonoBehaviour, IPressurePlateListener
         playerSoundManager = GetComponent<PlayerSoundManager>();
         dash = GetComponent<Dash>();
         stats = GetComponent<STATS>();
+        chargeShot = GetComponent<ChargeShot>();
     }
 
     private void Start()
@@ -75,6 +77,7 @@ public class PlayerInteractionHandler : MonoBehaviour, IPressurePlateListener
         //pickupArea.player = gameObject.transform;
         pickupArea.player = crown.transform;
         pickupArea.truePlayer = transform;
+        crown.pickUpArea = pickupArea.transform;
         pickupArea.pI = this;
         pickupArea.pM = playerMovement;
 
@@ -126,6 +129,16 @@ public class PlayerInteractionHandler : MonoBehaviour, IPressurePlateListener
 
         if (dashCollider.enabled)
             dashCollider.enabled = false;
+    }
+
+    public static Transform ReturnPlayerTransform()
+    {
+        return instance.transform;
+    }
+
+    public static Transform ReturnCrownTransform()
+    {
+        return instance.crown.transform;
     }
 
 
@@ -217,8 +230,9 @@ public class PlayerInteractionHandler : MonoBehaviour, IPressurePlateListener
 
     private void OnTriggerExit(Collider other)
     {
+        var camZone = other.GetComponent<CameraZone>();
         if (other.CompareTag("CameraZone"))
-            playerCamera.UpdateCameraZone(null);
+            playerCamera.UpdateCameraZone(camZone, false);
     }
 
     public void Die()
@@ -310,6 +324,7 @@ public class PlayerInteractionHandler : MonoBehaviour, IPressurePlateListener
                 if (stats.ST_Invincibility == false && _otherStats.ST_Damage > 0 &&
                     _otherStats.ST_CanDoDmg) //if im not dashing and the enemy can attack
                 {
+                    chargeShot.Shoot();
                     playerMovement.inputDirection = -_reflectDir;
                     playerMovement.hSpeed = playerMovement.inputDirection.x * 5f;
                     playerMovement.vSpeed = playerMovement.inputDirection.y * 5f;
@@ -362,7 +377,7 @@ public class PlayerInteractionHandler : MonoBehaviour, IPressurePlateListener
             if (playerMovement.lastBumpTime > 0) return;
             playerMovement.lastBumpTime = .5f;
 
-            playerSoundManager.PlayWallHitSound();
+            SoundMaster.PlaySound(transform.position, (int)SoundList.WallHit, "", false);
 
             Bump(collision.contacts[0].normal, collision.contacts[0].point);
         }
@@ -374,8 +389,7 @@ public class PlayerInteractionHandler : MonoBehaviour, IPressurePlateListener
                 .onComplete +=
             () => transform.DOScale(Vector3.one, .2f);
 
-        EffectHandler.SpawnFX((int)EffectHandler.EffectType.Clash, point, Vector3.zero,
-            Vector3.zero, 0);
+        FXMaster.SpawnFX(point, (int)FXTypes.Clash);
 
 
         playerMovement.inputDirection =

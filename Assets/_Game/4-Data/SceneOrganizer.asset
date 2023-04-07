@@ -81,6 +81,9 @@ MonoBehaviour:
     - {fileID: 4238877151116724972, guid: 3ef34e5bafc36be45a4d4123429ae674, type: 3}
     - {fileID: 3162354115926989448, guid: 0527443928b5e8a4f978b905ab11b2af, type: 3}
     - {fileID: 449045003168623295, guid: 4dd7bce30dfd23140808d99f99fa62de, type: 3}
+    - {fileID: 1189704060341639789, guid: 66ef2097876565a4cb79400630022c00, type: 3}
+    - {fileID: 2260360674892169357, guid: e309d6a2360984f4e8e7d79336666048, type: 3}
+    - {fileID: 2885765762046121824, guid: e0f034a51738c1147ba17e1c8a669269, type: 3}
     objectsNames: []
   - name: _07-GAMEPLAY
     objects:
@@ -99,6 +102,7 @@ MonoBehaviour:
     - {fileID: 8249925354754177508, guid: 0e45a57f3977ee2419dc1d4468b73d3a, type: 3}
     - {fileID: 2977781723902962888, guid: 0715e4bcc5760b740bee3b79ff8a83fe, type: 3}
     - {fileID: 7156437991893069175, guid: 054cff40d71b56640b0047032d07abc7, type: 3}
+    - {fileID: 1622506275744277020, guid: 97c54eb17f4a55a4e90061757339f50c, type: 3}
     objectsNames:
     - lvlmodel_
     - Reflection Probe
@@ -110,6 +114,120 @@ MonoBehaviour:
     objects: []
     objectsNames: []
   allGameObjects:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}

@@ -8,8 +8,7 @@ public class DestroyObjectScript : MonoBehaviour
 
     public void Destroy()
     {
-        EffectHandler.SpawnFX(FXIndex, transform.position, Vector3.zero,
-            Vector3.zero, 0);
+        FXMaster.SpawnFX(transform.position, FXIndex);
         Destroy(gameObject);
     }
 }

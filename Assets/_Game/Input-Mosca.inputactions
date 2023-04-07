@@ -303,6 +303,17 @@
                 },
                 {
                     "name": "",
+                    "id": "41781dfc-617a-4fa9-a083-22b60fd9b371",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "ChargeShot",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "52fe529e-4254-48b6-aaf3-72a7c0fddfd2",
                     "path": "<Gamepad>/buttonWest",
                     "interactions": "",

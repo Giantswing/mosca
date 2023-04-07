@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83cc2216f9409da4fa6fb4f0d97a2976, type: 3}
+  m_Name: BubbleHit
+  m_EditorClassIdentifier: 
+  clips:
+  - {fileID: 8300000, guid: 6779eefc63544104692cf3f500845fec, type: 3}
+  volume:
+    minValue: 0.6489417
+    maxValue: 0.7470315
+  pitch:
+    minValue: 1.2978834
+    maxValue: 1.5560143

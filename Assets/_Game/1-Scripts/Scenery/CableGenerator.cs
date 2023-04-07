@@ -68,6 +68,10 @@ public class CableGenerator : MonoBehaviour
         StartCoroutine(UpdateCablePositions());
     }
 
+    private void UpdateCableMaterial()
+    {
+    }
+
     private IEnumerator UpdateCablePositions()
     {
         //update the cable positions

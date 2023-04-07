@@ -63,6 +63,12 @@ public class ScreenFXSystem : MonoBehaviour
         Instance.StartCoroutine(Instance.IEShakeCamera(duration, strength));
     }
 
+    public static void ShakeCameraImmediate(float strength)
+    {
+        Instance.vcamNoise.m_AmplitudeGain = 0.5f * strength;
+        Instance.vcamNoise.m_FrequencyGain = 1f * strength;
+    }
+
     public static void DistortView(float duration)
     {
         Instance.StartCoroutine(Instance.IEDistortView(duration));

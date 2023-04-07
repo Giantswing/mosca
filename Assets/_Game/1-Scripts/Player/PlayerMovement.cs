@@ -49,7 +49,7 @@ public class PlayerMovement : MonoBehaviour, ICustomTeleport
     public float currentlyInWind;
 
     private Vector3 customForce = Vector3.zero;
-
+    private bool canFlip = true;
 
     [SerializeField] private SmartData.SmartEvent.EventDispatcher onPlayerDodge;
     [SerializeField] private SmartData.SmartVector3.Vector3Writer smartDodgeDir;
@@ -178,6 +178,7 @@ public class PlayerMovement : MonoBehaviour, ICustomTeleport
         return instance._transform;
     }
 
+
     public GameObject ReturnGameobject()
     {
         return gameObject;
@@ -259,6 +260,8 @@ public class PlayerMovement : MonoBehaviour, ICustomTeleport
     {
         TimeToSwitch = _chargeShot.chargeShot == 0 ? 0.35f : 0;
 
+        if (!canFlip) return;
+
         if (hSpeed >= .25f && isFacingRight != 1)
             _timeBackwards += Time.deltaTime;
 
@@ -277,14 +280,23 @@ public class PlayerMovement : MonoBehaviour, ICustomTeleport
         var originalTeleporterPosition = transform.position;
 
 
-        transform.position = teleporterTransform.position +
-                             new Vector3(0, 0, zDifference);
+        transform.position = teleporterTransform.position;
+        canFlip = false;
+        if (Mathf.Sign(isFacingRight) == Mathf.Sign(teleporterTransform.right.x))
+            customForce = teleporterTransform.right * 13f;
+        else
+            customForce = teleporterTransform.right * 30f;
 
-        customForce = teleporterTransform.right * 13f;
+        /*
+        if(teleporterTransform.rotation.eulerAngles.z < 90 && teleporterTransform.rotation.eulerAngles.z > -90)
+        */
+        if (teleporterTransform.right.x > 0)
+            FlipPlayer(1);
+        else
+            FlipPlayer(-1);
 
-        DOTween.To(() => customForce, x => customForce = x, Vector3.zero, 0.6f);
 
-        print(_windForce);
+        DOTween.To(() => customForce, x => customForce = x, Vector3.zero, 0.6f).onComplete += () => { canFlip = true; };
     }
 
 

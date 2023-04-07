@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class ChargeShot : MonoBehaviour
 {
@@ -20,6 +21,9 @@ public class ChargeShot : MonoBehaviour
     [SerializeField] private float chargeSpeed = 1f;
     [SerializeField] private float maxChargeAmount = 1f;
     [SerializeField] private float chargeOffset = 0.5f;
+
+    [SerializeField] private SimpleAudioEvent chargeSound;
+    [SerializeField] private AudioSource chargeSoundSource;
 
 
     private void Awake()
@@ -53,6 +57,7 @@ public class ChargeShot : MonoBehaviour
     {
         if (!crown.isGrabbed) return;
         chargeShot = 1;
+        chargeSound.Play(chargeSoundSource);
         crown.ChangeCrownPos(0);
         playerAnimationHandler.SetChargingShot(chargeShot);
     }
@@ -68,19 +73,28 @@ public class ChargeShot : MonoBehaviour
         else
         {
             chargeAmount = 0;
+            //ControllerVibration.StopVibration();
         }
 
         if (chargeShot == 1)
         {
             Charging?.Invoke(playerMovement.inputDirection, chargeAmount);
-            crown.UpdateMaterial(chargeAmount);
+            crown.UpdateMaterial(chargeAmount, crown.glowColor);
+            //ScreenFXSystem.ShakeCameraImmediate(chargeAmount);
+
+            //ControllerVibration.VibrateImmediate(chargeAmount * .35f);
+            //Gamepad.current.SetMotorSpeeds(0.123f, 0.234f);
         }
     }
 
-    private void Shoot()
+    public void Shoot()
     {
+        //ScreenFXSystem.ShakeCameraImmediate(0);
         if (chargeShot != 1) return;
+
+        chargeSoundSource.Stop();
         Vector3 finalShotDir = playerMovement.inputDirection.normalized;
+
 
         if (finalShotDir == Vector3.zero) finalShotDir = Vector3.right * playerMovement.isFacingRight;
 

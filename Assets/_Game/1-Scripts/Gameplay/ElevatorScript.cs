@@ -48,11 +48,15 @@ public class ElevatorScript : MonoBehaviour
     {
         _startPosition = transform.position;
         _waitTimes = new WaitForSeconds[MovePoints.Count];
-        UpdateDoors();
         audioSource.volume = 0;
 
         var children = GetComponentsInChildren<MeshCollider>();
         foreach (var child in children) child.material = physicMaterial;
+
+
+        DOVirtual.DelayedCall(1f, () => UpdateDoors());
+
+
         /*
             if (child.gameObject.name.Contains("backplane"))
             {
@@ -201,8 +205,6 @@ public class ElevatorScript : MonoBehaviour
         if (IterateMovePoint()) Move();
         UpdateDoors();
 */
-
-        print(_currentMovePoint);
     }
 
     private bool IterateMovePoint()

@@ -1,4 +1,5 @@
 using System;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -14,6 +15,7 @@ public class PlayerReceiveInput : MonoBehaviour
     private void Start()
     {
     }
+
 
     public void InputMove(InputAction.CallbackContext context)
     {
