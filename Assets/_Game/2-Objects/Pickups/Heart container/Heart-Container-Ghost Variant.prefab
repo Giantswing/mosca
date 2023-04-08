@@ -1,0 +1,86 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &7303904849132075447
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4485520861171558043, guid: f3a2aa39c34137b4c929af224a9415fc, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b477825466851f34792c84c2822ddef9, type: 2}
+    - target: {fileID: 7947472505223792472, guid: f3a2aa39c34137b4c929af224a9415fc, type: 3}
+      propertyPath: m_Name
+      value: Heart-Container-Ghost
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947472505223792473, guid: f3a2aa39c34137b4c929af224a9415fc, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947472505223792473, guid: f3a2aa39c34137b4c929af224a9415fc, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 13.78
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947472505223792473, guid: f3a2aa39c34137b4c929af224a9415fc, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.83
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947472505223792473, guid: f3a2aa39c34137b4c929af224a9415fc, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947472505223792473, guid: f3a2aa39c34137b4c929af224a9415fc, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947472505223792473, guid: f3a2aa39c34137b4c929af224a9415fc, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947472505223792473, guid: f3a2aa39c34137b4c929af224a9415fc, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947472505223792473, guid: f3a2aa39c34137b4c929af224a9415fc, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947472505223792473, guid: f3a2aa39c34137b4c929af224a9415fc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947472505223792473, guid: f3a2aa39c34137b4c929af224a9415fc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947472505223792473, guid: f3a2aa39c34137b4c929af224a9415fc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947472505223792476, guid: f3a2aa39c34137b4c929af224a9415fc, type: 3}
+      propertyPath: HeartContainerID
+      value: 2211
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947472505223792479, guid: f3a2aa39c34137b4c929af224a9415fc, type: 3}
+      propertyPath: collectSound
+      value: 
+      objectReference: {fileID: 11400000, guid: c8d43bb10d4d1014c824d3a1b89256e8, type: 2}
+    - target: {fileID: 7947472505223792479, guid: f3a2aa39c34137b4c929af224a9415fc, type: 3}
+      propertyPath: onCollect._ownerName
+      value: Heart-Container-Ghost
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947472505223792479, guid: f3a2aa39c34137b4c929af224a9415fc, type: 3}
+      propertyPath: playerHealth._ownerName
+      value: Heart-Container-Ghost
+      objectReference: {fileID: 0}
+    - target: {fileID: 8023785220596777275, guid: f3a2aa39c34137b4c929af224a9415fc, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b477825466851f34792c84c2822ddef9, type: 2}
+    m_RemovedComponents:
+    - {fileID: 7947472505223792479, guid: f3a2aa39c34137b4c929af224a9415fc, type: 3}
+    - {fileID: 7947472505223792478, guid: f3a2aa39c34137b4c929af224a9415fc, type: 3}
+    - {fileID: 7947472505223792476, guid: f3a2aa39c34137b4c929af224a9415fc, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: f3a2aa39c34137b4c929af224a9415fc, type: 3}

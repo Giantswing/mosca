@@ -10,6 +10,7 @@ public class LevelSO : ScriptableObject
     public string sceneName;
     public string sceneInternalName;
     public float timeToWin;
+    public int heartContainers = 0;
 
     [Space(25)] public int deathCounter = 0;
 

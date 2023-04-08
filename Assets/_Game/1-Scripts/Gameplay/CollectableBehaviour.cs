@@ -50,7 +50,8 @@ public class CollectableBehaviour : MonoBehaviour
         Coin,
         Poop,
         Holder,
-        Throwable
+        Throwable,
+        HeartContainer
     }
 
     public PickUp pickUp;
@@ -145,18 +146,7 @@ public class CollectableBehaviour : MonoBehaviour
                     isPickedUp = true;
                     SoundMaster.PlayTargetSound(transform.position, collectSound, true);
                 }
-                else if (pickUp != PickUp.Holder)
-                {
-                    _isShrinking = true;
-                    transform.DOScale(0, .1f).OnComplete(() =>
-                    {
-                        SoundMaster.PlayTargetSound(transform.position, collectSound, true);
-                        Destroy(gameObject);
-                        GlowHandler.GlowStatic(pickUpCoinColor);
-                        DoFinalCollectibleEffect();
-                    });
-                }
-                else
+                else if (pickUp == PickUp.Holder)
                 {
                     if (collectSound != null)
                         SoundMaster.PlayTargetSound(transform.position, collectSound, true);
@@ -166,6 +156,17 @@ public class CollectableBehaviour : MonoBehaviour
                     myCollider.size = new Vector3(3, 3, 3);
                     playerInteraction.holdingItems.Add(_holdableItem);
                     transform.DOLocalRotate(Vector3.zero, 0.5f);
+                }
+                else
+                {
+                    _isShrinking = true;
+                    transform.DOScale(0, .1f).OnComplete(() =>
+                    {
+                        SoundMaster.PlayTargetSound(transform.position, collectSound, true);
+                        Destroy(gameObject);
+                        GlowHandler.GlowStatic(pickUpCoinColor);
+                        DoFinalCollectibleEffect();
+                    });
                 }
             }
         }
@@ -189,12 +190,20 @@ public class CollectableBehaviour : MonoBehaviour
             LevelManager.OnScoreChanged?.Invoke(scoreValue);
         }
 
-        if (pickUp == PickUp.Poop)
+        else if (pickUp == PickUp.Poop)
         {
             FXMaster.SpawnFX(transform.position, (int)FXTypes.Heal);
 
             playerHealth.value++;
             onCollect.Dispatch();
+        }
+
+        else if (pickUp == PickUp.HeartContainer)
+        {
+            var heartId = GetComponent<HeartContainer>().HeartContainerID;
+            LevelManager.IncreaseHeartContainers(heartId);
+            FXMaster.SpawnFX(transform.position, (int)FXTypes.HeartContainer, "",
+                PlayerMovement.ReturnPlayerTransform());
         }
 
 

@@ -46,6 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelData: {fileID: 0}
   campaignData: {fileID: 11400000, guid: a36363c6493c2fc49a902af9627a51e9, type: 2}
+  Checkpoints: []
   winScreen: {fileID: 0}
   portalPopUp: {fileID: 0}
   levelTimeInt:
@@ -86,6 +87,34 @@ MonoBehaviour:
     _value: 0
     _smartConst: {fileID: 0}
     _smartVar: {fileID: 11400000, guid: 2b1e2999f52b0234fa8a7433d8b4de99, type: 2}
+    _smartMulti: {fileID: 0}
+    _onUpdate:
+      m_PersistentCalls:
+        m_Calls: []
+  playerHealthMax:
+    _owner: {fileID: 916468251326428845}
+    _ownerName: LevelManager
+    _propertyPath: playerHealthMax
+    _autoListen: 0
+    _multiIndex: 0
+    _refType: 2
+    _value: 0
+    _smartConst: {fileID: 0}
+    _smartVar: {fileID: 11400000, guid: 095a3038d6b9c6a4ea6973dfca00bcee, type: 2}
+    _smartMulti: {fileID: 0}
+    _onUpdate:
+      m_PersistentCalls:
+        m_Calls: []
+  playerHealth:
+    _owner: {fileID: 916468251326428845}
+    _ownerName: LevelManager
+    _propertyPath: playerHealth
+    _autoListen: 0
+    _multiIndex: 0
+    _refType: 2
+    _value: 0
+    _smartConst: {fileID: 0}
+    _smartVar: {fileID: 11400000, guid: a05947b7778e59c4792416e35f202dd5, type: 2}
     _smartMulti: {fileID: 0}
     _onUpdate:
       m_PersistentCalls:

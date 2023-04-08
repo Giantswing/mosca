@@ -13,6 +13,9 @@ public class CampaignSO : ScriptableObject
     public LevelSO defaultScene;
     public List<LevelSO> levels;
 
+    [Space(25)] public int heartContainers = 0;
+    public List<int> heartContainerIDs;
+
     public int GetLevelIndex(LevelSO level)
     {
         return levels.IndexOf(level);

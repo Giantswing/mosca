@@ -30,6 +30,7 @@ public class SaveLoadSystem : MonoBehaviour
 
     public static void SaveGame()
     {
+        PlayerPrefs.SetInt("TotalHearts", Instance.campaign.heartContainers);
         for (var i = 0; i < Instance.campaign.levels.Count; i++)
         {
             PlayerPrefs.SetInt(Instance.campaign.levels[i].sceneName, Instance.campaign.levels[i].stars);
@@ -48,6 +49,7 @@ public class SaveLoadSystem : MonoBehaviour
 
     public static void LoadGame()
     {
+        PlayerPrefs.GetInt("TotalHearts", Instance.campaign.heartContainers);
         for (var i = 0; i < Instance.campaign.levels.Count; i++)
         {
             var hasBSide = Instance.campaign.levels[i].hasBSide;

@@ -142,4 +142,8 @@ MonoBehaviour:
     audioEvent: {fileID: 11400000, guid: 4821e008799eecf4aa46a2cbbfce1356, type: 2}
     count: 0
     duration: 0
+  - name: Reset Buildup
+    audioEvent: {fileID: 11400000, guid: 574f92ff9238f564ca6ba2171b2567af, type: 2}
+    count: 0
+    duration: 0
   maxSoundDistance: 50

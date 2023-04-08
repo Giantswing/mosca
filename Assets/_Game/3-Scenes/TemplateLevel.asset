@@ -20,6 +20,7 @@ MonoBehaviour:
   sceneName: Template
   sceneInternalName: 
   timeToWin: 25
+  heartContainers: 0
   deathCounter: 2
   stars: 3
   isThisLastOne: 0

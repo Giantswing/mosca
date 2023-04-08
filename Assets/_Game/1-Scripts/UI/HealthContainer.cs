@@ -17,11 +17,31 @@ public class HealthContainer : MonoBehaviour
     [SerializeField] private SmartData.SmartInt.IntWriter playerMaxHealth;
 
     private List<GameObject> _heartContainers = new();
-    private int _maxHeartCointainersUI = 5;
+    private int _maxHeartCointainersUI = 20;
 
+    private void OnEnable()
+    {
+        HeartContainersUI.OnHeartFilledAnimationEnd += InitializeHealth;
+    }
+
+    private void OnDisable()
+    {
+        HeartContainersUI.OnHeartFilledAnimationEnd -= InitializeHealth;
+    }
 
     private void Start()
     {
+        InitializeHealth();
+    }
+
+    public void InitializeHealth()
+    {
+        //delete previous heart containers if there are any
+
+        foreach (var heartContainer in _heartContainers)
+            Destroy(heartContainer);
+
+        _heartContainers.Clear();
         for (var i = 0; i < _maxHeartCointainersUI; i++)
         {
             _heartContainers.Add(Instantiate(heartContainerPrefab, transform));

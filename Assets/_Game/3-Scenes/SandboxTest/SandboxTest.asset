@@ -20,6 +20,7 @@ MonoBehaviour:
   sceneName: Sandbox
   sceneInternalName: sandboxTest
   timeToWin: 450
+  heartContainers: 0
   deathCounter: 0
   stars: 0
   isThisLastOne: 1

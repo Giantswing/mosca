@@ -13,7 +13,8 @@ public enum FXTypes
     BloodSplat,
     Strike,
     Heal,
-    Reset
+    Reset,
+    HeartContainer
 }
 
 public class FXMaster : MonoBehaviour
@@ -48,7 +49,7 @@ public class FXMaster : MonoBehaviour
         }
     }
 
-    public static void SpawnFX(Vector3 position, int index = -1, string name = "")
+    public static void SpawnFX(Vector3 position, int index = -1, string name = "", Transform parent = null)
     {
         StandardFX effect;
         if (name != "")
@@ -62,8 +63,18 @@ public class FXMaster : MonoBehaviour
         if (effect.instances.Count == 0) return;
 
         var fx = effect.instances.Pop();
-        fx.transform.position = position;
+
         fx.SetActive(true);
+        if (parent != null)
+        {
+            fx.transform.parent = parent;
+            fx.transform.localPosition = Vector3.zero;
+        }
+        else
+        {
+            fx.transform.position = position;
+        }
+
         instance.StartCoroutine(instance.DeactivateFX(effect, fx));
     }
 
@@ -81,6 +92,7 @@ public class FXMaster : MonoBehaviour
     {
         yield return _fxWaitTimes[FXList.IndexOf(effect)];
         fx.SetActive(false);
+        fx.transform.parent = transform;
         //var effect = FXList.Find(x => x.name == fx.name);
         effect.instances.Push(fx);
     }

@@ -29,7 +29,8 @@ public enum SoundList
     ElectricPowerOff,
     ReviverDetecting,
     ReviverReviving,
-    CrownThrow
+    CrownThrow,
+    ReverseBuildup
 }
 
 public class SoundMaster : MonoBehaviour

@@ -45,16 +45,53 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private SmartData.SmartFloat.FloatWriter levelMaxTime;
     private float _timeReset = 0f;
 
+    [SerializeField] private SmartData.SmartInt.IntWriter playerHealthMax;
+    [SerializeField] private SmartData.SmartInt.IntWriter playerHealth;
+
+    public static Action OnHeartContainersChanged;
+
 
     private void OnEnable()
     {
         OnScoreChanged += UpdateScore;
+        HeartContainersUI.OnHeartFilledAnimationEnd += IncreaseMaxHealth;
     }
+
+    private void OnDisable()
+    {
+        OnScoreChanged -= UpdateScore;
+        HeartContainersUI.OnHeartFilledAnimationEnd -= IncreaseMaxHealth;
+    }
+
 
     public static LevelSO GetCurrentLevel()
     {
         if (Instance != null)
             return Instance.levelData;
+        else
+            return null;
+    }
+
+    public static void IncreaseHeartContainers(int heartId)
+    {
+        Instance.campaignData.heartContainers++;
+        Instance.campaignData.heartContainerIDs.Add(heartId);
+        OnHeartContainersChanged?.Invoke();
+
+
+        SaveLoadSystem.SaveGame();
+    }
+
+    public static void IncreaseMaxHealth()
+    {
+        Instance.playerHealthMax.value++;
+        Instance.playerHealth.value = Instance.playerHealthMax.value;
+    }
+
+    public static CampaignSO GetCurrentCampaign()
+    {
+        if (Instance != null)
+            return Instance.campaignData;
         else
             return null;
     }
@@ -74,21 +111,6 @@ public class LevelManager : MonoBehaviour
         campaignData.UpdateLevelInfo();
     }
 
-
-    private void SetUpStars()
-    {
-        _scoreForStars[2] = _maxScore;
-        _scoreForStars[1] = Mathf.RoundToInt(_maxScore / 1.5f);
-        _scoreForStars[0] = Mathf.RoundToInt(_maxScore / 3f);
-
-        StarsChanged?.Invoke();
-    }
-
-    private void OnDisable()
-    {
-        OnScoreChanged -= UpdateScore;
-    }
-
     private void Start()
     {
         SaveLoadSystem.LoadGame();
@@ -106,6 +128,27 @@ public class LevelManager : MonoBehaviour
         levelMaxTime.value = levelData.timeToWin;
 
         SetUpStars();
+        SetUpStartingHealth();
+    }
+
+    private void SetUpStartingHealth()
+    {
+        var currentMaxHealth = 3;
+        var currentHeartToAdd = 0;
+
+        currentHeartToAdd = Mathf.FloorToInt(campaignData.heartContainers / 3);
+
+        playerHealthMax.value = currentMaxHealth + currentHeartToAdd;
+        playerHealth.value = playerHealthMax.value;
+    }
+
+    private void SetUpStars()
+    {
+        _scoreForStars[2] = _maxScore;
+        _scoreForStars[1] = Mathf.RoundToInt(_maxScore / 1.5f);
+        _scoreForStars[0] = Mathf.RoundToInt(_maxScore / 3f);
+
+        StarsChanged?.Invoke();
     }
 
     public static List<CheckpointScript> GetCheckpoints()

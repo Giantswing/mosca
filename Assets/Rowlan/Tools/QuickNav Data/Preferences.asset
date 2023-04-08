@@ -14,54 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   historyItemsMax: 20
   history:
-  - context: 0
-    title: 
-    unityObject: {fileID: 0}
-    objectGuid: GlobalObjectId_V1-2-da1cdac6dce2ba2468e5d62a6ee0da0b-4206558954623024780-462173060
-  - context: 0
-    title: 
-    unityObject: {fileID: 0}
-    objectGuid: GlobalObjectId_V1-2-da1cdac6dce2ba2468e5d62a6ee0da0b-4206558954623024780-1384399891
-  - context: 0
-    title: 
-    unityObject: {fileID: 0}
-    objectGuid: GlobalObjectId_V1-2-da1cdac6dce2ba2468e5d62a6ee0da0b-9104525243550240771-3436880732954617659
-  - context: 0
-    title: 
-    unityObject: {fileID: 0}
-    objectGuid: GlobalObjectId_V1-2-da1cdac6dce2ba2468e5d62a6ee0da0b-2554430496661852385-3436880732954617659
-  - context: 0
-    title: 
-    unityObject: {fileID: 0}
-    objectGuid: GlobalObjectId_V1-2-da1cdac6dce2ba2468e5d62a6ee0da0b-9104525243550240771-3436880732954617659
   - context: 1
     title: 
-    unityObject: {fileID: 4702217085051571794, guid: b57422e4f9302274a8462e7407c09fc3, type: 3}
-    objectGuid: GlobalObjectId_V1-1-b57422e4f9302274a8462e7407c09fc3-4702217085051571794-0
-  - context: 0
-    title: 
-    unityObject: {fileID: 0}
-    objectGuid: GlobalObjectId_V1-2-da1cdac6dce2ba2468e5d62a6ee0da0b-2554430496661852385-3436880732954617659
-  - context: 0
-    title: 
-    unityObject: {fileID: 0}
-    objectGuid: GlobalObjectId_V1-2-da1cdac6dce2ba2468e5d62a6ee0da0b-4702217085051571794-7075868075199549691
+    unityObject: {fileID: 11400000, guid: a36363c6493c2fc49a902af9627a51e9, type: 2}
+    objectGuid: GlobalObjectId_V1-3-a36363c6493c2fc49a902af9627a51e9-11400000-0
   - context: 1
     title: 
-    unityObject: {fileID: 4702217085051571794, guid: b57422e4f9302274a8462e7407c09fc3, type: 3}
-    objectGuid: GlobalObjectId_V1-1-b57422e4f9302274a8462e7407c09fc3-4702217085051571794-0
-  - context: 1
-    title: 
-    unityObject: {fileID: 102900000, guid: 71a11be49fea0014f9619b72b1b7d7cd, type: 3}
-    objectGuid: GlobalObjectId_V1-1-71a11be49fea0014f9619b72b1b7d7cd-102900000-0
-  - context: 1
-    title: 
-    unityObject: {fileID: 102900000, guid: cce1bb141c5e3fb40b7df62ecd4b8c20, type: 3}
-    objectGuid: GlobalObjectId_V1-1-cce1bb141c5e3fb40b7df62ecd4b8c20-102900000-0
-  - context: 1
-    title: 
-    unityObject: {fileID: 102900000, guid: 85a3607696ffa044083d08d6ebaace25, type: 3}
-    objectGuid: GlobalObjectId_V1-1-85a3607696ffa044083d08d6ebaace25-102900000-0
+    unityObject: {fileID: 2100000, guid: 5360d31235546e74b8aacbe2fe9cca8f, type: 2}
+    objectGuid: GlobalObjectId_V1-3-5360d31235546e74b8aacbe2fe9cca8f-2100000-0
   favorites:
   - context: 2
     title: Rewards

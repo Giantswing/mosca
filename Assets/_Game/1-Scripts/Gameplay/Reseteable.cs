@@ -20,12 +20,18 @@ public class Reseteable : MonoBehaviour, IPressurePlateListener
 
     private void Start()
     {
-        if (ghost != null) Instantiate(ghost, transform.position, transform.rotation);
+        if (ghost != null)
+        {
+            var ghostObj = Instantiate(ghost, transform.position, transform.rotation);
+            ghostObj.transform.localScale = transform.localScale + Vector3.one * 0.05f;
+        }
     }
 
 
     public void CustomReset()
     {
+        SoundMaster.PlaySound(transform.position, (int)SoundList.ReverseBuildup, "", true);
+
         //before reset
         transform.DOShakeRotation(1f, 10, 20, 90, false);
         transform.DOShakePosition(1f, 0.2f, 20, 90, false);

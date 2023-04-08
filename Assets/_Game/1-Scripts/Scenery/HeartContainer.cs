@@ -9,10 +9,14 @@ public class HeartContainer : MonoBehaviour
     [SerializeField] private Transform inner_heart;
     [SerializeField] private Transform outer_heart;
     private WaitForSeconds coroutineBeatingHeart = new(1f);
+    [SerializeField] private GameObject heartContainerGhostPrefab;
+
+    public int HeartContainerID = 0;
 
     private void Start()
     {
         StartCoroutine(Coroutine_BeatingHeart());
+        CheckIfIAmAlreadyPickedUp();
     }
 
     private IEnumerator Coroutine_BeatingHeart()
@@ -27,6 +31,18 @@ public class HeartContainer : MonoBehaviour
 
 
             yield return coroutineBeatingHeart;
+        }
+    }
+
+    private void CheckIfIAmAlreadyPickedUp()
+    {
+        var campaignSO = LevelManager.GetCurrentCampaign();
+
+        if (campaignSO.heartContainerIDs.Contains(HeartContainerID))
+        {
+            var ghost = Instantiate(heartContainerGhostPrefab);
+            ghost.transform.position = transform.position;
+            Destroy(gameObject);
         }
     }
 }
