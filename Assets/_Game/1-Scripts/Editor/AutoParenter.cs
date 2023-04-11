@@ -5,7 +5,7 @@ using UnityEngine;
 
 
 [CreateAssetMenu(fileName = "AutoParent", menuName = "Utilites/AutoParent", order = 1)]
-public class AutoParenter : MonoBehaviour
+public class AutoParenter : ScriptableObject
 {
 #if UNITY_EDITOR
 

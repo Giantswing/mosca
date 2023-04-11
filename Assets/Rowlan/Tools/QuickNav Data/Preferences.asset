@@ -14,14 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   historyItemsMax: 20
   history:
-  - context: 1
+  - context: 0
     title: 
-    unityObject: {fileID: 11400000, guid: a36363c6493c2fc49a902af9627a51e9, type: 2}
-    objectGuid: GlobalObjectId_V1-3-a36363c6493c2fc49a902af9627a51e9-11400000-0
-  - context: 1
-    title: 
-    unityObject: {fileID: 2100000, guid: 5360d31235546e74b8aacbe2fe9cca8f, type: 2}
-    objectGuid: GlobalObjectId_V1-3-5360d31235546e74b8aacbe2fe9cca8f-2100000-0
+    unityObject: {fileID: 0}
+    objectGuid: GlobalObjectId_V1-2-da1cdac6dce2ba2468e5d62a6ee0da0b-5662254482348848758-5662254483339094227
   favorites:
   - context: 2
     title: Rewards
@@ -207,6 +203,10 @@ MonoBehaviour:
     title: 
     unityObject: {fileID: 158321398488123159, guid: b8cd4ff46b2c92b4e8a48af57d559332, type: 3}
     objectGuid: GlobalObjectId_V1-1-b8cd4ff46b2c92b4e8a48af57d559332-158321398488123159-0
+  - context: 1
+    title: 
+    unityObject: {fileID: 5662254482348848758, guid: de0a1bcc1c7df164c8ceb18155c9f4fd, type: 3}
+    objectGuid: GlobalObjectId_V1-1-de0a1bcc1c7df164c8ceb18155c9f4fd-5662254482348848758-0
   - context: 2
     title: Level
     unityObject: {fileID: 0}

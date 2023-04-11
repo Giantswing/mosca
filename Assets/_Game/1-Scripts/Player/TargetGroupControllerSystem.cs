@@ -55,10 +55,12 @@ public class TargetGroupControllerSystem : MonoBehaviour
         var weightTo = weight;
         Instance._targetGroup.AddMember(target, 0, radius);
 
-
-        DOTween.To(() => Instance._targetGroup.m_Targets[Instance._targetGroup.m_Targets.Length - 1].weight,
-            x => Instance._targetGroup.m_Targets[Instance._targetGroup.m_Targets.Length - 1].weight = x, weightTo,
-            duration).SetEase(Ease.InOutQuad);
+        if (duration != 0)
+            DOTween.To(() => Instance._targetGroup.m_Targets[Instance._targetGroup.m_Targets.Length - 1].weight,
+                x => Instance._targetGroup.m_Targets[Instance._targetGroup.m_Targets.Length - 1].weight = x, weightTo,
+                duration).SetEase(Ease.InOutQuad);
+        else
+            Instance._targetGroup.m_Targets[Instance._targetGroup.m_Targets.Length - 1].weight = weightTo;
     }
 
 

@@ -40,6 +40,8 @@ public class MusicManager : MonoBehaviour
             newInstance.gameObject.GetComponent<AudioSource>().enabled = false;
         }
 
+        //test
+        transform.parent = null;
         DontDestroyOnLoad(gameObject);
     }
 

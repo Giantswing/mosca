@@ -12,6 +12,7 @@ public class KeyScript : CollectableBehaviour
     private Transform _parentTransform;
     private bool _hasParent = false;
 
+
     [SerializeField] private SimpleAudioEvent breakSound;
 
     private new void Start()
@@ -58,6 +59,7 @@ public class KeyScript : CollectableBehaviour
                 transform.position = _parentTransform.position;
             }
 
+            transform.rotation = Quaternion.identity;
             isFollowing = 0;
             _whoToFollow = null;
             isBeingUsed = false;

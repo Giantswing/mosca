@@ -108,8 +108,10 @@ public class ChargeShot : MonoBehaviour
         DOVirtual.DelayedCall(0.5f, () =>
         {
             chargeShot = 0;
+            /*
             playerMovement.hSpeed = 0;
             playerMovement.vSpeed = 0;
+            */
             playerAnimationHandler.SetChargingShot(chargeShot);
         });
     }

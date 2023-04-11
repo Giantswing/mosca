@@ -96,7 +96,10 @@ public class Dash : MonoBehaviour
 
     private void DoDash()
     {
-        if (onPenalty) return;
+        if (_chargeShot.chargeShot == 2)
+            _chargeShot.chargeShot = 0;
+
+        if (onPenalty || _chargeShot.chargeShot == 1) return;
 
         if (canDashAgain && !isDashing && !canDoubleDash)
         {
