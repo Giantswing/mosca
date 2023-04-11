@@ -147,9 +147,9 @@ public class STATS : MonoBehaviour
                 StartCoroutine(InvincibleEffect());
         }
 
-        if (ST_Team == Team.Player) FXMaster.SpawnFX(transform.position, (int)FXTypes.BloodSplat);
+        if (ST_Team == Team.Player) FXMaster.SpawnFX(transform.position, (int)FXListAuto.BloodSplat);
 
-        if (ST_Team == Team.Enemy) FXMaster.SpawnFX(transform.position, (int)FXTypes.Strike);
+        if (ST_Team == Team.Enemy) FXMaster.SpawnFX(transform.position, (int)FXListAuto.Strike);
     }
 
     private IEnumerator InvincibleEffect()

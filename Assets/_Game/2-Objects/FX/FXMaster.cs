@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public enum FXTypes
@@ -27,6 +28,22 @@ public class FXMaster : MonoBehaviour
     {
         InitializeFX();
         instance = this;
+    }
+
+    public void CreateFXListEnumDynamically()
+    {
+        print("regenerating fx enum");
+        //create string array with all sound names
+        var FxNames = new string[FXList.Count];
+
+        for (var i = 0; i < FXList.Count; i++)
+        {
+            var fxName = FXList[i].name;
+            fxName = fxName.Replace(" ", "");
+            FxNames[i] = fxName;
+        }
+
+        GenerateEnum.Go("FXListAuto", FxNames);
     }
 
     private void InitializeFX()
@@ -95,5 +112,20 @@ public class FXMaster : MonoBehaviour
         fx.transform.parent = transform;
         //var effect = FXList.Find(x => x.name == fx.name);
         effect.instances.Push(fx);
+    }
+}
+
+/* Custom editor for SoundMaster */
+[CustomEditor(typeof(FXMaster))]
+public class FXMasterEditor : Editor
+{
+    //add button
+    public override void OnInspectorGUI()
+    {
+        DrawDefaultInspector();
+
+        var myScript = (FXMaster)target;
+        if (GUILayout.Button("Generate FX Enum"))
+            myScript.CreateFXListEnumDynamically();
     }
 }

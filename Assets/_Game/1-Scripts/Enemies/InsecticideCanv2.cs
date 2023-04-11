@@ -87,7 +87,7 @@ public class InsecticideCanv2 : MonoBehaviour
     {
         yield return _WaitTimeBetweenBursts;
         particles.Play();
-        SoundMaster.PlaySound(transform.position, (int)SoundList.InsecticideGas, "", true);
+        SoundMaster.PlaySound(transform.position, (int)SoundListAuto.InsecticideGas, "", true);
         _targetDistance = rayMaxLength;
 
         transform.DOKill();

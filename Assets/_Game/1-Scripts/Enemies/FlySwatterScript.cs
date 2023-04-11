@@ -31,10 +31,10 @@ public class FlySwatterScript : MonoBehaviour
 
     public void StartDMG()
     {
-        SoundMaster.PlaySound(transform.position, (int)SoundList.FlySwatterHit, "", true);
+        SoundMaster.PlaySound(transform.position, (int)SoundListAuto.FlySwatterHit, "", true);
         dmgCollider.enabled = true;
         stats.ST_CanDoDmg = true;
-        FXMaster.SpawnFX(dmgCollider.bounds.center, (int)FXTypes.Clash);
+        FXMaster.SpawnFX(dmgCollider.bounds.center, (int)FXListAuto.Clash);
     }
 
     public void EndDMG()

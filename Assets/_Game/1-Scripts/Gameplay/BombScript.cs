@@ -58,7 +58,7 @@ public class BombScript : CollectableBehaviour, IPressurePlateListener, ICollisi
         //map the pitch to the life time
         beepSound.pitch.minValue = Mathf.Lerp(1.2f, .8f, _currentLifeTime / lifeTime);
         beepSound.pitch.maxValue = beepSound.pitch.minValue;
-        SoundMaster.PlaySound(transform.position, (int)SoundList.BombBeep, "", true);
+        SoundMaster.PlaySound(transform.position, (int)SoundListAuto.BombBeep, "", true);
 
         yield return _flashDuration;
 

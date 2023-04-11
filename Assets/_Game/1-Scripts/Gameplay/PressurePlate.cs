@@ -49,7 +49,7 @@ public class PressurePlate : MonoBehaviour
             {
                 if (!isActive) return;
                 isActive = false;
-                SoundMaster.PlaySound(transform.position, (int)SoundList.ElectricPowerOff, "", true);
+                SoundMaster.PlaySound(transform.position, (int)SoundListAuto.ElectricPowerOff, "", true);
 
                 foreach (var mRenderer in meshRenderer)
                     mRenderer.material = inactiveMaterial;
@@ -61,7 +61,7 @@ public class PressurePlate : MonoBehaviour
         {
             if (isActive) return;
             isActive = true;
-            SoundMaster.PlaySound(transform.position, (int)SoundList.ElectricPowerUp, "", true);
+            SoundMaster.PlaySound(transform.position, (int)SoundListAuto.ElectricPowerUp, "", true);
             foreach (var mRenderer in meshRenderer)
                 mRenderer.material = activeMaterial;
 

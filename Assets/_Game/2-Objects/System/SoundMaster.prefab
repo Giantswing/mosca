@@ -146,4 +146,8 @@ MonoBehaviour:
     audioEvent: {fileID: 11400000, guid: 574f92ff9238f564ca6ba2171b2567af, type: 2}
     count: 0
     duration: 0
+  - name: Heart Container Collect
+    audioEvent: {fileID: 11400000, guid: 5da7e59089b61024196e8e033b90afbc, type: 2}
+    count: 0
+    duration: 0
   maxSoundDistance: 50

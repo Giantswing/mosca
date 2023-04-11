@@ -1,37 +1,7 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using UnityEditor;
 using UnityEngine;
-
-public enum SoundList
-{
-    FlyDodge,
-    WallHit,
-    CoinCollect,
-    BombBeep,
-    Explosion,
-    DoorClosing,
-    DoorHit,
-    SecretWall,
-    LockOpening,
-    FlySwatterHit,
-    UINotification,
-    LevelPortalTransitionIn,
-    LevelPortalTransitionOut,
-    KeyBreak,
-    InsecticideGas,
-    CrownHit,
-    BubbleHit,
-    CrownCharge,
-    CrownReturnHit,
-    ElectricPowerUp,
-    ElectricPowerOff,
-    ReviverDetecting,
-    ReviverReviving,
-    CrownThrow,
-    ReverseBuildup
-}
 
 public class SoundMaster : MonoBehaviour
 {
@@ -40,6 +10,31 @@ public class SoundMaster : MonoBehaviour
     private Stack<AudioSource> _audioSources = new();
     [SerializeField] private List<StandardSound> soundList = new();
     [SerializeField] private float maxSoundDistance;
+
+    public void CreateSoundListEnumDynamically()
+    {
+        print("regenerating sound enum");
+        //create string array with all sound names
+        var SoundNames = new string[soundList.Count];
+
+        for (var i = 0; i < soundList.Count; i++)
+        {
+            var soundName = soundList[i].name;
+            soundName = soundName.Replace(" ", "");
+            SoundNames[i] = soundName;
+        }
+
+        GenerateEnum.Go("SoundListAuto", SoundNames);
+    }
+
+    /*
+    private void OnValidate()
+    {
+        print("Sound enum regenerated");
+
+        CreateSoundListEnumDynamically();
+    }
+    */
 
     private void Awake()
     {
@@ -172,5 +167,20 @@ public class SoundMaster : MonoBehaviour
     {
         instance = null;
         DOTween.KillAll();
+    }
+}
+
+/* Custom editor for SoundMaster */
+[CustomEditor(typeof(SoundMaster))]
+public class SoundMasterEditor : Editor
+{
+    //add button
+    public override void OnInspectorGUI()
+    {
+        DrawDefaultInspector();
+
+        var myScript = (SoundMaster)target;
+        if (GUILayout.Button("Generate Sound Enum"))
+            myScript.CreateSoundListEnumDynamically();
     }
 }

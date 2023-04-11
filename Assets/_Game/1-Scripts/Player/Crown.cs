@@ -205,7 +205,7 @@ public class Crown : MonoBehaviour, IPressurePlateListener
         myRb.velocity = new Vector3(myRb.velocity.x, myRb.velocity.y, 0);
         my3dModel.DOScale(originalScale + Vector3.one * 1f, 0.4f);
 
-        SoundMaster.PlaySound(transform.position, (int)SoundList.CrownThrow, "");
+        SoundMaster.PlaySound(transform.position, (int)SoundListAuto.CrownThrow, "");
         FlyingSoundCoroutine = StartCoroutine(FlyingSound());
         //TargetGroupControllerSystem.ModifyTarget(transform, 0.5f, 0, 0.5f);
 
@@ -229,7 +229,7 @@ public class Crown : MonoBehaviour, IPressurePlateListener
         UpdateMaterial(0, glowColor);
         StopCoroutine(FlyingSoundCoroutine);
 
-        SoundMaster.PlaySound(transform.position, (int)SoundList.CrownReturnHit, "", false);
+        SoundMaster.PlaySound(transform.position, (int)SoundListAuto.CrownReturnHit, "", false);
 
         isGrabbed = true;
         myCol.enabled = false;
@@ -274,8 +274,8 @@ public class Crown : MonoBehaviour, IPressurePlateListener
 
         var dir = Vector3.Reflect(originalDir, normal);
 
-        FXMaster.SpawnFX(other.contacts[0].point, (int)FXTypes.Clash);
-        SoundMaster.PlaySound(transform.position, (int)SoundList.CrownHit, "", true);
+        FXMaster.SpawnFX(other.contacts[0].point, (int)FXListAuto.Clash);
+        SoundMaster.PlaySound(transform.position, (int)SoundListAuto.CrownHit, "", true);
         Debug.DrawRay(transform.position, dir.normalized, Color.cyan, 3f);
         myRb.velocity = dir * bounceDampening;
 
@@ -299,7 +299,7 @@ public class Crown : MonoBehaviour, IPressurePlateListener
             if (!EnteredNoCrownArea)
             {
                 EnteredNoCrownArea = true;
-                SoundMaster.PlaySound(transform.position, (int)SoundList.BubbleHit, "", true);
+                SoundMaster.PlaySound(transform.position, (int)SoundListAuto.BubbleHit, "", true);
             }
 
             transform.DOShakePosition(0.4f, 0.6f, 10, 90, false, true);

@@ -71,7 +71,7 @@ public class ElevatorScriptDoor : MonoBehaviour
                 OnCompleteAnimation);
 
             if (canDoSound)
-                SoundMaster.PlaySound(transform.position, (int)SoundList.DoorClosing, "", true);
+                SoundMaster.PlaySound(transform.position, (int)SoundListAuto.DoorClosing, "", true);
         }
     }
 
@@ -98,13 +98,13 @@ public class ElevatorScriptDoor : MonoBehaviour
                 OnCompleteAnimation);
 
             if (canDoSound)
-                SoundMaster.PlaySound(transform.position, (int)SoundList.DoorClosing, "", true);
+                SoundMaster.PlaySound(transform.position, (int)SoundListAuto.DoorClosing, "", true);
 
             transform.DOLocalMoveX(transform.localPosition.x, 0.4f).onComplete += () =>
             {
                 closingFx.Emit(20);
                 if (canDoSound)
-                    SoundMaster.PlaySound(transform.position, (int)SoundList.DoorHit, "", true);
+                    SoundMaster.PlaySound(transform.position, (int)SoundListAuto.DoorHit, "", true);
             };
         }
     }

@@ -302,6 +302,7 @@ public class ScarabWarrior : MonoBehaviour
 
     private void OnDestroy()
     {
+        //test
         TargetGroupControllerSystem.RemoveTarget(transform);
     }
 

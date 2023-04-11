@@ -33,7 +33,7 @@ public class ExplosionScript : MonoBehaviour
                 .onComplete +=
             () => { Destroy(gameObject); };
 
-        SoundMaster.PlaySound(transform.position, (int)SoundList.Explosion, "", true);
+        SoundMaster.PlaySound(transform.position, (int)SoundListAuto.Explosion, "", true);
 
         /*
         explosionMesh.transform.DOScale(0f, 0.5f).SetEase(Ease.InBack).SetDelay(0.5f).onComplete +=

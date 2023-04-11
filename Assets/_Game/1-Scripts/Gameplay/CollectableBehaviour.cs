@@ -184,7 +184,7 @@ public class CollectableBehaviour : MonoBehaviour
     {
         if (pickUp == PickUp.Coin)
         {
-            FXMaster.SpawnFX(transform.position, (int)FXTypes.Coin);
+            FXMaster.SpawnFX(transform.position, (int)FXListAuto.Coin);
 
 
             LevelManager.OnScoreChanged?.Invoke(scoreValue);
@@ -192,7 +192,7 @@ public class CollectableBehaviour : MonoBehaviour
 
         else if (pickUp == PickUp.Poop)
         {
-            FXMaster.SpawnFX(transform.position, (int)FXTypes.Heal);
+            FXMaster.SpawnFX(transform.position, (int)FXListAuto.Heal);
 
             playerHealth.value++;
             onCollect.Dispatch();
@@ -202,8 +202,10 @@ public class CollectableBehaviour : MonoBehaviour
         {
             var heartId = GetComponent<HeartContainer>().HeartContainerID;
             LevelManager.IncreaseHeartContainers(heartId);
-            FXMaster.SpawnFX(transform.position, (int)FXTypes.HeartContainer, "",
+            FXMaster.SpawnFX(transform.position, (int)FXListAuto.HeartContainer, "",
                 PlayerMovement.ReturnPlayerTransform());
+
+            SoundMaster.PlaySound(transform.position, (int)SoundListAuto.HeartContainerCollect, "", true);
         }
 
 

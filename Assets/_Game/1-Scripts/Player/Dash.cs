@@ -309,7 +309,7 @@ public class Dash : MonoBehaviour
         _playerMovement.vSpeed = _playerMovement.inputDirection.y;
         isDashing = true;
         CorrectFacingDirection();
-        SoundMaster.PlaySound(transform.position, (int)SoundList.FlyDodge, "", false);
+        SoundMaster.PlaySound(transform.position, (int)SoundListAuto.FlyDodge, "", false);
 
 
         yield return _WaitDashDuration;
@@ -338,7 +338,7 @@ public class Dash : MonoBehaviour
     {
         dashCollider.enabled = true;
         onPlayerDash?.Dispatch();
-        SoundMaster.PlaySound(transform.position, (int)SoundList.FlyDodge, "", false);
+        SoundMaster.PlaySound(transform.position, (int)SoundListAuto.FlyDodge, "", false);
         _playerAnimationHandler.SetIsDoubleDashing(true);
         isDashing = true;
 

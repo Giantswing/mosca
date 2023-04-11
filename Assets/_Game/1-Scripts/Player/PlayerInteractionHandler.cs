@@ -377,7 +377,7 @@ public class PlayerInteractionHandler : MonoBehaviour, IPressurePlateListener
             if (playerMovement.lastBumpTime > 0) return;
             playerMovement.lastBumpTime = .5f;
 
-            SoundMaster.PlaySound(transform.position, (int)SoundList.WallHit, "", false);
+            SoundMaster.PlaySound(transform.position, (int)SoundListAuto.WallHit, "", false);
 
             Bump(collision.contacts[0].normal, collision.contacts[0].point);
         }
@@ -389,7 +389,7 @@ public class PlayerInteractionHandler : MonoBehaviour, IPressurePlateListener
                 .onComplete +=
             () => transform.DOScale(Vector3.one, .2f);
 
-        FXMaster.SpawnFX(point, (int)FXTypes.Clash);
+        FXMaster.SpawnFX(point, (int)FXListAuto.Clash);
 
 
         playerMovement.inputDirection =

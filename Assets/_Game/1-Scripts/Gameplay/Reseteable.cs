@@ -30,7 +30,7 @@ public class Reseteable : MonoBehaviour, IPressurePlateListener
 
     public void CustomReset()
     {
-        SoundMaster.PlaySound(transform.position, (int)SoundList.ReverseBuildup, "", true);
+        SoundMaster.PlaySound(transform.position, (int)SoundListAuto.ResetBuildup, "", true);
 
         //before reset
         transform.DOShakeRotation(1f, 10, 20, 90, false);
@@ -40,13 +40,13 @@ public class Reseteable : MonoBehaviour, IPressurePlateListener
 
         DOVirtual.DelayedCall(1f, () =>
         {
-            FXMaster.SpawnFX(transform.position, (int)FXTypes.Reset);
+            FXMaster.SpawnFX(transform.position, (int)FXListAuto.Reset);
             transform.localScale = startScale * 0.3f;
             transform.DOScale(startScale, 0.5f).SetEase(Ease.OutBounce).onComplete +=
                 () => { transform.localScale = startScale; };
             transform.position = startPos;
             transform.rotation = startRot;
-            FXMaster.SpawnFX(transform.position, (int)FXTypes.Reset);
+            FXMaster.SpawnFX(transform.position, (int)FXListAuto.Reset);
         });
     }
 }
