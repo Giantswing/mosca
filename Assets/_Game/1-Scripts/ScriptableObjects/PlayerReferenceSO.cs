@@ -9,5 +9,13 @@ public class PlayerReferenceSO : ScriptableObject
     public Rigidbody playerRigidbody;
     public PlayerInteractionHandler playerInteractionHandler;
     public PlayerMovement playerMovement;
+
     public PlayerCamera playerCamera;
+
+    /*-----*/
+    public STATS playerStats;
+    public STATS crownStats;
+    public Transform crownTransform;
+    public Crown crownScript;
+    public Dash playerDash;
 }

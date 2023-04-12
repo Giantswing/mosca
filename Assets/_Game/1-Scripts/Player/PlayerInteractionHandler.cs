@@ -81,12 +81,23 @@ public class PlayerInteractionHandler : MonoBehaviour, IPressurePlateListener
         pickupArea.pI = this;
         pickupArea.pM = playerMovement;
 
+        InitializePlayerReference();
+    }
+
+    private void InitializePlayerReference()
+    {
         playerReference.playerGameObject = gameObject;
         playerReference.playerCamera = playerCamera;
         playerReference.playerInteractionHandler = this;
         playerReference.playerMovement = playerMovement;
         playerReference.playerRigidbody = GetComponent<Rigidbody>();
         playerReference.playerTransform = transform;
+
+        playerReference.playerStats = stats;
+        playerReference.crownStats = crown.GetComponent<STATS>();
+        playerReference.crownTransform = crown.transform;
+        playerReference.crownScript = crown;
+        playerReference.playerDash = dash;
     }
 
     private void Update()

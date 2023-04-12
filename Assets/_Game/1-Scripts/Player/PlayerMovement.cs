@@ -76,16 +76,18 @@ public class PlayerMovement : MonoBehaviour, ICustomTeleport
     private bool imDisabled;
     private bool canCheckZDepth = false;
 
+    [HideInInspector] public Vector3 velocity;
+
 
     private void OnEnable()
     {
-        var playerReceiveInput = GetComponent<PlayerReceiveInput>();
+        PlayerReceiveInput playerReceiveInput = GetComponent<PlayerReceiveInput>();
         playerReceiveInput.OnMove += OnMove;
     }
 
     private void OnDisable()
     {
-        var playerReceiveInput = GetComponent<PlayerReceiveInput>();
+        PlayerReceiveInput playerReceiveInput = GetComponent<PlayerReceiveInput>();
         playerReceiveInput.OnMove -= OnMove;
     }
 
@@ -167,16 +169,20 @@ public class PlayerMovement : MonoBehaviour, ICustomTeleport
 
     public void Move()
     {
+        velocity = Vector3.zero;
+
         if (frozen <= 0)
             if (_chargeShot.chargeShot == 0)
-                _myRigidbody.velocity = new Vector3(
+                velocity = new Vector3(
                     inputDirection.x * stats.ST_Speed * stats.ST_SpeedBoost + _windForce.x + customForce.x,
                     inputDirection.y * stats.ST_Speed * stats.ST_SpeedBoost + _windForce.y + customForce.y, 0);
             else
-                _myRigidbody.velocity = Mathf.Lerp(_myRigidbody.velocity.x, 0, Time.deltaTime * 10f) *
-                                        Vector3.right +
-                                        Mathf.Lerp(_myRigidbody.velocity.y, 0, Time.deltaTime * 10f) *
-                                        Vector3.up;
+                velocity = Mathf.Lerp(_myRigidbody.velocity.x, 0, Time.deltaTime * 10f) *
+                           Vector3.right +
+                           Mathf.Lerp(_myRigidbody.velocity.y, 0, Time.deltaTime * 10f) *
+                           Vector3.up;
+
+        _myRigidbody.velocity = velocity;
     }
 
     public static Transform ReturnPlayerTransform()
@@ -194,7 +200,7 @@ public class PlayerMovement : MonoBehaviour, ICustomTeleport
     {
         var foundWall = false;
         //cast a ray from the player to the ground
-        if (Physics.Raycast(transform.position, transform.forward, out var hit, 6f,
+        if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, 6f,
                 backgroundLayer))
         {
             zDepthTo = hit.distance;
@@ -208,14 +214,14 @@ public class PlayerMovement : MonoBehaviour, ICustomTeleport
         }
 
         zDepth = Mathf.Lerp(zDepth, zDepthTo, Time.deltaTime * 50f);
-        var position = transform.position;
+        Vector3 position = transform.position;
         position = transform.position + transform.forward * (zDepth - zDepthOffset);
         transform.position = position;
 
 
         if (foundWall)
         {
-            var rotationToLook = Quaternion.LookRotation(-hit.normal, Vector3.up);
+            Quaternion rotationToLook = Quaternion.LookRotation(-hit.normal, Vector3.up);
             _zRotTo = rotationToLook.eulerAngles.y;
         }
         else
@@ -234,7 +240,7 @@ public class PlayerMovement : MonoBehaviour, ICustomTeleport
 
     private void UpdatePlayerRotation()
     {
-        var rot = _zRotTo;
+        float rot = _zRotTo;
         if (_dash.isDashing || _chargeShot.chargeShot != 0)
         {
             _modelRotation = Mathf.LerpAngle(_modelRotation,
@@ -282,8 +288,8 @@ public class PlayerMovement : MonoBehaviour, ICustomTeleport
 
     public void CustomTeleport(Transform teleporterTransform, Transform originalTeleporterTransform)
     {
-        var zDifference = transform.position.z - teleporterTransform.position.z;
-        var originalTeleporterPosition = transform.position;
+        float zDifference = transform.position.z - teleporterTransform.position.z;
+        Vector3 originalTeleporterPosition = transform.position;
 
 
         transform.position = teleporterTransform.position;
