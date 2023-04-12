@@ -74,6 +74,7 @@ public class PlayerMovement : MonoBehaviour, ICustomTeleport
     private float _zRot;
     private float _zRotTo;
     private bool imDisabled;
+    private bool canCheckZDepth = false;
 
 
     private void OnEnable()
@@ -114,6 +115,9 @@ public class PlayerMovement : MonoBehaviour, ICustomTeleport
         _startingZDepth = _transform.position.z;
         zDepth = _startingZDepth;
         zDepthTo = _startingZDepth;
+
+        canCheckZDepth = false;
+        DOVirtual.DelayedCall(0.5f, () => { canCheckZDepth = true; });
     }
 
     // Update is called once per frame
@@ -149,7 +153,9 @@ public class PlayerMovement : MonoBehaviour, ICustomTeleport
 
         CheckIfPlayerShouldFlip();
 
-        CheckZDepth();
+        if (canCheckZDepth)
+            CheckZDepth();
+
         UpdatePlayerRotation();
     }
 

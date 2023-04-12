@@ -73,6 +73,7 @@ public class Spear : MonoBehaviour
     {
         if (!hasCollided)
         {
+            SoundMaster.PlaySound(transform.position, (int)SoundListAuto.ArrowHit, "", true);
             myCollider.enabled = false;
             transform.parent = collision.transform;
             transform.DOPunchRotation(Vector3.up * 40, 1f, 10, 1f);

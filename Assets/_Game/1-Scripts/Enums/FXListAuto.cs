@@ -10,4 +10,5 @@ public enum FXListAuto
 	Heal,
 	Reset,
 	HeartContainer,
+	BubbleHit,
 }

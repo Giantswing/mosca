@@ -295,23 +295,22 @@ public class Crown : MonoBehaviour, IPressurePlateListener
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.TryGetComponent(out NoCrownArea noCrownArea))
-        {
             if (!EnteredNoCrownArea)
             {
                 EnteredNoCrownArea = true;
+
+                FXMaster.SpawnFX(transform.position, (int)FXListAuto.BubbleHit, "");
                 SoundMaster.PlaySound(transform.position, (int)SoundListAuto.BubbleHit, "", true);
+
+                transform.DOShakePosition(0.4f, 0.6f, 10, 90, false, true);
+                myRb.drag = 100f;
+                myCol.enabled = false;
+
+                DOVirtual.DelayedCall(0.4f, () => { returnMode = true; });
+
+                UpdateMaterial(0.5f, errorColor);
+                pickUpArea.gameObject.SetActive(false);
             }
-
-            transform.DOShakePosition(0.4f, 0.6f, 10, 90, false, true);
-            //myRb.velocity = -myRb.velocity * 0.3f;
-            myRb.drag = 100f;
-            myCol.enabled = false;
-
-            DOVirtual.DelayedCall(0.4f, () => { returnMode = true; });
-
-            UpdateMaterial(0.5f, errorColor);
-            pickUpArea.gameObject.SetActive(false);
-        }
     }
 
     private void OnDrawGizmos()

@@ -51,8 +51,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fd8e5d50ba833f4786e10b760bb1498, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deathSoundEvent: {fileID: 0}
-  playDeathSound: 0
+  deathSoundEvent: {fileID: 11400000, guid: fbbc8fe9c51eef84c89e72d01928d5b3, type: 2}
+  playDeathSound: 1
   hitSoundEvent: {fileID: 11400000, guid: 14d863d64f65b3745aec184bd208ccef, type: 2}
   playHitSound: 1
   myRenderer: {fileID: 5240363747667802905}
@@ -63,7 +63,7 @@ MonoBehaviour:
   ST_SpeedBoost: 0
   ST_Health:
     _owner: {fileID: 5662254482348848758}
-    _ownerName: Scarab Warrior
+    _ownerName: Scarab Warrior (1)
     _propertyPath: ST_Health
     _autoListen: 0
     _multiIndex: 0

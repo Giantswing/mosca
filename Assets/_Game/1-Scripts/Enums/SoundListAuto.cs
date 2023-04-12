@@ -26,4 +26,8 @@ public enum SoundListAuto
 	CrownThrow,
 	ResetBuildup,
 	HeartContainerCollect,
+	EnemyGrunt,
+	BigWhoosh,
+	ArrowHit,
+	SimplePop,
 }

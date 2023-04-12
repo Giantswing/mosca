@@ -34,6 +34,7 @@ public class FlyOnDeathBehaviour : MonoBehaviour
         yield return new WaitForSeconds(0.6f);
 
         FXMaster.SpawnFX(transform.position, (int)FXListAuto.SmokePuff);
+        SoundMaster.PlaySound(transform.position, (int)SoundListAuto.SimplePop, "", true);
 
         Destroy(gameObject);
     }

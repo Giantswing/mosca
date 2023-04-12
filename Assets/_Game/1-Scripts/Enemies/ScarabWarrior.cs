@@ -355,7 +355,7 @@ public class ScarabWarrior : MonoBehaviour
         timeSinceLastAttack = 0;
         attackCooldown = attackCooldownBase + UnityEngine.Random.Range(-1f, 1f);
 
-        if (randomChance < 0.3f) attackCooldown = .1f;
+        if (randomChance < 0.3f) attackCooldown = 1f;
     }
 
     private void Flip(int dir)
@@ -428,6 +428,8 @@ public class ScarabWarrior : MonoBehaviour
             animator.SetBool(IsThrowing, false);
             state = State.Follow;
         });
+
+        SoundMaster.PlaySound(transform.position, (int)SoundListAuto.EnemyGrunt, "", true);
     }
 
     public void SpearThrow()
@@ -436,6 +438,7 @@ public class ScarabWarrior : MonoBehaviour
         var spear = Instantiate(spearPrefab, handSpear.transform.position, Quaternion.identity);
         */
 
+        SoundMaster.PlaySound(transform.position, (int)SoundListAuto.BigWhoosh, "", true);
         var spear = GetSpear();
 
         spear.transform.position = handSpear.transform.position + handSpear.transform.forward * 0.5f;

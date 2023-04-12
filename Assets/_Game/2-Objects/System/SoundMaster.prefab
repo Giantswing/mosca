@@ -150,4 +150,20 @@ MonoBehaviour:
     audioEvent: {fileID: 11400000, guid: 5da7e59089b61024196e8e033b90afbc, type: 2}
     count: 0
     duration: 0
+  - name: Enemy Grunt
+    audioEvent: {fileID: 11400000, guid: 78201034d8ea1b743ba974ca8cc520e6, type: 2}
+    count: 0
+    duration: 0
+  - name: Big Whoosh
+    audioEvent: {fileID: 11400000, guid: e2f746824ba1ecf4b8c54d0fc7d2a3d6, type: 2}
+    count: 0
+    duration: 0
+  - name: Arrow Hit
+    audioEvent: {fileID: 11400000, guid: c73780651d2747b43b50007297b72d51, type: 2}
+    count: 0
+    duration: 0
+  - name: Simple Pop
+    audioEvent: {fileID: 11400000, guid: 31eba83c453360248a056a51b895f7d8, type: 2}
+    count: 0
+    duration: 0
   maxSoundDistance: 50

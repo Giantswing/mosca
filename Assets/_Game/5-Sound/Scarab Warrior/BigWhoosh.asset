@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 83cc2216f9409da4fa6fb4f0d97a2976, type: 3}
-  m_Name: Heart Container Collect
+  m_Name: BigWhoosh
   m_EditorClassIdentifier: 
   clips:
-  - {fileID: 8300000, guid: f2733b42626c342479a47aeeeb9bed32, type: 3}
+  - {fileID: 8300000, guid: 7f235bf4bc00d5448ae2633063466f7e, type: 3}
   volume:
-    minValue: 0.94778067
+    minValue: 0.92689294
     maxValue: 1
   pitch:
-    minValue: 0.98172325
-    maxValue: 1.0234988
+    minValue: 0.9295039
+    maxValue: 1.1070492
