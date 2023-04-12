@@ -1,0 +1,16 @@
+{
+    "name": "SmartData",
+    "rootNamespace": "",
+    "references": [
+        "GUID:a12989b41ab1f68429c64ea9eeba9f40"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

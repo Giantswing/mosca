@@ -60,7 +60,7 @@ public class LockScript : MonoBehaviour
         otherKey.transform.DOMove(transform.position - Vector3.left * 0.35f * otherKey.transform.localScale.x, 0.5f)
             .onComplete += () =>
         {
-            SoundMaster.PlaySound(transform.position, (int)SoundListAuto.LockOpening, "", true);
+            SoundMaster.PlaySound(transform.position, (int)SoundListAuto.LockOpening, true);
 
             topPart.DOLocalRotate(new Vector3(0, 90f, 0), 0.5f);
             transform.DOMoveY(transform.position.y + 2.5f, 0.5f).SetDelay(0.3f);
@@ -78,7 +78,7 @@ public class LockScript : MonoBehaviour
     {
         if (_checkDelay < 0 && isOpening == false && other.CompareTag("Collectable"))
         {
-            var otherKey = other.GetComponent<KeyScript>();
+            KeyScript otherKey = other.GetComponent<KeyScript>();
             if (otherKey == null) return;
             _checkDelay = 2f;
             StartCoroutine(OpenGateRoutine(otherKey));

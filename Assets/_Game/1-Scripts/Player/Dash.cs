@@ -136,23 +136,23 @@ public class Dash : MonoBehaviour
         if (_playerMovement.inputDirectionTo.magnitude <= 0.25f)
         {
             var objects = new Collider[10];
-            var numOfObjects = Physics.OverlapSphereNonAlloc(transform.position, 2f, objects);
+            int numOfObjects = Physics.OverlapSphereNonAlloc(transform.position, 2f, objects);
 
             interactables.Clear();
 
             for (var i = 0; i < numOfObjects; i++)
             {
-                var interactable = objects[i].GetComponent<IInteractableWithDash>();
+                IInteractableWithDash interactable = objects[i].GetComponent<IInteractableWithDash>();
 
                 if (interactable != null) interactables.Add(objects[i].transform);
             }
 
             float closestDistance = 1000;
-            var closestPosition = Vector3.zero;
+            Vector3 closestPosition = Vector3.zero;
 
-            foreach (var interactable in interactables)
+            foreach (Transform interactable in interactables)
             {
-                var distance = Vector2.Distance(transform.position, interactable.position);
+                float distance = Vector2.Distance(transform.position, interactable.position);
                 if (distance < closestDistance)
                 {
                     closestDistance = distance;
@@ -167,11 +167,11 @@ public class Dash : MonoBehaviour
 
             else
             {
-                var diff = closestPosition - transform.position;
-                var angle = Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg;
+                Vector3 diff = closestPosition - transform.position;
+                float angle = Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg;
 
                 //fit movementDirection to from -1 to 1 depending on angle
-                var movementDirection =
+                Vector2 movementDirection =
                     new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad));
 
 
@@ -309,7 +309,7 @@ public class Dash : MonoBehaviour
         _playerMovement.vSpeed = _playerMovement.inputDirection.y;
         isDashing = true;
         CorrectFacingDirection();
-        SoundMaster.PlaySound(transform.position, (int)SoundListAuto.FlyDodge, "", false);
+        SoundMaster.PlaySound(transform.position, (int)SoundListAuto.FlyDodge, false);
 
 
         yield return _WaitDashDuration;
@@ -338,7 +338,7 @@ public class Dash : MonoBehaviour
     {
         dashCollider.enabled = true;
         onPlayerDash?.Dispatch();
-        SoundMaster.PlaySound(transform.position, (int)SoundListAuto.FlyDodge, "", false);
+        SoundMaster.PlaySound(transform.position, (int)SoundListAuto.FlyDodge, false);
         _playerAnimationHandler.SetIsDoubleDashing(true);
         isDashing = true;
 

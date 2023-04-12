@@ -25,12 +25,12 @@ public class PressurePlate : MonoBehaviour
 
     private void Start()
     {
-        foreach (var mRenderer in meshRenderer)
+        foreach (MeshRenderer mRenderer in meshRenderer)
             mRenderer.material = inactiveMaterial;
 
         isActive = false;
 
-        var eventCount = OnPress.GetPersistentEventCount();
+        int eventCount = OnPress.GetPersistentEventCount();
         if (eventCount > 0)
         {
             cableGenerator.targets = new Transform[eventCount];
@@ -49,9 +49,9 @@ public class PressurePlate : MonoBehaviour
             {
                 if (!isActive) return;
                 isActive = false;
-                SoundMaster.PlaySound(transform.position, (int)SoundListAuto.ElectricPowerOff, "", true);
+                SoundMaster.PlaySound(transform.position, (int)SoundListAuto.ElectricPowerOff, true);
 
-                foreach (var mRenderer in meshRenderer)
+                foreach (MeshRenderer mRenderer in meshRenderer)
                     mRenderer.material = inactiveMaterial;
 
                 OnRelease.Invoke();
@@ -61,8 +61,8 @@ public class PressurePlate : MonoBehaviour
         {
             if (isActive) return;
             isActive = true;
-            SoundMaster.PlaySound(transform.position, (int)SoundListAuto.ElectricPowerUp, "", true);
-            foreach (var mRenderer in meshRenderer)
+            SoundMaster.PlaySound(transform.position, (int)SoundListAuto.ElectricPowerUp, true);
+            foreach (MeshRenderer mRenderer in meshRenderer)
                 mRenderer.material = activeMaterial;
 
             OnPress.Invoke();
@@ -99,7 +99,7 @@ public class PressurePlate : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        var eventCount = OnPress.GetPersistentEventCount();
+        int eventCount = OnPress.GetPersistentEventCount();
         if (eventCount > 0)
         {
             var targets = new Transform[eventCount];

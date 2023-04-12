@@ -130,15 +130,16 @@ public class CollectableBehaviour : MonoBehaviour
     {
         if (isFollowing == 2)
         {
-            var position = _whoToFollow.position;
+            Vector3 position = _whoToFollow.position;
             _tweener.ChangeEndValue(position, true);
-            var distance = Vector3.Distance(transform.position, _whoToFollowTrue.position);
+            float distance = Vector3.Distance(transform.position, _whoToFollowTrue.position);
             if (distance < .6f && _isShrinking == false)
             {
                 transform.SetParent(null);
                 if (pickUp == PickUp.Throwable)
                 {
-                    var playerInteraction = _whoToFollowTrue.gameObject.GetComponent<PlayerInteractionHandler>();
+                    PlayerInteractionHandler playerInteraction =
+                        _whoToFollowTrue.gameObject.GetComponent<PlayerInteractionHandler>();
                     if (playerInteraction == null) return;
                     isFollowing = 3;
                     transform.DOLocalRotate(Vector3.zero, 0.5f);
@@ -150,7 +151,8 @@ public class CollectableBehaviour : MonoBehaviour
                 {
                     if (collectSound != null)
                         SoundMaster.PlayTargetSound(transform.position, collectSound, true);
-                    var playerInteraction = _whoToFollowTrue.gameObject.GetComponent<PlayerInteractionHandler>();
+                    PlayerInteractionHandler playerInteraction =
+                        _whoToFollowTrue.gameObject.GetComponent<PlayerInteractionHandler>();
                     if (playerInteraction == null) return;
                     isFollowing = 3;
                     myCollider.size = new Vector3(3, 3, 3);
@@ -174,7 +176,8 @@ public class CollectableBehaviour : MonoBehaviour
 
     public void RemoveHolder()
     {
-        var playerInteraction = _whoToFollowTrue.gameObject.GetComponent<PlayerInteractionHandler>();
+        PlayerInteractionHandler playerInteraction =
+            _whoToFollowTrue.gameObject.GetComponent<PlayerInteractionHandler>();
         if (playerInteraction == null) return;
 
         playerInteraction.holdingItems.Remove(_holdableItem);
@@ -200,12 +203,12 @@ public class CollectableBehaviour : MonoBehaviour
 
         else if (pickUp == PickUp.HeartContainer)
         {
-            var heartId = GetComponent<HeartContainer>().HeartContainerID;
+            int heartId = GetComponent<HeartContainer>().HeartContainerID;
             LevelManager.IncreaseHeartContainers(heartId);
-            FXMaster.SpawnFX(transform.position, (int)FXListAuto.HeartContainer, "",
+            FXMaster.SpawnFX(transform.position, (int)FXListAuto.HeartContainer,
                 PlayerMovement.ReturnPlayerTransform());
 
-            SoundMaster.PlaySound(transform.position, (int)SoundListAuto.HeartContainerCollect, "", true);
+            SoundMaster.PlaySound(transform.position, (int)SoundListAuto.HeartContainerCollect, true);
         }
 
 
@@ -221,8 +224,8 @@ public class CollectableBehaviour : MonoBehaviour
             _whoToFollow = follow;
             _whoToFollowTrue = truePlayer;
 
-            var awayDirection = (transform.position - follow.position).normalized;
-            var awayPosition = transform.position + awayDirection * 1.4f;
+            Vector3 awayDirection = (transform.position - follow.position).normalized;
+            Vector3 awayPosition = transform.position + awayDirection * 1.4f;
 
 
             transform.DOMove(awayPosition, Random.Range(0.15F, 0.35F), false).SetEase(Ease.InOutCubic).onComplete +=
@@ -236,10 +239,10 @@ public class CollectableBehaviour : MonoBehaviour
         _whoToFollow = follow;
         _whoToFollowTrue = truePlayer;
 
-        var tempTransform = transform;
-        var tempPosition = tempTransform.position;
-        var awayDirection = (tempPosition - follow.position).normalized;
-        var position = tempPosition + awayDirection * 2;
+        Transform tempTransform = transform;
+        Vector3 tempPosition = tempTransform.position;
+        Vector3 awayDirection = (tempPosition - follow.position).normalized;
+        Vector3 position = tempPosition + awayDirection * 2;
 
         _tweener = transform.DOMove(_whoToFollow.position, .2f, false).SetEase(Ease.OutCubic);
         isFollowing = 2;

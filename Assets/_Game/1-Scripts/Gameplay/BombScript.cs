@@ -52,17 +52,17 @@ public class BombScript : CollectableBehaviour, IPressurePlateListener, ICollisi
 
     private IEnumerator FlashMaterial()
     {
-        foreach (var renderer in _meshRenderers)
+        foreach (MeshRenderer renderer in _meshRenderers)
             renderer.material = flashingMaterial;
 
         //map the pitch to the life time
         beepSound.pitch.minValue = Mathf.Lerp(1.2f, .8f, _currentLifeTime / lifeTime);
         beepSound.pitch.maxValue = beepSound.pitch.minValue;
-        SoundMaster.PlaySound(transform.position, (int)SoundListAuto.BombBeep, "", true);
+        SoundMaster.PlaySound(transform.position, (int)SoundListAuto.BombBeep, true);
 
         yield return _flashDuration;
 
-        foreach (var renderer in _meshRenderers)
+        foreach (MeshRenderer renderer in _meshRenderers)
             renderer.material = defaultMaterial;
 
 
@@ -110,7 +110,7 @@ public class BombScript : CollectableBehaviour, IPressurePlateListener, ICollisi
 
         myRigidbody.useGravity = true;
 
-        var force = playerReference.playerRigidbody.velocity * 3f;
+        Vector3 force = playerReference.playerRigidbody.velocity * 3f;
         if (force.magnitude < 3f) force = new Vector3(playerReference.playerMovement.isFacingRight * 9f, 1f, 0);
 
         myRigidbody.velocity = force;

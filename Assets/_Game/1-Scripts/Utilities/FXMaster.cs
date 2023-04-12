@@ -38,7 +38,7 @@ public class FXMaster : MonoBehaviour
 
         for (var i = 0; i < FXList.Count; i++)
         {
-            var fxName = FXList[i].name;
+            string fxName = FXList[i].name;
             fxName = fxName.Replace(" ", "");
             FxNames[i] = fxName;
         }
@@ -51,37 +51,41 @@ public class FXMaster : MonoBehaviour
         _fxWaitTimes = new WaitForSeconds[FXList.Count];
         for (var j = 0; j < FXList.Count; j++)
         {
-            var effect = FXList[j];
-            var fxFolder = new GameObject(effect.name);
+            StandardFX effect = FXList[j];
+            GameObject fxFolder = new(effect.name);
             fxFolder.transform.parent = transform;
             effect.instances = new Stack<GameObject>();
             _fxWaitTimes[j] = new WaitForSeconds(effect.duration);
 
             for (var i = 0; i < effect.maxCount; i++)
             {
-                var fx = Instantiate(effect.FX, fxFolder.transform);
+                GameObject fx = Instantiate(effect.FX, fxFolder.transform);
                 effect.instances.Push(fx);
                 fx.SetActive(false);
             }
         }
     }
 
-    public static void SpawnFX(Vector3 position, int index = -1, string name = "", Transform parent = null)
+    public static void SpawnFX(Vector3 position, int index = -1, Transform parent = null, Vector3 rotation = default)
     {
-        StandardFX effect;
+        StandardFX effect = instance.FindFX(index);
+
+        /*
         if (name != "")
             effect = instance.FindFX(name);
         else
             effect = instance.FindFX(index);
+            */
 
 
         if (effect == null) return;
 
         if (effect.instances.Count == 0) return;
 
-        var fx = effect.instances.Pop();
+        GameObject fx = effect.instances.Pop();
 
         fx.SetActive(true);
+
         if (parent != null)
         {
             fx.transform.parent = parent;
@@ -91,6 +95,8 @@ public class FXMaster : MonoBehaviour
         {
             fx.transform.position = position;
         }
+
+        fx.transform.rotation = Quaternion.Euler(rotation);
 
         instance.StartCoroutine(instance.DeactivateFX(effect, fx));
     }
@@ -124,7 +130,7 @@ public class FXMasterEditor : Editor
     {
         DrawDefaultInspector();
 
-        var myScript = (FXMaster)target;
+        FXMaster myScript = (FXMaster)target;
         if (GUILayout.Button("Generate FX Enum"))
             myScript.CreateFXListEnumDynamically();
     }

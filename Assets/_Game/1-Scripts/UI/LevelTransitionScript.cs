@@ -38,7 +38,7 @@ public class LevelTransitionScript : MonoBehaviour
         if (_isTransitioning) return;
 
         transitionImage.material.DOKill();
-        SoundMaster.PlaySound(transform.position, (int)SoundListAuto.LevelPortalTransitionIn, "", false);
+        SoundMaster.PlaySound(transform.position, (int)SoundListAuto.LevelPortalTransitionIn, false);
         _isTransitioning = true;
         transitionImage.gameObject.SetActive(true);
         if (_camera == null)
@@ -62,7 +62,7 @@ public class LevelTransitionScript : MonoBehaviour
         transitionImage.material.DOKill();
         GC.Collect();
 
-        SoundMaster.PlaySound(transform.position, (int)SoundListAuto.LevelPortalTransitionOut, "", false);
+        SoundMaster.PlaySound(transform.position, (int)SoundListAuto.LevelPortalTransitionOut, false);
 
         if (_camera == null)
             _camera = Camera.main;

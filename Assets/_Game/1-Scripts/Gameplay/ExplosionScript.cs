@@ -33,7 +33,7 @@ public class ExplosionScript : MonoBehaviour
                 .onComplete +=
             () => { Destroy(gameObject); };
 
-        SoundMaster.PlaySound(transform.position, (int)SoundListAuto.Explosion, "", true);
+        SoundMaster.PlaySound(transform.position, (int)SoundListAuto.Explosion, true);
 
         /*
         explosionMesh.transform.DOScale(0f, 0.5f).SetEase(Ease.InBack).SetDelay(0.5f).onComplete +=
@@ -43,13 +43,13 @@ public class ExplosionScript : MonoBehaviour
 
     private void CheckForDamage()
     {
-        var receivers = Physics.OverlapSphere(transform.position, _explosionSize);
-        foreach (var receiver in receivers)
+        Collider[] receivers = Physics.OverlapSphere(transform.position, _explosionSize);
+        foreach (Collider receiver in receivers)
         {
-            var otherStats = receiver.GetComponent<STATS>();
+            STATS otherStats = receiver.GetComponent<STATS>();
             if (otherStats)
             {
-                var playerInteractionHandler = receiver.GetComponent<PlayerInteractionHandler>();
+                PlayerInteractionHandler playerInteractionHandler = receiver.GetComponent<PlayerInteractionHandler>();
                 if (playerInteractionHandler)
                     playerInteractionHandler.CheckTakeDamage(1, transform.position);
                 else

@@ -11,4 +11,6 @@ public enum FXListAuto
 	Reset,
 	HeartContainer,
 	BubbleHit,
+	SmokeExplosion,
+	BulletBreak,
 }

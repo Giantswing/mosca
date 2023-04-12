@@ -13,15 +13,15 @@ public class FlyOnDeathBehaviour : MonoBehaviour
 
     private IEnumerator StartFlyingRoutine()
     {
-        var _stats = GetComponent<STATS>();
+        STATS _stats = GetComponent<STATS>();
 
         if (_stats == null) Destroy(gameObject);
 
-        var dir = (transform.position - _stats.dmgDirection).normalized;
+        Vector3 dir = (transform.position - _stats.dmgDirection).normalized;
 
         DOTween.Kill(transform);
 
-        var rb = GetComponent<Rigidbody>();
+        Rigidbody rb = GetComponent<Rigidbody>();
         rb.isKinematic = false;
         rb.velocity = dir * 14f;
 
@@ -34,7 +34,7 @@ public class FlyOnDeathBehaviour : MonoBehaviour
         yield return new WaitForSeconds(0.6f);
 
         FXMaster.SpawnFX(transform.position, (int)FXListAuto.SmokePuff);
-        SoundMaster.PlaySound(transform.position, (int)SoundListAuto.SimplePop, "", true);
+        SoundMaster.PlaySound(transform.position, (int)SoundListAuto.SimplePop, true);
 
         Destroy(gameObject);
     }

@@ -43,7 +43,7 @@ public class Reviver : MonoBehaviour
     public static bool CanRevive()
     {
         var result = false;
-        foreach (var reviver in allRevivers)
+        foreach (Reviver reviver in allRevivers)
             if (reviver.isActivated && !reviver.hasBeenUsed)
             {
                 result = true;
@@ -55,7 +55,7 @@ public class Reviver : MonoBehaviour
 
     private IEnumerator Revive_Coroutine(Transform player)
     {
-        SoundMaster.PlaySound(transform.position, (int)SoundListAuto.ReviverReviving, "", true);
+        SoundMaster.PlaySound(transform.position, (int)SoundListAuto.ReviverReviving, true);
         playerHealth.value = playerMaxHealth.value;
         playerReference.playerMovement.DisablePlayer();
         playerReference.playerMovement.inputDirectionTo = Vector2.zero;
@@ -115,7 +115,7 @@ public class Reviver : MonoBehaviour
                 reviver.Deactivate();
         */
 
-        foreach (var reviver in allRevivers)
+        foreach (Reviver reviver in allRevivers)
             if (reviver != activeReviver)
                 reviver.Deactivate();
     }
@@ -124,10 +124,10 @@ public class Reviver : MonoBehaviour
     {
         if (isActivated || hasBeenUsed) return;
 
-        SoundMaster.PlaySound(transform.position, (int)SoundListAuto.ReviverDetecting, "", true);
+        SoundMaster.PlaySound(transform.position, (int)SoundListAuto.ReviverDetecting, true);
         activeReviver = this;
         isActivated = true;
-        foreach (var child in meshRenderers) child.material = onMaterial;
+        foreach (MeshRenderer child in meshRenderers) child.material = onMaterial;
 
 
         topPart.transform.DOLocalMoveY(0.5f, 0.5f).SetEase(Ease.OutBounce).onComplete += () =>
@@ -140,7 +140,7 @@ public class Reviver : MonoBehaviour
 
     public void Deactivate()
     {
-        foreach (var child in meshRenderers) child.material = offMaterial;
+        foreach (MeshRenderer child in meshRenderers) child.material = offMaterial;
 
         isActivated = false;
     }

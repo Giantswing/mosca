@@ -108,7 +108,7 @@ public class Crown : MonoBehaviour, IPressurePlateListener
         else
             crownDistance += (crownDistanceTo - crownDistance) * Time.deltaTime * 3f;
 
-        var result = crownDistance * howMuchStrengthHasInTarget;
+        float result = crownDistance * howMuchStrengthHasInTarget;
         if (result < 0.01f)
             result = 0;
 
@@ -205,7 +205,7 @@ public class Crown : MonoBehaviour, IPressurePlateListener
         myRb.velocity = new Vector3(myRb.velocity.x, myRb.velocity.y, 0);
         my3dModel.DOScale(originalScale + Vector3.one * 1f, 0.4f);
 
-        SoundMaster.PlaySound(transform.position, (int)SoundListAuto.CrownThrow, "");
+        SoundMaster.PlaySound(transform.position, (int)SoundListAuto.CrownThrow);
         FlyingSoundCoroutine = StartCoroutine(FlyingSound());
         //TargetGroupControllerSystem.ModifyTarget(transform, 0.5f, 0, 0.5f);
 
@@ -217,7 +217,7 @@ public class Crown : MonoBehaviour, IPressurePlateListener
 
     public void SetUpIgnoreCollisions(Collider[] colliders)
     {
-        foreach (var col in colliders)
+        foreach (Collider col in colliders)
             Physics.IgnoreCollision(col, myCol);
     }
 
@@ -229,7 +229,7 @@ public class Crown : MonoBehaviour, IPressurePlateListener
         UpdateMaterial(0, glowColor);
         StopCoroutine(FlyingSoundCoroutine);
 
-        SoundMaster.PlaySound(transform.position, (int)SoundListAuto.CrownReturnHit, "", false);
+        SoundMaster.PlaySound(transform.position, (int)SoundListAuto.CrownReturnHit, false);
 
         isGrabbed = true;
         myCol.enabled = false;
@@ -242,7 +242,7 @@ public class Crown : MonoBehaviour, IPressurePlateListener
         //TargetGroupControllerSystem.ModifyTarget(transform, 0, 0, 0.8f);
         //TargetGroupControllerSystem.RemoveTarget(transform);
 
-        var duration = Vector3.Distance(transform.position, originalParent.position) * 0.15f;
+        float duration = Vector3.Distance(transform.position, originalParent.position) * 0.15f;
 
         my3dModel.DOKill();
         my3dModel.localRotation = Quaternion.identity;
@@ -268,14 +268,14 @@ public class Crown : MonoBehaviour, IPressurePlateListener
 
     private void OnCollisionEnter(Collision other)
     {
-        var normal = other.contacts[0].normal;
-        var originalDir = currentVelocity;
+        Vector3 normal = other.contacts[0].normal;
+        Vector3 originalDir = currentVelocity;
         numCollisions++;
 
-        var dir = Vector3.Reflect(originalDir, normal);
+        Vector3 dir = Vector3.Reflect(originalDir, normal);
 
         FXMaster.SpawnFX(other.contacts[0].point, (int)FXListAuto.Clash);
-        SoundMaster.PlaySound(transform.position, (int)SoundListAuto.CrownHit, "", true);
+        SoundMaster.PlaySound(transform.position, (int)SoundListAuto.CrownHit, true);
         Debug.DrawRay(transform.position, dir.normalized, Color.cyan, 3f);
         myRb.velocity = dir * bounceDampening;
 
@@ -299,8 +299,8 @@ public class Crown : MonoBehaviour, IPressurePlateListener
             {
                 EnteredNoCrownArea = true;
 
-                FXMaster.SpawnFX(transform.position, (int)FXListAuto.BubbleHit, "");
-                SoundMaster.PlaySound(transform.position, (int)SoundListAuto.BubbleHit, "", true);
+                FXMaster.SpawnFX(transform.position, (int)FXListAuto.BubbleHit);
+                SoundMaster.PlaySound(transform.position, (int)SoundListAuto.BubbleHit, true);
 
                 transform.DOShakePosition(0.4f, 0.6f, 10, 90, false, true);
                 myRb.drag = 100f;
@@ -318,7 +318,7 @@ public class Crown : MonoBehaviour, IPressurePlateListener
         Gizmos.color = Color.red;
         Gizmos.DrawRay(transform.position, transform.forward);
 
-        var velocity = GetComponent<Rigidbody>().velocity;
+        Vector3 velocity = GetComponent<Rigidbody>().velocity;
         Gizmos.color = Color.green;
         Gizmos.DrawRay(transform.position, velocity);
     }

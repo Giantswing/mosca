@@ -49,7 +49,7 @@ public class Traveler : MonoBehaviour
     {
         for (var i = 1; i < travelPoints.Count - 1; i++)
         {
-            var fx = Instantiate(travelerEffectPrefab, transform);
+            GameObject fx = Instantiate(travelerEffectPrefab, transform);
             fx.transform.localPosition = travelPoints[i];
         }
     }
@@ -85,18 +85,18 @@ public class Traveler : MonoBehaviour
     {
         yield return null;
 
-        SoundMaster.PlaySound(transform.position, (int)SoundListAuto.FlyDodge, "", true);
+        SoundMaster.PlaySound(transform.position, (int)SoundListAuto.FlyDodge, true);
 
         _onEachPoint?.Invoke();
-        var point1 = isForward ? currentTravelPoint - 1 : currentTravelPoint + 1;
-        var point2 = currentTravelPoint;
+        int point1 = isForward ? currentTravelPoint - 1 : currentTravelPoint + 1;
+        int point2 = currentTravelPoint;
 
 
-        var distanceToNextPoint =
+        float distanceToNextPoint =
             Vector3.Distance(travelPoints[point1], travelPoints[point2]);
 
-        var movementDuration = distanceToNextPoint / travelSpeed;
-        var startingPos = isForward ? transform.position : exitTraveler.transform.position;
+        float movementDuration = distanceToNextPoint / travelSpeed;
+        Vector3 startingPos = isForward ? transform.position : exitTraveler.transform.position;
 
         ScreenFXSystem.ShakeCamera(.4f, 0.5f);
 
@@ -131,7 +131,7 @@ public class Traveler : MonoBehaviour
 
         for (var i = 0; i < travelPoints.Count; i++)
         {
-            var point = transform.position + travelPoints[i];
+            Vector3 point = transform.position + travelPoints[i];
             //var point2 = point + Quaternion.Euler(MovePoints[i].rotation) * transform.up * 0.5f;
 
             Gizmos.DrawSphere(point, .2f);

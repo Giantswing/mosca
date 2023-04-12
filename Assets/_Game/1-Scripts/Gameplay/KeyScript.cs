@@ -46,7 +46,7 @@ public class KeyScript : CollectableBehaviour
         transform.DOShakeScale(1f, 0.3f, 10, 90, false).onComplete += () =>
         {
             FXMaster.SpawnFX(transform.position, (int)FXListAuto.KeyBreak);
-            SoundMaster.PlaySound(transform.position, (int)SoundListAuto.KeyBreak, "", true);
+            SoundMaster.PlaySound(transform.position, (int)SoundListAuto.KeyBreak, true);
 
 
             if (!_hasParent)

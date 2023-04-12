@@ -71,8 +71,8 @@ public class PlayerInteractionHandler : MonoBehaviour, IPressurePlateListener
     {
         instance = this;
         crown = GetComponentInChildren<Crown>();
-        var obj = Instantiate(playerPickupArea);
-        var pickupArea = obj.GetComponent<PlayerPickupArea>();
+        GameObject obj = Instantiate(playerPickupArea);
+        PlayerPickupArea pickupArea = obj.GetComponent<PlayerPickupArea>();
 
         //pickupArea.player = gameObject.transform;
         pickupArea.player = crown.transform;
@@ -97,7 +97,7 @@ public class PlayerInteractionHandler : MonoBehaviour, IPressurePlateListener
         for (var i = 0; i < holdingItems.Count; i++)
             if (!holdingItems[i].isThrowable)
             {
-                var xPos = Vector3.left * 1.5f + Vector3.right * (0.75f * i);
+                Vector3 xPos = Vector3.left * 1.5f + Vector3.right * (0.75f * i);
                 holdingItems[i].itemTransform.position = Vector3.Lerp(holdingItems[i].itemTransform.position,
                     transform.position + Vector3.up * 0.75f + xPos * playerMovement.isFacingRight, Time.deltaTime * 10);
             }
@@ -145,7 +145,7 @@ public class PlayerInteractionHandler : MonoBehaviour, IPressurePlateListener
     private void OnTriggerEnter(Collider collision)
     {
         //cache collision tag
-        var tag = collision.tag;
+        string tag = collision.tag;
 
         switch (tag)
         {
@@ -169,11 +169,11 @@ public class PlayerInteractionHandler : MonoBehaviour, IPressurePlateListener
                 };
                 break;
             case "Wind":
-                var wind = collision.GetComponent<WindFxScript>();
+                WindFxScript wind = collision.GetComponent<WindFxScript>();
                 playerMovement.windForceTo += wind.moveDir * wind.force * 15f;
                 break;
             case "CameraZone":
-                var camZone = collision.GetComponent<CameraZone>();
+                CameraZone camZone = collision.GetComponent<CameraZone>();
                 playerCamera.UpdateCameraZone(camZone);
                 break;
             /*
@@ -184,7 +184,7 @@ public class PlayerInteractionHandler : MonoBehaviour, IPressurePlateListener
                 break;
                 */
             case "Traveler":
-                var traveler = collision.GetComponent<Traveler>();
+                Traveler traveler = collision.GetComponent<Traveler>();
                 traveler.StartTravel(transform, (exitsToTheLeft) =>
                 {
                     playerMovement.EnablePlayer();
@@ -230,7 +230,7 @@ public class PlayerInteractionHandler : MonoBehaviour, IPressurePlateListener
 
     private void OnTriggerExit(Collider other)
     {
-        var camZone = other.GetComponent<CameraZone>();
+        CameraZone camZone = other.GetComponent<CameraZone>();
         if (other.CompareTag("CameraZone"))
             playerCamera.UpdateCameraZone(camZone, false);
     }
@@ -254,7 +254,7 @@ public class PlayerInteractionHandler : MonoBehaviour, IPressurePlateListener
         myLight.SetActive(false);
         my3DModel.SetActive(false);
         playerPickupArea.SetActive(false);
-        foreach (var col in myColliders)
+        foreach (Collider col in myColliders)
             col.enabled = false;
     }
 
@@ -302,7 +302,8 @@ public class PlayerInteractionHandler : MonoBehaviour, IPressurePlateListener
                     playerMovement.vSpeed = playerMovement.inputDirection.y * 1f;
 
 
-                    var otherShakeStrength = (Math.Abs(playerMovement.hSpeed) + Math.Abs(playerMovement.vSpeed)) * .65f;
+                    float otherShakeStrength =
+                        (Math.Abs(playerMovement.hSpeed) + Math.Abs(playerMovement.vSpeed)) * .65f;
                     _otherStats.transform.DOShakeScale(.2f, otherShakeStrength);
                     _otherStats.transform.DOShakePosition(.2f, otherShakeStrength);
                 }
@@ -355,7 +356,7 @@ public class PlayerInteractionHandler : MonoBehaviour, IPressurePlateListener
                     playerCamera.closeUpOffset = .35f;
                     playerCamera.closeUpOffsetTo = 1f;
 
-                    var spikeBall = collision.gameObject.GetComponent<SpikeBallEnemy>();
+                    SpikeBallEnemy spikeBall = collision.gameObject.GetComponent<SpikeBallEnemy>();
                     if (spikeBall != null)
                         spikeBall.GotHit();
                 }
@@ -377,7 +378,7 @@ public class PlayerInteractionHandler : MonoBehaviour, IPressurePlateListener
             if (playerMovement.lastBumpTime > 0) return;
             playerMovement.lastBumpTime = .5f;
 
-            SoundMaster.PlaySound(transform.position, (int)SoundListAuto.WallHit, "", false);
+            SoundMaster.PlaySound(transform.position, (int)SoundListAuto.WallHit, false);
 
             Bump(collision.contacts[0].normal, collision.contacts[0].point);
         }

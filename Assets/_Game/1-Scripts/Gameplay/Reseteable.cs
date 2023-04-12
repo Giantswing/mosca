@@ -22,7 +22,7 @@ public class Reseteable : MonoBehaviour, IPressurePlateListener
     {
         if (ghost != null)
         {
-            var ghostObj = Instantiate(ghost, transform.position, transform.rotation);
+            GameObject ghostObj = Instantiate(ghost, transform.position, transform.rotation);
             ghostObj.transform.localScale = transform.localScale + Vector3.one * 0.05f;
         }
     }
@@ -30,7 +30,7 @@ public class Reseteable : MonoBehaviour, IPressurePlateListener
 
     public void CustomReset()
     {
-        SoundMaster.PlaySound(transform.position, (int)SoundListAuto.ResetBuildup, "", true);
+        SoundMaster.PlaySound(transform.position, (int)SoundListAuto.ResetBuildup, true);
 
         //before reset
         transform.DOShakeRotation(1f, 10, 20, 90, false);

@@ -30,4 +30,5 @@ public enum SoundListAuto
 	BigWhoosh,
 	ArrowHit,
 	SimplePop,
+	CannonShot,
 }

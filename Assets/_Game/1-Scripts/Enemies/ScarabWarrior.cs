@@ -94,7 +94,7 @@ public class ScarabWarrior : MonoBehaviour
     {
         for (var i = 0; i < 3; i++)
         {
-            var spear = Instantiate(spearPrefab).GetComponent<Spear>();
+            Spear spear = Instantiate(spearPrefab).GetComponent<Spear>();
             spear.myCollider.enabled = false;
             spear.parentCollider = myCollider;
             spear.shieldCollider = shieldCollider;
@@ -115,7 +115,7 @@ public class ScarabWarrior : MonoBehaviour
 
     private Spear GetSpear()
     {
-        var resultSpear = spearPool.Pop();
+        Spear resultSpear = spearPool.Pop();
         resultSpear.gameObject.SetActive(true);
         resultSpear.transform.SetParent(null);
         resultSpear.transform.localScale = Vector3.one;
@@ -142,7 +142,7 @@ public class ScarabWarrior : MonoBehaviour
         shieldCollider = shieldTransform.GetComponent<BoxCollider>();
         Physics.IgnoreCollision(shieldTransform.GetComponent<Collider>(), myCollider);
 
-        var shieldStats = shieldTransform.GetComponent<STATS>();
+        STATS shieldStats = shieldTransform.GetComponent<STATS>();
         shieldStats.ST_DeathEvent.AddListener(() => { LoseShield(); });
     }
 
@@ -263,15 +263,15 @@ public class ScarabWarrior : MonoBehaviour
 
     private Vector3 CollisionAvoidance(Vector3 startingDir)
     {
-        var result = startingDir;
+        Vector3 result = startingDir;
 
-        var ray = new Ray(transform.position, startingDir);
-        var hit = new RaycastHit();
+        Ray ray = new Ray(transform.position, startingDir);
+        RaycastHit hit = new RaycastHit();
 
         if (Physics.Raycast(ray, out hit, 7f))
         {
             //rotate 90 degrees to the right
-            var dir = Quaternion.AngleAxis(90, transform.up) * startingDir;
+            Vector3 dir = Quaternion.AngleAxis(90, transform.up) * startingDir;
             result = dir;
         }
 
@@ -280,8 +280,8 @@ public class ScarabWarrior : MonoBehaviour
 
     private bool CanISeePlayerInThatDir(Vector3 startingDir)
     {
-        var ray = new Ray(transform.position, startingDir);
-        var hit = new RaycastHit();
+        Ray ray = new Ray(transform.position, startingDir);
+        RaycastHit hit = new RaycastHit();
         var result = false;
 
         if (Physics.Raycast(ray, out hit, maxRayDistance, ignoreLayerMask))
@@ -308,7 +308,7 @@ public class ScarabWarrior : MonoBehaviour
 
     private void TryToKeepPlayerCentered()
     {
-        var xdist = transform.position.x - playerReference.playerTransform.position.x;
+        float xdist = transform.position.x - playerReference.playerTransform.position.x;
         var maxOffset = 2f;
         var maxSpeed = 0.25f;
 
@@ -339,7 +339,7 @@ public class ScarabWarrior : MonoBehaviour
 
     private void GoBackToStartPos()
     {
-        var myRbVelocity = myRb.velocity;
+        Vector3 myRbVelocity = myRb.velocity;
         transform.position = Vector3.SmoothDamp(transform.position, startPos, ref myRbVelocity, 2f);
         myRb.velocity = myRbVelocity;
     }
@@ -351,7 +351,7 @@ public class ScarabWarrior : MonoBehaviour
 
     private void ResetAttack()
     {
-        var randomChance = UnityEngine.Random.Range(0f, 1f);
+        float randomChance = UnityEngine.Random.Range(0f, 1f);
         timeSinceLastAttack = 0;
         attackCooldown = attackCooldownBase + UnityEngine.Random.Range(-1f, 1f);
 
@@ -377,7 +377,7 @@ public class ScarabWarrior : MonoBehaviour
         DOVirtual.DelayedCall(1f, () => animator.SetBool(IsDodging, false));
 
         //choose a random wait from the three available
-        var waitTime = UnityEngine.Random.Range(1f, 3f);
+        float waitTime = UnityEngine.Random.Range(1f, 3f);
 
         if (waitTime < 1.5f)
             yield return wait_small;
@@ -429,7 +429,7 @@ public class ScarabWarrior : MonoBehaviour
             state = State.Follow;
         });
 
-        SoundMaster.PlaySound(transform.position, (int)SoundListAuto.EnemyGrunt, "", true);
+        SoundMaster.PlaySound(transform.position, (int)SoundListAuto.EnemyGrunt, true);
     }
 
     public void SpearThrow()
@@ -438,8 +438,8 @@ public class ScarabWarrior : MonoBehaviour
         var spear = Instantiate(spearPrefab, handSpear.transform.position, Quaternion.identity);
         */
 
-        SoundMaster.PlaySound(transform.position, (int)SoundListAuto.BigWhoosh, "", true);
-        var spear = GetSpear();
+        SoundMaster.PlaySound(transform.position, (int)SoundListAuto.BigWhoosh, true);
+        Spear spear = GetSpear();
 
         spear.transform.position = handSpear.transform.position + handSpear.transform.forward * 0.5f;
         spear.transform.rotation =
@@ -447,7 +447,7 @@ public class ScarabWarrior : MonoBehaviour
 
         handSpear.gameObject.SetActive(false);
 
-        var dir = (playerReference.playerTransform.position - handSpear.position).normalized;
+        Vector3 dir = (playerReference.playerTransform.position - handSpear.position).normalized;
         spear.myRb.AddForce(dir * (throwForce * 500f));
 
 

@@ -166,4 +166,8 @@ MonoBehaviour:
     audioEvent: {fileID: 11400000, guid: 31eba83c453360248a056a51b895f7d8, type: 2}
     count: 0
     duration: 0
+  - name: Cannon Shot
+    audioEvent: {fileID: 11400000, guid: 605ccb9a5d8605b479c5784c8dab8e70, type: 2}
+    count: 0
+    duration: 0
   maxSoundDistance: 50

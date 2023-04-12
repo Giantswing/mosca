@@ -14,14 +14,58 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   historyItemsMax: 20
   history:
+  - context: 1
+    title: 
+    unityObject: {fileID: 8300000, guid: 2fa17081e852a104499cb85d9e2eaebd, type: 3}
+    objectGuid: GlobalObjectId_V1-1-2fa17081e852a104499cb85d9e2eaebd-8300000-0
+  - context: 1
+    title: 
+    unityObject: {fileID: 102900000, guid: d5062ce722b8e92438b42e46180a0fc4, type: 3}
+    objectGuid: GlobalObjectId_V1-1-d5062ce722b8e92438b42e46180a0fc4-102900000-0
+  - context: 1
+    title: 
+    unityObject: {fileID: 884391804431163550, guid: db20ee667ea0d1c448928250627ca702, type: 3}
+    objectGuid: GlobalObjectId_V1-1-db20ee667ea0d1c448928250627ca702-884391804431163550-0
   - context: 0
     title: 
     unityObject: {fileID: 0}
-    objectGuid: GlobalObjectId_V1-2-da1cdac6dce2ba2468e5d62a6ee0da0b-3581354328258126474-1643789147
+    objectGuid: GlobalObjectId_V1-2-da1cdac6dce2ba2468e5d62a6ee0da0b-8725014504170744231-1926771912979687481
+  - context: 0
+    title: 
+    unityObject: {fileID: 0}
+    objectGuid: GlobalObjectId_V1-2-da1cdac6dce2ba2468e5d62a6ee0da0b-5687474019642393694-0
+  - context: 0
+    title: 
+    unityObject: {fileID: 0}
+    objectGuid: GlobalObjectId_V1-2-da1cdac6dce2ba2468e5d62a6ee0da0b-6923300359842968702-0
+  - context: 0
+    title: 
+    unityObject: {fileID: 0}
+    objectGuid: GlobalObjectId_V1-2-da1cdac6dce2ba2468e5d62a6ee0da0b-5687474019642393694-0
+  - context: 0
+    title: 
+    unityObject: {fileID: 0}
+    objectGuid: GlobalObjectId_V1-2-da1cdac6dce2ba2468e5d62a6ee0da0b-8725014504170744231-1926771912979687481
   - context: 1
     title: 
-    unityObject: {fileID: 3581354328258126474, guid: b15c17abd94991d46809c7af526998d1, type: 3}
-    objectGuid: GlobalObjectId_V1-1-b15c17abd94991d46809c7af526998d1-3581354328258126474-0
+    unityObject: {fileID: 884391804431163550, guid: db20ee667ea0d1c448928250627ca702, type: 3}
+    objectGuid: GlobalObjectId_V1-1-db20ee667ea0d1c448928250627ca702-884391804431163550-0
+  - context: 0
+    title: 
+    unityObject: {fileID: 0}
+    objectGuid: GlobalObjectId_V1-2-da1cdac6dce2ba2468e5d62a6ee0da0b-5453306058941867302-1041036758
+  - context: 0
+    title: 
+    unityObject: {fileID: 0}
+    objectGuid: GlobalObjectId_V1-2-da1cdac6dce2ba2468e5d62a6ee0da0b-2885765762046121824-2005437278
+  - context: 0
+    title: 
+    unityObject: {fileID: 0}
+    objectGuid: GlobalObjectId_V1-2-da1cdac6dce2ba2468e5d62a6ee0da0b-4206558954623024780-1285236280
+  - context: 0
+    title: 
+    unityObject: {fileID: 0}
+    objectGuid: GlobalObjectId_V1-2-da1cdac6dce2ba2468e5d62a6ee0da0b-5687474019916968016-275100686
   - context: 0
     title: 
     unityObject: {fileID: 0}
@@ -29,71 +73,27 @@ MonoBehaviour:
   - context: 0
     title: 
     unityObject: {fileID: 0}
-    objectGuid: GlobalObjectId_V1-2-da1cdac6dce2ba2468e5d62a6ee0da0b-7828307724439843648-580455009
-  - context: 1
-    title: 
-    unityObject: {fileID: 102900000, guid: bcddc11835653234cac9d60a4d84113a, type: 3}
-    objectGuid: GlobalObjectId_V1-1-bcddc11835653234cac9d60a4d84113a-102900000-0
+    objectGuid: GlobalObjectId_V1-2-da1cdac6dce2ba2468e5d62a6ee0da0b-4206558954623024780-1160093991
   - context: 0
     title: 
     unityObject: {fileID: 0}
-    objectGuid: GlobalObjectId_V1-2-da1cdac6dce2ba2468e5d62a6ee0da0b-700997292207366536-1307014476
-  - context: 1
-    title: 
-    unityObject: {fileID: 700997292207366536, guid: 84f60f028fdcce149bb8cba5ab621fd4, type: 3}
-    objectGuid: GlobalObjectId_V1-1-84f60f028fdcce149bb8cba5ab621fd4-700997292207366536-0
+    objectGuid: GlobalObjectId_V1-2-da1cdac6dce2ba2468e5d62a6ee0da0b-5687474019916968016-275100686
   - context: 0
     title: 
     unityObject: {fileID: 0}
-    objectGuid: GlobalObjectId_V1-2-da1cdac6dce2ba2468e5d62a6ee0da0b-6656160705521253714-1799247214
+    objectGuid: GlobalObjectId_V1-2-da1cdac6dce2ba2468e5d62a6ee0da0b-919132149155446097-275100686
   - context: 0
     title: 
     unityObject: {fileID: 0}
-    objectGuid: GlobalObjectId_V1-2-da1cdac6dce2ba2468e5d62a6ee0da0b-4696696634382057355-1954243141
+    objectGuid: GlobalObjectId_V1-2-da1cdac6dce2ba2468e5d62a6ee0da0b-4206558954623024780-1285236280
   - context: 0
     title: 
     unityObject: {fileID: 0}
-    objectGuid: GlobalObjectId_V1-2-da1cdac6dce2ba2468e5d62a6ee0da0b-4696696634382057355-1979520381
-  - context: 1
-    title: 
-    unityObject: {fileID: 4696696634382057355, guid: cce98609634d8b343ba6124113ca611d, type: 3}
-    objectGuid: GlobalObjectId_V1-1-cce98609634d8b343ba6124113ca611d-4696696634382057355-0
+    objectGuid: GlobalObjectId_V1-2-da1cdac6dce2ba2468e5d62a6ee0da0b-5687474019916968016-275100686
   - context: 0
     title: 
     unityObject: {fileID: 0}
-    objectGuid: GlobalObjectId_V1-2-da1cdac6dce2ba2468e5d62a6ee0da0b-6656160705521253714-1799247214
-  - context: 0
-    title: 
-    unityObject: {fileID: 0}
-    objectGuid: GlobalObjectId_V1-2-da1cdac6dce2ba2468e5d62a6ee0da0b-8023622830044985023-536877768
-  - context: 0
-    title: 
-    unityObject: {fileID: 0}
-    objectGuid: GlobalObjectId_V1-2-da1cdac6dce2ba2468e5d62a6ee0da0b-8023622830044985023-1271729003
-  - context: 0
-    title: 
-    unityObject: {fileID: 0}
-    objectGuid: GlobalObjectId_V1-2-da1cdac6dce2ba2468e5d62a6ee0da0b-8023622830044985023-1434062107
-  - context: 0
-    title: 
-    unityObject: {fileID: 0}
-    objectGuid: GlobalObjectId_V1-2-da1cdac6dce2ba2468e5d62a6ee0da0b-8023622830044985023-1613195214
-  - context: 0
-    title: 
-    unityObject: {fileID: 0}
-    objectGuid: GlobalObjectId_V1-2-da1cdac6dce2ba2468e5d62a6ee0da0b-8023622830044985023-379080681
-  - context: 0
-    title: 
-    unityObject: {fileID: 0}
-    objectGuid: GlobalObjectId_V1-2-da1cdac6dce2ba2468e5d62a6ee0da0b-8023622830044985023-541554140
-  - context: 0
-    title: 
-    unityObject: {fileID: 0}
-    objectGuid: GlobalObjectId_V1-2-da1cdac6dce2ba2468e5d62a6ee0da0b-8023622830044985023-1274154268
-  - context: 0
-    title: 
-    unityObject: {fileID: 0}
-    objectGuid: GlobalObjectId_V1-2-da1cdac6dce2ba2468e5d62a6ee0da0b-8023622830044985023-1992808274
+    objectGuid: GlobalObjectId_V1-2-da1cdac6dce2ba2468e5d62a6ee0da0b-919132149155446097-275100686
   favorites:
   - context: 2
     title: Rewards
@@ -255,6 +255,10 @@ MonoBehaviour:
     title: 
     unityObject: {fileID: 5705003218547024304, guid: f16745acc6a7d614e8278cd6d2e39035, type: 3}
     objectGuid: GlobalObjectId_V1-1-f16745acc6a7d614e8278cd6d2e39035-5705003218547024304-0
+  - context: 1
+    title: 
+    unityObject: {fileID: 5453306058941867302, guid: f03ed2b0be5aee142b77a5a7f046e81e, type: 3}
+    objectGuid: GlobalObjectId_V1-1-f03ed2b0be5aee142b77a5a7f046e81e-5453306058941867302-0
   - context: 1
     title: 
     unityObject: {fileID: 1207739239262744151, guid: 6e0ded2b01a7a8a409ea15224c5d4c7c, type: 3}

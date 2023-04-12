@@ -17,7 +17,7 @@ public class SecretWallScriptV2 : MonoBehaviour
     private void Start()
     {
         if (occluderObj != null)
-            foreach (var occluder in occluderObj)
+            foreach (MeshRenderer occluder in occluderObj)
                 occluder.enabled = true;
     }
 
@@ -34,7 +34,7 @@ public class SecretWallScriptV2 : MonoBehaviour
     public void Disappear(bool isCalledFromOtherWall = false)
     {
         foundParticles.Emit(30);
-        var mats = meshRenderer.materials;
+        Material[] mats = meshRenderer.materials;
         for (var i = 0; i < meshRenderer.materials.Length; i++)
             mats[i] = dissolveMaterial;
 
@@ -44,9 +44,9 @@ public class SecretWallScriptV2 : MonoBehaviour
             meshRenderer.materials[i].DOFloat(1, DissolveAmount, 1f).OnComplete(() => { Destroy(gameObject); });
 
         //meshRenderer.materials[i].DOFloat(1, DissolveAmount, 2f).OnComplete(() => { Destroy(gameObject); });
-        SoundMaster.PlaySound(transform.position, (int)SoundListAuto.SecretWall, "", true);
+        SoundMaster.PlaySound(transform.position, (int)SoundListAuto.SecretWall, true);
 
-        foreach (var occluder in occluderObj) Destroy(occluder.gameObject);
+        foreach (MeshRenderer occluder in occluderObj) Destroy(occluder.gameObject);
 
         if (otherWall != null)
             Destroy(otherWall.gameObject);

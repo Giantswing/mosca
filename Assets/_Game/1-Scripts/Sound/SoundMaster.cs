@@ -19,7 +19,7 @@ public class SoundMaster : MonoBehaviour
 
         for (var i = 0; i < soundList.Count; i++)
         {
-            var soundName = soundList[i].name;
+            string soundName = soundList[i].name;
             soundName = soundName.Replace(" ", "");
             SoundNames[i] = soundName;
         }
@@ -46,9 +46,9 @@ public class SoundMaster : MonoBehaviour
     {
         for (var i = 0; i < maxInstances; i++)
         {
-            var soundInstance = new GameObject("Sound Source " + (i + 1));
+            GameObject soundInstance = new GameObject("Sound Source " + (i + 1));
             soundInstance.transform.parent = transform;
-            var audioSource = soundInstance.AddComponent<AudioSource>();
+            AudioSource audioSource = soundInstance.AddComponent<AudioSource>();
             audioSource.maxDistance = maxSoundDistance;
             audioSource.rolloffMode = AudioRolloffMode.Linear;
             _audioSources.Push(audioSource);
@@ -58,27 +58,30 @@ public class SoundMaster : MonoBehaviour
 
         for (var j = 0; j < soundList.Count; j++)
         {
-            var sound = soundList[j];
+            StandardSound sound = soundList[j];
             sound.duration = FindSoundLength(sound.audioEvent);
             sound.count = 0;
         }
     }
 
-    public static void PlaySound(Vector3 position, int index = -1, string name = "", bool usePosition = true)
+    public static void PlaySound(Vector3 position, int index = -1, bool usePosition = true)
     {
         if (usePosition && Vector3.Distance(position, PlayerMovement.ReturnPlayerTransform().position) >
             instance.maxSoundDistance) return;
 
-        StandardSound sound;
+        StandardSound sound = instance.FindSound(index);
+
+        /*
         if (name != "")
             sound = instance.FindSound(name);
         else
             sound = instance.FindSound(index);
+        */
 
         if (instance._audioSources.Count == 0 || sound == null || sound.count > 25) return;
 
 
-        var soundInstance = instance._audioSources.Pop();
+        AudioSource soundInstance = instance._audioSources.Pop();
 
         soundInstance.gameObject.SetActive(true);
         soundInstance.transform.position = position;
@@ -100,7 +103,7 @@ public class SoundMaster : MonoBehaviour
         if (usePosition && Vector3.Distance(position, PlayerMovement.ReturnPlayerTransform().position) >
             instance.maxSoundDistance) return;
 
-        var soundInstance = instance._audioSources.Pop();
+        AudioSource soundInstance = instance._audioSources.Pop();
         soundInstance.gameObject.SetActive(true);
         soundInstance.transform.position = position;
         soundInstance.spatialBlend = usePosition ? 1 : 0;
@@ -117,13 +120,13 @@ public class SoundMaster : MonoBehaviour
 
     public static void StopTargetSound(int index)
     {
-        var sound = instance.FindSound(index);
+        StandardSound sound = instance.FindSound(index);
         if (sound == null) return;
 
         var audioSourceList = new List<AudioSource>(instance._audioSources);
         for (var i = 0; i < audioSourceList.Count; i++)
         {
-            var audioSource = audioSourceList[i];
+            AudioSource audioSource = audioSourceList[i];
             if (audioSource.clip == sound.audioEvent.clips[0])
             {
                 print("sound stopped");
@@ -137,7 +140,7 @@ public class SoundMaster : MonoBehaviour
 
     public static int ReturnSoundCount(int index)
     {
-        var sound = instance.FindSound(index);
+        StandardSound sound = instance.FindSound(index);
         if (sound == null) return 0;
         return sound.count;
     }
@@ -179,7 +182,7 @@ public class SoundMasterEditor : Editor
     {
         DrawDefaultInspector();
 
-        var myScript = (SoundMaster)target;
+        SoundMaster myScript = (SoundMaster)target;
         if (GUILayout.Button("Generate Sound Enum"))
             myScript.CreateSoundListEnumDynamically();
     }

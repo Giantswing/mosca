@@ -54,7 +54,7 @@ public class InsecticideCanv2 : MonoBehaviour
 
         for (var i = 0; i < _rayCount; i++)
         {
-            var up = _myTransform.up;
+            Vector3 up = _myTransform.up;
             _rayOrigins[i] = _myTransform.position + up * _rayCount * _rayOffset - up * i * _rayOffset;
 
             _rays[i] = new Ray(_rayOrigins[i], _myTransform.right);
@@ -87,7 +87,7 @@ public class InsecticideCanv2 : MonoBehaviour
     {
         yield return _WaitTimeBetweenBursts;
         particles.Play();
-        SoundMaster.PlaySound(transform.position, (int)SoundListAuto.InsecticideGas, "", true);
+        SoundMaster.PlaySound(transform.position, (int)SoundListAuto.InsecticideGas, true);
         _targetDistance = rayMaxLength;
 
         transform.DOKill();
@@ -131,7 +131,7 @@ public class InsecticideCanv2 : MonoBehaviour
         for (var i = 0; i < _rays.Length; i++)
         {
             var foundTarget = false;
-            var up = _myTransform.up;
+            Vector3 up = _myTransform.up;
             _rayOrigins[i] = _myTransform.position + up * ((_rayCount - 1) * _rayOffset * 0.5f) -
                              up * (i * _rayOffset);
 
