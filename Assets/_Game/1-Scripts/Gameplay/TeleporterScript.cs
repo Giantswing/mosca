@@ -71,7 +71,7 @@ public class TeleporterScript : MonoBehaviour
         if (!isEnabled || otherTeleporter == null) return;
 
         _playerMovement = target.GetComponent<PlayerMovement>();
-        var outputDir = transform.right;
+        Vector3 outputDir = transform.right;
 
         target.transform.position =
             otherTeleporter.transform.position + new Vector3(outputDir.x * 0.75f, outputDir.y * 0.75f, 0);
@@ -92,10 +92,10 @@ public class TeleporterScript : MonoBehaviour
 
         if (!isEnabled || otherTeleporter == null) yield return null;
 
-        var zDifference = target.transform.position.z - transform.position.z;
+        float zDifference = target.transform.position.z - transform.position.z;
 
         //var outputDir = otherTeleporter.CalculateDirection();
-        var outputDir = otherTeleporter.transform.right;
+        Vector3 outputDir = otherTeleporter.transform.right;
 
         PlayParticles();
         transform.DOShakeRotation(0.5f, 10f, 10, 90f, false).onComplete += () =>
@@ -106,16 +106,17 @@ public class TeleporterScript : MonoBehaviour
         target.transform.DOShakeScale(0.5f, 0.5f, 10, 90f, false);
 
 
+        /*
         if (target.TryGetComponent(out ICustomTeleport customTeleport))
-            /*
-            target.transform.position = otherTeleporter.transform.position +
-                                        new Vector3(outputDir.x * 1.35f, outputDir.y * 1.35f, zDifference);
-                                        */
             customTeleport.CustomTeleport(otherTeleporter.transform, transform);
-        else if (target.TryGetComponent(out Rigidbody rb))
+            */
+        if (target.TryGetComponent(out Rigidbody rb))
             RigidbodyTeleport(rb, target, outputDir, zDifference);
-        else
-            NormalTeleport(target, outputDir, zDifference);
+
+        /*
+    else
+        NormalTeleport(target, outputDir, zDifference);
+        */
 
 
         if (otherTeleporter.isOnlyExit)
@@ -140,29 +141,27 @@ public class TeleporterScript : MonoBehaviour
             });
         }
 
-        teleportSoundEvent.Play(teleportSoundSource);
+        teleportSoundEvent.Play(otherTeleporter.teleportSoundSource);
         otherTeleporter.PlayParticles();
 
         yield return _WaitTimeToActivateAgain;
-
-        /*
-        if (!isOnlyExit)
-            myCollider.enabled = true;
-            */
 
         otherTeleporter.myCollider.enabled = true;
     }
 
     private void RigidbodyTeleport(Rigidbody rb, GameObject target, Vector3 outputDir, float zDifference)
     {
-        var rbVelocity = rb.velocity;
-        var localVelocity = transform.InverseTransformDirection(rbVelocity);
-        var rotatedVelocity =
+        Vector3 rbVelocity = rb.velocity;
+        Vector3 localVelocity = transform.InverseTransformDirection(rbVelocity);
+        Vector3 rotatedVelocity =
             Quaternion.FromToRotation(transform.forward, otherTeleporter.transform.forward) * -localVelocity;
-        var worldVelocity = otherTeleporter.transform.TransformDirection(rotatedVelocity);
+        Vector3 worldVelocity = otherTeleporter.transform.TransformDirection(rotatedVelocity);
         target.transform.position = otherTeleporter.transform.position +
                                     new Vector3(outputDir.x * 0.75f, outputDir.y * 0.75f, zDifference);
+
         rb.velocity = worldVelocity;
+        rb.AddForce(outputDir * teleportStrength, ForceMode.Impulse);
+        //rb.AddForce(worldVelocity * teleportStrength * 100f);
     }
 
     private void NormalTeleport(GameObject target, Vector3 outputDir, float zDifference)
@@ -180,6 +179,7 @@ public class TeleporterScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        /*
         if (other.gameObject.TryGetComponent(out STATS stats))
         {
             if (stats.canBeTeleported && !IgnoredParentObjects.shouldBeIgnored(stats.transform))
@@ -189,6 +189,9 @@ public class TeleporterScript : MonoBehaviour
         {
             StartCoroutine(NewTeleport(customTeleport.ReturnGameobject()));
         }
+        */
+
+        if (other.gameObject.TryGetComponent(out Rigidbody rb)) StartCoroutine(NewTeleport(rb.gameObject));
     }
 
 

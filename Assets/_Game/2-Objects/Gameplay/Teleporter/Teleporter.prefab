@@ -68,7 +68,7 @@ MonoBehaviour:
   TimeToActivateAgain: 1
   teleportSoundEvent: {fileID: 11400000, guid: a59d9564d5f1eab42afaa196ffef33b5, type: 2}
   teleportSoundSource: {fileID: 56220575689072320}
-  teleportStrength: 3
+  teleportStrength: 15
   teleportDuration: 0.25
 --- !u!82 &56220575689072320
 AudioSource:

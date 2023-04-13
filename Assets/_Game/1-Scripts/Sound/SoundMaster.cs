@@ -10,6 +10,7 @@ public class SoundMaster : MonoBehaviour
     private Stack<AudioSource> _audioSources = new();
     [SerializeField] private List<StandardSound> soundList = new();
     [SerializeField] private float maxSoundDistance;
+    private Transform soundOrigin;
 
     public void CreateSoundListEnumDynamically()
     {
@@ -40,13 +41,14 @@ public class SoundMaster : MonoBehaviour
     {
         InitializeSounds();
         instance = this;
+        soundOrigin = Camera.main.transform;
     }
 
     private void InitializeSounds()
     {
         for (var i = 0; i < maxInstances; i++)
         {
-            GameObject soundInstance = new GameObject("Sound Source " + (i + 1));
+            GameObject soundInstance = new("Sound Source " + (i + 1));
             soundInstance.transform.parent = transform;
             AudioSource audioSource = soundInstance.AddComponent<AudioSource>();
             audioSource.maxDistance = maxSoundDistance;
@@ -66,7 +68,7 @@ public class SoundMaster : MonoBehaviour
 
     public static void PlaySound(Vector3 position, int index = -1, bool usePosition = true)
     {
-        if (usePosition && Vector3.Distance(position, PlayerMovement.ReturnPlayerTransform().position) >
+        if (usePosition && Vector3.Distance(position, instance.soundOrigin.position) >
             instance.maxSoundDistance) return;
 
         StandardSound sound = instance.FindSound(index);
@@ -100,7 +102,7 @@ public class SoundMaster : MonoBehaviour
 
     public static void PlayTargetSound(Vector3 position, SimpleAudioEvent sound, bool usePosition = true)
     {
-        if (usePosition && Vector3.Distance(position, PlayerMovement.ReturnPlayerTransform().position) >
+        if (usePosition && Vector3.Distance(position, instance.soundOrigin.position) >
             instance.maxSoundDistance) return;
 
         AudioSource soundInstance = instance._audioSources.Pop();

@@ -79,7 +79,6 @@ public class MirrorClone : MonoBehaviour, IPressurePlateListener
 
     private void DrawVelocityRay()
     {
-        print(rb.velocity);
         Debug.DrawRay(transform.position, rb.velocity, Color.red, 1f);
     }
 

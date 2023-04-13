@@ -13,47 +13,7 @@ MonoBehaviour:
   m_Name: Preferences
   m_EditorClassIdentifier: 
   historyItemsMax: 20
-  history:
-  - context: 0
-    title: 
-    unityObject: {fileID: 0}
-    objectGuid: GlobalObjectId_V1-2-da1cdac6dce2ba2468e5d62a6ee0da0b-1777483757-0
-  - context: 1
-    title: 
-    unityObject: {fileID: 534736698439194958, guid: e0f96fbd99ea2474697b21bd8f2e8abe, type: 3}
-    objectGuid: GlobalObjectId_V1-1-e0f96fbd99ea2474697b21bd8f2e8abe-534736698439194958-0
-  - context: 1
-    title: 
-    unityObject: {fileID: 13400000, guid: 8ada925b4d638a8449e7fcfc5f71eadf, type: 2}
-    objectGuid: GlobalObjectId_V1-3-8ada925b4d638a8449e7fcfc5f71eadf-13400000-0
-  - context: 0
-    title: 
-    unityObject: {fileID: 0}
-    objectGuid: GlobalObjectId_V1-2-da1cdac6dce2ba2468e5d62a6ee0da0b-1211829338-0
-  - context: 1
-    title: 
-    unityObject: {fileID: 534736698439194958, guid: e0f96fbd99ea2474697b21bd8f2e8abe, type: 3}
-    objectGuid: GlobalObjectId_V1-1-e0f96fbd99ea2474697b21bd8f2e8abe-534736698439194958-0
-  - context: 1
-    title: 
-    unityObject: {fileID: 13400000, guid: 8ada925b4d638a8449e7fcfc5f71eadf, type: 2}
-    objectGuid: GlobalObjectId_V1-3-8ada925b4d638a8449e7fcfc5f71eadf-13400000-0
-  - context: 1
-    title: 
-    unityObject: {fileID: 534736698439194958, guid: e0f96fbd99ea2474697b21bd8f2e8abe, type: 3}
-    objectGuid: GlobalObjectId_V1-1-e0f96fbd99ea2474697b21bd8f2e8abe-534736698439194958-0
-  - context: 0
-    title: 
-    unityObject: {fileID: 13400000, guid: 8ada925b4d638a8449e7fcfc5f71eadf, type: 2}
-    objectGuid: GlobalObjectId_V1-0-00000000000000000000000000000000-0-0
-  - context: 1
-    title: 
-    unityObject: {fileID: 102900000, guid: 50c818fdeba10d84c9d00de57cf2c8f8, type: 3}
-    objectGuid: GlobalObjectId_V1-1-50c818fdeba10d84c9d00de57cf2c8f8-102900000-0
-  - context: 1
-    title: 
-    unityObject: {fileID: 534736698439194958, guid: e0f96fbd99ea2474697b21bd8f2e8abe, type: 3}
-    objectGuid: GlobalObjectId_V1-1-e0f96fbd99ea2474697b21bd8f2e8abe-534736698439194958-0
+  history: []
   favorites:
   - context: 2
     title: Rewards
