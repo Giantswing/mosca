@@ -53,7 +53,7 @@ public class DoubleDashAbility : MonoBehaviour
 
         this.direction = direction;
 
-        rb.AddForce(direction * attributes.acceleration * speedBoost, ForceMode.Impulse);
+        rb.AddForce(direction * attributes.acceleration * speedBoost, ForceMode.Acceleration);
         OnDoubleDash?.Invoke("IsDoubleDashing", true);
         attributes.canDoDamage = true;
         attributes.canInteract = true;

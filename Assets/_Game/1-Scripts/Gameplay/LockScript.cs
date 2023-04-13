@@ -40,6 +40,7 @@ public class LockScript : MonoBehaviour
         _checkDelay -= Time.deltaTime;
     }
 
+    /*
     private IEnumerator OpenGateRoutine(KeyScript otherKey)
     {
         isOpening = true;
@@ -72,16 +73,61 @@ public class LockScript : MonoBehaviour
             otherKey.transform.DOScale(Vector3.zero, 0.5f).SetDelay(0.3f).onComplete +=
                 () => { Destroy(otherKey.gameObject); };
         };
+    }*/
+
+    private IEnumerator OpenGateRoutine(HoldablePickup otherKey)
+    {
+        isOpening = true;
+        yield return new WaitForSeconds(0.1f);
+
+        //if (otherKey.isFollowing != 3 && otherKey.isBeingUsed) yield return null;
+        otherKey.Release();
+        otherKey.DOKill();
+        otherKey.displayObject.DOKill();
+        otherKey.displayObject.transform.localRotation = Quaternion.identity;
+
+
+        if (transform.position.x > otherKey.transform.position.x)
+            otherKey.transform.localScale = new Vector3(-1, 1, 1);
+
+        otherKey.transform.DOMove(transform.position - Vector3.left * 0.35f * otherKey.transform.localScale.x, 0.5f)
+            .onComplete += () =>
+        {
+            SoundMaster.PlaySound(transform.position, (int)SoundListAuto.LockOpening, true);
+
+            topPart.DOLocalRotate(new Vector3(0, 90f, 0), 0.5f);
+            transform.DOMoveY(transform.position.y + 2.5f, 0.5f).SetDelay(0.3f);
+            //otherKey.Exhaust();
+            otherKey.Use();
+            transform.DOScale(0, 0.5f).SetDelay(0.3f).onComplete += () => { OpenGate(); };
+
+            otherKey.transform.DORotate(new Vector3(-90f, 0, 0), 0.5f);
+
+            otherKey.transform.DOScale(Vector3.zero, 0.5f).SetDelay(0.3f).onComplete +=
+                () => { Destroy(otherKey.gameObject); };
+        };
     }
 
     private void OnTriggerEnter(Collider other)
     {
+        /*
         if (_checkDelay < 0 && isOpening == false && other.CompareTag("Collectable"))
         {
             KeyScript otherKey = other.GetComponent<KeyScript>();
             if (otherKey == null) return;
             _checkDelay = 2f;
             StartCoroutine(OpenGateRoutine(otherKey));
+        }
+        */
+        if (_checkDelay < 0 && isOpening == false && other.TryGetComponent(out ItemHolder otherItemHolder))
+        {
+            _checkDelay = 2f;
+            foreach (HoldablePickup item in otherItemHolder.items)
+                if (item.opensDoor)
+                    StartCoroutine(OpenGateRoutine(item));
+            {
+            }
+            //StartCoroutine(OpenGateRoutine(otherKey));
         }
     }
 }

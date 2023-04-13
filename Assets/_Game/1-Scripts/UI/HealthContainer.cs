@@ -12,6 +12,7 @@ public class HealthContainer : MonoBehaviour
 
 
     [SerializeField] private GameObject heartContainerPrefab;
+    [SerializeField] private PlayerDataSO playerData;
 
     [SerializeField] private SmartData.SmartInt.IntWriter playerHealth;
     [SerializeField] private SmartData.SmartInt.IntWriter playerMaxHealth;
@@ -27,10 +28,14 @@ public class HealthContainer : MonoBehaviour
     private void OnDisable()
     {
         HeartContainersUI.OnHeartFilledAnimationEnd -= InitializeHealth;
+        playerData.attributes.onHeal.RemoveListener(PlayerHealthUpdate);
+        playerData.attributes.onReceiveHit.RemoveListener(PlayerHealthUpdate);
     }
 
     private void Start()
     {
+        playerData.attributes.onHeal.AddListener(PlayerHealthUpdate);
+        playerData.attributes.onReceiveHit.AddListener(PlayerHealthUpdate);
         InitializeHealth();
     }
 
@@ -38,7 +43,7 @@ public class HealthContainer : MonoBehaviour
     {
         //delete previous heart containers if there are any
 
-        foreach (var heartContainer in _heartContainers)
+        foreach (GameObject heartContainer in _heartContainers)
             Destroy(heartContainer);
 
         _heartContainers.Clear();
@@ -49,12 +54,14 @@ public class HealthContainer : MonoBehaviour
             _heartContainers[i].SetActive(false);
         }
 
-        PlayerHealthChange();
+        //PlayerHealthChange();
+        PlayerHealthUpdate();
     }
 
 
     public void PlayerHealthChange()
     {
+        /*
         if (playerHealth.value <= 0) return;
 
         if (playerHealth.value > playerMaxHealth.value)
@@ -77,5 +84,29 @@ public class HealthContainer : MonoBehaviour
             {
                 _heartContainers[i].SetActive(false);
             }
+            */
+    }
+
+    public void PlayerHealthUpdate()
+    {
+        if (playerData.attributes.HP > 0)
+            for (var i = 0; i < _maxHeartCointainersUI; i++)
+                if (i < playerData.attributes.maxHP)
+                {
+                    _heartContainers[i].SetActive(true);
+                    if (i < playerData.attributes.HP)
+                        _heartContainers[i].GetComponent<Image>().sprite = fullHeartContainerSprite;
+                    else
+                        _heartContainers[i].GetComponent<Image>().sprite = emptyHeartContainerSprite;
+
+                    if (i == playerData.attributes.HP)
+                        _heartContainers[i - 1].transform.DOPunchScale(Vector3.one * .6f, .2f);
+                }
+                else
+                {
+                    _heartContainers[i].SetActive(false);
+                }
+        else
+            gameObject.SetActive(false);
     }
 }

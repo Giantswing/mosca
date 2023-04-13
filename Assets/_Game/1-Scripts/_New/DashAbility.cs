@@ -21,6 +21,8 @@ public class DashAbility : MonoBehaviour
     private Tween delayedActivation;
     private Tween delayedRestore;
 
+    private bool canSpeedBoost = true;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -28,13 +30,29 @@ public class DashAbility : MonoBehaviour
         lookAtRotation = GetComponent<LookAtRotation>();
     }
 
+    public void RemoveSpeedBoost()
+    {
+        canSpeedBoost = false;
+    }
+
+    public void RestoreSpeedBoost()
+    {
+        DOVirtual.DelayedCall(0.1f, () => { canSpeedBoost = true; });
+    }
+
+
     public void Dash(Vector3 direction)
     {
         if (!enabled) return;
 
         enabled = false;
 
-        rb.AddForce(direction * attributes.acceleration * speedBoost, ForceMode.Impulse);
+        if (canSpeedBoost)
+            rb.AddForce(direction * attributes.acceleration * speedBoost, ForceMode.Acceleration);
+        else
+            //brake the player a lot, but not completely stop him
+            rb.AddForce(-direction * attributes.acceleration * speedBoost * .5f, ForceMode.Acceleration);
+
         OnDash?.Invoke("IsDashing", true);
         OnDashDirection?.Invoke(direction);
         attributes.canDoDamage = true;

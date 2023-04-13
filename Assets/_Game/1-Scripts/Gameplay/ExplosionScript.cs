@@ -14,6 +14,8 @@ public class ExplosionScript : MonoBehaviour
     private float _explosionSize;
     [SerializeField] private SimpleAudioEvent explosionSound;
 
+    private Collider[] _colliders = new Collider[25];
+
     private void Start()
     {
         _explosionSize = explosionCollider.radius;
@@ -43,6 +45,7 @@ public class ExplosionScript : MonoBehaviour
 
     private void CheckForDamage()
     {
+        /*
         Collider[] receivers = Physics.OverlapSphere(transform.position, _explosionSize);
         foreach (Collider receiver in receivers)
         {
@@ -58,6 +61,15 @@ public class ExplosionScript : MonoBehaviour
 
             if (receiver.TryGetComponent(out IGenericInteractable interactable))
                 interactable.Interact(transform.position);
-        }
+        }*/
+
+        int count =
+            Physics.OverlapSphereNonAlloc(transform.position, _explosionSize, _colliders);
+
+        for (var i = 0; i < count; i++)
+            if (_colliders[i].TryGetComponent(out Attributes attributes))
+                attributes.TakeDamageStatic(transform.position, 1, 5f);
+            else if (_colliders[i].TryGetComponent(out IGenericInteractable interactable))
+                interactable.Interact(transform.position);
     }
 }

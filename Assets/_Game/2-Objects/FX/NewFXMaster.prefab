@@ -97,3 +97,7 @@ MonoBehaviour:
     FX: {fileID: 3596293680351673290, guid: 87c06a94f735c9146bd879a15457dbb8, type: 3}
     duration: 1
     maxCount: 8
+  - name: KeyUse
+    FX: {fileID: 7200028080192330888, guid: eb95e8833dbfcc4469b069fd49ab2123, type: 3}
+    duration: 1
+    maxCount: 3

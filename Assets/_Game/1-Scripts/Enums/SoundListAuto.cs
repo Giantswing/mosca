@@ -31,4 +31,6 @@ public enum SoundListAuto
 	ArrowHit,
 	SimplePop,
 	CannonShot,
+	KeyPickUp,
+	PunchHit,
 }

@@ -13,6 +13,7 @@ public class LookAtRotation : MonoBehaviour
     private Rigidbody rb;
     public float depthRotation = 0f;
     public float angleRotation = 0f;
+    private float rotateSpeed = 7f;
     public bool useAngleRotation = false;
 
     private void Awake()
@@ -25,14 +26,29 @@ public class LookAtRotation : MonoBehaviour
     private void Update()
     {
         if (useAngleRotation)
+        {
+            rotateSpeed = 8f;
             angleRotation = Mathf.LerpAngle(_modelRotation,
                 Mathf.Atan2(rb.velocity.y, rb.velocity.x) * Mathf.Rad2Deg -
                 180 * (flipSystem.flipDirection == 1 ? 0 : 1), .9f);
+        }
         else
-            angleRotation = Mathf.LerpAngle(_modelRotation, 0, .9f);
+        {
+            rotateSpeed = 5f;
+            angleRotation = Mathf.LerpAngle(_modelRotation,
+                Mathf.Atan2(rb.velocity.y, rb.velocity.x) * Mathf.Rad2Deg -
+                180 * (flipSystem.flipDirection == 1 ? 0 : 1), .2f);
+        }
+
+        if (rb.velocity.magnitude < 0.45f)
+        {
+            rotateSpeed = 1f;
+            angleRotation = Mathf.LerpAngle(_modelRotation,
+                0, .001f);
+        }
 
 
         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, depthRotation, angleRotation),
-            Time.deltaTime * 7f); //15f
+            Time.deltaTime * rotateSpeed); //15f
     }
 }

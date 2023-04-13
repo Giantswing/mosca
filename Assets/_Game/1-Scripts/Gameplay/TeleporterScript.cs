@@ -157,7 +157,7 @@ public class TeleporterScript : MonoBehaviour
             Quaternion.FromToRotation(transform.forward, otherTeleporter.transform.forward) * -localVelocity;
         Vector3 worldVelocity = otherTeleporter.transform.TransformDirection(rotatedVelocity);
         target.transform.position = otherTeleporter.transform.position +
-                                    new Vector3(outputDir.x * 0.75f, outputDir.y * 0.75f, zDifference);
+                                    new Vector3(outputDir.x * 0.15f, outputDir.y * 0.15f, zDifference);
 
         rb.velocity = worldVelocity;
         rb.AddForce(outputDir * teleportStrength, ForceMode.Impulse);
@@ -200,32 +200,6 @@ public class TeleporterScript : MonoBehaviour
         DOVirtual.DelayedCall(0.2f, () => { teleportParticles.Emit(25); });
     }
 
-    /*
-    public Vector2 CalculateDirection()
-    {
-        Vector2 outputDir;
-        switch (teleportDirection)
-        {
-            case TeleportDirection.Up:
-                outputDir = Vector2.up;
-                break;
-            case TeleportDirection.Down:
-                outputDir = Vector2.down;
-                break;
-            case TeleportDirection.Left:
-                outputDir = Vector2.left;
-                break;
-            case TeleportDirection.Right:
-                outputDir = Vector2.right;
-                break;
-            default:
-                outputDir = Vector2.zero;
-                break;
-        }
-
-        return outputDir;
-    }
-    */
 
     public void StartTeleportCooldownCoroutine(PlayerMovement playerMov)
     {

@@ -170,4 +170,12 @@ MonoBehaviour:
     audioEvent: {fileID: 11400000, guid: 605ccb9a5d8605b479c5784c8dab8e70, type: 2}
     count: 0
     duration: 0
+  - name: Key PickUp
+    audioEvent: {fileID: 11400000, guid: 67a335879b8da2842af2309fd23e4c2a, type: 2}
+    count: 0
+    duration: 0
+  - name: Punch Hit
+    audioEvent: {fileID: 11400000, guid: 14d863d64f65b3745aec184bd208ccef, type: 2}
+    count: 0
+    duration: 0
   maxSoundDistance: 50

@@ -173,6 +173,11 @@ public class SoundMaster : MonoBehaviour
         instance = null;
         DOTween.KillAll();
     }
+
+    public static SimpleAudioEvent GetAudioEvent(int beepSound)
+    {
+        return instance.soundList[beepSound].audioEvent;
+    }
 }
 
 /* Custom editor for SoundMaster */

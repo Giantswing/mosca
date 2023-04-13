@@ -10,6 +10,7 @@ public class TimerTick : MonoBehaviour
     public static Action tickEveryQuarterOfSecond;
     public static Action tickEveryHalfOfSecond;
     public static Action tickEverySecond;
+    public static Action tickFrameFixed;
 
     private WaitForSeconds quarterOfSecond = new(0.25f);
     private WaitForSeconds halfOfSecond = new(0.5f);
@@ -56,5 +57,10 @@ public class TimerTick : MonoBehaviour
 
         if (Time.frameCount % 3 == 0)
             tickEveryThirdFrame?.Invoke();
+    }
+
+    private void FixedUpdate()
+    {
+        tickFrameFixed?.Invoke();
     }
 }

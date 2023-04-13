@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using JetBrains.Annotations;
+using SmartData.SmartEvent;
 using TMPro;
 using Unity.Jobs;
 using UnityEngine;
@@ -47,6 +48,10 @@ public class LevelManager : MonoBehaviour
 
     [SerializeField] private SmartData.SmartInt.IntWriter playerHealthMax;
     [SerializeField] private SmartData.SmartInt.IntWriter playerHealth;
+
+    public EventDispatcher transitionEvent;
+    public SmartData.SmartInt.IntWriter transitionType;
+
 
     public static Action OnHeartContainersChanged;
 
@@ -105,7 +110,7 @@ public class LevelManager : MonoBehaviour
         levelData = campaignData.defaultScene;
         campaignData.levels.ForEach(x =>
         {
-            var levelName = x.sceneInternalName;
+            string levelName = x.sceneInternalName;
             if (levelName == SceneManager.GetActiveScene().name) levelData = x;
         });
         campaignData.UpdateLevelInfo();
@@ -115,7 +120,9 @@ public class LevelManager : MonoBehaviour
     {
         SaveLoadSystem.LoadGame();
         portal = GameObject.FindGameObjectWithTag("Meta");
-        portal.SetActive(false);
+
+        if (portal != null)
+            portal.SetActive(false);
 
         if (Application.platform == RuntimePlatform.Android)
         {
@@ -161,6 +168,12 @@ public class LevelManager : MonoBehaviour
         Instance.Checkpoints.Sort((x, y) => x.checkpointNumber.CompareTo(y.checkpointNumber));
     }
 
+    public static void ResetLevel()
+    {
+        Instance.transitionType.value = (int)LevelLoader.LevelTransitionState.Restart;
+        Instance.transitionEvent.Dispatch();
+    }
+
 
     /*
     private IEnumerator TestCoroutine()
@@ -194,7 +207,7 @@ public class LevelManager : MonoBehaviour
         if (_isPortalOpen) return;
 
         //var transitionLevel = _score >= levelData.scoreToWin ? true : false;
-        var transitionLevel = _score >= _scoreForStars[0] ? true : false;
+        bool transitionLevel = _score >= _scoreForStars[0] ? true : false;
         if (transitionLevel)
         {
             _isPortalOpen = true;
