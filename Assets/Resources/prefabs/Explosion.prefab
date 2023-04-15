@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6592607522745735257}
   - component: {fileID: 1516412335122341092}
   - component: {fileID: -3082344277390368083}
+  - component: {fileID: 4047922072985717463}
   m_Layer: 0
   m_Name: Explosion
   m_TagString: Untagged
@@ -51,6 +52,7 @@ MonoBehaviour:
   explosionMesh: {fileID: 3635491874228849197}
   explosionRing: {fileID: 8334493612594501736}
   explosionSound: {fileID: 11400000, guid: ac57cf55994cdb741b36f83e4d7736ec, type: 2}
+  rbToIgnore: {fileID: 0}
 --- !u!135 &-3082344277390368083
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -64,6 +66,64 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 2.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4047922072985717463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4927078007294123516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f39f189c377a7f4bb87558433538db5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  team: 1
+  speed: 0
+  acceleration: 0
+  HP: 0
+  maxHP: 0
+  invulnerabilityTime: 1
+  canReceiveDamage: 0
+  damage: 0
+  canDoDamage: 1
+  onlyExplosions: 0
+  explosive: 1
+  contactDamage: 0
+  onDeathBehaviour: 0
+  canInteract: 0
+  hasInstantiatedData: 0
+  attributeDataPrefab: {fileID: 0}
+  attributeData: {fileID: 0}
+  objectModel: {fileID: 0}
+  manuallyAddedRenderers: 0
+  renderers: []
+  hurtMaterial: {fileID: 0}
+  onDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  onReceiveHit:
+    m_PersistentCalls:
+      m_Calls: []
+  onDidHit:
+    m_PersistentCalls:
+      m_Calls: []
+  onHeal:
+    m_PersistentCalls:
+      m_Calls: []
+  hasHitSound: 0
+  hitSound: 0
+  hasDeathSound: 0
+  deathSound: 0
+  hasBumpSound: 0
+  bumpSound: 0
+  hasHitFX: 0
+  hitFX: 0
+  hasDeathFX: 0
+  deathFX: 0
+  hasBumpFX: 0
+  bumpFX: 0
+  hardCollider: {fileID: 0}
 --- !u!1001 &2716314033372812969
 PrefabInstance:
   m_ObjectHideFlags: 0

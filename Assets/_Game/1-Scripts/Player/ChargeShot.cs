@@ -22,6 +22,7 @@ public class ChargeShot : MonoBehaviour
     [SerializeField] private float maxChargeAmount = 1f;
     [SerializeField] private float chargeOffset = 0.5f;
 
+
     [SerializeField] private SimpleAudioEvent chargeSound;
     [SerializeField] private AudioSource chargeSoundSource;
 

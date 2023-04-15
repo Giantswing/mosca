@@ -29,18 +29,6 @@ public class TeleporterScript : MonoBehaviour
     [Space(10)] [SerializeField] private SimpleAudioEvent teleportSoundEvent;
     [SerializeField] private AudioSource teleportSoundSource;
 
-    /*
-    private enum TeleportDirection
-    {
-        Up,
-        Down,
-        Left,
-        Right
-    };
-
-    [SerializeField] private TeleportDirection teleportDirection;
-    */
-
     [Space(15)] [SerializeField] private float teleportStrength = 3f;
     [SerializeField] private float teleportDuration = .5f;
 
@@ -106,11 +94,9 @@ public class TeleporterScript : MonoBehaviour
         target.transform.DOShakeScale(0.5f, 0.5f, 10, 90f, false);
 
 
-        /*
         if (target.TryGetComponent(out ICustomTeleport customTeleport))
             customTeleport.CustomTeleport(otherTeleporter.transform, transform);
-            */
-        if (target.TryGetComponent(out Rigidbody rb))
+        else if (target.TryGetComponent(out Rigidbody rb))
             RigidbodyTeleport(rb, target, outputDir, zDifference);
 
         /*
@@ -191,7 +177,9 @@ public class TeleporterScript : MonoBehaviour
         }
         */
 
-        if (other.gameObject.TryGetComponent(out Rigidbody rb)) StartCoroutine(NewTeleport(rb.gameObject));
+        if (other.gameObject.TryGetComponent(out ICustomTeleport customTeleport))
+            StartCoroutine(NewTeleport(customTeleport.ReturnGameobject()));
+        else if (other.gameObject.TryGetComponent(out Rigidbody rb)) StartCoroutine(NewTeleport(rb.gameObject));
     }
 
 

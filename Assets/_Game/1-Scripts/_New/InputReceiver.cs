@@ -9,6 +9,9 @@ public class InputReceiver : MonoBehaviour
 {
     public UnityEvent<Vector3> OnMove;
     public UnityEvent<Vector3> OnButtonSouth;
+    public UnityEvent<Vector3> OnButtonWest;
+    public UnityEvent<Vector3> OnButtonWestReleased;
+
     public Vector3 lastInputDirection;
 
     public void Move(InputAction.CallbackContext context)
@@ -22,6 +25,19 @@ public class InputReceiver : MonoBehaviour
     {
         if (!enabled || context.canceled) return;
         OnButtonSouth?.Invoke(lastInputDirection);
+    }
+
+    public void ButtonWest(InputAction.CallbackContext context)
+    {
+        if (!enabled) return;
+
+        if (context.canceled)
+        {
+            OnButtonWestReleased?.Invoke(lastInputDirection);
+            return;
+        }
+
+        OnButtonWest?.Invoke(lastInputDirection);
     }
 
     private void OnDisable()

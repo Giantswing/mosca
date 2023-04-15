@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 2647779086652472897}
   - component: {fileID: 1373904210825834980}
   - component: {fileID: 2536780521975842132}
-  - component: {fileID: 2536780521975842131}
   - component: {fileID: 1551672052}
   - component: {fileID: 1643219668}
+  - component: {fileID: -4756578757051178337}
   m_Layer: 0
   m_Name: ToxicWater
   m_TagString: Untagged
@@ -58,61 +58,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 12.1, y: 1.65, z: 1.82}
   m_Center: {x: 0, y: 0.63, z: 0}
---- !u!114 &2536780521975842131
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3455700863804286203}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8fd8e5d50ba833f4786e10b760bb1498, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  deathSoundEvent: {fileID: 0}
-  playDeathSound: 0
-  hitSoundEvent: {fileID: 0}
-  playHitSound: 0
-  myRenderer: {fileID: 0}
-  normalMaterial: {fileID: 0}
-  invincibilityMaterial: {fileID: 0}
-  IsInsideElevator: 0
-  ST_Speed: 0
-  ST_SpeedBoost: 0
-  ST_Health:
-    _owner: {fileID: 3455700863804286203}
-    _ownerName: ToxicWater
-    _propertyPath: ST_Health
-    _autoListen: 0
-    _multiIndex: 0
-    _refType: 0
-    _value: 999
-    _smartConst: {fileID: 0}
-    _smartVar: {fileID: 0}
-    _smartMulti: {fileID: 0}
-    _onUpdate:
-      m_PersistentCalls:
-        m_Calls: []
-  ST_MaxHealth: 999
-  ST_Damage: 1
-  ST_Team: 2
-  ST_Invincibility: 0
-  ST_CanDoDmg: 1
-  ST_InvincibilityTimer: 0
-  ST_Reward: 0
-  _hasHitEvent: 0
-  ST_HitEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  ST_DeathEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  onlyDamageByExplosions: 0
-  isThisAnExplosion: 0
-  isPlayer: 0
-  canBeTeleported: 0
-  dmgDirection: {x: 0, y: 0, z: 0}
 --- !u!23 &1551672052
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -170,6 +115,62 @@ MonoBehaviour:
   _showBounds: 1
   _boundsOffset: {x: 0, y: 2.58, z: 0}
   _boundsScale: {x: 1, y: 1, z: 1}
+--- !u!114 &-4756578757051178337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3455700863804286203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f39f189c377a7f4bb87558433538db5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  team: 2
+  speed: 0
+  acceleration: 0
+  HP: 0
+  maxHP: 1
+  invulnerabilityTime: 0
+  canReceiveDamage: 0
+  damage: 1
+  canDoDamage: 1
+  onlyExplosions: 0
+  explosiveDamage: 0
+  onDeathBehaviour: 0
+  canInteract: 0
+  hasInstantiatedData: 0
+  attributeDataPrefab: {fileID: 0}
+  attributeData: {fileID: 0}
+  objectModel: {fileID: 0}
+  renderers: []
+  hurtMaterial: {fileID: 0}
+  onDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  onReceiveHit:
+    m_PersistentCalls:
+      m_Calls: []
+  onDidHit:
+    m_PersistentCalls:
+      m_Calls: []
+  onHeal:
+    m_PersistentCalls:
+      m_Calls: []
+  hasHitSound: 0
+  hitSound: 0
+  hasDeathSound: 0
+  deathSound: 0
+  hasBumpSound: 0
+  bumpSound: 0
+  hasHitFX: 0
+  hitFX: 0
+  hasDeathFX: 0
+  deathFX: 0
+  hasBumpFX: 0
+  bumpFX: 0
+  hardCollider: {fileID: 0}
 --- !u!1 &8953522094041418395
 GameObject:
   m_ObjectHideFlags: 0

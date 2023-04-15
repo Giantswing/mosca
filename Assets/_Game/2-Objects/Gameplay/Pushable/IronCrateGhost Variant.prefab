@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2554430496661852385, guid: 4343e15a1b7c6a242b18be53c1884b63, type: 3}
       propertyPath: m_Name
-      value: IronCrateGhost
+      value: IronCrateGhost Variant
       objectReference: {fileID: 0}
     - target: {fileID: 2630921449700180709, guid: 4343e15a1b7c6a242b18be53c1884b63, type: 3}
       propertyPath: SizeModule.enabled
@@ -111,6 +111,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3469287838131937997, guid: 4343e15a1b7c6a242b18be53c1884b63, type: 3}
+      propertyPath: audioSource
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 4067829567645806900, guid: 4343e15a1b7c6a242b18be53c1884b63, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -119,4 +123,6 @@ PrefabInstance:
     - {fileID: 1802435621290037710, guid: 4343e15a1b7c6a242b18be53c1884b63, type: 3}
     - {fileID: 5887610920327746950, guid: 4343e15a1b7c6a242b18be53c1884b63, type: 3}
     - {fileID: 8292733033015184292, guid: 4343e15a1b7c6a242b18be53c1884b63, type: 3}
+    - {fileID: 3469287838131937996, guid: 4343e15a1b7c6a242b18be53c1884b63, type: 3}
+    - {fileID: 3469287838131937997, guid: 4343e15a1b7c6a242b18be53c1884b63, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 4343e15a1b7c6a242b18be53c1884b63, type: 3}

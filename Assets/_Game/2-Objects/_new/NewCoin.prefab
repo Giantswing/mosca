@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 4278237270729508984}
   - component: {fileID: 4278237270729508983}
   - component: {fileID: 4278237270729508982}
+  - component: {fileID: 8621371201719062501}
   - component: {fileID: 4278237270729508985}
   m_Layer: 0
   m_Name: NewCoin
@@ -96,6 +97,26 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 8
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8621371201719062501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4278237270729508980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9de64ab35b187d438e3b9028dd5b408, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  displayObject: {fileID: 0}
+  collectDistance: 1
+  isHoldable: 0
+  floatingAnimation: 0
+  destroyOnCollect: 1
+  collectSound: 2
+  collectFX: 1
+  follow: 0
 --- !u!114 &4278237270729508985
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -108,14 +129,47 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6d6d83415f2c8048b5cdee6f74ec33f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  displayObject: {fileID: 0}
-  collectDistance: 1
-  isHoldable: 0
-  pickUpAnimation: 0
-  collectSound: 2
-  collectFX: 1
-  follow: 0
   scoreValue: 1
+  currentScore:
+    _owner: {fileID: 4278237270729508980}
+    _ownerName: NewCoin
+    _propertyPath: currentScore
+    _autoListen: 0
+    _multiIndex: 0
+    _refType: 2
+    _value: 0
+    _smartConst: {fileID: 0}
+    _smartVar: {fileID: 11400000, guid: 27801666880f0c54c9287ae34171131b, type: 2}
+    _smartMulti: {fileID: 0}
+    _onUpdate:
+      m_PersistentCalls:
+        m_Calls: []
+  maxScore:
+    _owner: {fileID: 4278237270729508980}
+    _ownerName: NewCoin
+    _propertyPath: maxScore
+    _autoListen: 0
+    _multiIndex: 0
+    _refType: 2
+    _value: 0
+    _smartConst: {fileID: 0}
+    _smartVar: {fileID: 11400000, guid: 447770405060aeb4095a7c078be8cf08, type: 2}
+    _smartMulti: {fileID: 0}
+    _onUpdate:
+      m_PersistentCalls:
+        m_Calls: []
+  OnScoreChanged:
+    _owner: {fileID: 4278237270729508980}
+    _ownerName: NewCoin
+    _propertyPath: OnScoreChanged
+    _autoListen: 0
+    _multiIndex: 0
+    _smartEvent: {fileID: 11400000, guid: ec9f7aaf79158774baef625615fa26b2, type: 2}
+    _smartMulti: {fileID: 0}
+    _useMulti: 0
+    _onEvent:
+      m_PersistentCalls:
+        m_Calls: []
 --- !u!1001 &4278237269646512837
 PrefabInstance:
   m_ObjectHideFlags: 0

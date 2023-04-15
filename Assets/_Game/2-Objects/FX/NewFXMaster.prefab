@@ -101,3 +101,7 @@ MonoBehaviour:
     FX: {fileID: 7200028080192330888, guid: eb95e8833dbfcc4469b069fd49ab2123, type: 3}
     duration: 1
     maxCount: 3
+  - name: WallBreak
+    FX: {fileID: 1413169223956432461, guid: 3580795c4484b334994e4e41f7ccc588, type: 3}
+    duration: 1
+    maxCount: 3

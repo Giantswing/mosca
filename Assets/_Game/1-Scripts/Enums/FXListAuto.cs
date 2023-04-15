@@ -14,4 +14,5 @@ public enum FXListAuto
 	SmokeExplosion,
 	BulletBreak,
 	KeyUse,
+	WallBreak,
 }

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4527933197329437192}
   - component: {fileID: 1815658774704547522}
   - component: {fileID: 1077224153153077103}
-  - component: {fileID: 1077224153153077102}
+  - component: {fileID: 106023187}
   m_Layer: 0
   m_Name: Spiky_Wall
   m_TagString: Untagged
@@ -27,9 +27,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 158321398488123159}
-  m_LocalRotation: {x: -0.49999958, y: 0.5000005, z: 0.49999958, w: 0.5000005}
+  m_LocalRotation: {x: -0.5, y: 0.5, z: 0.5, w: 0.5}
   m_LocalPosition: {x: -1.9, y: -13.59, z: 0.13}
-  m_LocalScale: {x: 100, y: 100, z: 100}
+  m_LocalScale: {x: 185.73999, y: 185.73999, z: 185.73999}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -98,7 +98,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.02, y: 0.02, z: 0.0014}
   m_Center: {x: 0, y: 0, z: 0.0018}
---- !u!114 &1077224153153077102
+--- !u!114 &106023187
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -107,49 +107,50 @@ MonoBehaviour:
   m_GameObject: {fileID: 158321398488123159}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8fd8e5d50ba833f4786e10b760bb1498, type: 3}
+  m_Script: {fileID: 11500000, guid: 3f39f189c377a7f4bb87558433538db5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deathSoundEvent: {fileID: 0}
-  playDeathSound: 0
-  hitSoundEvent: {fileID: 0}
-  playHitSound: 0
-  myRenderer: {fileID: 0}
-  normalMaterial: {fileID: 0}
-  invincibilityMaterial: {fileID: 0}
-  IsInsideElevator: 0
-  ST_Speed: 0
-  ST_SpeedBoost: 0
-  ST_Health:
-    _owner: {fileID: 158321398488123159}
-    _ownerName: Spiky_Wall
-    _propertyPath: ST_Health
-    _autoListen: 0
-    _multiIndex: 0
-    _refType: 0
-    _value: 999
-    _smartConst: {fileID: 0}
-    _smartVar: {fileID: 0}
-    _smartMulti: {fileID: 0}
-    _onUpdate:
-      m_PersistentCalls:
-        m_Calls: []
-  ST_MaxHealth: 999
-  ST_Damage: 1
-  ST_Team: 0
-  ST_Invincibility: 0
-  ST_CanDoDmg: 1
-  ST_InvincibilityTimer: 0
-  ST_Reward: 0
-  _hasHitEvent: 0
-  ST_HitEvent:
+  team: 1
+  speed: 0
+  acceleration: 0
+  HP: 0
+  maxHP: 1
+  invulnerabilityTime: 0
+  canReceiveDamage: 0
+  damage: 1
+  canDoDamage: 1
+  onlyExplosions: 0
+  explosiveDamage: 0
+  onDeathBehaviour: 0
+  canInteract: 0
+  hasInstantiatedData: 0
+  attributeDataPrefab: {fileID: 0}
+  attributeData: {fileID: 0}
+  objectModel: {fileID: 0}
+  renderers: []
+  hurtMaterial: {fileID: 0}
+  onDeath:
     m_PersistentCalls:
       m_Calls: []
-  ST_DeathEvent:
+  onReceiveHit:
     m_PersistentCalls:
       m_Calls: []
-  onlyDamageByExplosions: 0
-  isThisAnExplosion: 0
-  isPlayer: 0
-  canBeTeleported: 0
-  dmgDirection: {x: 0, y: 0, z: 0}
+  onDidHit:
+    m_PersistentCalls:
+      m_Calls: []
+  onHeal:
+    m_PersistentCalls:
+      m_Calls: []
+  hasHitSound: 0
+  hitSound: 0
+  hasDeathSound: 0
+  deathSound: 0
+  hasBumpSound: 0
+  bumpSound: 0
+  hasHitFX: 0
+  hitFX: 0
+  hasDeathFX: 0
+  deathFX: 0
+  hasBumpFX: 0
+  bumpFX: 0
+  hardCollider: {fileID: 0}

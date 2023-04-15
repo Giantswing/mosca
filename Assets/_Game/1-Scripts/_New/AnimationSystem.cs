@@ -18,6 +18,11 @@ public class AnimationSystem : MonoBehaviour
         animator.SetBool(name, value);
     }
 
+    public void SetInt(string name, int value)
+    {
+        animator.SetInteger(name, value);
+    }
+
     public void SetFloat(string name, float value)
     {
         animator.SetFloat(name, value);

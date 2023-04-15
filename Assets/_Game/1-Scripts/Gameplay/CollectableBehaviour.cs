@@ -59,20 +59,6 @@ public class CollectableBehaviour : MonoBehaviour
     public int scoreValue = 1;
 
 
-    public void AddToScore()
-    {
-        if (hasAddedScore) return;
-        LevelManager._maxScore += scoreValue;
-        hasAddedScore = true;
-    }
-
-    private void Awake()
-    {
-        hasAddedScore = false;
-        AddToScore();
-    }
-
-
     public void Start()
     {
         Initialize();
@@ -188,9 +174,6 @@ public class CollectableBehaviour : MonoBehaviour
         if (pickUp == PickUp.Coin)
         {
             FXMaster.SpawnFX(transform.position, (int)FXListAuto.Coin);
-
-
-            LevelManager.OnScoreChanged?.Invoke(scoreValue);
         }
 
         else if (pickUp == PickUp.Poop)
@@ -203,12 +186,14 @@ public class CollectableBehaviour : MonoBehaviour
 
         else if (pickUp == PickUp.HeartContainer)
         {
+            /*
             int heartId = GetComponent<HeartContainer>().HeartContainerID;
             LevelManager.IncreaseHeartContainers(heartId);
             FXMaster.SpawnFX(transform.position, (int)FXListAuto.HeartContainer,
                 PlayerMovement.ReturnPlayerTransform());
 
             SoundMaster.PlaySound(transform.position, (int)SoundListAuto.HeartContainerCollect, true);
+        */
         }
 
 

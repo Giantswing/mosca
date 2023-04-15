@@ -321,7 +321,7 @@ public class PlayerInteractionHandler : MonoBehaviour, IPressurePlateListener
                 else //if the enemy dies
                 {
                     playerMovement.frozen = .1f;
-                    LevelManager.OnScoreChanged?.Invoke(_otherStats.ST_Reward);
+                    //LevelManager.OnScoreChanged?.Invoke(_otherStats.ST_Reward);
                 }
 
                 _otherStats.TakeDamage(stats.ST_Damage, transform.position, false);

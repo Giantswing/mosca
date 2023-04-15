@@ -121,6 +121,35 @@ public class Traveler : MonoBehaviour
         ActivateTravel();
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.TryGetComponent(out PlayerIdentifier otherPlayer))
+        {
+            if (!canTravel) return;
+
+            Transform model = otherPlayer.attributes.objectModel.transform;
+            otherPlayer.DisableMovement();
+            otherPlayer.attributes.canReceiveDamage = false;
+            otherPlayer.attributes.hardCollider.enabled = false;
+
+            model.DOLocalRotate(new Vector3(0, 0, -360), 0.3f, RotateMode.FastBeyond360)
+                .SetLoops(-1, LoopType.Incremental).SetEase(Ease.Linear);
+
+
+            StartTravel(otherPlayer.transform, (exitsToTheLeft) =>
+            {
+                model.DOKill();
+                model.DOLocalRotate(new Vector3(0, exitsToTheLeft ? 180 : 0, 0),
+                    .35f, RotateMode.FastBeyond360);
+
+                otherPlayer.flipSystem.Flip(exitsToTheLeft ? -1 : 1);
+                otherPlayer.attributes.canReceiveDamage = true;
+                otherPlayer.attributes.hardCollider.enabled = true;
+                otherPlayer.EnableMovement();
+            });
+        }
+    }
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.cyan;

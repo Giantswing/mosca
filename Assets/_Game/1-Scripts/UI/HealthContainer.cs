@@ -37,6 +37,8 @@ public class HealthContainer : MonoBehaviour
         playerData.attributes.onHeal.AddListener(PlayerHealthUpdate);
         playerData.attributes.onReceiveHit.AddListener(PlayerHealthUpdate);
         InitializeHealth();
+
+        DOVirtual.DelayedCall(0.1f, PlayerHealthUpdate);
     }
 
     public void InitializeHealth()

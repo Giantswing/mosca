@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using DG.Tweening;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
@@ -29,5 +30,7 @@ public class ThrowablePickup : HoldablePickup
         Release();
         rb.AddForce(throwDirection * throwForce, ForceMode.Impulse);
         OnThrow?.Invoke();
+
+        DOVirtual.DelayedCall(0.1f, () => transform.localScale = Vector3.one);
     }
 }

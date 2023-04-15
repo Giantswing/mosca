@@ -12,16 +12,7 @@ using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
-    public static int _maxScore = 0;
-    public static int _score = 0;
-    public static int[] _scoreForStars = new int[3];
-
-
-    private TextMeshProUGUI _scoreText;
-    private Tween _scorePunchTween;
-
     private GameObject portal;
-    public static UnityAction<int> OnScoreChanged;
     public static UnityAction StarsChanged;
 
     [SerializeField] private LevelSO levelData;
@@ -46,26 +37,66 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private SmartData.SmartFloat.FloatWriter levelMaxTime;
     private float _timeReset = 0f;
 
-    [SerializeField] private SmartData.SmartInt.IntWriter playerHealthMax;
-    [SerializeField] private SmartData.SmartInt.IntWriter playerHealth;
 
     public EventDispatcher transitionEvent;
     public SmartData.SmartInt.IntWriter transitionType;
 
-
+    [SerializeField] private PlayerDataSO playerDataAttributes;
     public static Action OnHeartContainersChanged;
 
+    //public SmartData.SmartInt.IntWriter playerScore;
+
+    public int[] _scoreForStars;
+    public SmartData.SmartInt.IntReader currentScore;
+    public SmartData.SmartInt.IntReader maxScore;
 
     private void OnEnable()
     {
-        OnScoreChanged += UpdateScore;
         HeartContainersUI.OnHeartFilledAnimationEnd += IncreaseMaxHealth;
     }
 
     private void OnDisable()
     {
-        OnScoreChanged -= UpdateScore;
         HeartContainersUI.OnHeartFilledAnimationEnd -= IncreaseMaxHealth;
+    }
+
+    private void Awake()
+    {
+        Instance = this;
+        levelData = campaignData.defaultScene;
+        campaignData.levels.ForEach(x =>
+        {
+            string levelName = x.sceneInternalName;
+            if (levelName == SceneManager.GetActiveScene().name) levelData = x;
+        });
+        campaignData.UpdateLevelInfo();
+    }
+
+    private void Start()
+    {
+        _scoreForStars = new int[3];
+        SaveLoadSystem.LoadGame();
+        portal = GameObject.FindGameObjectWithTag("Meta");
+
+        if (portal != null)
+            portal.SetActive(false);
+
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            QualitySettings.vSyncCount = 0;
+            Application.targetFrameRate = 60;
+        }
+
+        winScreen.SetActive(true);
+
+        levelMaxTime.value = levelData.timeToWin;
+
+        DOVirtual.DelayedCall(0.1f, () => { SetUpStartingHealth(); });
+    }
+
+    private void OnApplicationQuit()
+    {
+        DOTween.KillAll();
     }
 
 
@@ -87,11 +118,6 @@ public class LevelManager : MonoBehaviour
         SaveLoadSystem.SaveGame();
     }
 
-    public static void IncreaseMaxHealth()
-    {
-        Instance.playerHealthMax.value++;
-        Instance.playerHealth.value = Instance.playerHealthMax.value;
-    }
 
     public static CampaignSO GetCurrentCampaign()
     {
@@ -101,42 +127,6 @@ public class LevelManager : MonoBehaviour
             return null;
     }
 
-    private void Awake()
-    {
-        Instance = this;
-        _score = 0;
-        _maxScore = 0;
-
-        levelData = campaignData.defaultScene;
-        campaignData.levels.ForEach(x =>
-        {
-            string levelName = x.sceneInternalName;
-            if (levelName == SceneManager.GetActiveScene().name) levelData = x;
-        });
-        campaignData.UpdateLevelInfo();
-    }
-
-    private void Start()
-    {
-        SaveLoadSystem.LoadGame();
-        portal = GameObject.FindGameObjectWithTag("Meta");
-
-        if (portal != null)
-            portal.SetActive(false);
-
-        if (Application.platform == RuntimePlatform.Android)
-        {
-            QualitySettings.vSyncCount = 0;
-            Application.targetFrameRate = 60;
-        }
-
-        winScreen.SetActive(true);
-
-        levelMaxTime.value = levelData.timeToWin;
-
-        SetUpStars();
-        SetUpStartingHealth();
-    }
 
     private void SetUpStartingHealth()
     {
@@ -145,18 +135,23 @@ public class LevelManager : MonoBehaviour
 
         currentHeartToAdd = Mathf.FloorToInt(campaignData.heartContainers / 3);
 
+        /*
         playerHealthMax.value = currentMaxHealth + currentHeartToAdd;
         playerHealth.value = playerHealthMax.value;
+        */
+
+        if (playerDataAttributes == null) return;
+        playerDataAttributes.attributes.maxHP = currentMaxHealth + currentHeartToAdd;
+        playerDataAttributes.attributes.HP = playerDataAttributes.attributes.maxHP;
     }
 
-    private void SetUpStars()
+    public static void IncreaseMaxHealth()
     {
-        _scoreForStars[2] = _maxScore;
-        _scoreForStars[1] = Mathf.RoundToInt(_maxScore / 1.5f);
-        _scoreForStars[0] = Mathf.RoundToInt(_maxScore / 3f);
-
-        StarsChanged?.Invoke();
+        if (Instance.playerDataAttributes == null) return;
+        Instance.playerDataAttributes.attributes.maxHP++;
+        Instance.playerDataAttributes.attributes.HP = Instance.playerDataAttributes.attributes.maxHP;
     }
+
 
     public static List<CheckpointScript> GetCheckpoints()
     {
@@ -196,18 +191,12 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    private void UpdateScore(int scoreChange)
-    {
-        _score += scoreChange;
-        CheckWin();
-    }
-
-    private void CheckWin()
+    public void CheckWin()
     {
         if (_isPortalOpen) return;
 
         //var transitionLevel = _score >= levelData.scoreToWin ? true : false;
-        bool transitionLevel = _score >= _scoreForStars[0] ? true : false;
+        bool transitionLevel = currentScore.value >= _scoreForStars[0] ? true : false;
         if (transitionLevel)
         {
             _isPortalOpen = true;
@@ -225,6 +214,6 @@ public class LevelManager : MonoBehaviour
 
     public static int GetScore()
     {
-        return _score;
+        return Instance.currentScore.value;
     }
 }

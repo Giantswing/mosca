@@ -51,6 +51,9 @@ public class WinScreenScript : MonoBehaviour
     [SerializeField] private SmartData.SmartFloat.FloatReader levelTime;
     [SerializeField] private SmartData.SmartFloat.FloatReader levelTimeMax;
 
+    public SmartData.SmartInt.IntReader currentScore;
+    public SmartData.SmartInt.IntReader maxScore;
+
 
     private void Start()
     {
@@ -85,21 +88,21 @@ public class WinScreenScript : MonoBehaviour
         yield return new WaitForSeconds(.5f);
         SoundMaster.PlayTargetSound(transform.position, startWinScreenAudioEvent, false);
 
-        var currentLevel = LevelManager.GetCurrentLevel();
+        LevelSO currentLevel = LevelManager.GetCurrentLevel();
         levelNameText.SetText(currentLevel.sceneName);
-        scoreText.SetText(LevelManager.GetScore().ToString() + "/" + LevelManager._scoreForStars[2]);
+        scoreText.SetText(LevelManager.GetScore().ToString() + "/" + LevelManager.Instance._scoreForStars[2]);
         timeText.SetText(levelTime.value.ToString("F1") + "s/" + levelTimeMax.value + "s");
 
-        var currentStarsInLevel = currentLevel.stars;
+        int currentStarsInLevel = currentLevel.stars;
         var starsWonInLevel = 0;
 
-        if (LevelManager.GetScore() >= LevelManager._scoreForStars[0])
+        if (LevelManager.GetScore() >= LevelManager.Instance._scoreForStars[0])
             starsWonInLevel++;
 
-        if (LevelManager.GetScore() >= LevelManager._scoreForStars[1])
+        if (LevelManager.GetScore() >= LevelManager.Instance._scoreForStars[1])
             starsWonInLevel++;
 
-        if (LevelManager.GetScore() >= LevelManager._scoreForStars[2])
+        if (LevelManager.GetScore() >= LevelManager.Instance._scoreForStars[2])
             starsWonInLevel++;
 
 

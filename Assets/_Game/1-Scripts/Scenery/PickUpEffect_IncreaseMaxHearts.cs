@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 
-public class HeartContainer : MonoBehaviour
+public class PickUpEffect_IncreaseMaxHearts : MonoBehaviour, IPickUpEffect
 {
     [SerializeField] private Transform inner_heart;
     [SerializeField] private Transform outer_heart;
@@ -36,13 +36,20 @@ public class HeartContainer : MonoBehaviour
 
     private void CheckIfIAmAlreadyPickedUp()
     {
-        var campaignSO = LevelManager.GetCurrentCampaign();
+        CampaignSO campaignSO = LevelManager.GetCurrentCampaign();
 
         if (campaignSO.heartContainerIDs.Contains(HeartContainerID))
         {
-            var ghost = Instantiate(heartContainerGhostPrefab);
+            GameObject ghost = Instantiate(heartContainerGhostPrefab);
             ghost.transform.position = transform.position;
             Destroy(gameObject);
         }
+    }
+
+    public void OnCollect(Transform target)
+    {
+        if (LevelManager.Instance == null) return;
+
+        LevelManager.IncreaseHeartContainers(HeartContainerID);
     }
 }

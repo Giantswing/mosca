@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 961393110521051029}
   - component: {fileID: 3076937906754782047}
   - component: {fileID: 3697613617283955799}
+  - component: {fileID: 5998708429043136874}
+  - component: {fileID: 448325779226999005}
   m_Layer: 16
   m_Name: spike-blob
   m_TagString: Enemy
@@ -30,8 +32,7 @@ Transform:
   m_LocalPosition: {x: 26.508997, y: 6.644294, z: 0.21029}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1651586254666533946}
+  m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -90, y: 180, z: -179.998}
@@ -98,104 +99,84 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _myRenderer: {fileID: 3076937906754782047}
---- !u!1 &4107881366326158054
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1651586254666533946}
-  - component: {fileID: 325055400950990861}
-  - component: {fileID: 1175162423908538797}
-  m_Layer: 11
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1651586254666533946
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4107881366326158054}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 4249241244444817456}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &325055400950990861
+--- !u!65 &5998708429043136874
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4107881366326158054}
+  m_GameObject: {fileID: 3581354328258126474}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 4.27, y: 4.16, z: 4.41}
   m_Center: {x: 0.0015029786, y: -0.0004976742, z: -0.0014874501}
---- !u!114 &1175162423908538797
+--- !u!114 &448325779226999005
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4107881366326158054}
+  m_GameObject: {fileID: 3581354328258126474}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8fd8e5d50ba833f4786e10b760bb1498, type: 3}
+  m_Script: {fileID: 11500000, guid: 3f39f189c377a7f4bb87558433538db5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deathSoundEvent: {fileID: 0}
-  playDeathSound: 0
-  hitSoundEvent: {fileID: 0}
-  playHitSound: 0
-  myRenderer: {fileID: 0}
-  normalMaterial: {fileID: 0}
-  invincibilityMaterial: {fileID: 0}
-  IsInsideElevator: 0
-  ST_Speed: 0
-  ST_SpeedBoost: 0
-  ST_Health:
-    _owner: {fileID: 4107881366326158054}
-    _ownerName: GameObject
-    _propertyPath: ST_Health
-    _autoListen: 0
-    _multiIndex: 0
-    _refType: 0
-    _value: 999
-    _smartConst: {fileID: 0}
-    _smartVar: {fileID: 0}
-    _smartMulti: {fileID: 0}
-    _onUpdate:
-      m_PersistentCalls:
-        m_Calls: []
-  ST_MaxHealth: 999
-  ST_Damage: 1
-  ST_Team: 0
-  ST_Invincibility: 0
-  ST_CanDoDmg: 1
-  ST_InvincibilityTimer: 0
-  ST_Reward: 0
-  _hasHitEvent: 0
-  ST_HitEvent:
+  team: 1
+  speed: 0
+  acceleration: 0
+  HP: 0
+  maxHP: 1
+  invulnerabilityTime: 0
+  canReceiveDamage: 0
+  damage: 1
+  canDoDamage: 1
+  onlyExplosions: 0
+  explosiveDamage: 0
+  onDeathBehaviour: 0
+  canInteract: 0
+  hasInstantiatedData: 0
+  attributeDataPrefab: {fileID: 0}
+  attributeData: {fileID: 0}
+  objectModel: {fileID: 0}
+  renderers: []
+  hurtMaterial: {fileID: 0}
+  onDeath:
     m_PersistentCalls:
       m_Calls: []
-  ST_DeathEvent:
+  onReceiveHit:
     m_PersistentCalls:
       m_Calls: []
-  onlyDamageByExplosions: 0
-  isThisAnExplosion: 0
-  isPlayer: 0
-  canBeTeleported: 0
-  dmgDirection: {x: 0, y: 0, z: 0}
+  onDidHit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3697613617283955799}
+        m_TargetAssemblyTypeName: SpikeBallEnemy, Flugi
+        m_MethodName: GotHit
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onHeal:
+    m_PersistentCalls:
+      m_Calls: []
+  hasHitSound: 0
+  hitSound: 0
+  hasDeathSound: 0
+  deathSound: 0
+  hasBumpSound: 0
+  bumpSound: 0
+  hasHitFX: 0
+  hitFX: 0
+  hasDeathFX: 0
+  deathFX: 0
+  hasBumpFX: 0
+  bumpFX: 0
+  hardCollider: {fileID: 0}

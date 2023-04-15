@@ -11,7 +11,7 @@ using UnityEngine.Events;
 public class MovementSystem : MonoBehaviour
 {
     private Rigidbody rb;
-    private Vector3 direction;
+    public Vector3 direction;
     private Attributes attributes;
     private FlipSystem flipSystem;
 
@@ -36,6 +36,7 @@ public class MovementSystem : MonoBehaviour
         flipSystem = GetComponent<FlipSystem>();
     }
 
+    /*
     private void OnEnable()
     {
         TimerTick.tickEverySecondFrame += MoveEvents;
@@ -45,13 +46,14 @@ public class MovementSystem : MonoBehaviour
     {
         TimerTick.tickEverySecondFrame -= MoveEvents;
     }
+    */
 
     public void Move(Vector3 direction)
     {
         this.direction = direction;
     }
 
-    public void MoveEvents()
+    private void Update()
     {
         if (movementType == MovementType.Advanced)
         {

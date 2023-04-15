@@ -116,7 +116,8 @@ MonoBehaviour:
   displayObject: {fileID: 0}
   collectDistance: 1
   isHoldable: 0
-  pickUpAnimation: 0
+  floatingAnimation: 0
+  destroyOnCollect: 0
   collectSound: 31
   collectFX: 13
   follow: 1

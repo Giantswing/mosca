@@ -34,7 +34,8 @@ public class Explosive : MonoBehaviour
 
     public void Explode()
     {
-        Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+        Instantiate(explosionPrefab, transform.position, Quaternion.identity).GetComponent<ExplosionScript>()
+            .rbToIgnore = rb;
         ScreenFXSystem.ShakeCamera(.7f, 4f);
         ScreenFXSystem.FreezeFrames(.3f);
         OnExplode?.Invoke();

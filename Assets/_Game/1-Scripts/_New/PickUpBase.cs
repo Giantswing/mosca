@@ -5,9 +5,10 @@ using DG.Tweening;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 [RequireComponent(typeof(Rigidbody))]
-public abstract class PickUpBase : MonoBehaviour, IPickUp
+public class PickUpBase : MonoBehaviour, IPickUp
 {
     [HideInInspector] public Rigidbody rb { get; set; }
     [HideInInspector] public Collider collider { get; set; }
@@ -29,7 +30,9 @@ public abstract class PickUpBase : MonoBehaviour, IPickUp
     [HideInInspector] public bool isHoldable = false;
 
     [PropertySpace(SpaceBefore = 10, SpaceAfter = 10)]
-    public PickUpAnimation pickUpAnimation;
+    public PickUpAnimation floatingAnimation;
+
+    public bool destroyOnCollect = true;
 
     [HorizontalGroup("OnCollect", LabelWidth = 90f)]
     public SoundListAuto collectSound;
@@ -37,7 +40,11 @@ public abstract class PickUpBase : MonoBehaviour, IPickUp
     [HorizontalGroup("OnCollect")] public FXListAuto collectFX;
     [HorizontalGroup("OnCollect")] public bool follow;
 
+    private IPickUpEffect[] effects;
+
+
     /*
+
     [PropertySpace(SpaceBefore = 5f, SpaceAfter = 5f)]
     public bool hasCollectEvent = false;
 
@@ -53,6 +60,7 @@ public abstract class PickUpBase : MonoBehaviour, IPickUp
         rb = GetComponent<Rigidbody>();
         displayObject = transform.GetChild(0);
         collider = GetComponent<Collider>();
+        effects = GetComponents<IPickUpEffect>();
         Initialize();
     }
 
@@ -64,7 +72,7 @@ public abstract class PickUpBase : MonoBehaviour, IPickUp
 
     protected virtual void Initialize()
     {
-        switch (pickUpAnimation)
+        switch (floatingAnimation)
         {
             case PickUpAnimation.Rotatable:
                 displayObject.DOLocalRotate(new Vector3(0, 360, 0), 2f, RotateMode.FastBeyond360)
@@ -127,10 +135,16 @@ public abstract class PickUpBase : MonoBehaviour, IPickUp
 
         //if (hasCollectEvent) onCollectEvent.Invoke(whoReceivesPickup);
 
+        if (effects.Length > 0)
+            foreach (IPickUpEffect effect in effects)
+                effect.OnCollect(whoReceivesPickup);
+
         if (!isHoldable)
         {
             DOTween.Kill(transform);
             DOTween.Kill(displayObject);
         }
+
+        if (destroyOnCollect) Destroy(gameObject);
     }
 }

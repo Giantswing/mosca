@@ -8,45 +8,15 @@ using UnityEngine;
 public class ScoreCounterScript : MonoBehaviour
 {
     public TextMeshProUGUI _scoreText;
-
-    //[SerializeField] private TextMeshProUGUI _scoreMinMax;
-    private Tween _scorePunchTween;
-    private WaitForEndOfFrame _waitFrame = new();
-
-
-    private void OnEnable()
-    {
-        LevelManager.OnScoreChanged += UpdateScoreUI;
-    }
-
-    private void OnDisable()
-    {
-        LevelManager.OnScoreChanged -= UpdateScoreUI;
-        _scorePunchTween.Kill();
-    }
+    public SmartData.SmartInt.IntReader currentScore;
 
     private void Start()
     {
-/*
-_scoreMinMax.SetText(LevelManager._scoreForStars[0].ToString() + "\n" +
-                     LevelManager._scoreForStars[2].ToString());*/
-
-
-        _scorePunchTween = _scoreText.transform.DOPunchScale(Vector3.one * .05f, .5f, 1, 1).SetAutoKill(false)
-            .Pause();
-        _scorePunchTween.onComplete += () => _scoreText.transform.localScale = Vector3.one;
+        UpdateScoreUI();
     }
 
-    private void UpdateScoreUI(int score)
+    public void UpdateScoreUI()
     {
-        //_scorePunchTween.Restart();
-
-        StartCoroutine(UpdateScoreUIRoutine());
-    }
-
-    private IEnumerator UpdateScoreUIRoutine()
-    {
-        yield return _waitFrame;
-        _scoreText.SetText(LevelManager.GetScore().ToString());
+        _scoreText.SetText(currentScore.value.ToString());
     }
 }

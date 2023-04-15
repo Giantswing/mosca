@@ -37,7 +37,7 @@ public class FlipSystem : MonoBehaviour
             Flip(-1);
     }
 
-    private void Flip(int directionToFlip)
+    public void Flip(int directionToFlip)
     {
         if (flipDirection == directionToFlip || !canFlip)
             return;

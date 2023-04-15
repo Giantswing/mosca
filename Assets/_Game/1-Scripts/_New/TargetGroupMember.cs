@@ -1,4 +1,5 @@
 using DG.Tweening;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 public class TargetGroupMember : MonoBehaviour
@@ -9,7 +10,12 @@ public class TargetGroupMember : MonoBehaviour
     private void OnEnable()
     {
         DOVirtual.DelayedCall(0.1f,
-            () => { TargetGroupControllerSystem.AddTarget(transform, startingWeight, startingRadius); });
+            () =>
+            {
+                TargetGroupControllerSystem.AddTarget(transform, 1f, 1f, 0, false);
+
+                TargetGroupControllerSystem.ModifyTarget(transform, startingWeight, startingRadius);
+            });
     }
 
     private void OnDisable()

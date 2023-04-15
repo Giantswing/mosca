@@ -37,12 +37,14 @@ public class CustomTimer : MonoBehaviour
     private void Awake()
     {
         objectMeshRenderers = GetComponentsInChildren<MeshRenderer>();
+        waitBeepDuration = new WaitForSeconds(beepDuration);
+        defaultMaterial = objectMeshRenderers[0].sharedMaterial;
+    }
+
+    private void Start()
+    {
         if (useBeepSound)
             beepAudioEvent = SoundMaster.GetAudioEvent((int)beepSound);
-
-        waitBeepDuration = new WaitForSeconds(beepDuration);
-
-        defaultMaterial = objectMeshRenderers[0].sharedMaterial;
     }
 
     public void StartTimer()

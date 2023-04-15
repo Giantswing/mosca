@@ -174,9 +174,9 @@ public class SoundMaster : MonoBehaviour
         DOTween.KillAll();
     }
 
-    public static SimpleAudioEvent GetAudioEvent(int beepSound)
+    public static SimpleAudioEvent GetAudioEvent(int audioEventIndex)
     {
-        return instance.soundList[beepSound].audioEvent;
+        return instance.soundList[audioEventIndex].audioEvent;
     }
 }
 

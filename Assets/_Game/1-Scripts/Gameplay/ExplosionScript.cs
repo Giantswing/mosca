@@ -15,6 +15,14 @@ public class ExplosionScript : MonoBehaviour
     [SerializeField] private SimpleAudioEvent explosionSound;
 
     private Collider[] _colliders = new Collider[25];
+    private Attributes attributes;
+
+    public Rigidbody rbToIgnore;
+
+    private void Awake()
+    {
+        attributes = GetComponent<Attributes>();
+    }
 
     private void Start()
     {
@@ -45,31 +53,24 @@ public class ExplosionScript : MonoBehaviour
 
     private void CheckForDamage()
     {
-        /*
-        Collider[] receivers = Physics.OverlapSphere(transform.position, _explosionSize);
-        foreach (Collider receiver in receivers)
-        {
-            STATS otherStats = receiver.GetComponent<STATS>();
-            if (otherStats)
-            {
-                PlayerInteractionHandler playerInteractionHandler = receiver.GetComponent<PlayerInteractionHandler>();
-                if (playerInteractionHandler)
-                    playerInteractionHandler.CheckTakeDamage(1, transform.position);
-                else
-                    receiver.GetComponent<STATS>().TakeDamage(1, transform.position, true);
-            }
-
-            if (receiver.TryGetComponent(out IGenericInteractable interactable))
-                interactable.Interact(transform.position);
-        }*/
-
         int count =
             Physics.OverlapSphereNonAlloc(transform.position, _explosionSize, _colliders);
 
         for (var i = 0; i < count; i++)
-            if (_colliders[i].TryGetComponent(out Attributes attributes))
-                attributes.TakeDamageStatic(transform.position, 1, 5f);
+            if (_colliders[i].TryGetComponent(out Attributes otherAttributes))
+            {
+                otherAttributes.TakeDamage(attributes);
+            }
             else if (_colliders[i].TryGetComponent(out IGenericInteractable interactable))
+            {
                 interactable.Interact(transform.position);
+            }
+            else if (_colliders[i].TryGetComponent(out Rigidbody rb))
+            {
+                if (rb == rbToIgnore) continue;
+                Vector3 direction = _colliders[i].transform.position - transform.position;
+                direction.y = 0;
+                rb.AddForce(direction.normalized * 25f, ForceMode.Impulse);
+            }
     }
 }

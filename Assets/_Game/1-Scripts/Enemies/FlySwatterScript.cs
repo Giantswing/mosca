@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class FlySwatterScript : MonoBehaviour
 {
-    [SerializeField] private STATS stats;
+    [SerializeField] private Attributes attributes;
     [SerializeField] private Collider dmgCollider;
     [SerializeField] private Animator _animator;
     [SerializeField] private SimpleAudioEvent hitSound;
@@ -33,14 +33,14 @@ public class FlySwatterScript : MonoBehaviour
     {
         SoundMaster.PlaySound(transform.position, (int)SoundListAuto.FlySwatterHit, true);
         dmgCollider.enabled = true;
-        stats.ST_CanDoDmg = true;
+        attributes.canDoDamage = true;
         FXMaster.SpawnFX(dmgCollider.bounds.center, (int)FXListAuto.Clash);
     }
 
     public void EndDMG()
     {
         dmgCollider.enabled = false;
-        stats.ST_CanDoDmg = false;
+        attributes.canDoDamage = false;
     }
 
     public void EndAttack()

@@ -31,7 +31,7 @@ public class FanScript : MonoBehaviour
     private Vector3[] _rayOrigins;
 
     private Transform _myTransform;
-    private readonly float _updateRayTimer = 0.025f;
+    private readonly float _updateRayTimer = 0.001f;
     private float _timer;
     private float _strength;
     [SerializeField] private float rayMaxLength = 10f;
@@ -42,23 +42,6 @@ public class FanScript : MonoBehaviour
 
     private void Start()
     {
-        /*
-        _spawnDelay = new WaitForSeconds(spawnDelayTime);
-
-        _windParticlePool = new ObjectPool<WindFxScript>(
-            () => Instantiate(windParticlePrefab),
-            windObj =>
-            {
-                windObj.gameObject.SetActive(true);
-                windObj.moveDir = transform.right;
-            },
-            windObj => { windObj.gameObject.SetActive(false); },
-            windObj => { Destroy(windObj); },
-            false, 3, 3);
-
-        StartCoroutine(BlowWindCoroutine());
-        */
-
         _myTransform = transform;
 
         _rays = new Ray[_rayCount];
@@ -67,7 +50,7 @@ public class FanScript : MonoBehaviour
 
         for (var i = 0; i < _rayCount; i++)
         {
-            var up = _myTransform.up;
+            Vector3 up = _myTransform.up;
             _rayOrigins[i] = _myTransform.position + up * _rayCount * _rayOffset - up * i * _rayOffset;
 
             _rays[i] = new Ray(_rayOrigins[i], _myTransform.right);
@@ -83,50 +66,24 @@ public class FanScript : MonoBehaviour
 
             for (var i = 0; i < _rays.Length; i++)
             {
-                var up = _myTransform.up;
+                Vector3 up = _myTransform.up;
                 _rayOrigins[i] = _myTransform.position + up * ((_rayCount - 1) * _rayOffset * 0.5f) -
                                  up * (i * _rayOffset);
 
                 _rays[i].origin = _rayOrigins[i];
                 _rays[i].direction = _myTransform.right;
 
-                //raycast ignore triggers
-
 
                 if (Physics.Raycast(_rays[i], out _hits[i], rayMaxLength, ~IgnoreLayer))
-                    //check the tag to see if it's a player
-                    if (_hits[i].collider.CompareTag("Player"))
-                    {
-                        if (_playerMovement == null)
-                            _playerMovement = _hits[i].collider.GetComponent<PlayerMovement>();
+                    if (_hits[i].collider.TryGetComponent(out Rigidbody rb))
+                        rb.AddForceAtPosition(transform.right * 50f, transform.position, ForceMode.Acceleration);
 
-                        _strength = 1 - _hits[i].distance / rayMaxLength;
-                        _playerMovement.windForceTo += transform.right * (_strength * 4f);
-                        _playerMovement.currentlyInWind = 0;
-                    }
 
                 Debug.DrawLine(_rayOrigins[i], _hits[i].point, Color.red);
             }
         }
     }
 
-    /*
-    private IEnumerator BlowWindCoroutine()
-    {
-        var windObj = _windParticlePool.Get();
-        windObj.Init(EndObj);
-        windObj.transform.position = spawnPos.transform.position + transform.up * Random.Range(-0.5f, 0.5f);
-        windObj.transform.rotation = transform.rotation;
-        yield return _spawnDelay;
-
-        StartCoroutine(BlowWindCoroutine());
-    }
-
-    private void EndObj(WindFxScript wind)
-    {
-        _windParticlePool.Release(wind);
-    }
-    */
 
     private void OnEnable()
     {

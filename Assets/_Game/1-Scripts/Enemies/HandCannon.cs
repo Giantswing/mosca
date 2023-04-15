@@ -18,9 +18,6 @@ public class HandCannon : MonoBehaviour
     private GameObject bulletPrefab;
 
     [SerializeField] [FoldoutGroup("References", false)]
-    private PlayerReferenceSO playerReference;
-
-    [SerializeField] [FoldoutGroup("References", false)]
     private Transform cannon;
 
     [SerializeField] [FoldoutGroup("References", false)]
@@ -59,12 +56,15 @@ public class HandCannon : MonoBehaviour
 
     private Stack<CannonBullet> _bulletPool = new();
     private float minimumAngleDifference = 4f;
+    private Transform target;
+    private bool hasTarget = false;
 
     #endregion
 
     private void Start()
     {
         InitializeBullets();
+        InvokeRepeating(nameof(SelectClosestPlayer), 0.1f, 0.2f);
     }
 
     private void InitializeBullets()
@@ -108,9 +108,16 @@ public class HandCannon : MonoBehaviour
         LookAtPlayer();
     }
 
+    private void SelectClosestPlayer()
+    {
+        hasTarget = true;
+        target = TargetGroupControllerSystem.ClosestPlayer(transform);
+    }
+
     private void LookAtPlayer()
     {
-        Vector3 dir = playerReference.playerTransform.position - cannon.transform.position;
+        if (!hasTarget) return;
+        Vector3 dir = target.position - cannon.transform.position;
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
 
         angle = Mathf.LerpAngle(cannon.transform.localRotation.eulerAngles.y, -angle, Time.deltaTime * rotationSpeed);
@@ -122,8 +129,9 @@ public class HandCannon : MonoBehaviour
 
     private void CheckIfICanShoot(float angle)
     {
+        if (!hasTarget) return;
         float angleDiff = Mathf.Abs(cannon.transform.localRotation.eulerAngles.y - angle);
-        bool isPlayerInRange = Vector3.Distance(transform.position, playerReference.playerTransform.position) <
+        bool isPlayerInRange = Vector3.Distance(transform.position, target.position) <
                                maxDistance;
 
         if (angleDiff < minimumAngleDifference && _canShoot && isPlayerInRange)

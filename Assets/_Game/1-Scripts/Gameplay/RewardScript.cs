@@ -27,25 +27,28 @@ public class RewardScript : MonoBehaviour
     private List<GameObject> spawnedRewards;
     private Vector3 _position;
 
-    private void Awake()
+    private void Start()
     {
         _position = transform.position;
         spawnedRewards = new List<GameObject>();
 
         for (var index = 0; index < rewards.Count; index++)
         {
-            var reward = rewards[index];
+            Reward reward = rewards[index];
 
             for (var i = 0; i < reward.count; i++)
             {
-                var rewardObject = Instantiate(reward.rewardPrefab, _position, Quaternion.identity);
+                GameObject rewardObject = Instantiate(reward.rewardPrefab, _position, Quaternion.identity);
                 rewardObject.transform.parent = transform;
                 spawnedRewards.Add(rewardObject);
 
+                if (rewardObject.TryGetComponent(out PickUpEffect_Score score)) score.AddScoreExternally();
 
-                var collectableComponent = rewardObject.GetComponent<CollectableBehaviour>();
+                /*        
+                CollectableBehaviour collectableComponent = rewardObject.GetComponent<CollectableBehaviour>();
                 if (collectableComponent != null)
                     rewardObject.GetComponent<CollectableBehaviour>().AddToScore();
+                */
 
 
                 rewardObject.SetActive(false);
@@ -58,14 +61,17 @@ public class RewardScript : MonoBehaviour
         _position = transform.position;
         for (var index = 0; index < spawnedRewards.Count; index++)
         {
-            var reward = spawnedRewards[index];
+            GameObject reward = spawnedRewards[index];
             if (dropType == DropType.Explosion)
             {
                 reward.SetActive(true);
                 reward.transform.parent = null;
                 reward.transform.position = _position;
                 float randomDir2D = Random.Range(0, 360);
-                var randomDir3D = new Vector3(Mathf.Cos(randomDir2D), Mathf.Sin(randomDir2D), 0);
+                Vector3 randomDir3D = new(Mathf.Cos(randomDir2D), Mathf.Sin(randomDir2D), 0);
+                reward.transform.DOMove(_position + randomDir3D * Random.Range(1.5F, 2.5F), 0.5f).SetAutoKill(true);
+
+                /*
                 reward.transform.DOMove(_position + randomDir3D * Random.Range(1.5F, 2.5F), 0.5f).SetAutoKill(true)
                     .onComplete += () =>
                 {
@@ -73,6 +79,7 @@ public class RewardScript : MonoBehaviour
                         .StartFollowingPlayer(PlayerMovement.ReturnPlayerTransform(),
                             PlayerInteractionHandler.ReturnCrownTransform());
                 };
+                */
 
                 //print(PlayerMovement.ReturnPlayerTransform());
             }

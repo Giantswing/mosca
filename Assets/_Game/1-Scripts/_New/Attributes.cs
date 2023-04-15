@@ -5,8 +5,9 @@ using DG.Tweening;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
-public class Attributes : MonoBehaviour
+public class Attributes : MonoBehaviour, IPressurePlateListener
 {
     [Serializable]
     public struct NormalRenderer
@@ -52,21 +53,40 @@ public class Attributes : MonoBehaviour
     [TitleGroup("Damage")] [HorizontalGroup("Damage/Damage")]
     public int damage;
 
-    [TitleGroup("Damage")] [ShowIf("canReceiveDamage")]
-    public OnDeathBehaviour onDeathBehaviour;
-
     [HorizontalGroup("Damage/Damage", LabelWidth = 120f)]
     public bool canDoDamage = true;
 
-    [TitleGroup("Interactions")]
-    [HorizontalGroup("Interactions/Interactions")]
-    [PropertySpace(SpaceBefore = 0, SpaceAfter = 15f)]
+    [HorizontalGroup("Damage/Damage2", LabelWidth = 100f)]
+    public bool onlyExplosions = false;
+
+    [HorizontalGroup("Damage/Damage2", LabelWidth = 100f)]
+    public bool explosive = false;
+
+    [HorizontalGroup("Damage/Damage2", LabelWidth = 100f)]
+    public bool contactDamage = true;
+
+    [TitleGroup("Damage")] [ShowIf("canReceiveDamage")]
+    public OnDeathBehaviour onDeathBehaviour;
+
+
+    [TitleGroup("Interactions")] [HorizontalGroup("Interactions/Interactions")]
     public bool canInteract = false;
+
+    [PropertySpace(SpaceBefore = 5f, SpaceAfter = 10f)]
+    public bool hasInstantiatedData;
+
+    [ShowIf("hasInstantiatedData")] public AttributeDataSO attributeDataPrefab;
+
+    [ShowIf("hasInstantiatedData")] [ReadOnly]
+    public AttributeDataSO attributeData;
+
 
     [FoldoutGroup("Rendering", false)] [ReadOnly]
     public Transform objectModel;
 
-    [FoldoutGroup("Rendering", false)] [ReadOnly]
+    [FoldoutGroup("Rendering", false)] public bool manuallyAddedRenderers = false;
+
+    [FoldoutGroup("Rendering", false)] [ShowIf("manuallyAddedRenderers")]
     public NormalRenderer[] renderers;
 
     [FoldoutGroup("Rendering", false)] [ReadOnly]
@@ -123,10 +143,11 @@ public class Attributes : MonoBehaviour
         HP = maxHP;
         hurtMaterial = Resources.Load<Material>("Materials/Hurt");
 
-        renderers = GetComponentsInChildren<Renderer>()
-            .Where(renderer => renderer.GetComponent<TrailRenderer>() == null)
-            .Select(renderer => new NormalRenderer { renderer = renderer, material = renderer.material })
-            .ToArray();
+        if (!manuallyAddedRenderers)
+            renderers = GetComponentsInChildren<Renderer>()
+                .Where(renderer => renderer.GetComponent<TrailRenderer>() == null)
+                .Select(renderer => new NormalRenderer { renderer = renderer, material = renderer.material })
+                .ToArray();
 
         if (objectModel == null)
         {
@@ -145,14 +166,56 @@ public class Attributes : MonoBehaviour
         hardCollider = GetComponents<Collider>().FirstOrDefault(collider => collider.isTrigger == false);
         if (hardCollider != null)
             hasHardCollider = true;
+
+        if (hasInstantiatedData)
+        {
+            attributeData = Instantiate(attributeDataPrefab);
+            attributeData.attributes = this;
+
+            attributeData.flipSystem = GetComponentInChildren<FlipSystem>();
+            attributeData.movementSystem = GetComponentInChildren<MovementSystem>();
+        }
     }
 
-    public void DeathEvent(Vector3 deathPos)
+    public void DeathEvent(Vector3 deathPos, bool usePosition = true)
     {
+        canDoDamage = false;
         switch (onDeathBehaviour)
         {
             case OnDeathBehaviour.Fly:
                 //disable all components except for this attributes and rigidbody
+
+                if (hasRigidbody)
+                {
+                    transform.DOKill();
+                    objectModel.DOKill();
+                    rb.isKinematic = false;
+                    rb.mass = 10f;
+                    rb.drag = 1f;
+                    rb.angularDrag = 10f;
+                    rb.constraints = RigidbodyConstraints.None;
+                    rb.constraints = RigidbodyConstraints.FreezeRotationZ;
+
+                    rb.useGravity = true;
+
+                    Vector3 dir = usePosition ? (transform.position - deathPos).normalized : deathPos;
+                    print(dir);
+
+                    rb.AddForce(deathPos * 1f,
+                        ForceMode.Acceleration);
+                    rb.AddForce(Vector3.up * 5f, ForceMode.Acceleration);
+                    objectModel.DOLocalRotate(new Vector3(0, 0, 360), .5f, RotateMode.FastBeyond360)
+                        .SetLoops(-1, LoopType.Incremental).SetEase(Ease.Linear);
+
+
+                    //rb.AddTorque(Vector3.forward * 1000f, ForceMode.Acceleration);
+                    /*
+                    rb.DORotate(new Vector3(0f, 0f, 360f), 1f, RotateMode.FastBeyond360)
+                        .SetEase(Ease.Linear).SetLoops(-1);
+                        */
+                }
+
+
                 foreach (MonoBehaviour component in GetComponents<MonoBehaviour>())
                 {
                     if (component is Attributes)
@@ -161,31 +224,18 @@ public class Attributes : MonoBehaviour
                     component.enabled = false;
                 }
 
-                if (hasRigidbody)
-                {
-                    print("b");
-
-                    rb.mass = 10f;
-                    rb.drag = 0;
-                    rb.freezeRotation = false;
-                    rb.useGravity = true;
-
-                    rb.AddForce((transform.position - deathPos).normalized * 3f,
-                        ForceMode.Impulse);
-                    rb.AddForce(Vector3.up * 5f, ForceMode.Impulse);
-                    rb.AddTorque(Vector3.forward * 1000f, ForceMode.Impulse);
-                    objectModel.DOLocalRotate(new Vector3(0, 0, 360f), 0.4f).SetLoops(5);
-                }
 
                 DOVirtual.DelayedCall(1f, () =>
                 {
                     onDeath?.Invoke();
                     transform.DOKill();
+                    Destroy(gameObject);
                 });
 
                 break;
 
             case OnDeathBehaviour.Immediate:
+                onDeath?.Invoke();
                 Destroy(gameObject);
                 break;
         }
@@ -194,8 +244,13 @@ public class Attributes : MonoBehaviour
 
     public void TakeDamage(Attributes otherAttributes)
     {
-        if (otherAttributes.team != team && otherAttributes.canDoDamage && canReceiveDamage)
+        if (otherAttributes.team != team && otherAttributes.canDoDamage &&
+            canReceiveDamage)
         {
+            if (onlyExplosions && !otherAttributes.explosive)
+                return;
+
+
             HP -= otherAttributes.damage;
             otherAttributes.onDidHit.Invoke();
 
@@ -213,7 +268,7 @@ public class Attributes : MonoBehaviour
             if (hasRigidbody)
             {
                 Vector3 damageDirection = (transform.position - otherAttributes.transform.position).normalized;
-                rb.AddForce(damageDirection * otherAttributes.damage * 20f, ForceMode.Impulse);
+                rb.AddForce(damageDirection * (otherAttributes.damage * 20f), ForceMode.Impulse);
             }
 
             if (HP <= 0 && HP > -665)
@@ -226,52 +281,16 @@ public class Attributes : MonoBehaviour
                 //onDeath.Invoke();
                 HP = -666;
                 onReceiveHit.Invoke();
-                DeathEvent(otherAttributes.transform.position);
+
+                if (otherAttributes.hasRigidbody && otherAttributes.rb.velocity.magnitude > 0.5f)
+                    DeathEvent(otherAttributes.rb.velocity.normalized, false);
+                else
+                    DeathEvent(otherAttributes.transform.position);
             }
             else if (HP > 0)
             {
                 onReceiveHit.Invoke();
             }
-        }
-    }
-
-    public void TakeDamageStatic(Vector3 damagePos, int damageAmount, float forceMultiplier = 1f)
-    {
-        HP -= damageAmount;
-        invulnerabilityCoroutine = StartCoroutine(InvulnerabilityCoroutine());
-
-        if (hasHitSound)
-            SoundMaster.PlaySound(transform.position, (int)hitSound);
-        //SoundMaster.PlayTargetSound(transform.position, hitSound);
-
-        if (hasHitFX)
-            FXMaster.SpawnFX(transform.position, (int)hitFX);
-
-        objectModel.DOShakeScale(1f, damageAmount);
-        objectModel.DOShakePosition(1f, damageAmount);
-
-        if (hasRigidbody)
-        {
-            Vector3 damageDirection = (transform.position - damagePos).normalized;
-            rb.AddForce(damageDirection * 20f * forceMultiplier, ForceMode.Impulse);
-        }
-
-        if (HP <= 0 && HP > -665)
-        {
-            //onDeath.Invoke();
-            if (hasDeathSound)
-                SoundMaster.PlaySound(transform.position, (int)deathSound);
-
-            if (hasDeathFX)
-                FXMaster.SpawnFX(transform.position, (int)deathFX);
-
-            HP = -666;
-            onReceiveHit.Invoke();
-            DeathEvent(damagePos);
-        }
-        else if (HP > 0)
-        {
-            onReceiveHit.Invoke();
         }
     }
 
@@ -315,9 +334,18 @@ public class Attributes : MonoBehaviour
 
 
         if (collision.transform.TryGetComponent(out Attributes otherAttributes))
-            TakeDamage(otherAttributes);
+            if (otherAttributes.contactDamage)
+                TakeDamage(otherAttributes);
 
         if (canInteract && collision.transform.TryGetComponent(out IGenericInteractable interactable))
             interactable.Interact(transform.position);
     }
+
+    /*
+    private void OnCollisionStay(Collision collisionInfo)
+    {
+        if (canInteract && collisionInfo.transform.TryGetComponent(out IGenericInteractable interactable))
+            interactable.Interact(transform.position);
+    }
+    */
 }

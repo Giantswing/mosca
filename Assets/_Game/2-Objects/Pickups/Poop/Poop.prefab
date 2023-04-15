@@ -31,7 +31,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7502078307171195967}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 90}
 --- !u!33 &2579328416991446585
 MeshFilter:
@@ -92,8 +92,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7502078307171195967}
-  - component: {fileID: 8040619700296327588}
-  - component: {fileID: 8156525881818802623}
+  - component: {fileID: 1576306941}
+  - component: {fileID: 1576306942}
+  - component: {fileID: 1576306940}
+  - component: {fileID: 1576306939}
   m_Layer: 0
   m_Name: Poop
   m_TagString: Collectable
@@ -113,13 +115,29 @@ Transform:
   m_LocalScale: {x: 0.35, y: 0.35, z: 0.35}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 6849342709415896659}
   - {fileID: 8107722815822987830}
+  - {fileID: 6849342709415896659}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &8040619700296327588
-BoxCollider:
+--- !u!54 &1576306941
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7158309797407360645}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!135 &1576306942
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -129,9 +147,9 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.5, y: 2.5, z: 2.5}
+  m_Radius: 2.04
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8156525881818802623
+--- !u!114 &1576306940
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -140,42 +158,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 7158309797407360645}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b003ee27c4540bb478324c9baba07b86, type: 3}
+  m_Script: {fileID: 11500000, guid: b9de64ab35b187d438e3b9028dd5b408, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isFollowing: 0
-  displayObject: {fileID: 8107722815822987830}
-  myCollider: {fileID: 8040619700296327588}
-  playerHealth:
-    _owner: {fileID: 7158309797407360645}
-    _ownerName: Poop
-    _propertyPath: playerHealth
-    _autoListen: 0
-    _multiIndex: 0
-    _refType: 2
-    _value: 0
-    _smartConst: {fileID: 0}
-    _smartVar: {fileID: 11400000, guid: a05947b7778e59c4792416e35f202dd5, type: 2}
-    _smartMulti: {fileID: 0}
-    _onUpdate:
-      m_PersistentCalls:
-        m_Calls: []
-  onCollect:
-    _owner: {fileID: 7158309797407360645}
-    _ownerName: Poop
-    _propertyPath: onCollect
-    _autoListen: 0
-    _multiIndex: 0
-    _smartEvent: {fileID: 11400000, guid: 12a1f3967d4cb1144acf06395f0107ad, type: 2}
-    _smartMulti: {fileID: 0}
-    _useMulti: 0
-    _onEvent:
-      m_PersistentCalls:
-        m_Calls: []
-  collectSound: {fileID: 11400000, guid: 31f2be3ce17786149a8c544487d2c9bf, type: 2}
-  pickUpAnimation: 0
-  pickUp: 1
-  scoreValue: 0
+  displayObject: {fileID: 0}
+  collectDistance: 1
+  isHoldable: 0
+  floatingAnimation: 0
+  destroyOnCollect: 1
+  collectSound: 33
+  collectFX: 7
+  follow: 0
+--- !u!114 &1576306939
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7158309797407360645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3191c219aaa03040811e836e21be37d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healValue: 1
 --- !u!1 &8516033953721888477
 GameObject:
   m_ObjectHideFlags: 0
@@ -206,7 +212,7 @@ Transform:
   m_Children:
   - {fileID: 8889595328388721687}
   m_Father: {fileID: 7502078307171195967}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &8994980001365986300
 PrefabInstance:

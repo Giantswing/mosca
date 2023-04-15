@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1207739237650447977}
-  - component: {fileID: 1207739237650447976}
   m_Layer: 0
   m_Name: 3dModel
   m_TagString: Untagged
@@ -25,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1207739237650447974}
   m_LocalRotation: {x: -0, y: -0, z: -0.70710546, w: 0.7071082}
-  m_LocalPosition: {x: 0.7, y: 0.23, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -33,19 +32,6 @@ Transform:
   m_Father: {fileID: 1207739239262744150}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
---- !u!65 &1207739237650447976
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1207739237650447974}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: -0.44, y: 0.24, z: 0}
 --- !u!1 &1207739238015393280
 GameObject:
   m_ObjectHideFlags: 0
@@ -4925,12 +4911,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1207739239262744150}
+  - component: {fileID: 9044634395610143250}
   - component: {fileID: 1207739239262744153}
   - component: {fileID: 1207739239262744152}
-  - component: {fileID: 1207739239262744157}
-  - component: {fileID: 1207739239262744154}
   - component: {fileID: 1207739239262744155}
   - component: {fileID: 1207739239262744156}
+  - component: {fileID: 312462039}
   m_Layer: 0
   m_Name: Piranha
   m_TagString: Untagged
@@ -4955,6 +4941,62 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9044634395610143250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1207739239262744151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f39f189c377a7f4bb87558433538db5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  team: 2
+  speed: 0
+  acceleration: 0
+  HP: 0
+  maxHP: 1
+  invulnerabilityTime: 1
+  canReceiveDamage: 1
+  damage: 1
+  canDoDamage: 1
+  onlyExplosions: 0
+  explosiveDamage: 0
+  onDeathBehaviour: 0
+  canInteract: 0
+  hasInstantiatedData: 0
+  attributeDataPrefab: {fileID: 0}
+  attributeData: {fileID: 0}
+  objectModel: {fileID: 0}
+  renderers: []
+  hurtMaterial: {fileID: 0}
+  onDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  onReceiveHit:
+    m_PersistentCalls:
+      m_Calls: []
+  onDidHit:
+    m_PersistentCalls:
+      m_Calls: []
+  onHeal:
+    m_PersistentCalls:
+      m_Calls: []
+  hasHitSound: 0
+  hitSound: 0
+  hasDeathSound: 1
+  deathSound: 32
+  hasBumpSound: 0
+  bumpSound: 0
+  hasHitFX: 1
+  hitFX: 6
+  hasDeathFX: 1
+  deathFX: 6
+  hasBumpFX: 0
+  bumpFX: 0
+  hardCollider: {fileID: 0}
 --- !u!114 &1207739239262744153
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4967,10 +5009,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85bc3cba553a7f84c81c65a3b9c1dd9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpHeight: 5.46
+  jumpHeight: 9.06
   jumpSpeed: 1
   jumpStopTime: 0.7
-  waterHeight: 1.77
+  waterHeight: 3.13
   my3dModel: {fileID: 1207739237650447977}
   startingTimeOffset: 0
   splashParticles: {fileID: 1207739238015393285}
@@ -5074,110 +5116,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1207739239262744157
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1207739239262744151}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8fd8e5d50ba833f4786e10b760bb1498, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  deathSoundEvent: {fileID: 0}
-  playDeathSound: 0
-  hitSoundEvent: {fileID: 11400000, guid: 14d863d64f65b3745aec184bd208ccef, type: 2}
-  playHitSound: 1
-  myRenderer: {fileID: 0}
-  normalMaterial: {fileID: 0}
-  invincibilityMaterial: {fileID: 2100000, guid: 226adf9a21da1ea4493948e9726d7789, type: 2}
-  IsInsideElevator: 0
-  ST_Speed: 2
-  ST_SpeedBoost: 0
-  ST_Health:
-    _owner: {fileID: 1207739239262744151}
-    _ownerName: Piranha (2)
-    _propertyPath: ST_Health
-    _autoListen: 0
-    _multiIndex: 0
-    _refType: 0
-    _value: 1
-    _smartConst: {fileID: 0}
-    _smartVar: {fileID: 0}
-    _smartMulti: {fileID: 0}
-    _onUpdate:
-      m_PersistentCalls:
-        m_Calls: []
-  ST_MaxHealth: 1
-  ST_Damage: 1
-  ST_Team: 2
-  ST_Invincibility: 0
-  ST_CanDoDmg: 1
-  ST_InvincibilityTimer: 0.5
-  ST_Reward: 0
-  _hasHitEvent: 0
-  ST_HitEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  ST_DeathEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1207739239262744155}
-        m_TargetAssemblyTypeName: RewardScript, Assembly-CSharp
-        m_MethodName: SpawnReward
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1207739239262744153}
-        m_TargetAssemblyTypeName: Piranha, Assembly-CSharp
-        m_MethodName: Stop
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1207739239262744154}
-        m_TargetAssemblyTypeName: FlyOnDeathBehaviour, Assembly-CSharp
-        m_MethodName: StartFlying
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  onlyDamageByExplosions: 0
-  isThisAnExplosion: 0
-  isPlayer: 0
-  canBeTeleported: 0
-  dmgDirection: {x: 0, y: 0, z: 0}
-  isAlive: 1
---- !u!114 &1207739239262744154
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1207739239262744151}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d44ea88bc60dc4945ae3b67a35003d28, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1207739239262744155
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5200,14 +5138,27 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1207739239262744151}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 0.3
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 14
   m_CollisionDetection: 0
+--- !u!135 &312462039
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1207739239262744151}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.6
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &1207739238480124053
 PrefabInstance:
   m_ObjectHideFlags: 0

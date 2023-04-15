@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7643935853100576273}
   - component: {fileID: 7643935853100576274}
+  - component: {fileID: 2175918684927167425}
   - component: {fileID: 7643935853100576275}
   - component: {fileID: 7643935853100576272}
   m_Layer: 11
@@ -49,6 +50,63 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 3.76, z: 1}
   m_Center: {x: -0.48, y: -0.09, z: 0}
+--- !u!114 &2175918684927167425
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7643935853100576276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f39f189c377a7f4bb87558433538db5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  team: 2
+  speed: 0
+  acceleration: 0
+  HP: 0
+  maxHP: 1
+  invulnerabilityTime: 1
+  canReceiveDamage: 0
+  damage: 1
+  canDoDamage: 1
+  onlyExplosions: 0
+  explosiveDamage: 0
+  onDeathBehaviour: 0
+  canInteract: 0
+  hasInstantiatedData: 0
+  attributeDataPrefab: {fileID: 0}
+  attributeData: {fileID: 0}
+  objectModel: {fileID: 0}
+  manuallyAddedRenderers: 0
+  renderers: []
+  hurtMaterial: {fileID: 0}
+  onDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  onReceiveHit:
+    m_PersistentCalls:
+      m_Calls: []
+  onDidHit:
+    m_PersistentCalls:
+      m_Calls: []
+  onHeal:
+    m_PersistentCalls:
+      m_Calls: []
+  hasHitSound: 0
+  hitSound: 0
+  hasDeathSound: 0
+  deathSound: 0
+  hasBumpSound: 0
+  bumpSound: 0
+  hasHitFX: 0
+  hitFX: 0
+  hasDeathFX: 0
+  deathFX: 0
+  hasBumpFX: 0
+  bumpFX: 0
+  hardCollider: {fileID: 0}
 --- !u!114 &7643935853100576275
 MonoBehaviour:
   m_ObjectHideFlags: 0

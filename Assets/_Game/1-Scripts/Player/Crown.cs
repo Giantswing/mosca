@@ -189,7 +189,7 @@ public class Crown : MonoBehaviour, IPressurePlateListener
 
 
         numCollisions = 0;
-        pickUpArea.gameObject.SetActive(true);
+        //pickUpArea.gameObject.SetActive(true);
         EnteredNoCrownArea = false;
         airTime = 0;
         returnMode = false;
@@ -221,11 +221,16 @@ public class Crown : MonoBehaviour, IPressurePlateListener
             Physics.IgnoreCollision(col, myCol);
     }
 
+    public void SetUpIgnoreCollisions(Collider collider)
+    {
+        Physics.IgnoreCollision(collider, myCol);
+    }
+
     public void Grab()
     {
         if (isGrabbed) return;
 
-        pickUpArea.gameObject.SetActive(true);
+        //pickUpArea.gameObject.SetActive(true);
         UpdateMaterial(0, glowColor);
         StopCoroutine(FlyingSoundCoroutine);
 
@@ -273,9 +278,10 @@ public class Crown : MonoBehaviour, IPressurePlateListener
         numCollisions++;
 
         Vector3 dir = Vector3.Reflect(originalDir, normal);
-
         FXMaster.SpawnFX(other.contacts[0].point, (int)FXListAuto.Clash);
         SoundMaster.PlaySound(transform.position, (int)SoundListAuto.CrownHit, true);
+
+        /*
         Debug.DrawRay(transform.position, dir.normalized, Color.cyan, 3f);
         myRb.velocity = dir * bounceDampening;
 
@@ -290,6 +296,7 @@ public class Crown : MonoBehaviour, IPressurePlateListener
 
             returnMode = true;
         }
+        */
     }
 
     private void OnTriggerEnter(Collider other)

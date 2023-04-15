@@ -13,7 +13,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: b477825466851f34792c84c2822ddef9, type: 2}
     - target: {fileID: 7947472505223792472, guid: f3a2aa39c34137b4c929af224a9415fc, type: 3}
       propertyPath: m_Name
-      value: Heart-Container-Ghost
+      value: Heart-Container-Ghost Variant
       objectReference: {fileID: 0}
     - target: {fileID: 7947472505223792473, guid: f3a2aa39c34137b4c929af224a9415fc, type: 3}
       propertyPath: m_RootOrder
@@ -83,4 +83,7 @@ PrefabInstance:
     - {fileID: 7947472505223792479, guid: f3a2aa39c34137b4c929af224a9415fc, type: 3}
     - {fileID: 7947472505223792478, guid: f3a2aa39c34137b4c929af224a9415fc, type: 3}
     - {fileID: 7947472505223792476, guid: f3a2aa39c34137b4c929af224a9415fc, type: 3}
+    - {fileID: 6723114629902829401, guid: f3a2aa39c34137b4c929af224a9415fc, type: 3}
+    - {fileID: -3759170068073936110, guid: f3a2aa39c34137b4c929af224a9415fc, type: 3}
+    - {fileID: 6736873027827899806, guid: f3a2aa39c34137b4c929af224a9415fc, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f3a2aa39c34137b4c929af224a9415fc, type: 3}

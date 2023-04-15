@@ -94,11 +94,11 @@ GameObject:
   - component: {fileID: 5931146525139728677}
   - component: {fileID: 7340992471921456768}
   - component: {fileID: 4757075040680346186}
-  - component: {fileID: 8470181074721836011}
+  - component: {fileID: 6146409845455992553}
   - component: {fileID: 4361510537731124130}
-  - component: {fileID: -5776067622110517566}
   - component: {fileID: 474417256427825120}
   - component: {fileID: 3672755800243714139}
+  - component: {fileID: 1480410027}
   m_Layer: 0
   m_Name: Box
   m_TagString: Untagged
@@ -172,7 +172,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &8470181074721836011
+--- !u!114 &6146409845455992553
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -181,49 +181,34 @@ MonoBehaviour:
   m_GameObject: {fileID: 6414386990272127903}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8fd8e5d50ba833f4786e10b760bb1498, type: 3}
+  m_Script: {fileID: 11500000, guid: 3f39f189c377a7f4bb87558433538db5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deathSoundEvent: {fileID: 11400000, guid: 3cfab892358c8b346ac553c78bfecb2e, type: 2}
-  playDeathSound: 1
-  hitSoundEvent: {fileID: 0}
-  playHitSound: 0
-  myRenderer: {fileID: 0}
-  normalMaterial: {fileID: 0}
-  invincibilityMaterial: {fileID: 0}
-  IsInsideElevator: 0
-  ST_Speed: 0
-  ST_SpeedBoost: 0
-  ST_Health:
-    _owner: {fileID: 6414386990272127903}
-    _ownerName: Box (1)
-    _propertyPath: ST_Health
-    _autoListen: 0
-    _multiIndex: 0
-    _refType: 0
-    _value: 1
-    _smartConst: {fileID: 0}
-    _smartVar: {fileID: 0}
-    _smartMulti: {fileID: 0}
-    _onUpdate:
-      m_PersistentCalls:
-        m_Calls: []
-  ST_MaxHealth: 0
-  ST_Damage: 0
-  ST_Team: 0
-  ST_Invincibility: 0
-  ST_CanDoDmg: 0
-  ST_InvincibilityTimer: 0
-  ST_Reward: 0
-  _hasHitEvent: 0
-  ST_HitEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  ST_DeathEvent:
+  team: 1
+  speed: 0
+  acceleration: 0
+  HP: 0
+  maxHP: 1
+  invulnerabilityTime: 1
+  canReceiveDamage: 1
+  damage: 0
+  canDoDamage: 0
+  onlyExplosions: 0
+  explosiveDamage: 0
+  onDeathBehaviour: 1
+  canInteract: 0
+  hasInstantiatedData: 0
+  attributeDataPrefab: {fileID: 0}
+  attributeData: {fileID: 0}
+  objectModel: {fileID: 0}
+  manuallyAddedRenderers: 0
+  renderers: []
+  hurtMaterial: {fileID: 0}
+  onDeath:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 4361510537731124130}
-        m_TargetAssemblyTypeName: RewardScript, Assembly-CSharp
+        m_TargetAssemblyTypeName: RewardScript, Flugi
         m_MethodName: SpawnReward
         m_Mode: 1
         m_Arguments:
@@ -234,24 +219,28 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: -5776067622110517566}
-        m_TargetAssemblyTypeName: DestroyObjectScript, Assembly-CSharp
-        m_MethodName: Destroy
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  onlyDamageByExplosions: 0
-  isThisAnExplosion: 0
-  isPlayer: 0
-  canBeTeleported: 0
-  dmgDirection: {x: 0, y: 0, z: 0}
-  isAlive: 1
+  onReceiveHit:
+    m_PersistentCalls:
+      m_Calls: []
+  onDidHit:
+    m_PersistentCalls:
+      m_Calls: []
+  onHeal:
+    m_PersistentCalls:
+      m_Calls: []
+  hasHitSound: 0
+  hitSound: 0
+  hasDeathSound: 0
+  deathSound: 0
+  hasBumpSound: 0
+  bumpSound: 0
+  hasHitFX: 0
+  hitFX: 0
+  hasDeathFX: 1
+  deathFX: 2
+  hasBumpFX: 0
+  bumpFX: 0
+  hardCollider: {fileID: 0}
 --- !u!114 &4361510537731124130
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -266,21 +255,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dropType: 0
   rewards:
-  - rewardPrefab: {fileID: 8023622830044985023, guid: da22c02a65605a34daa362c3ba402d6a, type: 3}
-    count: 6
---- !u!114 &-5776067622110517566
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6414386990272127903}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 780952d7afafca94985177427633bd35, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  FXIndex: 2
+  - rewardPrefab: {fileID: 4278237270729508980, guid: 92528c0c445446a4a86d7fc1392b1960, type: 3}
+    count: 2
+  - rewardPrefab: {fileID: 7158309797407360645, guid: 03b2b361136cb35449c766d9c98986be, type: 3}
+    count: 1
 --- !u!65 &474417256427825120
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -306,3 +284,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3332845a5a32806418a7db7929ae543f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!54 &1480410027
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6414386990272127903}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0

@@ -15,6 +15,11 @@ public interface IPickUp
     void OnCollect();
 }
 
+public interface IPickUpEffect
+{
+    void OnCollect(Transform target);
+}
+
 
 public struct ItemInfo
 {

@@ -40,8 +40,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3019289329273769050}
+  - component: {fileID: 7294292871930539007}
   - component: {fileID: 3019289329273769051}
-  - component: {fileID: 4325507703912519829}
   - component: {fileID: 6600144939005718817}
   - component: {fileID: 2631601973497006335}
   m_Layer: 11
@@ -69,6 +69,64 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7294292871930539007
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3019289329273769044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f39f189c377a7f4bb87558433538db5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  team: 2
+  speed: 0
+  acceleration: 0
+  HP: 0
+  maxHP: 1
+  invulnerabilityTime: 1
+  canReceiveDamage: 0
+  damage: 1
+  canDoDamage: 1
+  onlyExplosions: 0
+  explosive: 0
+  contactDamage: 1
+  onDeathBehaviour: 0
+  canInteract: 0
+  hasInstantiatedData: 0
+  attributeDataPrefab: {fileID: 0}
+  attributeData: {fileID: 0}
+  objectModel: {fileID: 0}
+  manuallyAddedRenderers: 0
+  renderers: []
+  hurtMaterial: {fileID: 0}
+  onDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  onReceiveHit:
+    m_PersistentCalls:
+      m_Calls: []
+  onDidHit:
+    m_PersistentCalls:
+      m_Calls: []
+  onHeal:
+    m_PersistentCalls:
+      m_Calls: []
+  hasHitSound: 0
+  hitSound: 0
+  hasDeathSound: 0
+  deathSound: 0
+  hasBumpSound: 0
+  bumpSound: 0
+  hasHitFX: 0
+  hitFX: 0
+  hasDeathFX: 0
+  deathFX: 0
+  hasBumpFX: 0
+  bumpFX: 0
+  hardCollider: {fileID: 0}
 --- !u!114 &3019289329273769051
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83,67 +141,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   my3dModel: {fileID: 3345069345302761244}
   rotationSpeed: 0.4
-  _rayCount: 2
-  _rayOffset: 0.75
-  rayMaxLength: 25
+  _rayCount: 3
+  _rayOffset: 0.3
+  rayMaxLength: 7
   IgnoreLayer:
     serializedVersion: 2
     m_Bits: 2048
---- !u!114 &4325507703912519829
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3019289329273769044}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8fd8e5d50ba833f4786e10b760bb1498, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  deathSoundEvent: {fileID: 0}
-  playDeathSound: 0
-  hitSoundEvent: {fileID: 0}
-  playHitSound: 0
-  myRenderer: {fileID: 0}
-  normalMaterial: {fileID: 0}
-  invincibilityMaterial: {fileID: 0}
-  IsInsideElevator: 0
-  ST_Speed: 0
-  ST_SpeedBoost: 0
-  ST_Health:
-    _owner: {fileID: 3019289329273769044}
-    _ownerName: Fan
-    _propertyPath: ST_Health
-    _autoListen: 0
-    _multiIndex: 0
-    _refType: 0
-    _value: 999
-    _smartConst: {fileID: 0}
-    _smartVar: {fileID: 0}
-    _smartMulti: {fileID: 0}
-    _onUpdate:
-      m_PersistentCalls:
-        m_Calls: []
-  ST_MaxHealth: 999
-  ST_Damage: 1
-  ST_Team: 2
-  ST_Invincibility: 0
-  ST_CanDoDmg: 1
-  ST_InvincibilityTimer: 0
-  ST_Reward: 0
-  _hasHitEvent: 0
-  ST_HitEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  ST_DeathEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  onlyDamageByExplosions: 0
-  isThisAnExplosion: 0
-  isPlayer: 0
-  canBeTeleported: 0
-  dmgDirection: {x: 0, y: 0, z: 0}
 --- !u!135 &6600144939005718817
 SphereCollider:
   m_ObjectHideFlags: 0

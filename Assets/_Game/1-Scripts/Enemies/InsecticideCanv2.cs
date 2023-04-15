@@ -21,6 +21,7 @@ public class InsecticideCanv2 : MonoBehaviour
     private bool _foundTarget = false;
 
     [SerializeField] private Transform _myTransform;
+    private Attributes attributes;
 
     /* Ray stuff */
     private float _targetDistance;
@@ -45,6 +46,11 @@ public class InsecticideCanv2 : MonoBehaviour
 
     private Vector3 _startingScale;
     private Vector3 _startingLocalPos;
+
+    private void Awake()
+    {
+        attributes = GetComponent<Attributes>();
+    }
 
     private void Start()
     {
@@ -144,11 +150,15 @@ public class InsecticideCanv2 : MonoBehaviour
                 foundTarget = true;
                 _targetDistance = _hits[i].distance;
 
+                /*
                 if (_hits[i].collider.CompareTag("Player"))
                 {
                     _isBursting = false;
                     playerReference.playerInteractionHandler.CheckTakeDamage(1, _hits[i].point);
-                }
+                }*/
+
+                if (_hits[i].collider.TryGetComponent(out Attributes otherAttributes))
+                    otherAttributes.TakeDamage(attributes);
             }
 
 

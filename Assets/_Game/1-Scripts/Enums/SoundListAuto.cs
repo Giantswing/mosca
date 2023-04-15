@@ -33,4 +33,5 @@ public enum SoundListAuto
 	CannonShot,
 	KeyPickUp,
 	PunchHit,
+	PoopHeal,
 }
