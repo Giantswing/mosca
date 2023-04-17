@@ -95,7 +95,7 @@ MonoBehaviour:
   explosive: 0
   contactDamage: 1
   onDeathBehaviour: 0
-  damagePriority: 0
+  damagePriority: 5
   canInteract: 0
   hasInstantiatedData: 0
   attributeDataPrefab: {fileID: 0}

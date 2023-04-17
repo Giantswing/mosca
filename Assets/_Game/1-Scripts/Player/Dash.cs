@@ -171,8 +171,7 @@ public class Dash : MonoBehaviour
                 float angle = Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg;
 
                 //fit movementDirection to from -1 to 1 depending on angle
-                Vector2 movementDirection =
-                    new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad));
+                Vector2 movementDirection = new(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad));
 
 
                 return movementDirection;
@@ -396,6 +395,7 @@ public class Dash : MonoBehaviour
         yield return _WaitToAllowDashAgain;
         canDashAgain = true;
     }
+
 
     private void OnDrawGizmos()
     {

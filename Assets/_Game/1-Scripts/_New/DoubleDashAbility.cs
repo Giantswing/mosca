@@ -23,6 +23,7 @@ public class DoubleDashAbility : MonoBehaviour
 
 
     public UnityEvent<string, bool> OnDoubleDash;
+    public UnityEvent OnDoubleDashGeneric;
 
 
     private void Awake()
@@ -44,7 +45,7 @@ public class DoubleDashAbility : MonoBehaviour
 
     public void DoubleDash(Vector3 direction)
     {
-        if (!enabled) return;
+        if (!enabled || rb.velocity.magnitude < 4f) return;
 
         enabled = false;
         dashAbility.enabled = false;
@@ -56,6 +57,7 @@ public class DoubleDashAbility : MonoBehaviour
 
         rb.AddForce(direction * attributes.acceleration * speedBoost, ForceMode.Acceleration);
         OnDoubleDash?.Invoke("IsDoubleDashing", true);
+        OnDoubleDashGeneric?.Invoke();
         attributes.canDoDamage = true;
         attributes.canInteract = true;
 

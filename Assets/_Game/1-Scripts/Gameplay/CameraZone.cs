@@ -11,8 +11,8 @@ public class CameraZone : MonoBehaviour
 
     [Range(-1, 5)] public float sideAngleStrength = 1;
 
-    //[SerializeField] private bool forceRight = false;
-    //[SerializeField] private bool forceLeft = false;
+    [SerializeField] private bool forceRight = false;
+    [SerializeField] private bool forceLeft = false;
 
     public bool isCameraTarget;
     [HideInInspector] public Transform cameraTarget;

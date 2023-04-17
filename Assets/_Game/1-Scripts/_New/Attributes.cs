@@ -5,6 +5,7 @@ using DG.Tweening;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 
 public class Attributes : MonoBehaviour, IPressurePlateListener
@@ -179,6 +180,7 @@ public class Attributes : MonoBehaviour, IPressurePlateListener
             attributeData.dashAbility = GetComponentInChildren<DashAbility>();
             attributeData.doubleDashAbility = GetComponentInChildren<DoubleDashAbility>();
             attributeData.chargeShot = GetComponentInChildren<ChargeSystem>();
+            attributeData.playerInput = GetComponentInChildren<PlayerInput>();
         }
     }
 

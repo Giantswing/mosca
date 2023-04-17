@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Cinemachine;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 
 public class TargetGroupControllerSystem : MonoBehaviour
@@ -59,7 +60,12 @@ public class TargetGroupControllerSystem : MonoBehaviour
     [SerializeField] private float cameraZoneZoomSpeed = 1f;
 
     [SerializeField] private float flipStrength = 2f;
+    [SerializeField] private GameObject playerPrefab;
     private bool canChangeTarget = true;
+
+
+    private PlayerInputManager _playerInputManager;
+    [SerializeField] private InputAction joinPlayerAction;
 
     private void Awake()
     {
@@ -73,7 +79,23 @@ public class TargetGroupControllerSystem : MonoBehaviour
         startingAimOffset = composer.m_TrackedObjectOffset;
         cameraZoneSideAngleStrengthTo = 1;
         mainCamera = Camera.main;
+
+        _playerInputManager = GetComponent<PlayerInputManager>();
     }
+
+
+    private void OnEnable()
+    {
+        joinPlayerAction.performed += JoinPlayer;
+        joinPlayerAction.Enable();
+    }
+
+    private void OnDisable()
+    {
+        joinPlayerAction.performed -= JoinPlayer;
+        joinPlayerAction.Disable();
+    }
+
 
     public static void ModifyTarget(Transform target, float weight, float radius, float duration = 2f)
     {
@@ -93,7 +115,13 @@ public class TargetGroupControllerSystem : MonoBehaviour
 
         if (target.TryGetComponent(out Attributes attributes))
             if (attributes.hasInstantiatedData)
+            {
                 Instance.playerList.Add(attributes.attributeData);
+                if (Instance.playerList.Count > 1)
+                    attributes.transform.position = Instance.playerList[0].attributes.transform.position;
+                //attributes.gameObject.GetComponent<InputReceiver>().ForceController();
+                //PlayerInput.all[PlayerInput.all.Count - 1].SwitchCurrentControlScheme("Gamepad", Gamepad.current);
+            }
 
 
         Instance._targetGroup.AddMember(target, 0, 0);
@@ -243,6 +271,51 @@ public class TargetGroupControllerSystem : MonoBehaviour
             Instance.playerList[i].chargeShot.enabled = enabled;
         }
     }
+
+
+    public void JoinPlayer(InputAction.CallbackContext context)
+    {
+        /*
+        print("player joined");
+
+        if (context.performed)
+        {
+            InputDevice device = context.control.device;
+            print(device.name);
+
+            GameObject playerGO = Instantiate(playerPrefab, playerList[0].attributes.transform.position,
+                Quaternion.identity);
+        }
+        */
+        if (context.performed)
+        {
+            print("test");
+            //playerList[0].playerInput.neverAutoSwitchControlSchemes = true;
+            _playerInputManager.EnableJoining();
+        }
+    }
+
+    public void SetUpPlayer()
+    {
+        /*
+        DOVirtual.DelayedCall(0.05f, () =>
+        {
+            Transform latestPlayer = playerList[playerList.Count - 1].attributes.transform;
+            latestPlayer.position = playerList[0].attributes.transform.position;
+        });
+        */
+    }
+
+
+    public static void JoinPlayerStatic(InputDevice deviceToAssignToPlayer)
+    {
+        GameObject playerGO = Instantiate(Instance.playerPrefab, Instance.playerList[0].attributes.transform.position,
+            Quaternion.identity);
+
+        PlayerInput playerInput = playerGO.GetComponent<PlayerInput>();
+        playerInput.SwitchCurrentControlScheme(deviceToAssignToPlayer.name, deviceToAssignToPlayer);
+    }
+
 
     public static void SetCameraZoneOffset(Vector3 cameraZoneCameraOffset, float cameraZoneZoomOffset,
         float cameraZoneSideAngleStrengthOffset)

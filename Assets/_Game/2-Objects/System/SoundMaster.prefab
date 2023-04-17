@@ -182,4 +182,8 @@ MonoBehaviour:
     audioEvent: {fileID: 11400000, guid: 31f2be3ce17786149a8c544487d2c9bf, type: 2}
     count: 0
     duration: 0
+  - name: Crate Breaking
+    audioEvent: {fileID: 11400000, guid: 3cfab892358c8b346ac553c78bfecb2e, type: 2}
+    count: 0
+    duration: 0
   maxSoundDistance: 50

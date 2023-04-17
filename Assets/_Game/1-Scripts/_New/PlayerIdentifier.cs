@@ -1,6 +1,7 @@
 using System;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Attributes))]
 public class PlayerIdentifier : MonoBehaviour
@@ -13,6 +14,7 @@ public class PlayerIdentifier : MonoBehaviour
     public InputReceiver inputReceiver;
     public Attributes attributes;
     public FlipSystem flipSystem;
+    public PlayerInput playerInput;
 
     private void Awake()
     {
@@ -24,6 +26,7 @@ public class PlayerIdentifier : MonoBehaviour
         inputReceiver = GetComponent<InputReceiver>();
         attributes = GetComponent<Attributes>();
         flipSystem = GetComponent<FlipSystem>();
+        playerInput = GetComponent<PlayerInput>();
     }
 
     private void Start()
@@ -34,6 +37,7 @@ public class PlayerIdentifier : MonoBehaviour
         DOVirtual.DelayedCall(1.5f, () =>
         {
             FXMaster.SpawnFX(transform.position, (int)FXListAuto.Reset);
+            SoundMaster.PlaySound(transform.position, (int)SoundListAuto.SimplePop);
             gameObject.SetActive(true);
             transform.localScale = Vector3.zero;
             transform.DOScale(Vector3.one, 0.95f).SetEase(Ease.OutElastic);
