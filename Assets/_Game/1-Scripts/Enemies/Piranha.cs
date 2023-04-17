@@ -40,12 +40,14 @@ public class Piranha : MonoBehaviour
 
     private IEnumerator WaitCoroutine()
     {
+        if (!enabled) yield break;
         yield return _waitStartingTime;
         StartCoroutine(JumpCoroutine());
     }
 
     private IEnumerator JumpCoroutine()
     {
+        if (!enabled) yield break;
         hasSplashed = 1;
         yield return _waitUntilJumpStopTimeHalf;
         transform.DOMoveY(_startPos.y + jumpHeight, jumpSpeed).SetEase(Ease.InOutQuad);
@@ -71,6 +73,7 @@ public class Piranha : MonoBehaviour
 
     private void Update()
     {
+        if (!enabled) return;
         if (hasSplashed == 1)
             if (transform.position.y >= _startPos.y + waterHeight)
             {

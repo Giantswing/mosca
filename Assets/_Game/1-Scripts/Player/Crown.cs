@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Crown : MonoBehaviour, IPressurePlateListener
 {
@@ -50,6 +51,9 @@ public class Crown : MonoBehaviour, IPressurePlateListener
     private float crownDistance;
     private float crownDistanceTo;
 
+    public UnityEvent OnCrownThrow;
+    public UnityEvent OnCrownGrabbed;
+
     [Space(25)] [Header("Debugging")] [Range(0, 15)] [SerializeField]
     private float howFastToLockCamera = 1f;
 
@@ -81,7 +85,7 @@ public class Crown : MonoBehaviour, IPressurePlateListener
         myRb.useGravity = false;
         myTrail.enabled = false;
         lightSource.intensity = 0;
-        TargetGroupControllerSystem.AddTarget(transform, 0, 0, 0.25f);
+        TargetGroupControllerSystem.AddTarget(transform, 0, 1, 0.25f);
     }
 
     public void UpdateMaterial(float strength, Color color)
@@ -112,7 +116,8 @@ public class Crown : MonoBehaviour, IPressurePlateListener
         if (result < 0.01f)
             result = 0;
 
-        TargetGroupControllerSystem.ModifyTargetImmediate(transform, result, 0);
+        //TargetGroupControllerSystem.ModifyTargetImmediate(transform, result, 0);
+        TargetGroupControllerSystem.ModifyTarget(transform, result, 0);
 
         if (isGrabbed)
         {
@@ -188,6 +193,7 @@ public class Crown : MonoBehaviour, IPressurePlateListener
         if (!isGrabbed) return;
 
 
+        OnCrownThrow.Invoke();
         numCollisions = 0;
         //pickUpArea.gameObject.SetActive(true);
         EnteredNoCrownArea = false;
@@ -230,6 +236,7 @@ public class Crown : MonoBehaviour, IPressurePlateListener
     {
         if (isGrabbed) return;
 
+        OnCrownGrabbed.Invoke();
         //pickUpArea.gameObject.SetActive(true);
         UpdateMaterial(0, glowColor);
         StopCoroutine(FlyingSoundCoroutine);
@@ -247,7 +254,7 @@ public class Crown : MonoBehaviour, IPressurePlateListener
         //TargetGroupControllerSystem.ModifyTarget(transform, 0, 0, 0.8f);
         //TargetGroupControllerSystem.RemoveTarget(transform);
 
-        float duration = Vector3.Distance(transform.position, originalParent.position) * 0.15f;
+        float duration = Vector3.Distance(transform.position, originalParent.position) * 0.45f;
 
         my3dModel.DOKill();
         my3dModel.localRotation = Quaternion.identity;
@@ -318,15 +325,5 @@ public class Crown : MonoBehaviour, IPressurePlateListener
                 UpdateMaterial(0.5f, errorColor);
                 pickUpArea.gameObject.SetActive(false);
             }
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawRay(transform.position, transform.forward);
-
-        Vector3 velocity = GetComponent<Rigidbody>().velocity;
-        Gizmos.color = Color.green;
-        Gizmos.DrawRay(transform.position, velocity);
     }
 }

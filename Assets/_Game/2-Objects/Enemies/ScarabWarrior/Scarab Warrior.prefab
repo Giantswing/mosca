@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5662254482348848757}
-  - component: {fileID: 5662254482348848763}
+  - component: {fileID: -7274072977475138250}
   - component: {fileID: 5662254482348848756}
   - component: {fileID: 5662254482348848767}
   - component: {fileID: 5662254482348848760}
@@ -39,7 +39,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5662254482348848763
+--- !u!114 &-7274072977475138250
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -48,113 +48,55 @@ MonoBehaviour:
   m_GameObject: {fileID: 5662254482348848758}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8fd8e5d50ba833f4786e10b760bb1498, type: 3}
+  m_Script: {fileID: 11500000, guid: 3f39f189c377a7f4bb87558433538db5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deathSoundEvent: {fileID: 11400000, guid: fbbc8fe9c51eef84c89e72d01928d5b3, type: 2}
-  playDeathSound: 1
-  hitSoundEvent: {fileID: 11400000, guid: 14d863d64f65b3745aec184bd208ccef, type: 2}
-  playHitSound: 1
-  myRenderer: {fileID: 5240363747667802905}
-  normalMaterial: {fileID: 0}
-  invincibilityMaterial: {fileID: 2100000, guid: 226adf9a21da1ea4493948e9726d7789, type: 2}
-  IsInsideElevator: 0
-  ST_Speed: 8
-  ST_SpeedBoost: 0
-  ST_Health:
-    _owner: {fileID: 5662254482348848758}
-    _ownerName: Scarab Warrior (1)
-    _propertyPath: ST_Health
-    _autoListen: 0
-    _multiIndex: 0
-    _refType: 0
-    _value: 4
-    _smartConst: {fileID: 0}
-    _smartVar: {fileID: 0}
-    _smartMulti: {fileID: 0}
-    _onUpdate:
-      m_PersistentCalls:
-        m_Calls: []
-  ST_MaxHealth: 1
-  ST_Damage: 1
-  ST_Team: 2
-  ST_Invincibility: 0
-  ST_CanDoDmg: 1
-  ST_InvincibilityTimer: 0.5
-  ST_Reward: 0
-  _hasHitEvent: 1
-  ST_HitEvent:
+  team: 2
+  speed: 0
+  acceleration: 0
+  HP: 0
+  maxHP: 3
+  invulnerabilityTime: 1
+  canReceiveDamage: 1
+  damage: 0
+  canDoDamage: 1
+  onlyExplosions: 0
+  explosive: 0
+  contactDamage: 1
+  onDeathBehaviour: 0
+  canInteract: 0
+  hasInstantiatedData: 0
+  attributeDataPrefab: {fileID: 0}
+  attributeData: {fileID: 0}
+  objectModel: {fileID: 0}
+  manuallyAddedRenderers: 0
+  renderers: []
+  hurtMaterial: {fileID: 0}
+  onDeath:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5662254482348848756}
-        m_TargetAssemblyTypeName: ScarabWarrior, Assembly-CSharp
-        m_MethodName: Shake
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  ST_DeathEvent:
+      m_Calls: []
+  onReceiveHit:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5662254482348848760}
-        m_TargetAssemblyTypeName: RewardScript, Assembly-CSharp
-        m_MethodName: SpawnReward
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 5662254482348848756}
-        m_TargetAssemblyTypeName: ScarabWarrior, Assembly-CSharp
-        m_MethodName: DestroyShield
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 5662254482348848756}
-        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
-        m_MethodName: set_enabled
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 5662254482348848767}
-        m_TargetAssemblyTypeName: FlyOnDeathBehaviour, Assembly-CSharp
-        m_MethodName: StartFlying
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  onlyDamageByExplosions: 0
-  isThisAnExplosion: 0
-  isPlayer: 0
-  canBeTeleported: 0
-  dmgDirection: {x: 0, y: 0, z: 0}
-  isAlive: 1
+      m_Calls: []
+  onDidHit:
+    m_PersistentCalls:
+      m_Calls: []
+  onHeal:
+    m_PersistentCalls:
+      m_Calls: []
+  hasHitSound: 0
+  hitSound: 0
+  hasDeathSound: 0
+  deathSound: 0
+  hasBumpSound: 0
+  bumpSound: 0
+  hasHitFX: 0
+  hitFX: 0
+  hasDeathFX: 0
+  deathFX: 0
+  hasBumpFX: 0
+  bumpFX: 0
+  hardCollider: {fileID: 0}
 --- !u!114 &5662254482348848756
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -244,7 +186,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65c27d95d6942fd449bab205462739c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myStats: {fileID: 5662254482348848763}
+  myStats: {fileID: 0}
 --- !u!136 &170329681431885725
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -455,11 +397,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myScarabWarrior: {fileID: 5662254482348848756}
---- !u!137 &5240363747667802905 stripped
-SkinnedMeshRenderer:
-  m_CorrespondingSourceObject: {fileID: -8778116678914863914, guid: 5d07f455be064c545a3879d5ebd20c4d, type: 3}
-  m_PrefabInstance: {fileID: 5662254482978502607}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5268902664396509220 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 5d07f455be064c545a3879d5ebd20c4d, type: 3}

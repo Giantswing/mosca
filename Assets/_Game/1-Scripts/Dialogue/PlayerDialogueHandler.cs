@@ -7,7 +7,8 @@ using UnityEngine.InputSystem;
 public class PlayerDialogueHandler : MonoBehaviour
 {
     [SerializeField] private DialogueTriggerEvent currentDialogueTriggerEvent;
-    [SerializeField] private PlayerMovement pM;
+
+    //[SerializeField] private PlayerMovement pM;
     private bool hasDialogueTrigger = false;
     private bool isDialogueActive = false;
     private DialogueManager DialogueManager;
@@ -49,14 +50,18 @@ public class PlayerDialogueHandler : MonoBehaviour
                 DialogueManager.ShowDialogue(
                     currentDialogueTriggerEvent.dialogueSO[currentDialogueTriggerEvent.currentDialogueIndex]);
                 isDialogueActive = true;
-                pM.DisablePlayer();
+                //pM.DisablePlayer();
+
+                TargetGroupControllerSystem.ChangePlayersEnabled(false);
                 currentDialogueTriggerEvent.HidePrompt();
             }
     }
 
     public void StopDialogue()
     {
-        pM.EnablePlayer();
+        print("dialogue stopped");
+        //pM.EnablePlayer();
+        TargetGroupControllerSystem.ChangePlayersEnabled(true);
         isDialogueActive = false;
         DialogueManager.enabled = false;
         currentDialogueTriggerEvent.ShowPrompt();

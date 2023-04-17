@@ -93,7 +93,7 @@ public class DialogueManager : MonoBehaviour
         characterImages[1].material = Mat2;
 
 
-        var rightCharRect = char2.GetComponent<RectTransform>();
+        RectTransform rightCharRect = char2.GetComponent<RectTransform>();
         rightCharRect.anchorMin = new Vector2(.5f, 0);
         rightCharRect.anchorMax = new Vector2(.5f, 0);
         rightCharRect.pivot = new Vector2(.5f, 0);
@@ -159,7 +159,7 @@ public class DialogueManager : MonoBehaviour
             instance.characterImages[i].material.DOFloat(1f, OpacityMult, 0.25f);
         }
 
-        var children = instance.dialogueParent.GetComponentsInChildren<RectTransform>();
+        RectTransform[] children = instance.dialogueParent.GetComponentsInChildren<RectTransform>();
         //instance.uiAnimator.StartAnimation(children, 0.15f, 0.05f, Ease.OutCirc);
 
 
@@ -252,7 +252,7 @@ public class DialogueManager : MonoBehaviour
         characterButtonPrompt[currentCharacterReference].localScale =
             characterButtonPromptSize[currentCharacterReference];
         finishedWithCurrentText = false;
-        var currentText = textToShow;
+        string currentText = textToShow;
         characterTexts[instance.currentCharacterReference].text = "";
 
 
@@ -350,6 +350,7 @@ public class DialogueManager : MonoBehaviour
     {
         yield return new WaitForSeconds(0.15f);
         instance.onDialogueFinished.Dispatch();
+        TargetGroupControllerSystem.ChangePlayersEnabled();
     }
 
     public static void HideDialogue()

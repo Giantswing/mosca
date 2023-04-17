@@ -14,11 +14,11 @@ public class PatrolPoint
 
 public class EnemyPatrol : MonoBehaviour, ICustomTeleport
 {
-    [SerializeField] private STATS stats;
     public List<PatrolPoint> patrolPoints = new();
     private int _currentPatrolPoint = 0;
     private Vector3 _startPosition;
     private Vector3 _startLastMovement;
+    private Attributes attributes;
 
     private Tween _currentMovementTween;
     private WaitForSeconds _wait = new(1f);
@@ -33,6 +33,11 @@ public class EnemyPatrol : MonoBehaviour, ICustomTeleport
         Color.cyan,
         Color.magenta
     };
+
+    private void Awake()
+    {
+        attributes = GetComponent<Attributes>();
+    }
 
     private void Start()
     {
@@ -56,15 +61,15 @@ public class EnemyPatrol : MonoBehaviour, ICustomTeleport
         Debug.DrawLine(transform.position, transform.position + Vector3.up,
             Color.magenta, 1f);
         //print(_startLastMovement);
-        var movementEase = isImmediate ? Ease.OutQuad : Ease.InOutQuad;
-        var distanceToNextPoint =
+        Ease movementEase = isImmediate ? Ease.OutQuad : Ease.InOutQuad;
+        float distanceToNextPoint =
             Vector3.Distance(transform.position,
                 _startPosition + patrolPoints[_currentPatrolPoint].offset);
 
 
         _currentMovementTween = transform.DOMove(
             _startPosition + patrolPoints[_currentPatrolPoint].offset,
-            distanceToNextPoint / stats.ST_Speed * .5f).SetEase(movementEase);
+            distanceToNextPoint / attributes.speed * .5f).SetEase(movementEase);
         _currentMovementTween.onComplete +=
             () => { StartCoroutine(WaitPatrol()); };
 
@@ -80,7 +85,7 @@ public class EnemyPatrol : MonoBehaviour, ICustomTeleport
 
     private Vector3 CalculateEndingPos(int PatrolPoint)
     {
-        var result = _startPosition;
+        Vector3 result = _startPosition;
         for (var i = 0; i < PatrolPoint; i++) result += patrolPoints[i].offset;
 
         return result;
@@ -94,25 +99,25 @@ public class EnemyPatrol : MonoBehaviour, ICustomTeleport
 
     public void CustomTeleport(Transform teleporterTransform, Transform originalTeleporterTransform)
     {
-        var original_difference = originalTeleporterTransform.position - transform.position;
+        Vector3 original_difference = originalTeleporterTransform.position - transform.position;
         original_difference = Vector3.zero;
 
 
-        foreach (var patrolPoint in patrolPoints)
+        foreach (PatrolPoint patrolPoint in patrolPoints)
         {
-            var originalOffset = originalTeleporterTransform.position - _startPosition;
-            var distToPortal = _startPosition + patrolPoint.offset - originalTeleporterTransform.position +
-                               original_difference;
+            Vector3 originalOffset = originalTeleporterTransform.position - _startPosition;
+            Vector3 distToPortal = _startPosition + patrolPoint.offset - originalTeleporterTransform.position +
+                                   original_difference;
 
             Debug.DrawLine(originalTeleporterTransform.position, originalTeleporterTransform.position + distToPortal,
                 patrolColors[patrolPoints.IndexOf(patrolPoint)], 1.5f);
 
 
-            var newOffset = Quaternion.Euler(0, 0,
-                                teleporterTransform.rotation.eulerAngles.z -
-                                originalTeleporterTransform.rotation.eulerAngles.z
-                            ) *
-                            -distToPortal;
+            Vector3 newOffset = Quaternion.Euler(0, 0,
+                                    teleporterTransform.rotation.eulerAngles.z -
+                                    originalTeleporterTransform.rotation.eulerAngles.z
+                                ) *
+                                -distToPortal;
 
             newOffset += originalOffset;
             patrolPoint.offset = newOffset - original_difference;
@@ -165,7 +170,7 @@ public class EnemyPatrol : MonoBehaviour, ICustomTeleport
 
     private void OnDrawGizmos()
     {
-        var pos = Application.isPlaying ? _startPosition : transform.position;
+        Vector3 pos = Application.isPlaying ? _startPosition : transform.position;
 
         for (var i = 0; i < patrolPoints.Count; i++)
         {

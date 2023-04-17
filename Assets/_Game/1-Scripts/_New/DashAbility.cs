@@ -104,6 +104,7 @@ public class DashAbility : MonoBehaviour
 
         enabled = false;
         transform.localScale = startScale * .5f;
+        attributes.damagePriority = 1;
 
         transform.DOScale(startScale, 0.3f).SetEase(Ease.OutBack).onComplete += () =>
         {
@@ -127,6 +128,7 @@ public class DashAbility : MonoBehaviour
 
         delayedRestore = DOVirtual.DelayedCall(dashCooldown * .5f, () =>
         {
+            attributes.damagePriority = -1;
             attributes.canDoDamage = false;
             attributes.canInteract = false;
             OnDash?.Invoke("IsDashing", false);

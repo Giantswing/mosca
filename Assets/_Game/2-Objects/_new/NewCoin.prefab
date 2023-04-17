@@ -95,7 +95,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 8
+  m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &8621371201719062501
 MonoBehaviour:
@@ -132,7 +132,7 @@ MonoBehaviour:
   scoreValue: 1
   currentScore:
     _owner: {fileID: 4278237270729508980}
-    _ownerName: NewCoin
+    _ownerName: NewCoin (6)
     _propertyPath: currentScore
     _autoListen: 0
     _multiIndex: 0
@@ -146,7 +146,7 @@ MonoBehaviour:
         m_Calls: []
   maxScore:
     _owner: {fileID: 4278237270729508980}
-    _ownerName: NewCoin
+    _ownerName: NewCoin (6)
     _propertyPath: maxScore
     _autoListen: 0
     _multiIndex: 0
@@ -160,7 +160,7 @@ MonoBehaviour:
         m_Calls: []
   OnScoreChanged:
     _owner: {fileID: 4278237270729508980}
-    _ownerName: NewCoin
+    _ownerName: NewCoin (6)
     _propertyPath: OnScoreChanged
     _autoListen: 0
     _multiIndex: 0

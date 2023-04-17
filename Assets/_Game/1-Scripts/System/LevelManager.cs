@@ -91,7 +91,14 @@ public class LevelManager : MonoBehaviour
 
         levelMaxTime.value = levelData.timeToWin;
 
-        DOVirtual.DelayedCall(0.1f, () => { SetUpStartingHealth(); });
+
+        DOVirtual.DelayedCall(0.1f, () =>
+        {
+            SetUpStartingHealth();
+            _scoreForStars[2] = maxScore.value;
+            _scoreForStars[1] = Mathf.RoundToInt(maxScore.value / 1.5f);
+            _scoreForStars[0] = Mathf.RoundToInt(maxScore.value / 3f);
+        });
     }
 
     private void OnApplicationQuit()

@@ -110,8 +110,9 @@ Material:
     - _GlossyReflections: 0
     - _HurtColor: 0
     - _Metallic: 0
+    - _MinimumOpacity: 0.162
     - _OcclusionStrength: 1
-    - _OpacityMultiplier: 0.712
+    - _OpacityMultiplier: 0.35
     - _Parallax: 0.005
     - _QueueControl: 0
     - _QueueOffset: 0

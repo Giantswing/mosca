@@ -6,6 +6,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(Rigidbody))]
 public class PickUpBase : MonoBehaviour, IPickUp
@@ -16,6 +17,8 @@ public class PickUpBase : MonoBehaviour, IPickUp
     [HideInInspector] public Transform whoReceivesPickup { get; set; }
     [HideInInspector] public bool isPickedUp { get; set; }
     [HideInInspector] public bool isFollowing { get; set; }
+
+    protected Tweener _tweener;
 
     public enum PickUpAnimation
     {
@@ -90,9 +93,18 @@ public class PickUpBase : MonoBehaviour, IPickUp
         }
     }
 
+    public void DoStartupAnimation()
+    {
+        Vector3 oppositeDirection = (whoToFollow.position - transform.position).normalized;
+        rb.AddForce(oppositeDirection * 9f, ForceMode.Impulse);
+        DOVirtual.DelayedCall(Random.Range(0.25f, 0.4f), StartFollowing);
+    }
+
     public void StartFollowing()
     {
         isFollowing = true;
+        _tweener = transform.DOMove(whoToFollow.position, .2f, false).SetEase(Ease.OutCubic);
+
         TimerTick.tickFrameFixed += Follow;
     }
 
@@ -106,10 +118,14 @@ public class PickUpBase : MonoBehaviour, IPickUp
         Vector3 dirToMove = (whoToFollow.position - transform.position).normalized * 2f;
         Vector3 torqueVector = Vector3.Cross(dirToMove, Vector3.up) * 40f;
 
+        _tweener.ChangeEndValue(whoToFollow.position, true);
+
+        /*
         rb.AddForce(dirToMove, ForceMode.Impulse);
         rb.AddTorque(torqueVector, ForceMode.Impulse);
 
         rb.drag += Time.fixedDeltaTime;
+        */
 
         if (Vector3.Distance(whoReceivesPickup.position, transform.position) < collectDistance) OnCollect();
     }

@@ -8,9 +8,20 @@ using UnityEngine.Serialization;
 
 public class TargetGroupControllerSystem : MonoBehaviour
 {
+    [Serializable]
+    private class CustomCameraTarget
+    {
+        public Transform Transform;
+        public float Weight;
+        public float Radius;
+    }
+
+
+    [SerializeField] private List<CustomCameraTarget> cameraTargets = new();
     private CinemachineTargetGroup _targetGroup;
-    private static TargetGroupControllerSystem Instance;
+    public static TargetGroupControllerSystem Instance;
     [SerializeField] private CinemachineVirtualCamera virtualCamera;
+    private Camera mainCamera;
     [SerializeField] private Ease _easeOut;
 
     [FormerlySerializedAs("cameraData")] [SerializeField]
@@ -27,9 +38,28 @@ public class TargetGroupControllerSystem : MonoBehaviour
     private Vector3 positionOffsetTo;
     private Vector3 aimOffsetTo;
 
+    private Vector3 cameraZoneOffset;
+    private Vector3 cameraZoneOffsetTo;
+    private float cameraZoneZoom;
+    private float cameraZoneZoomTo;
+    private float cameraZoneSideAngleStrength;
+    private float cameraZoneSideAngleStrengthTo;
+
+    [SerializeField] private float playerZoomOffset = 0;
+    [SerializeField] private float playerZoomOffsetTo = 0;
+    [SerializeField] private float playerZoomThreshold = 0.1f;
+    [SerializeField] private float playerZoomInThreshold = 0.3f;
+    [SerializeField] private int numPlayersIn = 0;
+    [SerializeField] private bool shouldZoomOut = false;
+    [SerializeField] private bool shouldZoomIn = false;
+
     [SerializeField] private float posOffsetSpeed = 2f;
     [SerializeField] private float aimOffsetSpeed = 2f;
+    [SerializeField] private float cameraZoneOffsetSpeed = 1f;
+    [SerializeField] private float cameraZoneZoomSpeed = 1f;
+
     [SerializeField] private float flipStrength = 2f;
+    private bool canChangeTarget = true;
 
     private void Awake()
     {
@@ -41,16 +71,8 @@ public class TargetGroupControllerSystem : MonoBehaviour
         composer = virtualCamera.GetCinemachineComponent<CinemachineComposer>();
         startingPositionOffset = transposer.m_FollowOffset;
         startingAimOffset = composer.m_TrackedObjectOffset;
-    }
-
-    public static void ModifyTargetImmediate(Transform target, float weight, float radius)
-    {
-        int index = Instance._targetGroup.FindMember(target);
-        if (index == -1)
-            return;
-
-        Instance._targetGroup.m_Targets[index].weight = weight;
-        Instance._targetGroup.m_Targets[index].radius = radius;
+        cameraZoneSideAngleStrengthTo = 1;
+        mainCamera = Camera.main;
     }
 
     public static void ModifyTarget(Transform target, float weight, float radius, float duration = 2f)
@@ -59,14 +81,7 @@ public class TargetGroupControllerSystem : MonoBehaviour
         if (index == -1)
             return;
 
-        float weightTo = weight;
-        float radiusTo = radius;
-        DOTween.To(() => Instance._targetGroup.m_Targets[index].weight,
-            x => Instance._targetGroup.m_Targets[index].weight = x, weightTo,
-            duration).SetEase(Ease.InOutQuad);
-        DOTween.To(() => Instance._targetGroup.m_Targets[index].radius,
-            x => Instance._targetGroup.m_Targets[index].radius = x, radiusTo,
-            duration).SetEase(Ease.InOutQuad);
+        Instance.cameraTargets[index].Weight = weight;
     }
 
     public static void AddTarget(Transform target, float weight, float radius, float duration = 2f,
@@ -76,26 +91,18 @@ public class TargetGroupControllerSystem : MonoBehaviour
             if (Instance._targetGroup.m_Targets[i].target == target)
                 return;
 
-
-        float weightTo = weight;
-
-
-        if (useDuration)
-        {
-            Instance._targetGroup.AddMember(target, 0, radius);
-
-            DOTween.To(() => Instance._targetGroup.m_Targets[Instance._targetGroup.m_Targets.Length - 1].weight,
-                x => Instance._targetGroup.m_Targets[Instance._targetGroup.m_Targets.Length - 1].weight = x, weightTo,
-                duration).SetEase(Ease.InOutQuad);
-        }
-        else
-        {
-            Instance._targetGroup.AddMember(target, weight, radius);
-        }
-
         if (target.TryGetComponent(out Attributes attributes))
             if (attributes.hasInstantiatedData)
                 Instance.playerList.Add(attributes.attributeData);
+
+
+        Instance._targetGroup.AddMember(target, 0, 0);
+        Instance.cameraTargets.Add(new CustomCameraTarget
+        {
+            Transform = target,
+            Weight = weight,
+            Radius = radius
+        });
     }
 
     public static void RemoveTarget(Transform target)
@@ -103,13 +110,7 @@ public class TargetGroupControllerSystem : MonoBehaviour
         if (Instance._targetGroup.FindMember(target) == -1)
             return;
 
-        DOTween.To(() => Instance._targetGroup.m_Targets[Instance._targetGroup.m_Targets.Length - 1].weight,
-            x => Instance._targetGroup.m_Targets[Instance._targetGroup.m_Targets.Length - 1].weight = x, 0,
-            1f).SetEase(Instance._easeOut).OnComplete(() =>
-        {
-            Instance._targetGroup.RemoveMember(target);
-            Instance._targetGroup.m_Targets[0].weight = 1;
-        });
+        Instance.cameraTargets.Find(x => x.Transform == target).Weight = 0;
     }
 
     public static Transform ClosestPlayer(Transform from)
@@ -133,33 +134,121 @@ public class TargetGroupControllerSystem : MonoBehaviour
         return closest;
     }
 
+    private void LerpFields()
+    {
+        cameraZoneOffset = Vector3.Lerp(cameraZoneOffset, cameraZoneOffsetTo, Time.deltaTime * cameraZoneOffsetSpeed);
+        cameraZoneZoom = Mathf.Lerp(cameraZoneZoom, cameraZoneZoomTo, Time.deltaTime * cameraZoneZoomSpeed);
+        cameraZoneSideAngleStrength =
+            Mathf.Lerp(cameraZoneSideAngleStrength, cameraZoneSideAngleStrengthTo,
+                Time.deltaTime * cameraZoneOffsetSpeed);
+        positionOffset = Vector3.Lerp(positionOffset, positionOffsetTo, Time.deltaTime * posOffsetSpeed);
+        aimOffset = Vector3.Lerp(aimOffset, aimOffsetTo, Time.deltaTime * aimOffsetSpeed);
+    }
+
+    private void UpdateWeights()
+    {
+        for (var i = 0; i < cameraTargets.Count; i++)
+        {
+            int index = _targetGroup.FindMember(cameraTargets[i].Transform);
+            if (index == -1)
+                continue;
+
+            if (_targetGroup.m_Targets[index].weight < cameraTargets[i].Weight)
+                _targetGroup.m_Targets[index].weight = Mathf.Lerp(_targetGroup.m_Targets[index].weight,
+                    cameraTargets[i].Weight, Time.deltaTime * 0.2f);
+            else
+                _targetGroup.m_Targets[index].weight = Mathf.Lerp(_targetGroup.m_Targets[index].weight,
+                    cameraTargets[i].Weight, Time.deltaTime * 2f);
+
+            if (_targetGroup.m_Targets[index].weight < 0.01f && cameraTargets[i].Weight < 0.01f)
+                _targetGroup.m_Targets[index].weight = 0;
+
+            _targetGroup.m_Targets[index].radius = Mathf.Lerp(_targetGroup.m_Targets[index].radius,
+                cameraTargets[i].Radius, Time.deltaTime * 2f);
+        }
+    }
+
+    private void CalculatePlayerOutOfView()
+    {
+        if (playerList.Count < 1) return;
+        shouldZoomOut = false;
+        shouldZoomIn = false;
+        numPlayersIn = 0;
+
+        for (var i = 0; i < playerList.Count; i++)
+        {
+            Vector3 playerCameraPos = mainCamera.WorldToViewportPoint(playerList[i].attributes.transform.position);
+
+            if (playerCameraPos.x < playerZoomThreshold || playerCameraPos.x > 1 - playerZoomThreshold ||
+                playerCameraPos.y < playerZoomThreshold || playerCameraPos.y > 1 - playerZoomThreshold)
+                shouldZoomOut = true;
+
+
+            if (playerCameraPos.x > playerZoomInThreshold && playerCameraPos.x < 1 - playerZoomInThreshold &&
+                playerCameraPos.y > playerZoomInThreshold && playerCameraPos.y < 1 - playerZoomInThreshold)
+                numPlayersIn++;
+        }
+
+        if (numPlayersIn == playerList.Count)
+            shouldZoomIn = true;
+
+        if (shouldZoomOut)
+        {
+            playerZoomOffsetTo += Time.deltaTime * 5f;
+        }
+
+        else if (shouldZoomIn)
+        {
+            playerZoomOffsetTo -= Time.deltaTime * 5f;
+            if (playerZoomOffsetTo < 0f) playerZoomOffsetTo = 0;
+        }
+
+        playerZoomOffset = Mathf.Lerp(playerZoomOffset, playerZoomOffsetTo, Time.deltaTime * 1f);
+    }
+
     private void FixedUpdate()
     {
         positionOffsetTo = Vector3.zero;
         aimOffsetTo = Vector3.zero;
         float finalFlipStrength = 0;
+        float finalZoom = 0;
 
-        if (playerList.Count > 0)
-            finalFlipStrength = flipStrength / playerList.Count;
+        if (playerList.Count > 0) finalFlipStrength = flipStrength * cameraZoneSideAngleStrength / playerList.Count;
+        finalFlipStrength /= playerZoomOffset + 1f;
 
         for (var i = 0; i < playerList.Count; i++)
         {
-            /*
-            positionOffsetTo.x -= cameraData[i].movementSystem.direction.x;
-            positionOffsetTo.y -= cameraData[i].movementSystem.direction.y;
-
-            aimOffsetTo.x += cameraData[i].movementSystem.direction.x;
-            aimOffsetTo.y += cameraData[i].movementSystem.direction.y;
-            */
-
             positionOffsetTo.x += finalFlipStrength * playerList[i].flipSystem.flipDirection;
-            aimOffsetTo.x += finalFlipStrength * playerList[i].flipSystem.flipDirection;
+            aimOffsetTo.x += finalFlipStrength * 2f * playerList[i].flipSystem.flipDirection;
         }
 
-        positionOffset = Vector3.Lerp(positionOffset, positionOffsetTo, Time.deltaTime * posOffsetSpeed);
-        aimOffset = Vector3.Lerp(aimOffset, aimOffsetTo, Time.deltaTime * aimOffsetSpeed);
+        UpdateWeights();
+        LerpFields();
+        CalculatePlayerOutOfView();
 
-        transposer.m_FollowOffset = startingPositionOffset + positionOffset;
-        composer.m_TrackedObjectOffset = startingAimOffset + aimOffset;
+
+        transposer.m_FollowOffset = startingPositionOffset + positionOffset + cameraZoneOffset +
+            Vector3.forward * cameraZoneZoom - Vector3.forward * playerZoomOffset;
+        composer.m_TrackedObjectOffset = startingAimOffset + aimOffset + cameraZoneOffset;
+    }
+
+    public static void ChangePlayersEnabled(bool enabled = true)
+    {
+        for (var i = 0; i < Instance.playerList.Count; i++)
+        {
+            Instance.playerList[i].movementSystem.enabled = enabled;
+            Instance.playerList[i].flipSystem.enabled = enabled;
+            Instance.playerList[i].dashAbility.enabled = enabled;
+            //Instance.playerList[i].doubleDashAbility.enabled = enabled;
+            Instance.playerList[i].chargeShot.enabled = enabled;
+        }
+    }
+
+    public static void SetCameraZoneOffset(Vector3 cameraZoneCameraOffset, float cameraZoneZoomOffset,
+        float cameraZoneSideAngleStrengthOffset)
+    {
+        Instance.cameraZoneOffsetTo = cameraZoneCameraOffset;
+        Instance.cameraZoneZoomTo = cameraZoneZoomOffset;
+        Instance.cameraZoneSideAngleStrengthTo = cameraZoneSideAngleStrengthOffset;
     }
 }

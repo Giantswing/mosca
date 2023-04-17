@@ -6,7 +6,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class ThrowablePickup : HoldablePickup
+public class ThrowablePickup : HoldablePickup, ICollisionIgnore
 {
     [Title("Throwable Properties")] public float throwForce = 10f;
     [HideInInspector] public Collider hardCollider;
@@ -32,5 +32,10 @@ public class ThrowablePickup : HoldablePickup
         OnThrow?.Invoke();
 
         DOVirtual.DelayedCall(0.1f, () => transform.localScale = Vector3.one);
+    }
+
+    public Collider GetCollider()
+    {
+        return hardCollider;
     }
 }

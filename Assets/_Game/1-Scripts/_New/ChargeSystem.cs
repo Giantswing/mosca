@@ -27,6 +27,10 @@ public class ChargeSystem : MonoBehaviour
 
     private Vector3 shootDir;
 
+    [SerializeField] private SimpleAudioEvent chargeSound;
+    [SerializeField] private AudioSource chargeSoundSource;
+
+
     private void Awake()
     {
         crown = GetComponentInChildren<Crown>();
@@ -56,12 +60,12 @@ public class ChargeSystem : MonoBehaviour
 
     public void StartCharge(Vector3 direction)
     {
+        if (!crown.isGrabbed) return;
         direction = fixEmptyDirection(direction);
         OnCharge?.Invoke();
         shootDir = direction;
-        if (!crown.isGrabbed) return;
         chargeShot = 1;
-        //chargeSound.Play(chargeSoundSource);
+        chargeSound.Play(chargeSoundSource);
         crown.ChangeCrownPos(0);
         ChargeAnimation?.Invoke("ChargingShot", chargeShot);
         //playerAnimationHandler.SetChargingShot(chargeShot);
@@ -91,7 +95,7 @@ public class ChargeSystem : MonoBehaviour
     {
         if (chargeShot != 1) return;
 
-        //chargeSoundSource.Stop();
+        chargeSoundSource.Stop();
         Vector3 finalShotDir = shootDir.normalized;
         if (finalShotDir == Vector3.zero) finalShotDir = Vector3.right * flipSystem.flipDirection;
 

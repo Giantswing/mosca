@@ -4963,13 +4963,16 @@ MonoBehaviour:
   damage: 1
   canDoDamage: 1
   onlyExplosions: 0
-  explosiveDamage: 0
+  explosive: 0
+  contactDamage: 1
   onDeathBehaviour: 0
+  damagePriority: 0
   canInteract: 0
   hasInstantiatedData: 0
   attributeDataPrefab: {fileID: 0}
   attributeData: {fileID: 0}
   objectModel: {fileID: 0}
+  manuallyAddedRenderers: 0
   renderers: []
   hurtMaterial: {fileID: 0}
   onDeath:
@@ -4984,16 +4987,16 @@ MonoBehaviour:
   onHeal:
     m_PersistentCalls:
       m_Calls: []
-  hasHitSound: 0
-  hitSound: 0
+  hasHitSound: 1
+  hitSound: 32
   hasDeathSound: 1
-  deathSound: 32
+  deathSound: 29
   hasBumpSound: 0
   bumpSound: 0
   hasHitFX: 1
   hitFX: 6
   hasDeathFX: 1
-  deathFX: 6
+  deathFX: 4
   hasBumpFX: 0
   bumpFX: 0
   hardCollider: {fileID: 0}

@@ -532,7 +532,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8612776958667648114, guid: 4dd7bce30dfd23140808d99f99fa62de, type: 3}
       propertyPath: flipStrength
-      value: 1.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8612776958667648114, guid: 4dd7bce30dfd23140808d99f99fa62de, type: 3}
       propertyPath: aimOffsetSpeed
@@ -541,6 +541,10 @@ PrefabInstance:
     - target: {fileID: 8612776958667648114, guid: 4dd7bce30dfd23140808d99f99fa62de, type: 3}
       propertyPath: posOffsetSpeed
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8612776958667648114, guid: 4dd7bce30dfd23140808d99f99fa62de, type: 3}
+      propertyPath: playerZoomInThreshold
+      value: 0.25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4dd7bce30dfd23140808d99f99fa62de, type: 3}

@@ -3,23 +3,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
 public class PlayerSoundManager : MonoBehaviour
 {
-    //[SerializeField] private AudioEventSO flyDashSound;
+    private Rigidbody rb;
+    [SerializeField] private float magnitudeDivider = 10f;
 
-    //[SerializeField] private AudioEventSO flyDodgeSound;
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
 
-    //[SerializeField] private AudioEventSO flyWallHitSound;
 
     [Space(15)] [SerializeField] private AudioSource flyIdleSound;
-    //[SerializeField] private AudioSource flySounds;
-
-
-    [SerializeField] private PlayerMovement pM;
-
 
     private void Update()
     {
-        flyIdleSound.pitch = 1f + pM.inputDirection.magnitude / 3;
+        flyIdleSound.pitch = 1f + rb.velocity.magnitude / magnitudeDivider;
     }
 }

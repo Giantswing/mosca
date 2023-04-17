@@ -7,32 +7,20 @@ public class CameraZone : MonoBehaviour
 {
     public Vector3 cameraOffset;
 
-    [Range(-3, 3)] public float cameraZoom;
+    [Range(-5, 5)] public float cameraZoom;
 
-    [Range(-2, 2)] public float sideAngleStrength = 1;
+    [Range(-1, 5)] public float sideAngleStrength = 1;
 
-    [SerializeField] private bool disableFlip = false;
+    //[SerializeField] private bool forceRight = false;
+    //[SerializeField] private bool forceLeft = false;
 
     public bool isCameraTarget;
-    public bool playerInside;
-    private float weight;
-    private float weightTo;
+    [HideInInspector] public Transform cameraTarget;
 
     private void Start()
     {
-        if (isCameraTarget)
-            TargetGroupControllerSystem.AddTarget(transform, 0, 0);
-    }
-
-    private void Update()
-    {
-        if (!isCameraTarget) return;
-        weight = Mathf.Lerp(weight, weightTo, Time.deltaTime * 2);
-        if (weight < 0.05)
-            weight = 0;
-
-        weightTo = playerInside ? 3 : 0;
-        TargetGroupControllerSystem.ModifyTargetImmediate(transform, weight, 0);
+        cameraTarget = transform.GetChild(0);
+        if (isCameraTarget) TargetGroupControllerSystem.AddTarget(cameraTarget, 0, 0, 0);
     }
 
     private void OnDrawGizmos()

@@ -132,6 +132,7 @@ public class Traveler : MonoBehaviour
             otherPlayer.attributes.canReceiveDamage = false;
             otherPlayer.attributes.hardCollider.enabled = false;
 
+
             model.DOLocalRotate(new Vector3(0, 0, -360), 0.3f, RotateMode.FastBeyond360)
                 .SetLoops(-1, LoopType.Incremental).SetEase(Ease.Linear);
 
@@ -139,10 +140,15 @@ public class Traveler : MonoBehaviour
             StartTravel(otherPlayer.transform, (exitsToTheLeft) =>
             {
                 model.DOKill();
+                //model.localRotation = Quaternion.identity;
+
                 model.DOLocalRotate(new Vector3(0, exitsToTheLeft ? 180 : 0, 0),
                     .35f, RotateMode.FastBeyond360);
 
-                otherPlayer.flipSystem.Flip(exitsToTheLeft ? -1 : 1);
+
+                otherPlayer.flipSystem.flipDirection = exitsToTheLeft ? -1 : 1;
+                //otherPlayer.flipSystem.Flip(exitsToTheLeft ? -1 : 1);
+
                 otherPlayer.attributes.canReceiveDamage = true;
                 otherPlayer.attributes.hardCollider.enabled = true;
                 otherPlayer.EnableMovement();

@@ -52,7 +52,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3455700863804286203}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 3b3c0f763df170b4689c4d3cd46515bd, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -137,13 +137,16 @@ MonoBehaviour:
   damage: 1
   canDoDamage: 1
   onlyExplosions: 0
-  explosiveDamage: 0
+  explosive: 0
+  contactDamage: 1
   onDeathBehaviour: 0
+  damagePriority: 0
   canInteract: 0
   hasInstantiatedData: 0
   attributeDataPrefab: {fileID: 0}
   attributeData: {fileID: 0}
   objectModel: {fileID: 0}
+  manuallyAddedRenderers: 0
   renderers: []
   hurtMaterial: {fileID: 0}
   onDeath:

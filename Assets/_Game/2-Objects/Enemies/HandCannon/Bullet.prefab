@@ -107,7 +107,7 @@ MonoBehaviour:
   explosive: 0
   contactDamage: 1
   onDeathBehaviour: 0
-  canInteract: 0
+  canInteract: 1
   hasInstantiatedData: 0
   attributeDataPrefab: {fileID: 0}
   attributeData: {fileID: 0}

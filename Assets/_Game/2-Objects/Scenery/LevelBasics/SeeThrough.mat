@@ -35,8 +35,8 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaCutoff: 0.5
-    - _FresnelBias: 0.052
-    - _FresnelPower: 3.88
+    - _FresnelBias: 0.092
+    - _FresnelPower: 4.11
     - _FresnelScale: 6
     - _OpacityMult: 1
     - _QueueControl: 0
@@ -44,5 +44,5 @@ Material:
     m_Colors:
     - _Color0: {r: 0.238197, g: 0.1979352, b: 0.3018868, a: 1}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
-    - _MainColor: {r: 0.5946634, g: 0.4577697, b: 0.764151, a: 0}
+    - _MainColor: {r: 1.1921569, g: 0.91764706, b: 1.5294118, a: 0}
   m_BuildTextureStacks: []

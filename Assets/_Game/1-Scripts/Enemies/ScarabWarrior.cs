@@ -177,9 +177,9 @@ public class ScarabWarrior : MonoBehaviour
         }
 
         if (distanceToTarget > maxFollowDistance + 25f)
-            TargetGroupControllerSystem.ModifyTargetImmediate(transform, 0, 0);
+            TargetGroupControllerSystem.ModifyTarget(transform, 0, 0);
         else
-            TargetGroupControllerSystem.ModifyTargetImmediate(transform, 0.5f, 1);
+            TargetGroupControllerSystem.ModifyTarget(transform, 0.5f, 1);
     }
 
 
@@ -265,8 +265,8 @@ public class ScarabWarrior : MonoBehaviour
     {
         Vector3 result = startingDir;
 
-        Ray ray = new Ray(transform.position, startingDir);
-        RaycastHit hit = new RaycastHit();
+        Ray ray = new(transform.position, startingDir);
+        RaycastHit hit = new();
 
         if (Physics.Raycast(ray, out hit, 7f))
         {
@@ -280,8 +280,8 @@ public class ScarabWarrior : MonoBehaviour
 
     private bool CanISeePlayerInThatDir(Vector3 startingDir)
     {
-        Ray ray = new Ray(transform.position, startingDir);
-        RaycastHit hit = new RaycastHit();
+        Ray ray = new(transform.position, startingDir);
+        RaycastHit hit = new();
         var result = false;
 
         if (Physics.Raycast(ray, out hit, maxRayDistance, ignoreLayerMask))

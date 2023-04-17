@@ -50,6 +50,7 @@ public class DoubleDashAbility : MonoBehaviour
         dashAbility.enabled = false;
         dashAbility.DisableDashRecovery();
         lookAtRotation.useAngleRotation = true;
+        attributes.damagePriority = 1;
 
         this.direction = direction;
 
@@ -62,6 +63,7 @@ public class DoubleDashAbility : MonoBehaviour
 
         DOVirtual.DelayedCall(dashCooldown * .5f, () =>
         {
+            attributes.damagePriority = -1;
             attributes.canDoDamage = false;
             attributes.canInteract = false;
             lookAtRotation.useAngleRotation = false;

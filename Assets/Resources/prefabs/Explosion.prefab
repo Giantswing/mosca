@@ -64,7 +64,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 2.5
+  m_Radius: 3.5
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &4047922072985717463
 MonoBehaviour:
@@ -85,12 +85,13 @@ MonoBehaviour:
   maxHP: 0
   invulnerabilityTime: 1
   canReceiveDamage: 0
-  damage: 0
+  damage: 1
   canDoDamage: 1
   onlyExplosions: 0
   explosive: 1
   contactDamage: 0
   onDeathBehaviour: 0
+  damagePriority: 5
   canInteract: 0
   hasInstantiatedData: 0
   attributeDataPrefab: {fileID: 0}

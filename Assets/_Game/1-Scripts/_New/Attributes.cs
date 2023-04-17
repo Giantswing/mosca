@@ -68,6 +68,8 @@ public class Attributes : MonoBehaviour, IPressurePlateListener
     [TitleGroup("Damage")] [ShowIf("canReceiveDamage")]
     public OnDeathBehaviour onDeathBehaviour;
 
+    [TitleGroup("Damage")] public int damagePriority = 1;
+
 
     [TitleGroup("Interactions")] [HorizontalGroup("Interactions/Interactions")]
     public bool canInteract = false;
@@ -174,45 +176,27 @@ public class Attributes : MonoBehaviour, IPressurePlateListener
 
             attributeData.flipSystem = GetComponentInChildren<FlipSystem>();
             attributeData.movementSystem = GetComponentInChildren<MovementSystem>();
+            attributeData.dashAbility = GetComponentInChildren<DashAbility>();
+            attributeData.doubleDashAbility = GetComponentInChildren<DoubleDashAbility>();
+            attributeData.chargeShot = GetComponentInChildren<ChargeSystem>();
         }
     }
 
-    public void DeathEvent(Vector3 deathPos, bool usePosition = true)
+    public void DeathEvent(Vector3 deathPos)
     {
         canDoDamage = false;
         switch (onDeathBehaviour)
         {
             case OnDeathBehaviour.Fly:
-                //disable all components except for this attributes and rigidbody
-
                 if (hasRigidbody)
                 {
                     transform.DOKill();
                     objectModel.DOKill();
                     rb.isKinematic = false;
-                    rb.mass = 10f;
-                    rb.drag = 1f;
+                    rb.drag = 0.3f;
                     rb.angularDrag = 10f;
-                    rb.constraints = RigidbodyConstraints.None;
-                    rb.constraints = RigidbodyConstraints.FreezeRotationZ;
-
+                    rb.constraints = RigidbodyConstraints.FreezePositionZ;
                     rb.useGravity = true;
-
-                    Vector3 dir = usePosition ? (transform.position - deathPos).normalized : deathPos;
-                    print(dir);
-
-                    rb.AddForce(deathPos * 1f,
-                        ForceMode.Acceleration);
-                    rb.AddForce(Vector3.up * 5f, ForceMode.Acceleration);
-                    objectModel.DOLocalRotate(new Vector3(0, 0, 360), .5f, RotateMode.FastBeyond360)
-                        .SetLoops(-1, LoopType.Incremental).SetEase(Ease.Linear);
-
-
-                    //rb.AddTorque(Vector3.forward * 1000f, ForceMode.Acceleration);
-                    /*
-                    rb.DORotate(new Vector3(0f, 0f, 360f), 1f, RotateMode.FastBeyond360)
-                        .SetEase(Ease.Linear).SetLoops(-1);
-                        */
                 }
 
 
@@ -225,27 +209,55 @@ public class Attributes : MonoBehaviour, IPressurePlateListener
                 }
 
 
+                gameObject.SetActive(false);
+                DOVirtual.DelayedCall(0.1f, () =>
+                {
+                    gameObject.SetActive(true);
+
+                    rb.AddForce((transform.position - deathPos).normalized * 10f, ForceMode.VelocityChange);
+
+                    objectModel.transform.localRotation = Quaternion.identity;
+                    objectModel.DOLocalRotate(new Vector3(0, 0, 360), .25f, RotateMode.FastBeyond360)
+                        .SetLoops(-1, LoopType.Incremental).SetEase(Ease.Linear);
+                });
+
                 DOVirtual.DelayedCall(1f, () =>
                 {
+                    if (hasDeathSound)
+                        SoundMaster.PlaySound(transform.position, (int)deathSound);
+
+                    if (hasDeathFX)
+                        FXMaster.SpawnFX(transform.position, (int)deathFX);
+
                     onDeath?.Invoke();
                     transform.DOKill();
-                    Destroy(gameObject);
+                    gameObject.SetActive(false);
                 });
+
+                DOVirtual.DelayedCall(1.5f, () => { Destroy(gameObject); });
 
                 break;
 
             case OnDeathBehaviour.Immediate:
+                if (hasDeathSound)
+                    SoundMaster.PlaySound(transform.position, (int)deathSound);
+
+                if (hasDeathFX)
+                    FXMaster.SpawnFX(transform.position, (int)deathFX);
+
                 onDeath?.Invoke();
-                Destroy(gameObject);
+                DOVirtual.DelayedCall(.6f, () => Destroy(gameObject));
+
+                gameObject.SetActive(false);
                 break;
         }
     }
 
 
-    public void TakeDamage(Attributes otherAttributes)
+    public void TakeDamage(Attributes otherAttributes, Vector3 contactPoint = default)
     {
-        if (otherAttributes.team != team && otherAttributes.canDoDamage &&
-            canReceiveDamage)
+        if ((otherAttributes.team != team || otherAttributes.team == Team.Neutral) && otherAttributes.canDoDamage &&
+            canReceiveDamage && damagePriority <= otherAttributes.damagePriority)
         {
             if (onlyExplosions && !otherAttributes.explosive)
                 return;
@@ -267,25 +279,19 @@ public class Attributes : MonoBehaviour, IPressurePlateListener
 
             if (hasRigidbody)
             {
-                Vector3 damageDirection = (transform.position - otherAttributes.transform.position).normalized;
+                Vector3 damageDirection =
+                    (transform.position - (contactPoint == default ? otherAttributes.transform.position : contactPoint))
+                    .normalized;
                 rb.AddForce(damageDirection * (otherAttributes.damage * 20f), ForceMode.Impulse);
             }
 
             if (HP <= 0 && HP > -665)
             {
-                if (hasDeathSound)
-                    SoundMaster.PlaySound(transform.position, (int)deathSound);
-
-                if (hasDeathFX)
-                    FXMaster.SpawnFX(transform.position, (int)deathFX);
                 //onDeath.Invoke();
                 HP = -666;
                 onReceiveHit.Invoke();
 
-                if (otherAttributes.hasRigidbody && otherAttributes.rb.velocity.magnitude > 0.5f)
-                    DeathEvent(otherAttributes.rb.velocity.normalized, false);
-                else
-                    DeathEvent(otherAttributes.transform.position);
+                DeathEvent(contactPoint == default ? otherAttributes.transform.position : contactPoint);
             }
             else if (HP > 0)
             {
@@ -301,6 +307,16 @@ public class Attributes : MonoBehaviour, IPressurePlateListener
             HP = maxHP;
 
         onHeal.Invoke();
+    }
+
+    public void IncreaseDamagePriority()
+    {
+        damagePriority++;
+    }
+
+    public void DecreaseDamagePriority()
+    {
+        damagePriority--;
     }
 
     public void ChangeMaxHP(int amount)
@@ -323,7 +339,6 @@ public class Attributes : MonoBehaviour, IPressurePlateListener
             renderer.renderer.material = renderer.material;
     }
 
-
     private void OnCollisionEnter(Collision collision)
     {
         if (hasBumpSound)
@@ -335,10 +350,15 @@ public class Attributes : MonoBehaviour, IPressurePlateListener
 
         if (collision.transform.TryGetComponent(out Attributes otherAttributes))
             if (otherAttributes.contactDamage)
-                TakeDamage(otherAttributes);
+                TakeDamage(otherAttributes, collision.contacts[0].point);
 
         if (canInteract && collision.transform.TryGetComponent(out IGenericInteractable interactable))
+        {
+            if (hasRigidbody)
+                rb.AddForce((transform.position - collision.contacts[0].point).normalized * 15f,
+                    ForceMode.VelocityChange);
             interactable.Interact(transform.position);
+        }
     }
 
     /*

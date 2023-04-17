@@ -158,7 +158,8 @@ public class InsecticideCanv2 : MonoBehaviour
                 }*/
 
                 if (_hits[i].collider.TryGetComponent(out Attributes otherAttributes))
-                    otherAttributes.TakeDamage(attributes);
+                    if (otherAttributes.team != Attributes.Team.Neutral)
+                        otherAttributes.TakeDamage(attributes);
             }
 
 

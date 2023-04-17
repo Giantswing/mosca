@@ -12,7 +12,7 @@ public class TargetGroupMember : MonoBehaviour
         DOVirtual.DelayedCall(0.1f,
             () =>
             {
-                TargetGroupControllerSystem.AddTarget(transform, 1f, 1f, 0, false);
+                TargetGroupControllerSystem.AddTarget(transform, startingWeight, startingRadius, 0, false);
 
                 TargetGroupControllerSystem.ModifyTarget(transform, startingWeight, startingRadius);
             });
