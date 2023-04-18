@@ -105,42 +105,8 @@ public class LevelButton : MonoBehaviour, ISelectHandler, IDeselectHandler
         if (levelLock.gameObject.activeSelf == false)
         {
             print("Button: loading level " + levelData.sceneName);
-            instanceLevelTransitionState.value = (int)LevelLoader.LevelTransitionState.SpecificLevel;
-            LevelLoader.SceneToLoad = levelData.scene;
-            onLevelTransition.Dispatch();
+            LevelLoadSystem.LoadSpecificLevel(levelData.scene);
         }
-    }
-
-    private void Update()
-    {
-        /*
-        if (levelIndex > 0)
-        {
-            var offset = 10f;
-            lineRenderer.positionCount = 2;
-            if (!isBLevel)
-            {
-                lineRenderer.SetPosition(0,
-                    new Vector3(levelSelectionManager.buttons[levelIndex].position.x,
-                        levelSelectionManager.buttons[levelIndex].position.y,
-                        levelSelectionManager.buttons[levelIndex].position.z + offset));
-                lineRenderer.SetPosition(1, new Vector3(
-                    levelSelectionManager.buttons[levelIndex - 1].position.x,
-                    levelSelectionManager.buttons[levelIndex - 1].position.y,
-                    levelSelectionManager.buttons[levelIndex - 1].position.z + offset));
-            }
-            else
-            {
-                lineRenderer.SetPosition(0,
-                    new Vector3(button.transform.position.x, button.transform.position.y,
-                        button.transform.position.z + offset));
-                lineRenderer.SetPosition(1, new Vector3(
-                    levelSelectionManager.buttons[levelIndex].position.x,
-                    levelSelectionManager.buttons[levelIndex].position.y,
-                    levelSelectionManager.buttons[levelIndex].position.z + offset));
-            }
-        }
-        */
     }
 
     public void OnSelect(BaseEventData eventData)

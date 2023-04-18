@@ -63,7 +63,7 @@ public class MainMenuScript : MonoBehaviour
         foreach (Transform child in backgroundFliesObject.transform)
             _backgroundFlies.Add(child.GetComponent<RectTransform>());
 
-        foreach (var fly in _backgroundFlies)
+        foreach (RectTransform fly in _backgroundFlies)
         {
             fly.DOShakePosition(1.5f, 4f, 10, 90, false, true).SetLoops(-1, LoopType.Yoyo);
             fly.DOShakeRotation(1.5f, 10, 10, 90, false).SetLoops(-1, LoopType.Yoyo);
@@ -133,10 +133,13 @@ public class MainMenuScript : MonoBehaviour
     {
         if (!_isTransitioning && _timeSinceSplashScreen > 0.5f)
         {
+            /*
             showIntro.value = true;
             showIntroText.value = true;
             transitionType.value = (int)LevelLoader.LevelTransitionState.LoadNextInBuild;
             transitionEvent.Dispatch();
+            */
+            LevelLoadSystem.LoadLevel(LevelLoadSystem.LevelToLoad.LevelSelection);
             _isTransitioning = true;
         }
     }

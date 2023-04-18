@@ -1,0 +1,88 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5230274510076566495
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5230274510076566492}
+  - component: {fileID: 1993409106756359411}
+  m_Layer: 0
+  m_Name: ExitGame
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5230274510076566492
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5230274510076566495}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1993409106756359411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5230274510076566495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6c593a15150c4a498f049ee58e44bf1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  exitAction: {fileID: 1383077947010102327, guid: 0b2cbcc118471e84e969b52f5a6485e0, type: 3}
+  instanceLevelTransitionState:
+    _owner: {fileID: 5230274510076566495}
+    _ownerName: ExitGame
+    _propertyPath: instanceLevelTransitionState
+    _autoListen: 0
+    _multiIndex: 0
+    _refType: 2
+    _value: 0
+    _smartConst: {fileID: 0}
+    _smartVar: {fileID: 11400000, guid: b91bef6eebcd96442b105cbc2b05eb2c, type: 2}
+    _smartMulti: {fileID: 0}
+    _onUpdate:
+      m_PersistentCalls:
+        m_Calls: []
+  onWinScreen:
+    _owner: {fileID: 5230274510076566495}
+    _ownerName: ExitGame
+    _propertyPath: onWinScreen
+    _autoListen: 0
+    _multiIndex: 0
+    _smartEvent: {fileID: 11400000, guid: 0f8951ba9e144da4ab64386473c94d10, type: 2}
+    _smartMulti: {fileID: 0}
+    _useMulti: 0
+    _onEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  finishTransition:
+    _owner: {fileID: 5230274510076566495}
+    _ownerName: ExitGame
+    _propertyPath: finishTransition
+    _autoListen: 0
+    _multiIndex: 0
+    _refType: 2
+    _value: 0
+    _smartConst: {fileID: 0}
+    _smartVar: {fileID: 11400000, guid: 24f620a482417df4f85a4f4cf8e7d3f0, type: 2}
+    _smartMulti: {fileID: 0}
+    _onUpdate:
+      m_PersistentCalls:
+        m_Calls: []
+  campaign: {fileID: 11400000, guid: a36363c6493c2fc49a902af9627a51e9, type: 2}

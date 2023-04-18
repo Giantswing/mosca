@@ -49,7 +49,7 @@ public class ZDepthSystem : MonoBehaviour
                 break;
         }
 
-        DOVirtual.DelayedCall(.3f, () => startChecking = true);
+        DOVirtual.DelayedCall(.3f, () => startChecking = true).SetUpdate(false);
     }
 
     private Vector3 ReturnProperForwardVector()

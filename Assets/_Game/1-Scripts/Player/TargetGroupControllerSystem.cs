@@ -26,7 +26,7 @@ public class TargetGroupControllerSystem : MonoBehaviour
     [SerializeField] private Ease _easeOut;
 
     [FormerlySerializedAs("cameraData")] [SerializeField]
-    private List<AttributeDataSO> playerList = new();
+    public List<AttributeDataSO> playerList = new();
 
     private CinemachineTransposer transposer;
     private CinemachineComposer composer;
@@ -64,7 +64,7 @@ public class TargetGroupControllerSystem : MonoBehaviour
     private bool canChangeTarget = true;
 
 
-    private PlayerInputManager _playerInputManager;
+    public PlayerInputManager _playerInputManager;
     [SerializeField] private InputAction joinPlayerAction;
 
     private void Awake()
@@ -83,7 +83,7 @@ public class TargetGroupControllerSystem : MonoBehaviour
         _playerInputManager = GetComponent<PlayerInputManager>();
     }
 
-
+/*
     private void OnEnable()
     {
         joinPlayerAction.performed += JoinPlayer;
@@ -95,6 +95,7 @@ public class TargetGroupControllerSystem : MonoBehaviour
         joinPlayerAction.performed -= JoinPlayer;
         joinPlayerAction.Disable();
     }
+    */
 
 
     public static void ModifyTarget(Transform target, float weight, float radius, float duration = 2f)
@@ -115,15 +116,9 @@ public class TargetGroupControllerSystem : MonoBehaviour
 
         if (target.TryGetComponent(out Attributes attributes))
             if (attributes.hasInstantiatedData)
-            {
                 Instance.playerList.Add(attributes.attributeData);
-                if (Instance.playerList.Count > 1)
-                    attributes.transform.position = Instance.playerList[0].attributes.transform.position;
-                //attributes.gameObject.GetComponent<InputReceiver>().ForceController();
-                //PlayerInput.all[PlayerInput.all.Count - 1].SwitchCurrentControlScheme("Gamepad", Gamepad.current);
-            }
-
-
+        //attributes.gameObject.GetComponent<InputReceiver>().ForceController();
+        //PlayerInput.all[PlayerInput.all.Count - 1].SwitchCurrentControlScheme("Gamepad", Gamepad.current);
         Instance._targetGroup.AddMember(target, 0, 0);
         Instance.cameraTargets.Add(new CustomCameraTarget
         {
@@ -131,6 +126,27 @@ public class TargetGroupControllerSystem : MonoBehaviour
             Weight = weight,
             Radius = radius
         });
+    }
+
+    public static void AllowCoop()
+    {
+        foreach (AttributeDataSO player in Instance.playerList)
+            player.playerInput.neverAutoSwitchControlSchemes = false;
+        Instance._playerInputManager.EnableJoining();
+    }
+
+    public static void DisallowCoop()
+    {
+        if (Instance.playerList.Count > 1) return;
+
+        Instance._playerInputManager.DisableJoining();
+
+        foreach (AttributeDataSO player in Instance.playerList) player.playerInput.neverAutoSwitchControlSchemes = true;
+    }
+
+    public static void DisableJoining()
+    {
+        Instance._playerInputManager.DisableJoining();
     }
 
     public static void RemoveTarget(Transform target)
@@ -272,21 +288,9 @@ public class TargetGroupControllerSystem : MonoBehaviour
         }
     }
 
-
+/*
     public void JoinPlayer(InputAction.CallbackContext context)
     {
-        /*
-        print("player joined");
-
-        if (context.performed)
-        {
-            InputDevice device = context.control.device;
-            print(device.name);
-
-            GameObject playerGO = Instantiate(playerPrefab, playerList[0].attributes.transform.position,
-                Quaternion.identity);
-        }
-        */
         if (context.performed)
         {
             print("test");
@@ -294,16 +298,20 @@ public class TargetGroupControllerSystem : MonoBehaviour
             _playerInputManager.EnableJoining();
         }
     }
-
+*/
     public void SetUpPlayer()
     {
-        /*
-        DOVirtual.DelayedCall(0.05f, () =>
+        if (playerList.Count >= 1) SoundMaster.PlaySound(transform.position, (int)SoundListAuto.SecretWall, false);
+
+        DOVirtual.DelayedCall(0.01f, () =>
         {
-            Transform latestPlayer = playerList[playerList.Count - 1].attributes.transform;
-            latestPlayer.position = playerList[0].attributes.transform.position;
-        });
-        */
+            DOVirtual.DelayedCall(0.2f, () =>
+            {
+                PauseMenuScript.UpdatePlayerText();
+                PauseMenuScript.instance.coopPlayersText.gameObject.SetActive(false);
+                PauseMenuScript.instance.coopPlayersText.gameObject.SetActive(true);
+            });
+        }).SetUpdate(true);
     }
 
 

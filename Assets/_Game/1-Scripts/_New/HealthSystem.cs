@@ -10,7 +10,7 @@ public class HealthSystem : MonoBehaviour
     {
         if (Reviver.instance == null || LevelManager.Instance == null || !Reviver.CanRevive() || !canBeRevived)
         {
-            LevelManager.ResetLevel();
+            LevelLoadSystem.LoadLevel(LevelLoadSystem.LevelToLoad.Restart);
         }
         else
         {

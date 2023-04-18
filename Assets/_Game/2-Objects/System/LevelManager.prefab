@@ -91,30 +91,58 @@ MonoBehaviour:
     _onUpdate:
       m_PersistentCalls:
         m_Calls: []
-  playerHealthMax:
+  transitionEvent:
     _owner: {fileID: 916468251326428845}
     _ownerName: LevelManager
-    _propertyPath: playerHealthMax
+    _propertyPath: transitionEvent
+    _autoListen: 0
+    _multiIndex: 0
+    _smartEvent: {fileID: 0}
+    _smartMulti: {fileID: 0}
+    _useMulti: 0
+    _onEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  transitionType:
+    _owner: {fileID: 916468251326428845}
+    _ownerName: LevelManager
+    _propertyPath: transitionType
     _autoListen: 0
     _multiIndex: 0
     _refType: 2
     _value: 0
     _smartConst: {fileID: 0}
-    _smartVar: {fileID: 11400000, guid: 095a3038d6b9c6a4ea6973dfca00bcee, type: 2}
+    _smartVar: {fileID: 0}
     _smartMulti: {fileID: 0}
     _onUpdate:
       m_PersistentCalls:
         m_Calls: []
-  playerHealth:
+  playerDataAttributes: {fileID: 0}
+  _scoreForStars: 
+  currentScore:
     _owner: {fileID: 916468251326428845}
     _ownerName: LevelManager
-    _propertyPath: playerHealth
+    _propertyPath: currentScore
     _autoListen: 0
     _multiIndex: 0
     _refType: 2
     _value: 0
     _smartConst: {fileID: 0}
-    _smartVar: {fileID: 11400000, guid: a05947b7778e59c4792416e35f202dd5, type: 2}
+    _smartVar: {fileID: 0}
+    _smartMulti: {fileID: 0}
+    _onUpdate:
+      m_PersistentCalls:
+        m_Calls: []
+  maxScore:
+    _owner: {fileID: 916468251326428845}
+    _ownerName: LevelManager
+    _propertyPath: maxScore
+    _autoListen: 0
+    _multiIndex: 0
+    _refType: 2
+    _value: 0
+    _smartConst: {fileID: 0}
+    _smartVar: {fileID: 0}
     _smartMulti: {fileID: 0}
     _onUpdate:
       m_PersistentCalls:

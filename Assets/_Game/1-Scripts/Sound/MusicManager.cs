@@ -8,41 +8,39 @@ public class MusicManager : MonoBehaviour
 {
     public static MusicManager instance;
     public AudioSource musicSource;
-    public AudioClip currentSong;
-    public MusicHolder musicHolder;
-
-    [Range(0, 1)] public float musicVolume;
-
 
     private void Awake()
+    {
+        InitializeComponents();
+    }
+
+
+    private void Start()
     {
         if (instance == null)
         {
             instance = this;
-            InitializeComponents();
             BeginMusic();
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
-            var newInstance = this;
-            //print("Music manager (" + newInstance.gameObject.name + ") found");
+            //if when the level loads it finds another music manager
+            //warns the other one to change the song, then destroys itself
 
-            var newSong = newInstance.currentSong;
-            var newVolume = newInstance.musicVolume;
-            InitializeComponents();
+            if (MusicHolder.GetSong() != instance.musicSource.clip)
+            {
+                print("changing clip");
+                instance.ChangeSong(MusicHolder.GetSong(), MusicHolder.GetVolume());
+            }
+            else
+            {
+                print("same clip, only changing volume");
+                instance.ChangeVolume(MusicHolder.GetVolume());
+            }
 
-            if (instance.currentSong.name != newSong.name) instance.ChangeSong(newSong, newVolume);
-            else if (instance.musicVolume != newVolume) instance.ChangeVolume(newVolume);
-
-            //Destroy(newInstance.gameObject);
-            var newObject = new GameObject();
-            newInstance.gameObject.transform.parent = newObject.transform;
-            newInstance.gameObject.GetComponent<AudioSource>().enabled = false;
+            Destroy(gameObject);
         }
-
-        //test
-        transform.parent = null;
-        DontDestroyOnLoad(gameObject);
     }
 
     private void InitializeComponents()
@@ -52,23 +50,21 @@ public class MusicManager : MonoBehaviour
 
     public void ChangeVolume(float newVolume)
     {
-        musicVolume = newVolume;
-        DOTween.To(() => musicSource.volume, x => musicSource.volume = x, musicVolume, 0.5f);
+        DOTween.To(() => musicSource.volume, x => musicSource.volume = x, newVolume, 0.5f);
     }
 
     public void BeginMusic()
     {
-        musicSource.clip = currentSong;
+        musicSource.clip = MusicHolder.GetSong();
         musicSource.Play();
         musicSource.volume = 0;
-        DOTween.To(() => musicSource.volume, x => musicSource.volume = x, musicVolume, 1f);
+        DOTween.To(() => musicSource.volume, x => musicSource.volume = x, MusicHolder.GetVolume(), 1f);
     }
 
     public void ChangeSong(AudioClip newSong, float VolumeTo)
     {
         DOTween.To(() => musicSource.volume, x => musicSource.volume = x, 0, 0.5f).onComplete += () =>
         {
-            currentSong = newSong;
             musicSource.clip = newSong;
             musicSource.Play();
             DOTween.To(() => musicSource.volume, x => musicSource.volume = x, VolumeTo, 0.5f);

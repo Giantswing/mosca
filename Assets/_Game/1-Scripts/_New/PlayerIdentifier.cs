@@ -31,20 +31,42 @@ public class PlayerIdentifier : MonoBehaviour
 
     private void Start()
     {
+        if (TargetGroupControllerSystem.Instance.playerList.Count == 0)
+        {
+            StartUpAnimation();
+        }
+        else
+        {
+            DisableMovement();
+            transform.localScale = Vector3.zero;
+            transform.position = TargetGroupControllerSystem.Instance.playerList[0].attributes.transform.position +
+                                 Vector3.right * 2f;
+            DOVirtual.DelayedCall(0.05f, StartUpAnimation).SetUpdate(false);
+        }
+    }
+
+
+    private void StartUpAnimation()
+    {
+        transform.localScale = Vector3.zero;
         DisableMovement();
-        gameObject.SetActive(false);
-        DOVirtual.DelayedCall(0.5f, () => FXMaster.SpawnFX(transform.position, (int)FXListAuto.Reset));
+        DOVirtual.DelayedCall(0.5f, () =>
+        {
+            transform.position = TargetGroupControllerSystem.Instance.playerList[0].attributes.transform.position +
+                                 Vector3.right * 2f;
+            FXMaster.SpawnFX(transform.position, (int)FXListAuto.Reset);
+        });
+
         DOVirtual.DelayedCall(1.5f, () =>
         {
             FXMaster.SpawnFX(transform.position, (int)FXListAuto.Reset);
             SoundMaster.PlaySound(transform.position, (int)SoundListAuto.SimplePop);
-            gameObject.SetActive(true);
+
             transform.localScale = Vector3.zero;
             transform.DOScale(Vector3.one, 0.95f).SetEase(Ease.OutElastic);
             EnableMovement();
         });
     }
-
 
     public void DisableMovement()
     {

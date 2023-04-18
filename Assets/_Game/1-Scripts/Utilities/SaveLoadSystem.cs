@@ -9,23 +9,9 @@ public class SaveLoadSystem : MonoBehaviour
     [SerializeField] private CampaignSO campaign;
     public static SaveLoadSystem Instance { get; private set; }
 
-    [SerializeField] private InputAction quitAction;
-
-    [SerializeField] private SmartData.SmartInt.IntWriter instanceLevelTransitionState;
-    [SerializeField] private SmartData.SmartEvent.EventDispatcher onWinScreen;
-    [SerializeField] private SmartData.SmartBool.BoolWriter finishTransition;
-
     private void OnEnable()
     {
         Instance = this;
-
-        quitAction.performed += _ => QuitGame();
-        quitAction.Enable();
-    }
-
-    private void OnDisable()
-    {
-        quitAction.Disable();
     }
 
     public static void SaveGame()
@@ -49,12 +35,13 @@ public class SaveLoadSystem : MonoBehaviour
 
     public static void LoadGame()
     {
-        PlayerPrefs.GetInt("TotalHearts", Instance.campaign.heartContainers);
+        Instance.campaign.heartContainers = PlayerPrefs.GetInt("TotalHearts", 0);
+
         for (var i = 0; i < Instance.campaign.levels.Count; i++)
         {
-            var hasBSide = Instance.campaign.levels[i].hasBSide;
-            var data = PlayerPrefs.GetInt(Instance.campaign.levels[i].sceneName, 0);
-            var bdata = hasBSide ? PlayerPrefs.GetInt(Instance.campaign.levels[i].bSideScene.sceneName, 0) : 0;
+            bool hasBSide = Instance.campaign.levels[i].hasBSide;
+            int data = PlayerPrefs.GetInt(Instance.campaign.levels[i].sceneName, 0);
+            int bdata = hasBSide ? PlayerPrefs.GetInt(Instance.campaign.levels[i].bSideScene.sceneName, 0) : 0;
 
             //loading stars
             Instance.campaign.levels[i].stars = data;
@@ -64,9 +51,9 @@ public class SaveLoadSystem : MonoBehaviour
 
             //loading deaths
 
-            var deaths = PlayerPrefs.GetInt(Instance.campaign.levels[i].sceneName + "deaths", 0);
+            int deaths = PlayerPrefs.GetInt(Instance.campaign.levels[i].sceneName + "deaths", 0);
 
-            var bdeaths = hasBSide
+            int bdeaths = hasBSide
                 ? PlayerPrefs.GetInt(Instance.campaign.levels[i].bSideScene.sceneName + "deaths", 0)
                 : 0;
 
@@ -83,29 +70,5 @@ public class SaveLoadSystem : MonoBehaviour
         PlayerPrefs.DeleteAll();
         LoadGame();
         print("Deleted");
-    }
-
-    private void QuitGame()
-    {
-        //check current scene, if it is the level selection then go to main menu
-        print(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
-
-        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "_levelSelection")
-        {
-        }
-
-        DOTween.KillAll();
-        instanceLevelTransitionState.value = (int)LevelLoader.LevelTransitionState.SpecificLevel;
-
-        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "_levelSelection")
-            LevelLoader.SceneToLoad = campaign.mainMenuScene;
-        else if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "main-menu")
-            Application.Quit();
-        else
-            LevelLoader.SceneToLoad = campaign.levelSelectionScene;
-
-        onWinScreen.Dispatch();
-
-        finishTransition.value = true;
     }
 }

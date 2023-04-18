@@ -29,8 +29,10 @@ public class IntroSequencer : MonoBehaviour
 
     private void EndReached(VideoPlayer vp)
     {
-        transitionState.value = (int)LevelLoader.LevelTransitionState.LoadNextInBuild;
+        //transitionState.value = (int)LevelLoader.LevelTransitionState.LoadNextInBuild;
+        //onIntroFinished.Dispatch();
+
+        LevelLoadSystem.LoadLevel(LevelLoadSystem.LevelToLoad.LoadNextInBuild);
         Destroy(vp.gameObject);
-        onIntroFinished.Dispatch();
     }
 }

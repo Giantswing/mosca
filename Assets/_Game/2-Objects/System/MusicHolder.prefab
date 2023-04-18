@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &8329541488303977182
+--- !u!1 &8888920807350308526
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,40 +8,41 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7763298104738301625}
-  - component: {fileID: 2438032487814943223}
+  - component: {fileID: 8888920807350308513}
+  - component: {fileID: 8888920807350308512}
   m_Layer: 0
-  m_Name: LevelLoader
+  m_Name: MusicHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7763298104738301625
+--- !u!4 &8888920807350308513
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8329541488303977182}
+  m_GameObject: {fileID: 8888920807350308526}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 14.65, y: 26.81, z: -0.0026180148}
+  m_LocalPosition: {x: -57.39493, y: -1.1750085, z: 3.9928188}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2438032487814943223
+--- !u!114 &8888920807350308512
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8329541488303977182}
+  m_GameObject: {fileID: 8888920807350308526}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9005d410cd2b4624d88beea025629747, type: 3}
+  m_Script: {fileID: 11500000, guid: 2b0fd738c97491b45a73cc09d540b2c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  campaignData: {fileID: 11400000, guid: a36363c6493c2fc49a902af9627a51e9, type: 2}
+  currentSong: {fileID: 8300000, guid: e883a53baaf06fe4f8e743552f7e722c, type: 3}
+  musicVolume: 0.8

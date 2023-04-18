@@ -8,13 +8,23 @@ public class LevelLoader : MonoBehaviour
     [SerializeField] private CampaignSO campaignData;
     private AsyncOperation _asyncLoad;
 
-    [SerializeField] private SmartData.SmartInt.IntReader instanceLevelTransitionState;
+    [SerializeField] private SmartData.SmartInt.IntWriter instanceLevelTransitionState;
     [SerializeField] private SmartData.SmartBool.BoolWriter instanceAsyncLoadAllowLoad;
     [SerializeField] private SmartData.SmartBool.BoolWriter showLevelIntro;
     [SerializeField] private SmartData.SmartBool.BoolWriter showLevelIntroText;
 
     public static SceneField SceneToLoad;
     private bool _sceneLoaded = false;
+
+    public static LevelLoader Instance { get; private set; }
+
+    private void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(gameObject);
+    }
 
 
     public enum LevelTransitionState
@@ -30,6 +40,13 @@ public class LevelLoader : MonoBehaviour
     private void OnEnable()
     {
         instanceAsyncLoadAllowLoad.BindListener(ChangeAsyncStatus, false);
+    }
+
+    public static void LoadLevel(SceneField sceneToLoad, int transitionState)
+    {
+        SceneToLoad = sceneToLoad;
+        Instance.instanceLevelTransitionState.value = transitionState;
+        Instance.LoadLevelInterface();
     }
 
     public void ChangeAsyncStatus(bool status)
@@ -51,7 +68,7 @@ public class LevelLoader : MonoBehaviour
             case (int)LevelTransitionState.NextLevel:
                 showLevelIntro.value = true;
                 showLevelIntroText.value = true;
-                var nextLevelIndex = LevelManager.GetCurrentLevel().index;
+                int nextLevelIndex = LevelManager.GetCurrentLevel().index;
                 SceneToLoad = campaignData.levels[nextLevelIndex + 1].scene;
                 StartCoroutine(LoadSceneAsync(SceneToLoad));
                 break;
@@ -72,17 +89,27 @@ public class LevelLoader : MonoBehaviour
         }
     }
 
+    private IEnumerator AsyncLoading()
+    {
+        while (!_asyncLoad.isDone) yield return null;
+
+        instanceAsyncLoadAllowLoad.value = true;
+    }
+
+    private void RestartLevel()
+    {
+        _asyncLoad = SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);
+    }
+
     private IEnumerator LoadSceneAsync()
     {
         _asyncLoad = SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);
         instanceAsyncLoadAllowLoad.value = false;
         while (!_asyncLoad.isDone && !_sceneLoaded) yield return null;
+
+        instanceAsyncLoadAllowLoad.value = true;
     }
 
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        _sceneLoaded = true;
-    }
 
     private IEnumerator LoadSceneAsync(bool showIntro)
     {

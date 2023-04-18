@@ -539,73 +539,9 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3414177928118681109, guid: 401a8ba6f2f7d2842934ec0a8e35e5db, type: 3}
-      propertyPath: _easeOut
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 3414177928118681109, guid: 401a8ba6f2f7d2842934ec0a8e35e5db, type: 3}
-      propertyPath: flipStrength
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3414177928118681109, guid: 401a8ba6f2f7d2842934ec0a8e35e5db, type: 3}
-      propertyPath: playerPrefab
-      value: 
-      objectReference: {fileID: 5584090998417839405, guid: 99c91bb5ce77efa4b802a479bbc7a142, type: 3}
-    - target: {fileID: 3414177928118681109, guid: 401a8ba6f2f7d2842934ec0a8e35e5db, type: 3}
       propertyPath: virtualCamera
       value: 
       objectReference: {fileID: 283595790}
-    - target: {fileID: 3414177928118681109, guid: 401a8ba6f2f7d2842934ec0a8e35e5db, type: 3}
-      propertyPath: cameraZoneZoomSpeed
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3414177928118681109, guid: 401a8ba6f2f7d2842934ec0a8e35e5db, type: 3}
-      propertyPath: cameraZoneOffsetSpeed
-      value: 0.45
-      objectReference: {fileID: 0}
-    - target: {fileID: 3414177928118681109, guid: 401a8ba6f2f7d2842934ec0a8e35e5db, type: 3}
-      propertyPath: joinPlayerAction.m_Id
-      value: 2e5fd285-490b-4cc6-a890-b8dbbf5f562d
-      objectReference: {fileID: 0}
-    - target: {fileID: 3414177928118681109, guid: 401a8ba6f2f7d2842934ec0a8e35e5db, type: 3}
-      propertyPath: joinPlayerAction.m_Name
-      value: Join Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 3414177928118681109, guid: 401a8ba6f2f7d2842934ec0a8e35e5db, type: 3}
-      propertyPath: joinPlayerAction.m_SingletonActionBindings.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3414177928118681109, guid: 401a8ba6f2f7d2842934ec0a8e35e5db, type: 3}
-      propertyPath: joinPlayerAction.m_SingletonActionBindings.Array.data[0].m_Id
-      value: 2ac4a84f-fa0c-493c-b75e-96a11cf9c87e
-      objectReference: {fileID: 0}
-    - target: {fileID: 3414177928118681109, guid: 401a8ba6f2f7d2842934ec0a8e35e5db, type: 3}
-      propertyPath: joinPlayerAction.m_SingletonActionBindings.Array.data[1].m_Id
-      value: 2ac4a84f-fa0c-493c-b75e-96a11cf9c87e
-      objectReference: {fileID: 0}
-    - target: {fileID: 3414177928118681109, guid: 401a8ba6f2f7d2842934ec0a8e35e5db, type: 3}
-      propertyPath: joinPlayerAction.m_SingletonActionBindings.Array.data[0].m_Path
-      value: <Keyboard>/j
-      objectReference: {fileID: 0}
-    - target: {fileID: 3414177928118681109, guid: 401a8ba6f2f7d2842934ec0a8e35e5db, type: 3}
-      propertyPath: joinPlayerAction.m_SingletonActionBindings.Array.data[1].m_Path
-      value: <Keyboard>/j
-      objectReference: {fileID: 0}
-    - target: {fileID: 3414177928118681109, guid: 401a8ba6f2f7d2842934ec0a8e35e5db, type: 3}
-      propertyPath: joinPlayerAction.m_SingletonActionBindings.Array.data[0].m_Action
-      value: Join Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 3414177928118681109, guid: 401a8ba6f2f7d2842934ec0a8e35e5db, type: 3}
-      propertyPath: joinPlayerAction.m_SingletonActionBindings.Array.data[1].m_Action
-      value: Join Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 3414177928118681109, guid: 401a8ba6f2f7d2842934ec0a8e35e5db, type: 3}
-      propertyPath: joinPlayerAction.m_SingletonActionBindings.Array.data[0].m_Interactions
-      value: Press
-      objectReference: {fileID: 0}
-    - target: {fileID: 3414177928118681109, guid: 401a8ba6f2f7d2842934ec0a8e35e5db, type: 3}
-      propertyPath: joinPlayerAction.m_SingletonActionBindings.Array.data[1].m_Interactions
-      value: Press
-      objectReference: {fileID: 0}
     - target: {fileID: 6835469945294729592, guid: 401a8ba6f2f7d2842934ec0a8e35e5db, type: 3}
       propertyPath: m_Name
       value: _06-SYSTEM
@@ -8551,54 +8487,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 5584090998417839400, guid: 99c91bb5ce77efa4b802a479bbc7a142, type: 3}
-      propertyPath: m_DefaultControlScheme
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 5584090998417839400, guid: 99c91bb5ce77efa4b802a479bbc7a142, type: 3}
-      propertyPath: m_ActionEvents.Array.size
-      value: 18
-      objectReference: {fileID: 0}
-    - target: {fileID: 5584090998417839400, guid: 99c91bb5ce77efa4b802a479bbc7a142, type: 3}
-      propertyPath: m_NeverAutoSwitchControlSchemes
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5584090998417839400, guid: 99c91bb5ce77efa4b802a479bbc7a142, type: 3}
-      propertyPath: m_ActionEvents.Array.data[17].m_ActionId
-      value: 1664f257-a0e4-4267-be33-11c69b28d8ff
-      objectReference: {fileID: 0}
-    - target: {fileID: 5584090998417839400, guid: 99c91bb5ce77efa4b802a479bbc7a142, type: 3}
-      propertyPath: m_ActionEvents.Array.data[17].m_ActionName
-      value: Gameplay/JoinPlayer[/Keyboard/j,/DualSenseGamepadHID/select,/XInputControllerWindows/select,/XInputControllerWindows1/select]
-      objectReference: {fileID: 0}
-    - target: {fileID: 5584090998417839400, guid: 99c91bb5ce77efa4b802a479bbc7a142, type: 3}
-      propertyPath: m_ActionEvents.Array.data[17].m_PersistentCalls.m_Calls.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5584090998417839400, guid: 99c91bb5ce77efa4b802a479bbc7a142, type: 3}
-      propertyPath: m_ActionEvents.Array.data[17].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5584090998417839400, guid: 99c91bb5ce77efa4b802a479bbc7a142, type: 3}
-      propertyPath: m_ActionEvents.Array.data[17].m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 2025613964}
-    - target: {fileID: 5584090998417839400, guid: 99c91bb5ce77efa4b802a479bbc7a142, type: 3}
-      propertyPath: m_ActionEvents.Array.data[17].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5584090998417839400, guid: 99c91bb5ce77efa4b802a479bbc7a142, type: 3}
-      propertyPath: m_ActionEvents.Array.data[17].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: JoinPlayerButton
-      objectReference: {fileID: 0}
-    - target: {fileID: 5584090998417839400, guid: 99c91bb5ce77efa4b802a479bbc7a142, type: 3}
-      propertyPath: m_ActionEvents.Array.data[17].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: InputReceiver, Flugi
-      objectReference: {fileID: 0}
-    - target: {fileID: 5584090998417839400, guid: 99c91bb5ce77efa4b802a479bbc7a142, type: 3}
-      propertyPath: m_ActionEvents.Array.data[17].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 5584090998417839401, guid: 99c91bb5ce77efa4b802a479bbc7a142, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -8795,94 +8683,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c90b548e6ac62aa4e9fe08790959de91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1421317327 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6835469947212429528, guid: 401a8ba6f2f7d2842934ec0a8e35e5db, type: 3}
-  m_PrefabInstance: {fileID: 192745271}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1421317328 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3414177928118681109, guid: 401a8ba6f2f7d2842934ec0a8e35e5db, type: 3}
-  m_PrefabInstance: {fileID: 192745271}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1421317327}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7562dd053fe99794888a143ddfc22c43, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1421317330
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1421317327}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 621567455fd1c4ceb811cc8a00b6a1a5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_NotificationBehavior: 2
-  m_MaxPlayerCount: -1
-  m_AllowJoining: 1
-  m_JoinBehavior: 1
-  m_PlayerJoinedEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1421317328}
-        m_TargetAssemblyTypeName: TargetGroupControllerSystem, Flugi
-        m_MethodName: SetUpPlayer
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  m_PlayerLeftEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_JoinAction:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Join
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: 79f67942-eed7-4f21-816f-b9145c4d46c8
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings:
-      - m_Name: 
-        m_Id: 73114b1a-fc87-42b0-8b56-ef1baa7607b0
-        m_Path: <Gamepad>/select
-        m_Interactions: Press(behavior=1)
-        m_Processors: 
-        m_Groups: 
-        m_Action: Join
-        m_Flags: 0
-      - m_Name: 
-        m_Id: 47da1be6-3b52-40f7-87bd-47a2c938bea8
-        m_Path: <Keyboard>/j
-        m_Interactions: Press(behavior=1)
-        m_Processors: 
-        m_Groups: 
-        m_Action: Join
-        m_Flags: 0
-      m_Flags: 0
-    m_Reference: {fileID: -2074409718558523214, guid: 0b2cbcc118471e84e969b52f5a6485e0, type: 3}
-  m_PlayerPrefab: {fileID: 5584090998417839405, guid: 99c91bb5ce77efa4b802a479bbc7a142, type: 3}
-  m_SplitScreen: 0
-  m_MaintainAspectRatioInSplitScreen: 0
-  m_FixedNumberOfSplitScreens: -1
-  m_SplitScreenRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
 --- !u!1001 &1432294479
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10482,17 +10282,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 92528c0c445446a4a86d7fc1392b1960, type: 3}
---- !u!114 &2025613964 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5584090998417839399, guid: 99c91bb5ce77efa4b802a479bbc7a142, type: 3}
-  m_PrefabInstance: {fileID: 1388489043}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 49ed263b5bbeaf544aa6aba80b13d868, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &2039467642
 PrefabInstance:
   m_ObjectHideFlags: 0
