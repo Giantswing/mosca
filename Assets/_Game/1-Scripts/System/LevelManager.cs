@@ -41,7 +41,7 @@ public class LevelManager : MonoBehaviour
     public EventDispatcher transitionEvent;
     public SmartData.SmartInt.IntWriter transitionType;
 
-    [SerializeField] private PlayerDataSO playerDataAttributes;
+    [SerializeField] private AttributeDataSO playerDataAttributes;
     public static Action OnHeartContainersChanged;
 
     //public SmartData.SmartInt.IntWriter playerScore;

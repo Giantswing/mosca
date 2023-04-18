@@ -15,7 +15,7 @@ public class HealthSystem : MonoBehaviour
         else
         {
             print("reviver exists, trying to revive");
-            Reviver.instance.Revive(transform);
+            Reviver.instance.Revive();
         }
     }
 }

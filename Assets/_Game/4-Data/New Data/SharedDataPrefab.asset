@@ -9,7 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c78948d26cba774a8720e1c1d706675, type: 3}
-  m_Name: PlayerData
+  m_Script: {fileID: 11500000, guid: c99ccae7c0a8f894bac4411544a4d6db, type: 3}
+  m_Name: SharedDataPrefab
   m_EditorClassIdentifier: 
   attributes: {fileID: 0}
+  movementSystem: {fileID: 0}
+  flipSystem: {fileID: 0}
+  dashAbility: {fileID: 0}
+  doubleDashAbility: {fileID: 0}
+  chargeShot: {fileID: 0}
+  playerInput: {fileID: 0}

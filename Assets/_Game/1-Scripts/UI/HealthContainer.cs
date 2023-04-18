@@ -12,13 +12,17 @@ public class HealthContainer : MonoBehaviour
 
 
     [SerializeField] private GameObject heartContainerPrefab;
-    [SerializeField] private PlayerDataSO playerData;
+    [SerializeField] private AttributeDataSO playerData;
 
-    [SerializeField] private SmartData.SmartInt.IntWriter playerHealth;
-    [SerializeField] private SmartData.SmartInt.IntWriter playerMaxHealth;
+    private CanvasGroup _canvasGroup;
 
     private List<GameObject> _heartContainers = new();
     private int _maxHeartCointainersUI = 20;
+
+    private void Awake()
+    {
+        _canvasGroup = GetComponent<CanvasGroup>();
+    }
 
     private void OnEnable()
     {
@@ -36,9 +40,9 @@ public class HealthContainer : MonoBehaviour
     {
         playerData.attributes.onHeal.AddListener(PlayerHealthUpdate);
         playerData.attributes.onReceiveHit.AddListener(PlayerHealthUpdate);
-        InitializeHealth();
 
-        DOVirtual.DelayedCall(0.1f, PlayerHealthUpdate);
+
+        DOVirtual.DelayedCall(0.1f, () => { InitializeHealth(); });
     }
 
     public void InitializeHealth()
@@ -61,37 +65,12 @@ public class HealthContainer : MonoBehaviour
     }
 
 
-    public void PlayerHealthChange()
-    {
-        /*
-        if (playerHealth.value <= 0) return;
-
-        if (playerHealth.value > playerMaxHealth.value)
-            playerHealth.value = playerMaxHealth.value;
-
-
-        for (var i = 0; i < _maxHeartCointainersUI; i++)
-            if (i < playerMaxHealth)
-            {
-                _heartContainers[i].SetActive(true);
-                if (i < playerHealth.value)
-                    _heartContainers[i].GetComponent<Image>().sprite = fullHeartContainerSprite;
-                else
-                    _heartContainers[i].GetComponent<Image>().sprite = emptyHeartContainerSprite;
-
-                if (i == playerHealth.value)
-                    _heartContainers[i - 1].transform.DOPunchScale(Vector3.one * .6f, .2f);
-            }
-            else
-            {
-                _heartContainers[i].SetActive(false);
-            }
-            */
-    }
-
     public void PlayerHealthUpdate()
     {
         if (playerData.attributes.HP > 0)
+        {
+            _canvasGroup.alpha = 1;
+
             for (var i = 0; i < _maxHeartCointainersUI; i++)
                 if (i < playerData.attributes.maxHP)
                 {
@@ -108,7 +87,10 @@ public class HealthContainer : MonoBehaviour
                 {
                     _heartContainers[i].SetActive(false);
                 }
+        }
         else
-            gameObject.SetActive(false);
+        {
+            _canvasGroup.alpha = 0;
+        }
     }
 }

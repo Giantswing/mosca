@@ -34,6 +34,9 @@ public class CampaignSO : ScriptableObject
             levels[i].deathCounter = 0;
         }
 
+        heartContainers = 0;
+        heartContainerIDs = new List<int>();
+
         SaveLoadSystem.SaveGame();
     }
 

@@ -52,7 +52,7 @@ public class PlayerInteractionHandler : MonoBehaviour, IPressurePlateListener
 
     private Vector3 _vertSqueeze = new(0, 0.5f, 0);
 
-    [SerializeField] private PlayerReferenceSO playerReference;
+    //[SerializeField] private PlayerReferenceSO playerReference;
 
     public EventDispatcher transitionEvent;
     public SmartData.SmartInt.IntWriter transitionType;
@@ -86,6 +86,7 @@ public class PlayerInteractionHandler : MonoBehaviour, IPressurePlateListener
 
     private void InitializePlayerReference()
     {
+        /*
         playerReference.playerGameObject = gameObject;
         playerReference.playerCamera = playerCamera;
         playerReference.playerInteractionHandler = this;
@@ -98,6 +99,7 @@ public class PlayerInteractionHandler : MonoBehaviour, IPressurePlateListener
         playerReference.crownTransform = crown.transform;
         playerReference.crownScript = crown;
         playerReference.playerDash = dash;
+        */
     }
 
     private void Update()
@@ -256,7 +258,7 @@ public class PlayerInteractionHandler : MonoBehaviour, IPressurePlateListener
         else
         {
             print("reviver exists, trying to revive");
-            Reviver.instance.Revive(transform);
+            //Reviver.instance.Revive(transform);
         }
     }
 

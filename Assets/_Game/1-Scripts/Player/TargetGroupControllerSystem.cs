@@ -17,7 +17,7 @@ public class TargetGroupControllerSystem : MonoBehaviour
         public float Radius;
     }
 
-
+    public AttributeDataSO sharedPlayerData;
     [SerializeField] private List<CustomCameraTarget> cameraTargets = new();
     private CinemachineTargetGroup _targetGroup;
     public static TargetGroupControllerSystem Instance;
@@ -60,8 +60,10 @@ public class TargetGroupControllerSystem : MonoBehaviour
     [SerializeField] private float cameraZoneZoomSpeed = 1f;
 
     [SerializeField] private float flipStrength = 2f;
-    [SerializeField] private GameObject playerPrefab;
+    public GameObject playerPrefab;
     private bool canChangeTarget = true;
+
+    private AttributeDataSO globalPlayerInfo;
 
 
     public PlayerInputManager _playerInputManager;
@@ -81,22 +83,9 @@ public class TargetGroupControllerSystem : MonoBehaviour
         mainCamera = Camera.main;
 
         _playerInputManager = GetComponent<PlayerInputManager>();
-    }
 
-/*
-    private void OnEnable()
-    {
-        joinPlayerAction.performed += JoinPlayer;
-        joinPlayerAction.Enable();
+        sharedPlayerData.attributes = GetComponent<Attributes>();
     }
-
-    private void OnDisable()
-    {
-        joinPlayerAction.performed -= JoinPlayer;
-        joinPlayerAction.Disable();
-    }
-    */
-
 
     public static void ModifyTarget(Transform target, float weight, float radius, float duration = 2f)
     {
@@ -114,11 +103,15 @@ public class TargetGroupControllerSystem : MonoBehaviour
             if (Instance._targetGroup.m_Targets[i].target == target)
                 return;
 
-        if (target.TryGetComponent(out Attributes attributes))
-            if (attributes.hasInstantiatedData)
-                Instance.playerList.Add(attributes.attributeData);
-        //attributes.gameObject.GetComponent<InputReceiver>().ForceController();
-        //PlayerInput.all[PlayerInput.all.Count - 1].SwitchCurrentControlScheme("Gamepad", Gamepad.current);
+        if (target.TryGetComponent(out PlayerIdentifier playerIdentifier))
+        {
+            Instance.playerList.Add(playerIdentifier.attributes.attributeData);
+            LevelManager.IncreaseMaxHealth();
+            LevelManager.IncreaseMaxHealth();
+
+            DOVirtual.DelayedCall(0.1f, () => { Instance.sharedPlayerData.attributes.onHeal.Invoke(); });
+        }
+
         Instance._targetGroup.AddMember(target, 0, 0);
         Instance.cameraTargets.Add(new CustomCameraTarget
         {
@@ -128,20 +121,34 @@ public class TargetGroupControllerSystem : MonoBehaviour
         });
     }
 
+    public static void RemoveTarget(Transform target)
+    {
+        if (Instance._targetGroup.FindMember(target) == -1)
+            return;
+
+        Instance.cameraTargets.Find(x => x.Transform == target).Weight = 0;
+
+        if (target.TryGetComponent(out PlayerIdentifier playerIdentifier))
+            Instance.playerList.Remove(playerIdentifier.attributes.attributeData);
+    }
+
     public static void AllowCoop()
     {
         foreach (AttributeDataSO player in Instance.playerList)
-            player.playerInput.neverAutoSwitchControlSchemes = false;
+            player.playerInput.neverAutoSwitchControlSchemes = true;
         Instance._playerInputManager.EnableJoining();
     }
 
     public static void DisallowCoop()
     {
-        if (Instance.playerList.Count > 1) return;
-
         Instance._playerInputManager.DisableJoining();
 
-        foreach (AttributeDataSO player in Instance.playerList) player.playerInput.neverAutoSwitchControlSchemes = true;
+        if (Instance.playerList.Count > 1)
+            foreach (AttributeDataSO player in Instance.playerList)
+                player.playerInput.neverAutoSwitchControlSchemes = true;
+        else
+            foreach (AttributeDataSO player in Instance.playerList)
+                player.playerInput.neverAutoSwitchControlSchemes = false;
     }
 
     public static void DisableJoining()
@@ -149,13 +156,6 @@ public class TargetGroupControllerSystem : MonoBehaviour
         Instance._playerInputManager.DisableJoining();
     }
 
-    public static void RemoveTarget(Transform target)
-    {
-        if (Instance._targetGroup.FindMember(target) == -1)
-            return;
-
-        Instance.cameraTargets.Find(x => x.Transform == target).Weight = 0;
-    }
 
     public static Transform ClosestPlayer(Transform from)
     {
@@ -176,6 +176,14 @@ public class TargetGroupControllerSystem : MonoBehaviour
         }
 
         return closest;
+    }
+
+    public static Transform[] GetPlayers()
+    {
+        var players = new Transform[Instance.playerList.Count];
+        for (var i = 0; i < Instance.playerList.Count; i++) players[i] = Instance.playerList[i].attributes.transform;
+
+        return players;
     }
 
     private void LerpFields()

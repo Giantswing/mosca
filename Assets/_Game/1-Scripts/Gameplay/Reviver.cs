@@ -12,10 +12,6 @@ public class Reviver : MonoBehaviour
     public bool isActivated = false;
     public bool hasBeenUsed = false;
 
-    [SerializeField] private PlayerReferenceSO playerReference;
-    [SerializeField] private SmartData.SmartInt.IntWriter playerHealth;
-    [SerializeField] private SmartData.SmartInt.IntWriter playerMaxHealth;
-
     public Material offMaterial;
     public Material onMaterial;
     public ParticleSystem spawnParticleSystem;
@@ -53,37 +49,59 @@ public class Reviver : MonoBehaviour
         return result;
     }
 
-    private IEnumerator Revive_Coroutine(Transform player)
+    private IEnumerator Revive_Coroutine()
     {
         SoundMaster.PlaySound(transform.position, (int)SoundListAuto.ReviverReviving, true);
-        playerHealth.value = playerMaxHealth.value;
-        playerReference.playerMovement.DisablePlayer();
-        playerReference.playerMovement.inputDirectionTo = Vector2.zero;
-        playerReference.playerMovement.inputDirection = Vector2.zero;
-        playerReference.playerMovement.hSpeed = 0;
-        playerReference.playerMovement.vSpeed = 0;
-        playerReference.playerInteractionHandler.HidePlayer();
+        TargetGroupControllerSystem.Instance.sharedPlayerData.attributes.HP = TargetGroupControllerSystem.Instance
+            .sharedPlayerData.attributes.maxHP;
+        TargetGroupControllerSystem.Instance.sharedPlayerData.attributes.onHeal.Invoke();
+
+
+        foreach (AttributeDataSO playerData in TargetGroupControllerSystem.Instance.playerList)
+        {
+            FXMaster.SpawnFX(playerData.attributes.transform.position, (int)FXListAuto.SmokePuff);
+            SoundMaster.PlaySound(playerData.attributes.transform.position, (int)SoundListAuto.SimplePop);
+            playerData.attributes.transform.localScale = Vector3.zero;
+            playerData.attributes.ReactivateObject();
+            playerData.attributes.hardCollider.enabled = false;
+        }
+
+        TargetGroupControllerSystem.ChangePlayersEnabled(false);
+
         yield return new WaitForSeconds(0.3f);
         activeReviver.spawnParticleSystem.Play();
-        playerReference.playerTransform.DOMove(activeReviver.spawnPoint.position, 0.3f).SetEase(Ease.InBack);
+
+        foreach (AttributeDataSO playerData in TargetGroupControllerSystem.Instance.playerList)
+            playerData.attributes.transform.DOMove(activeReviver.spawnPoint.position, 0.3f).SetEase(Ease.InBack);
+
         yield return new WaitForSeconds(0.6f);
         activeReviver.Open();
         yield return new WaitForSeconds(0.2f);
-        playerReference.playerInteractionHandler.ShowPlayer();
+
+        foreach (AttributeDataSO playerData in TargetGroupControllerSystem.Instance.playerList)
+            playerData.attributes.transform.DOScale(Vector3.one, 0.95f).SetEase(Ease.OutElastic);
 
         yield return new WaitForSeconds(0.7f);
         activeReviver.spawnParticleSystem.Stop();
-        if (transform.position.x > activeReviver.respawnPosition.position.x)
-            playerReference.playerMovement.FlipPlayer(-1, 0.5f);
-        playerReference.playerTransform.DOLocalMove(activeReviver.respawnPosition.position, 0.8f).SetEase(Ease.InBack)
-                .onComplete +=
-            () =>
-            {
-                playerReference.playerMovement.EnablePlayer();
-                activeReviver.Close();
-                activeReviver.hasBeenUsed = true;
-                activeReviver.Deactivate();
-            };
+
+        foreach (AttributeDataSO playerData in TargetGroupControllerSystem.Instance.playerList)
+        {
+            if (transform.position.x > activeReviver.respawnPosition.position.x)
+                playerData.flipSystem.Flip(1);
+
+            playerData.attributes.transform.DOLocalMove(activeReviver.respawnPosition.position, 0.8f)
+                    .SetEase(Ease.InBack)
+                    .onComplete +=
+                () =>
+                {
+                    TargetGroupControllerSystem.ChangePlayersEnabled(true);
+                    playerData.attributes.hardCollider.enabled = true;
+                    activeReviver.Close();
+                    activeReviver.hasBeenUsed = true;
+                    activeReviver.Deactivate();
+                    playerData.attributes.ReactivateObject();
+                };
+        }
     }
 
     public void Open()
@@ -109,12 +127,6 @@ public class Reviver : MonoBehaviour
 
     private void DeactivateAllOtherRevivers()
     {
-        /*
-        foreach (var reviver in allRevivers)
-            if (reviver != this)
-                reviver.Deactivate();
-        */
-
         foreach (Reviver reviver in allRevivers)
             if (reviver != activeReviver)
                 reviver.Deactivate();
@@ -145,9 +157,9 @@ public class Reviver : MonoBehaviour
         isActivated = false;
     }
 
-    public void Revive(Transform player)
+    public void Revive()
     {
-        StartCoroutine(Revive_Coroutine(player));
+        StartCoroutine(Revive_Coroutine());
     }
 
     private void OnTriggerEnter(Collider other)

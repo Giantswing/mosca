@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -18,8 +19,14 @@ public class TargetGroupMember : MonoBehaviour
             });
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         TargetGroupControllerSystem.RemoveTarget(transform);
     }
+
+    /*
+    private void OnDisable()
+    {
+        TargetGroupControllerSystem.RemoveTarget(transform);
+    }*/
 }

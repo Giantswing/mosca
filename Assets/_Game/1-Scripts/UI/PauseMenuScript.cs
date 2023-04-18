@@ -62,6 +62,7 @@ public class PauseMenuScript : MonoBehaviour
 
             textToAdd = textToAdd.Replace("DualSenseGamepadHID", "PS5 Gamepad ");
             textToAdd = textToAdd.Replace("XInputControllerWindows", "Generic Gamepad ");
+            
 
             playerText += $"Player {i + 1}: {textToAdd}\n";
         }

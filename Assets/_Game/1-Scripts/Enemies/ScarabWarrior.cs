@@ -28,7 +28,6 @@ public class ScarabWarrior : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private Transform my3dModel;
     [SerializeField] private GameObject spearPrefab;
-    [SerializeField] private PlayerReferenceSO playerReference;
     [SerializeField] private CapsuleCollider myCollider;
     private BoxCollider shieldCollider;
 
@@ -66,6 +65,8 @@ public class ScarabWarrior : MonoBehaviour
     private Ray ray;
     private RaycastHit hit;
     private bool canISeePlayer = false;
+
+    private Transform playerTransform;
 
 
     private void Awake()
@@ -148,8 +149,9 @@ public class ScarabWarrior : MonoBehaviour
 
     private void Update()
     {
+        playerTransform = TargetGroupControllerSystem.ClosestPlayer(transform);
         rotDirection = Mathf.Lerp(rotDirection, rotDirectionTo, Time.deltaTime * 5f);
-        distanceToTarget = Vector3.Distance(transform.position, playerReference.playerTransform.position);
+        distanceToTarget = Vector3.Distance(transform.position, playerTransform.position);
 
         if (hasShield)
         {
@@ -166,12 +168,12 @@ public class ScarabWarrior : MonoBehaviour
             case State.Follow:
                 Follow();
                 LookAtPlayer(
-                    Quaternion.LookRotation(playerReference.playerTransform.position - transform.position, Vector3.up),
+                    Quaternion.LookRotation(playerTransform.position - transform.position, Vector3.up),
                     3f);
                 break;
             case State.Throw:
                 LookAtPlayer(
-                    Quaternion.LookRotation(playerReference.playerTransform.position - transform.position, Vector3.up),
+                    Quaternion.LookRotation(playerTransform.position - transform.position, Vector3.up),
                     15f);
                 break;
         }
@@ -213,7 +215,7 @@ public class ScarabWarrior : MonoBehaviour
             my3dModel.DOLocalRotate(Vector3.zero, 0.7f, RotateMode.FastBeyond360);
         }
 
-        dirToGo = (playerReference.playerTransform.position - transform.position).normalized;
+        dirToGo = (playerTransform.position - transform.position).normalized;
         canISeePlayer = CanISeePlayerInThatDir(dirToGo);
 
         TryToKeepPlayerCentered();
@@ -249,7 +251,7 @@ public class ScarabWarrior : MonoBehaviour
         {
             speedToGo = stats.ST_Speed * 0.7f;
 
-            if (transform.position.x > playerReference.playerTransform.position.x)
+            if (transform.position.x > playerTransform.position.x)
                 dirToGo = -transform.up;
             else
                 dirToGo = transform.up;
@@ -285,7 +287,7 @@ public class ScarabWarrior : MonoBehaviour
         var result = false;
 
         if (Physics.Raycast(ray, out hit, maxRayDistance, ignoreLayerMask))
-            if (playerReference.playerTransform == hit.transform)
+            if (playerTransform == hit.transform)
                 result = true;
 
         Debug.DrawRay(transform.position, startingDir * maxRayDistance, result ? Color.green : Color.red);
@@ -294,9 +296,9 @@ public class ScarabWarrior : MonoBehaviour
 
     private void CheckIfWeShouldFlip()
     {
-        if (transform.position.x > playerReference.playerTransform.position.x && LookDir == 1)
+        if (transform.position.x > playerTransform.position.x && LookDir == 1)
             Flip(-1);
-        else if (transform.position.x < playerReference.playerTransform.position.x && LookDir == -1)
+        else if (transform.position.x < playerTransform.position.x && LookDir == -1)
             Flip(1);
     }
 
@@ -308,7 +310,7 @@ public class ScarabWarrior : MonoBehaviour
 
     private void TryToKeepPlayerCentered()
     {
-        float xdist = transform.position.x - playerReference.playerTransform.position.x;
+        float xdist = transform.position.x - playerTransform.position.x;
         var maxOffset = 2f;
         var maxSpeed = 0.25f;
 
@@ -322,10 +324,10 @@ public class ScarabWarrior : MonoBehaviour
                     ForceMode.Impulse);
         }
 
-        if (transform.position.y < playerReference.playerTransform.position.y)
+        if (transform.position.y < playerTransform.position.y)
             myRb.AddForce(new Vector3(0, 1f, 0) * 0.02f,
                 ForceMode.Impulse);
-        else if (transform.position.y > playerReference.playerTransform.position.y)
+        else if (transform.position.y > playerTransform.position.y)
             myRb.AddForce(new Vector3(0, -1f, 0) * 0.02f,
                 ForceMode.Impulse);
     }
@@ -443,11 +445,11 @@ public class ScarabWarrior : MonoBehaviour
 
         spear.transform.position = handSpear.transform.position + handSpear.transform.forward * 0.5f;
         spear.transform.rotation =
-            Quaternion.LookRotation(playerReference.playerTransform.position - transform.position);
+            Quaternion.LookRotation(playerTransform.position - transform.position);
 
         handSpear.gameObject.SetActive(false);
 
-        Vector3 dir = (playerReference.playerTransform.position - handSpear.position).normalized;
+        Vector3 dir = (playerTransform.position - handSpear.position).normalized;
         spear.myRb.AddForce(dir * (throwForce * 500f));
 
 

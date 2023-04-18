@@ -42,7 +42,6 @@ public class InsecticideCanv2 : MonoBehaviour
     private WaitForSeconds _WaitTimeBetweenBursts;
     private WaitForSeconds _WaitStartingOffset;
 
-    [Space(25)] [SerializeField] private PlayerReferenceSO playerReference;
 
     private Vector3 _startingScale;
     private Vector3 _startingLocalPos;

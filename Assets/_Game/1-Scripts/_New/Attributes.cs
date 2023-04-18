@@ -10,6 +10,17 @@ using UnityEngine.Serialization;
 
 public class Attributes : MonoBehaviour, IPressurePlateListener
 {
+    public struct RigidbodyInfo
+    {
+        public float Mass;
+        public float Drag;
+        public float AngularDrag;
+        public bool isKinematic;
+        public bool useGravity;
+        public RigidbodyConstraints constraints;
+    }
+
+
     [Serializable]
     public struct NormalRenderer
     {
@@ -72,16 +83,21 @@ public class Attributes : MonoBehaviour, IPressurePlateListener
     [TitleGroup("Damage")] public int damagePriority = 1;
 
 
-    [TitleGroup("Interactions")] [HorizontalGroup("Interactions/Interactions")]
+    [TitleGroup("Interactions")] [PropertySpace(SpaceBefore = 5f, SpaceAfter = 10f)]
     public bool canInteract = false;
 
-    [PropertySpace(SpaceBefore = 5f, SpaceAfter = 10f)]
-    public bool hasInstantiatedData;
+    [HorizontalGroup("Interactions/Interactions")]
+    public bool hasInstantiatedData = false;
+
+    [HorizontalGroup("Interactions/Interactions")]
+    public bool hasSharedData = false;
 
     [ShowIf("hasInstantiatedData")] public AttributeDataSO attributeDataPrefab;
 
     [ShowIf("hasInstantiatedData")] [ReadOnly]
     public AttributeDataSO attributeData;
+
+    [ShowIf("hasSharedData")] public AttributeDataSO sharedData;
 
 
     [FoldoutGroup("Rendering", false)] [ReadOnly]
@@ -137,13 +153,23 @@ public class Attributes : MonoBehaviour, IPressurePlateListener
     private bool hasRigidbody = false;
     private Coroutine invulnerabilityCoroutine;
 
+    private RigidbodyInfo rbInfo;
     private bool hasHardCollider = false;
     [HideInInspector] public Collider hardCollider;
 
 
     private void Awake()
     {
-        HP = maxHP;
+        if (hasSharedData)
+        {
+            if (TargetGroupControllerSystem.Instance == null)
+                GetAttributes().HP = GetAttributes().maxHP;
+        }
+        else
+        {
+            GetAttributes().HP = GetAttributes().maxHP;
+        }
+
         hurtMaterial = Resources.Load<Material>("Materials/Hurt");
 
         if (!manuallyAddedRenderers)
@@ -174,7 +200,6 @@ public class Attributes : MonoBehaviour, IPressurePlateListener
         {
             attributeData = Instantiate(attributeDataPrefab);
             attributeData.attributes = this;
-
             attributeData.flipSystem = GetComponentInChildren<FlipSystem>();
             attributeData.movementSystem = GetComponentInChildren<MovementSystem>();
             attributeData.dashAbility = GetComponentInChildren<DashAbility>();
@@ -182,6 +207,50 @@ public class Attributes : MonoBehaviour, IPressurePlateListener
             attributeData.chargeShot = GetComponentInChildren<ChargeSystem>();
             attributeData.playerInput = GetComponentInChildren<PlayerInput>();
         }
+
+        if (hasSharedData)
+        {
+            SyncEventsWithSharedData();
+
+            rbInfo = new RigidbodyInfo();
+            rbInfo.isKinematic = rb.isKinematic;
+            rbInfo.Drag = rb.drag;
+            rbInfo.Mass = rb.mass;
+            rbInfo.AngularDrag = rb.angularDrag;
+            rbInfo.constraints = rb.constraints;
+            rbInfo.useGravity = rb.useGravity;
+        }
+    }
+
+    public void ReactivateObject()
+    {
+        rb.isKinematic = rbInfo.isKinematic;
+        rb.drag = rbInfo.Drag;
+        rb.angularDrag = rbInfo.AngularDrag;
+        rb.constraints = rbInfo.constraints;
+        rb.useGravity = rbInfo.useGravity;
+        rb.mass = rbInfo.Mass;
+
+        rb.velocity = Vector3.zero;
+
+        foreach (MonoBehaviour component in GetComponents<MonoBehaviour>())
+        {
+            if (component is Attributes or PlayerInput)
+                continue;
+
+            component.enabled = true;
+        }
+
+        GetComponent<DoubleDashAbility>().enabled = false;
+
+        objectModel.transform.localRotation = Quaternion.identity;
+        objectModel.transform.localPosition = Vector3.zero;
+
+        canReceiveDamage = true;
+        StopAllCoroutines();
+
+        foreach (NormalRenderer renderer in renderers)
+            renderer.renderer.material = renderer.material;
     }
 
     public void DeathEvent(Vector3 deathPos)
@@ -204,17 +273,22 @@ public class Attributes : MonoBehaviour, IPressurePlateListener
 
                 foreach (MonoBehaviour component in GetComponents<MonoBehaviour>())
                 {
-                    if (component is Attributes)
+                    if (component is Attributes or PlayerInput)
                         continue;
 
                     component.enabled = false;
                 }
 
 
-                gameObject.SetActive(false);
+                if (!hasSharedData)
+                    gameObject.SetActive(false);
+                else
+                    rb.velocity = Vector3.zero;
+
                 DOVirtual.DelayedCall(0.1f, () =>
                 {
-                    gameObject.SetActive(true);
+                    if (!hasSharedData)
+                        gameObject.SetActive(true);
 
                     rb.AddForce((transform.position - deathPos).normalized * 10f, ForceMode.VelocityChange);
 
@@ -233,10 +307,18 @@ public class Attributes : MonoBehaviour, IPressurePlateListener
 
                     onDeath?.Invoke();
                     transform.DOKill();
-                    gameObject.SetActive(false);
+
+                    if (!hasSharedData)
+                        gameObject.SetActive(false);
+                    else
+                        objectModel.transform.DOKill();
                 });
 
-                DOVirtual.DelayedCall(1.5f, () => { Destroy(gameObject); });
+                DOVirtual.DelayedCall(1.5f, () =>
+                {
+                    if (!hasSharedData)
+                        Destroy(gameObject);
+                });
 
                 break;
 
@@ -255,7 +337,6 @@ public class Attributes : MonoBehaviour, IPressurePlateListener
         }
     }
 
-
     public void TakeDamage(Attributes otherAttributes, Vector3 contactPoint = default)
     {
         if ((otherAttributes.team != team || otherAttributes.team == Team.Neutral) && otherAttributes.canDoDamage &&
@@ -264,9 +345,9 @@ public class Attributes : MonoBehaviour, IPressurePlateListener
             if (onlyExplosions && !otherAttributes.explosive)
                 return;
 
-
-            HP -= otherAttributes.damage;
+            GetAttributes().HP -= otherAttributes.damage;
             otherAttributes.onDidHit.Invoke();
+
 
             invulnerabilityCoroutine = StartCoroutine(InvulnerabilityCoroutine());
 
@@ -287,15 +368,15 @@ public class Attributes : MonoBehaviour, IPressurePlateListener
                 rb.AddForce(damageDirection * (otherAttributes.damage * 20f), ForceMode.Impulse);
             }
 
-            if (HP <= 0 && HP > -665)
+            if (GetAttributes().HP <= 0 && GetAttributes().HP > -665)
             {
                 //onDeath.Invoke();
-                HP = -666;
+                GetAttributes().HP = -666;
                 onReceiveHit.Invoke();
 
                 DeathEvent(contactPoint == default ? otherAttributes.transform.position : contactPoint);
             }
-            else if (HP > 0)
+            else if (GetAttributes().HP > 0)
             {
                 onReceiveHit.Invoke();
             }
@@ -304,9 +385,9 @@ public class Attributes : MonoBehaviour, IPressurePlateListener
 
     public void Heal(int amount)
     {
-        HP += amount;
-        if (HP > maxHP)
-            HP = maxHP;
+        GetAttributes().HP += amount;
+        if (GetAttributes().HP > GetAttributes().maxHP)
+            GetAttributes().HP = GetAttributes().maxHP;
 
         onHeal.Invoke();
     }
@@ -323,9 +404,9 @@ public class Attributes : MonoBehaviour, IPressurePlateListener
 
     public void ChangeMaxHP(int amount)
     {
-        maxHP += amount;
-        if (HP > maxHP)
-            HP = maxHP;
+        GetAttributes().maxHP += amount;
+        if (GetAttributes().HP > GetAttributes().maxHP)
+            GetAttributes().HP = GetAttributes().maxHP;
     }
 
     private IEnumerator InvulnerabilityCoroutine()
@@ -362,6 +443,37 @@ public class Attributes : MonoBehaviour, IPressurePlateListener
             interactable.Interact(transform.position);
         }
     }
+
+
+    /*--- SHARED EVENTS ---*/
+
+    public void SyncEventsWithSharedData()
+    {
+        onReceiveHit.AddListener(HitEventSharedData);
+        onDeath.AddListener(DeathEventSharedData);
+        onHeal.AddListener(HealEventSharedData);
+    }
+
+    public void HitEventSharedData()
+    {
+        sharedData.attributes.onReceiveHit.Invoke();
+    }
+
+    public void DeathEventSharedData()
+    {
+        sharedData.attributes.onDeath.Invoke();
+    }
+
+    public void HealEventSharedData()
+    {
+        sharedData.attributes.onHeal.Invoke();
+    }
+
+    public Attributes GetAttributes()
+    {
+        return hasSharedData ? sharedData.attributes : this;
+    }
+
 
     /*
     private void OnCollisionStay(Collision collisionInfo)

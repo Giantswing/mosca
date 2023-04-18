@@ -45,16 +45,6 @@ public class PickUpBase : MonoBehaviour, IPickUp
 
     private IPickUpEffect[] effects;
 
-
-    /*
-
-    [PropertySpace(SpaceBefore = 5f, SpaceAfter = 5f)]
-    public bool hasCollectEvent = false;
-
-    [ShowIf("hasCollectEvent")] public UnityEvent<Transform> onCollectEvent;
-    */
-
-
     private void Awake()
     {
         if (TryGetComponent(out HoldablePickup holdableItem))

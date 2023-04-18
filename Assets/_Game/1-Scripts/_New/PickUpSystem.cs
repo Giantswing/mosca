@@ -26,7 +26,6 @@ public class PickUpSystem : MonoBehaviour
     {
         if (!enabled) return;
 
-
         int numOverlaps =
             Physics.OverlapSphereNonAlloc(transform.position, pickupRange, colliders, 1,
                 QueryTriggerInteraction.Collide);
@@ -35,17 +34,6 @@ public class PickUpSystem : MonoBehaviour
             if (colliders[i].TryGetComponent(out IPickUp pickUp))
                 GrabPickup(colliders[i], pickUp);
     }
-    /*
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (!enabled) return;
-
-        if (other.TryGetComponent(out IPickUp pickUp))
-        {
-            GrabPickup(other, pickUp);
-        }
-    }*/
 
     private void GrabPickup(Collider other, IPickUp pickUp)
     {

@@ -6,8 +6,6 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Attributes))]
 public class PlayerIdentifier : MonoBehaviour
 {
-    public PlayerDataSO playerReference;
-
     public MovementSystem movementSystem;
     public DashAbility dashAbility;
     public ChargeSystem chargeSystem;
@@ -18,8 +16,6 @@ public class PlayerIdentifier : MonoBehaviour
 
     private void Awake()
     {
-        playerReference.attributes = GetComponent<Attributes>();
-
         movementSystem = GetComponent<MovementSystem>();
         dashAbility = GetComponent<DashAbility>();
         chargeSystem = GetComponent<ChargeSystem>();

@@ -5344,8 +5344,10 @@ MonoBehaviour:
   damagePriority: 0
   canInteract: 1
   hasInstantiatedData: 0
+  hasSharedData: 0
   attributeDataPrefab: {fileID: 0}
   attributeData: {fileID: 0}
+  sharedData: {fileID: 0}
   objectModel: {fileID: 0}
   manuallyAddedRenderers: 0
   renderers: []
@@ -12739,8 +12741,10 @@ MonoBehaviour:
   damagePriority: 0
   canInteract: 0
   hasInstantiatedData: 1
+  hasSharedData: 1
   attributeDataPrefab: {fileID: 11400000, guid: 839e0aa633460334a807eb84fa462b7d, type: 2}
   attributeData: {fileID: 0}
+  sharedData: {fileID: 11400000, guid: d1a4540c34fb99b448cc5633374af715, type: 2}
   objectModel: {fileID: 0}
   manuallyAddedRenderers: 1
   renderers:
@@ -13518,7 +13522,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7a98282338cc244299c51ab6503faff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerReference: {fileID: 11400000, guid: 1a0ea1fc3c09ff8458dbab3a41b58946, type: 2}
   movementSystem: {fileID: 0}
   dashAbility: {fileID: 0}
   chargeSystem: {fileID: 0}
