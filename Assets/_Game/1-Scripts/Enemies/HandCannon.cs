@@ -59,6 +59,9 @@ public class HandCannon : MonoBehaviour
     private Transform target;
     private bool hasTarget = false;
 
+    [SerializeField] private float maxAngle = 10f;
+    [SerializeField] private float minAngle = -105f;
+
     #endregion
 
     private void Start()
@@ -117,12 +120,22 @@ public class HandCannon : MonoBehaviour
     private void LookAtPlayer()
     {
         if (!hasTarget) return;
+
+        if (!TargetGroupControllerSystem.AreTherePlayers()) return;
+
+        if (target == null) SelectClosestPlayer();
+
+
         Vector3 dir = target.position - cannon.transform.position;
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
 
         angle = Mathf.LerpAngle(cannon.transform.localRotation.eulerAngles.y, -angle, Time.deltaTime * rotationSpeed);
+        //print(-angle);
 
+
+        angle = Mathf.Clamp(angle, minAngle, maxAngle);
         cannon.transform.localRotation = Quaternion.Euler(0, angle, 0);
+
 
         CheckIfICanShoot(angle);
     }

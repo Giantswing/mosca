@@ -147,7 +147,7 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.03
+  m_Radius: 0.02
   m_Center: {x: 0.00000003083469, y: -9.973121e-10, z: 0.004428509}
 --- !u!96 &1332847837
 TrailRenderer:
@@ -269,14 +269,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60cfd649c9a1cdf4181467af2510092f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pickUpArea: {fileID: 0}
   my3dModel: {fileID: 711158520}
+  myMeshRenderer: {fileID: 0}
+  flyingAudioSource: {fileID: 0}
+  flyingAudioEvent: {fileID: 0}
   CrownPostionHand: {fileID: 0}
   CrownPostionHead: {fileID: 0}
+  lightTransform: {fileID: 0}
+  lightSource: {fileID: 0}
+  glowColor: {r: 0, g: 0, b: 0, a: 0}
+  errorColor: {r: 0, g: 0, b: 0, a: 0}
   isGrabbed: 1
   CrownPos: 1
   airTime: 0
   airTimeMax: 2.5
   "strengthMultipl\xEDer": 10
+  bounceDampening: 0.5
+  minDistanceToGrab: 1
+  returnStrengthMultiplier: 1
+  returnModeStrengthForce: 5
+  returnModeStrengthSmoothDamp: 0.1
+  OnCrownThrow:
+    m_PersistentCalls:
+      m_Calls: []
+  OnCrownGrabbed:
+    m_PersistentCalls:
+      m_Calls: []
+  howFastToLockCamera: 1
+  howMuchStrengthHasInTarget: 0.05
 --- !u!1 &6832688187141297020
 GameObject:
   m_ObjectHideFlags: 0

@@ -65,13 +65,21 @@ public class AreaGetter : MonoBehaviour
         if (_areaList.Contains(new AreaGetterTarget { Target = other.transform }))
             return;
 
-        _areaList.Add(new AreaGetterTarget
+        if (other.TryGetComponent(out MeshCollider meshCollider))
         {
-            Target = other.transform,
-            Distance = Vector3.Distance(parent.transform.position, other.ClosestPoint(parent.transform.position)),
-            TargetRb = rb,
-            hasRb = rb != null
-        });
+            if (meshCollider.convex == false)
+                Physics.IgnoreCollision(_collider, other);
+        }
+        else
+        {
+            _areaList.Add(new AreaGetterTarget
+            {
+                Target = other.transform,
+                Distance = Vector3.Distance(parent.transform.position, other.ClosestPoint(parent.transform.position)),
+                TargetRb = rb,
+                hasRb = rb != null
+            });
+        }
     }
 
     private void OnTriggerExit(Collider other)

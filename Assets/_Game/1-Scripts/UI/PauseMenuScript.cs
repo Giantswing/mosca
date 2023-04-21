@@ -34,6 +34,9 @@ public class PauseMenuScript : MonoBehaviour
     {
         pauseAction.action.canceled += _ => TogglePause();
         pauseAction.action.Enable();
+
+        isPaused = false;
+        isAnimating = false;
     }
 
     private void OnDisable()
@@ -62,7 +65,7 @@ public class PauseMenuScript : MonoBehaviour
 
             textToAdd = textToAdd.Replace("DualSenseGamepadHID", "PS5 Gamepad ");
             textToAdd = textToAdd.Replace("XInputControllerWindows", "Generic Gamepad ");
-            
+
 
             playerText += $"Player {i + 1}: {textToAdd}\n";
         }
@@ -73,6 +76,9 @@ public class PauseMenuScript : MonoBehaviour
     public static void PauseGame()
     {
         if (instance.isPaused || instance.isAnimating) return;
+
+
+        print("pausing");
         TargetGroupControllerSystem.ChangePlayersEnabled(false);
 
         instance.pauseMenu.SetActive(true);
@@ -94,8 +100,11 @@ public class PauseMenuScript : MonoBehaviour
     {
         if (!instance.isPaused || instance.isAnimating) return;
 
+        print("resume");
+
         Time.timeScale = 1;
         instance.isPaused = false;
+        instance.isAnimating = true;
 
         instance.pauseWindow.SetActive(true);
         instance.coopWindow.SetActive(false);
@@ -139,12 +148,14 @@ public class PauseMenuScript : MonoBehaviour
 
     public void Exit()
     {
+        TargetGroupControllerSystem.CleanUp();
         Time.timeScale = 1;
         LevelLoadSystem.LoadLevel(LevelLoadSystem.LevelToLoad.LevelSelection);
     }
 
     public void Restart()
     {
+        TargetGroupControllerSystem.DestroyAllPickups();
         Time.timeScale = 1;
         LevelLoadSystem.LoadLevel(LevelLoadSystem.LevelToLoad.Restart);
     }

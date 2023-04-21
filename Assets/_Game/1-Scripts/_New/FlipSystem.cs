@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody))]
 public class FlipSystem : MonoBehaviour
@@ -11,6 +12,8 @@ public class FlipSystem : MonoBehaviour
     [SerializeField] private float xThreshold;
     public int flipDirection = 1;
     public float flipSpeed = 0.5f;
+
+    public Vector3 inputDirection;
 
     public bool canFlip = true;
     private Rigidbody rb;
@@ -36,6 +39,36 @@ public class FlipSystem : MonoBehaviour
         else if (rb.velocity.x < -xThreshold)
             Flip(-1);
     }
+
+    public void UpdateInputDirection(InputAction.CallbackContext context)
+    {
+        if (context.canceled)
+        {
+            if (inputDirection.x > 0)
+                Flip(1);
+            else if (inputDirection.x < 0)
+                Flip(-1);
+
+            inputDirection = Vector3.zero;
+        }
+        else
+        {
+            if (Mathf.Abs(context.ReadValue<Vector2>().x) > 0.85f)
+                inputDirection = context.ReadValue<Vector2>();
+        }
+
+        /*
+        inputDirection = context.ReadValue<Vector2>();
+            if (inputDirection.magnitude < 0.2f)
+            {
+                if (inputDirection.x > 0)
+                    Flip(1);
+                else if (inputDirection.x < 0)
+                    Flip(-1);
+            }
+            */
+    }
+
 
     public void Flip(int directionToFlip)
     {

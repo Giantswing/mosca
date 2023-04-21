@@ -9,9 +9,7 @@ public class Spear : MonoBehaviour
 {
     public Rigidbody myRb;
     public BoxCollider myCollider;
-    [HideInInspector] public CapsuleCollider parentCollider;
     public ScarabWarrior myScarabWarrior;
-    [HideInInspector] public BoxCollider shieldCollider;
     [HideInInspector] public float zDepthTo;
     private float zDepth;
 

@@ -54,6 +54,7 @@ public class TeleporterScript : MonoBehaviour
         }
     }
 
+    /*
     public void Teleport(GameObject target)
     {
         if (!isEnabled || otherTeleporter == null) return;
@@ -72,17 +73,15 @@ public class TeleporterScript : MonoBehaviour
 
         otherTeleporter.StartTeleportCooldownCoroutine(_playerMovement);
     }
+    */
 
     private IEnumerator NewTeleport(GameObject target)
     {
-        //myCollider.enabled = false;
         otherTeleporter.myCollider.enabled = false;
 
         if (!isEnabled || otherTeleporter == null) yield return null;
 
         float zDifference = target.transform.position.z - transform.position.z;
-
-        //var outputDir = otherTeleporter.CalculateDirection();
         Vector3 outputDir = otherTeleporter.transform.right;
 
         PlayParticles();
@@ -98,11 +97,6 @@ public class TeleporterScript : MonoBehaviour
             customTeleport.CustomTeleport(otherTeleporter.transform, transform);
         else if (target.TryGetComponent(out Rigidbody rb))
             RigidbodyTeleport(rb, target, outputDir, zDifference);
-
-        /*
-    else
-        NormalTeleport(target, outputDir, zDifference);
-        */
 
 
         if (otherTeleporter.isOnlyExit)
@@ -137,6 +131,7 @@ public class TeleporterScript : MonoBehaviour
 
     private void RigidbodyTeleport(Rigidbody rb, GameObject target, Vector3 outputDir, float zDifference)
     {
+        print("rigidbody teleport");
         Vector3 rbVelocity = rb.velocity;
         Vector3 localVelocity = transform.InverseTransformDirection(rbVelocity);
         Vector3 rotatedVelocity =
@@ -176,6 +171,8 @@ public class TeleporterScript : MonoBehaviour
             StartCoroutine(NewTeleport(customTeleport.ReturnGameobject()));
         }
         */
+
+        if (other.isTrigger) return;
 
         if (other.gameObject.TryGetComponent(out ICustomTeleport customTeleport))
             StartCoroutine(NewTeleport(customTeleport.ReturnGameobject()));

@@ -21,8 +21,8 @@ MonoBehaviour:
   sceneInternalName: new-intro-v2
   timeToWin: 280
   heartContainers: 0
-  deathCounter: 7
-  stars: 3
+  deathCounter: 0
+  stars: 0
   isThisLastOne: 0
   index: 0
   isBSide: 0

@@ -14,4 +14,6 @@ public class AttributeDataSO : ScriptableObject
     public DoubleDashAbility doubleDashAbility;
     public ChargeSystem chargeShot;
     public PlayerInput playerInput;
+    public PickUpSystem pickUpSystem;
+    public PlayerIdentifier playerIdentifier;
 }

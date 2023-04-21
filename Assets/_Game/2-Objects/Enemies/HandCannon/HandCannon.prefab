@@ -5039,18 +5039,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   firePoint: {fileID: 5453306058136292575}
   bulletPrefab: {fileID: 884391804431163550, guid: db20ee667ea0d1c448928250627ca702, type: 3}
-  playerReference: {fileID: 11400000, guid: 801276c36f554ca47ad4a6598a0e6fae, type: 2}
   cannon: {fileID: 5453306058210893439}
   cannon3DModel: {fileID: 6025945533318350534}
   cannonFuse: {fileID: 6957835488223840467}
   cannonFuseParticles: {fileID: 3913376443763986906}
   fuseAudioSource: {fileID: 287230507}
   cannonCollider: {fileID: 6923300358870188457}
-  fireRate: 3
-  rotationSpeed: 1
+  fireRate: 2
+  rotationSpeed: 2
   maxDistance: 9.75
   bulletSpeed: 15
   bulletLifeTime: 2
+  maxAngle: 359
+  minAngle: 250
 --- !u!82 &287230507
 AudioSource:
   m_ObjectHideFlags: 0

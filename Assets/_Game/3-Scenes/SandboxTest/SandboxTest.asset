@@ -21,9 +21,9 @@ MonoBehaviour:
   sceneInternalName: sandboxTest
   timeToWin: 450
   heartContainers: 0
-  deathCounter: 10
+  deathCounter: 0
   stars: 0
-  isThisLastOne: 1
+  isThisLastOne: 0
   index: 3
   isBSide: 0
   hasBSide: 0

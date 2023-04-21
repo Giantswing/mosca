@@ -45,6 +45,7 @@ public class PlayerDialogueHandler : MonoBehaviour
         if (context.started)
             if (hasDialogueTrigger && !isDialogueActive)
             {
+                DialogueManager = DialogueManager.GetInstance();
                 DialogueManager.isInverted = currentDialogueTriggerEvent.isInverted;
                 DialogueManager.enabled = true;
                 DialogueManager.ShowDialogue(

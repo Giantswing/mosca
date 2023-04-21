@@ -67,6 +67,7 @@ public class DashAbility : MonoBehaviour
 
             foreach (Transform interactable in interactables)
             {
+                if (interactable == null) continue;
                 float distance = Vector2.Distance(transform.position, interactable.position);
                 if (distance < closestDistance)
                 {

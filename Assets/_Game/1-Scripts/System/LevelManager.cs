@@ -122,7 +122,7 @@ public class LevelManager : MonoBehaviour
         OnHeartContainersChanged?.Invoke();
 
 
-        SaveLoadSystem.SaveGame();
+        //SaveLoadSystem.SaveGame();
     }
 
 

@@ -102,7 +102,7 @@ GameObject:
   m_Layer: 0
   m_Name: Box
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -199,9 +199,12 @@ MonoBehaviour:
   onDeathBehaviour: 1
   damagePriority: 0
   canInteract: 0
+  disablePressurePlates: 0
   hasInstantiatedData: 0
+  hasSharedData: 0
   attributeDataPrefab: {fileID: 0}
   attributeData: {fileID: 0}
+  sharedData: {fileID: 0}
   objectModel: {fileID: 0}
   manuallyAddedRenderers: 0
   renderers: []
@@ -232,8 +235,8 @@ MonoBehaviour:
       m_Calls: []
   hasHitSound: 0
   hitSound: 0
-  hasDeathSound: 0
-  deathSound: 0
+  hasDeathSound: 1
+  deathSound: 34
   hasBumpSound: 0
   bumpSound: 0
   hasHitFX: 0

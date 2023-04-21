@@ -39,59 +39,18 @@ public class ElevatorScript : MonoBehaviour
 
     [SerializeField] private AudioSource audioSource;
 
-    /*
-    [SerializeField] private List<GameObject> entranceBlocks = new();
-    [SerializeField] private GameObject entranceBlockPrefab;
-    */
-
     private void Start()
     {
         _startPosition = transform.position;
         _waitTimes = new WaitForSeconds[MovePoints.Count];
         audioSource.volume = 0;
 
-        var children = GetComponentsInChildren<MeshCollider>();
-        foreach (var child in children) child.material = physicMaterial;
+        MeshCollider[] children = GetComponentsInChildren<MeshCollider>();
+        foreach (MeshCollider child in children) child.material = physicMaterial;
 
 
         DOVirtual.DelayedCall(1f, () => UpdateDoors());
-
-
-        /*
-            if (child.gameObject.name.Contains("backplane"))
-            {
-                var meshRenderer = child.gameObject.GetComponent<MeshRenderer>();
-                if (meshRenderer != null)
-                    DestroyImmediate(meshRenderer);
-            }
-            */
     }
-
-    /*
-    private void CreateEntranceBlocks()
-    {
-        DeleteEntranceBlocks();
-        for (var i = 0; i < MovePoints.Count; i++)
-            if (MovePoints[i].openLeftDoor || MovePoints[i].openRightDoor)
-            {
-                print("spawned entrance");
-                var horizontalOffset = MovePoints[i].openRightDoor ? 1f : -1f;
-                var entranceBlock = Instantiate(entranceBlockPrefab);
-                entranceBlock.transform.position =
-                    transform.position + transform.right * (4.1f * horizontalOffset + xSize * horizontalOffset * 10f) +
-                    transform.up * -2.9f;
-                entranceBlocks.Add(Instantiate(entranceBlockPrefab));
-            }
-    }
-
-    private void DeleteEntranceBlocks()
-    {
-        foreach (var entranceBlock in entranceBlocks)
-            Destroy(entranceBlock);
-
-        entranceBlocks.Clear();
-    }
-    */
 
     private void OnEnable()
     {
@@ -103,7 +62,7 @@ public class ElevatorScript : MonoBehaviour
                 assetRoot.HoudiniAsset.RequestCook();
 
 
-            var expectedDoors = GetComponentsInChildren<ElevatorScriptDoor>();
+            ElevatorScriptDoor[] expectedDoors = GetComponentsInChildren<ElevatorScriptDoor>();
             if (expectedDoors.Length == 0)
             {
                 if (doorPrefab != null)
@@ -144,7 +103,7 @@ public class ElevatorScript : MonoBehaviour
 
     private void OpenDoors()
     {
-        foreach (var door in doors)
+        foreach (ElevatorScriptDoor door in doors)
             door.OpenDoor();
     }
 
@@ -169,15 +128,15 @@ public class ElevatorScript : MonoBehaviour
     private void Move()
     {
         _parentChanger = GetComponentInChildren<ParentChanger>();
-        if (_parentChanger.IsSomeoneInside())
+        if (_parentChanger.AreAllPlayersInside())
         {
             audioSource.volume = .5f;
             transform.DOShakeRotation(3f, 2f, 30, 90f, true).SetUpdate(UpdateType.Fixed);
             IterateMovePoint();
-            var distanceToNextPoint =
+            float distanceToNextPoint =
                 Vector3.Distance(transform.position, _startPosition + MovePoints[_currentMovePoint].offset);
 
-            var movementDuration = distanceToNextPoint / MovePoints[_currentMovePoint].moveSpeed;
+            float movementDuration = distanceToNextPoint / MovePoints[_currentMovePoint].moveSpeed;
 
 
             transform.DOMove(_startPosition + MovePoints[_currentMovePoint].offset,
@@ -200,11 +159,6 @@ public class ElevatorScript : MonoBehaviour
         yield return _waitTimes[_currentMovePoint];
         UpdateDoors();
         audioSource.volume = 0;
-
-/*
-        if (IterateMovePoint()) Move();
-        UpdateDoors();
-*/
     }
 
     private bool IterateMovePoint()
@@ -244,11 +198,9 @@ public class ElevatorScript : MonoBehaviour
 
     public void UpdateParameters()
     {
-        //print("this is a callback");
+        List<HEU_ParameterData> parameters = assetRoot.HoudiniAsset.Parameters.GetParameters();
 
-        var parameters = assetRoot.HoudiniAsset.Parameters.GetParameters();
-
-        foreach (var parameter in parameters)
+        foreach (HEU_ParameterData parameter in parameters)
         {
             if (parameter._name == "sizeWidth")
                 xSize = parameter._floatValues[0];
@@ -256,13 +208,6 @@ public class ElevatorScript : MonoBehaviour
                 ySize = parameter._floatValues[0];
         }
 
-        /*
-        doors[0].transform.position = transform.position + new Vector3(-4.1f - xSize * 10f, -2.9f + doorHeight, 0);
-        doors[1].transform.position = transform.position + new Vector3(4.1f + xSize * 10f, -2.9f + doorHeight, 0);
-        */
-
-
-        //transform depending on elevator transform right
         doors[0].transform.position =
             transform.position + transform.right * (-4.1f - xSize * 10f) +
             transform.up * (-2.9f + doorHeight);
@@ -281,11 +226,11 @@ public class ElevatorScript : MonoBehaviour
         Gizmos.color = Color.magenta;
         for (var i = 0; i < MovePoints.Count; i++)
         {
-            var point = _startPosition + MovePoints[i].offset;
+            Vector3 point = _startPosition + MovePoints[i].offset;
             Gizmos.DrawWireCube(point, new Vector3(8.8f + xSize * 20f, 8.7f + ySize * 1f, 4f));
             if (i > 0)
             {
-                var prevPoint = _startPosition + MovePoints[i - 1].offset;
+                Vector3 prevPoint = _startPosition + MovePoints[i - 1].offset;
                 Gizmos.DrawLine(prevPoint, point);
             }
         }

@@ -29,6 +29,17 @@ public class LevelTransitionScript : MonoBehaviour
 
     public static LevelTransitionScript Instance { get; private set; }
 
+    public enum TransitionState
+    {
+        InvisibleAndNotStarted,
+        AppearingButNotFinished,
+        VisibleAndFinished,
+        DisappearingButNotFinished,
+        InvisibleAndFinished
+    }
+
+    public TransitionState myState;
+
     private void OnEnable()
     {
         _camera = Camera.main;
@@ -42,35 +53,17 @@ public class LevelTransitionScript : MonoBehaviour
         ReverseTransition();
     }
 
-/*
-    public void InitTransition()
-    {
-        if (_isTransitioning) return;
-
-        transitionImage.material.DOKill();
-        SoundMaster.PlaySound(transform.position, (int)SoundListAuto.LevelPortalTransitionIn, false);
-        _isTransitioning = true;
-        transitionImage.gameObject.SetActive(true);
-        if (_camera == null)
-            _camera = Camera.main;
-
-        transitionImage.material.SetFloat(CompareValue, 0);
-        DOTween.To(() => transitionImage.material.GetFloat(CompareValue),
-                x => transitionImage.material.SetFloat(CompareValue, x), 0.55f, 1f)
-            .SetAutoKill(false).onComplete += () =>
-        {
-            if (levelTransitionState.value != (int)LevelLoader.LevelTransitionState.DontLoadYet)
-            {
-                finishTransition.value = true;
-                DOTween.KillAll();
-            }
-        };
-    }
-    */
-
-    public static void StartTransition(Action callback)
+    public static void StartTransition(Action callback = null)
     {
         if (Instance._isTransitioning) return;
+
+        if (Instance.myState == TransitionState.VisibleAndFinished)
+        {
+            callback?.Invoke();
+            return;
+        }
+
+        Instance.myState = TransitionState.AppearingButNotFinished;
 
         Instance.transitionImage.material.DOKill();
         SoundMaster.PlaySound(Instance.transform.position, (int)SoundListAuto.LevelPortalTransitionIn, false);
@@ -86,14 +79,15 @@ public class LevelTransitionScript : MonoBehaviour
                 x => Instance.transitionImage.material.SetFloat(CompareValue, x), 0.55f, .75f)
             .SetAutoKill(false).onComplete += () =>
         {
+            Instance.myState = TransitionState.VisibleAndFinished;
             callback?.Invoke();
-            DOTween.KillAll();
         };
     }
 
     public void ReverseTransition(Vector3 portalPosition = default)
     {
         transitionImage.material.DOKill();
+        myState = TransitionState.DisappearingButNotFinished;
 
         SoundMaster.PlaySound(transform.position, (int)SoundListAuto.LevelPortalTransitionOut, false);
 
@@ -105,6 +99,7 @@ public class LevelTransitionScript : MonoBehaviour
                 x => transitionImage.material.SetFloat(CompareValue, x), 0f, .75f)
             .SetAutoKill(false).onComplete += () =>
         {
+            myState = TransitionState.InvisibleAndFinished;
             transitionImage.gameObject.SetActive(false);
             levelTransitionEnded.Dispatch();
         };

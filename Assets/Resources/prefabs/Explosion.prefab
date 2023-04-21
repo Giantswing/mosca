@@ -64,7 +64,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 3.5
+  m_Radius: 3
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &4047922072985717463
 MonoBehaviour:
@@ -93,9 +93,12 @@ MonoBehaviour:
   onDeathBehaviour: 0
   damagePriority: 5
   canInteract: 0
+  disablePressurePlates: 1
   hasInstantiatedData: 0
+  hasSharedData: 0
   attributeDataPrefab: {fileID: 0}
   attributeData: {fileID: 0}
+  sharedData: {fileID: 0}
   objectModel: {fileID: 0}
   manuallyAddedRenderers: 0
   renderers: []

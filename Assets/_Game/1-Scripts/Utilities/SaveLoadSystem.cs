@@ -17,6 +17,9 @@ public class SaveLoadSystem : MonoBehaviour
     public static void SaveGame()
     {
         PlayerPrefs.SetInt("TotalHearts", Instance.campaign.heartContainers);
+        PlayerPrefsX.SetIntArray("HeartIds", Instance.campaign.heartContainerIDs.ToArray());
+
+
         for (var i = 0; i < Instance.campaign.levels.Count; i++)
         {
             PlayerPrefs.SetInt(Instance.campaign.levels[i].sceneName, Instance.campaign.levels[i].stars);
@@ -36,6 +39,9 @@ public class SaveLoadSystem : MonoBehaviour
     public static void LoadGame()
     {
         Instance.campaign.heartContainers = PlayerPrefs.GetInt("TotalHearts", 0);
+
+        Instance.campaign.heartContainerIDs.Clear();
+        Instance.campaign.heartContainerIDs.AddRange(PlayerPrefsX.GetIntArray("HeartIds", 0, 0));
 
         for (var i = 0; i < Instance.campaign.levels.Count; i++)
         {

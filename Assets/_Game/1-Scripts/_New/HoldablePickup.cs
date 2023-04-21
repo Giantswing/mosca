@@ -76,7 +76,7 @@ public class HoldablePickup : PickUpBase
         displayObject.DOShakeScale(1f, 0.3f, 10, 90, false).onComplete += () => { ImmediateReset(); };
     }
 
-    public void ImmediateReset()
+    public virtual void ImmediateReset()
     {
         Release();
         transform.localScale = Vector3.zero;

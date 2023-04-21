@@ -1,10 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Cinemachine;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 
 public class TargetGroupControllerSystem : MonoBehaviour
@@ -50,7 +52,9 @@ public class TargetGroupControllerSystem : MonoBehaviour
     [SerializeField] private float playerZoomOffsetTo = 0;
     [SerializeField] private float playerZoomThreshold = 0.1f;
     [SerializeField] private float playerZoomInThreshold = 0.3f;
-    [SerializeField] private int numPlayersIn = 0;
+    [SerializeField] private float playerZoomSpeed;
+
+    [SerializeField] [Space(25)] private int numPlayersIn = 0;
     [SerializeField] private bool shouldZoomOut = false;
     [SerializeField] private bool shouldZoomIn = false;
 
@@ -65,16 +69,32 @@ public class TargetGroupControllerSystem : MonoBehaviour
 
     private AttributeDataSO globalPlayerInfo;
 
-
     public PlayerInputManager _playerInputManager;
     [SerializeField] private InputAction joinPlayerAction;
 
+    [Space(30)] [SerializeField] private Transform spawnPoint;
+
     private void Awake()
     {
-        _targetGroup = GetComponent<CinemachineTargetGroup>();
-        //_targets.Add(_targetGroup.m_Targets[0].target);
-        Instance = this;
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(gameObject);
 
+        DontDestroyOnLoad(gameObject);
+    }
+
+
+    private void Initialize()
+    {
+        print("initializing");
+        spawnPoint = FindObjectOfType<SpawnPoint>().transform;
+        playerList.Clear();
+
+        virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
+        virtualCamera.Follow = transform;
+        virtualCamera.LookAt = transform;
+        _targetGroup = GetComponent<CinemachineTargetGroup>();
         transposer = virtualCamera.GetCinemachineComponent<CinemachineTransposer>();
         composer = virtualCamera.GetCinemachineComponent<CinemachineComposer>();
         startingPositionOffset = transposer.m_FollowOffset;
@@ -83,8 +103,68 @@ public class TargetGroupControllerSystem : MonoBehaviour
         mainCamera = Camera.main;
 
         _playerInputManager = GetComponent<PlayerInputManager>();
-
         sharedPlayerData.attributes = GetComponent<Attributes>();
+
+        PlayerIdentifier[] players = FindObjectsOfType<PlayerIdentifier>();
+        foreach (PlayerIdentifier player in players) playerList.Add(player.GetComponent<Attributes>().attributeData);
+
+        DOVirtual.DelayedCall(0.3f, () =>
+        {
+            if (AreTherePlayers())
+            {
+                foreach (AttributeDataSO player in playerList)
+                {
+                    Transform playerObject = player.attributes.transform;
+                    playerObject.position = spawnPoint.position;
+                    player.playerIdentifier.ReInitialize();
+                    player.attributes.ReactivateObject();
+                }
+
+                for (var i = 1; i < playerList.Count; i++)
+                {
+                    LevelManager.IncreaseMaxHealth();
+                    LevelManager.IncreaseMaxHealth();
+
+                    DOVirtual.DelayedCall(0.1f, () => { Instance.sharedPlayerData.attributes.onHeal.Invoke(); });
+                }
+            }
+            else
+            {
+                GameObject player = Instantiate(playerPrefab, spawnPoint.transform.position, Quaternion.identity);
+            }
+        });
+    }
+
+    public static void DestroyAllPickups()
+    {
+        foreach (AttributeDataSO player in Instance.playerList)
+        {
+            ItemHolder holder = player.attributes.GetComponent<ItemHolder>();
+
+            for (var i = 0; i < holder.items.Count; i++) Destroy(holder.items[i].gameObject);
+            holder.items.Clear();
+        }
+    }
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += Test;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= Test;
+    }
+
+    private void Test(Scene scene, LoadSceneMode mode)
+    {
+        Initialize();
+    }
+
+
+    public static Transform ReturnSpawnPoint()
+    {
+        return Instance.spawnPoint;
     }
 
     public static void ModifyTarget(Transform target, float weight, float radius, float duration = 2f)
@@ -106,13 +186,19 @@ public class TargetGroupControllerSystem : MonoBehaviour
         if (target.TryGetComponent(out PlayerIdentifier playerIdentifier))
         {
             Instance.playerList.Add(playerIdentifier.attributes.attributeData);
-            LevelManager.IncreaseMaxHealth();
-            LevelManager.IncreaseMaxHealth();
 
-            DOVirtual.DelayedCall(0.1f, () => { Instance.sharedPlayerData.attributes.onHeal.Invoke(); });
+            if (Instance.playerList.Count > 1)
+            {
+                LevelManager.IncreaseMaxHealth();
+                LevelManager.IncreaseMaxHealth();
+
+                DOVirtual.DelayedCall(0.1f, () => { Instance.sharedPlayerData.attributes.onHeal.Invoke(); });
+            }
         }
 
         Instance._targetGroup.AddMember(target, 0, 0);
+
+
         Instance.cameraTargets.Add(new CustomCameraTarget
         {
             Transform = target,
@@ -156,6 +242,13 @@ public class TargetGroupControllerSystem : MonoBehaviour
         Instance._playerInputManager.DisableJoining();
     }
 
+    public static bool AreTherePlayers()
+    {
+        if (Instance.playerList.Count == 0)
+            return false;
+
+        return true;
+    }
 
     public static Transform ClosestPlayer(Transform from)
     {
@@ -244,14 +337,15 @@ public class TargetGroupControllerSystem : MonoBehaviour
         if (numPlayersIn == playerList.Count)
             shouldZoomIn = true;
 
+
         if (shouldZoomOut)
         {
-            playerZoomOffsetTo += Time.deltaTime * 5f;
+            playerZoomOffsetTo += Time.deltaTime * playerZoomSpeed;
         }
 
         else if (shouldZoomIn)
         {
-            playerZoomOffsetTo -= Time.deltaTime * 5f;
+            playerZoomOffsetTo -= Time.deltaTime * playerZoomSpeed;
             if (playerZoomOffsetTo < 0f) playerZoomOffsetTo = 0;
         }
 
@@ -296,17 +390,6 @@ public class TargetGroupControllerSystem : MonoBehaviour
         }
     }
 
-/*
-    public void JoinPlayer(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-            print("test");
-            //playerList[0].playerInput.neverAutoSwitchControlSchemes = true;
-            _playerInputManager.EnableJoining();
-        }
-    }
-*/
     public void SetUpPlayer()
     {
         if (playerList.Count >= 1) SoundMaster.PlaySound(transform.position, (int)SoundListAuto.SecretWall, false);
@@ -322,22 +405,18 @@ public class TargetGroupControllerSystem : MonoBehaviour
         }).SetUpdate(true);
     }
 
-
-    public static void JoinPlayerStatic(InputDevice deviceToAssignToPlayer)
-    {
-        GameObject playerGO = Instantiate(Instance.playerPrefab, Instance.playerList[0].attributes.transform.position,
-            Quaternion.identity);
-
-        PlayerInput playerInput = playerGO.GetComponent<PlayerInput>();
-        playerInput.SwitchCurrentControlScheme(deviceToAssignToPlayer.name, deviceToAssignToPlayer);
-    }
-
-
     public static void SetCameraZoneOffset(Vector3 cameraZoneCameraOffset, float cameraZoneZoomOffset,
         float cameraZoneSideAngleStrengthOffset)
     {
         Instance.cameraZoneOffsetTo = cameraZoneCameraOffset;
         Instance.cameraZoneZoomTo = cameraZoneZoomOffset;
         Instance.cameraZoneSideAngleStrengthTo = cameraZoneSideAngleStrengthOffset;
+    }
+
+    public static void CleanUp()
+    {
+        DestroyAllPickups();
+        for (var i = 0; i < Instance.playerList.Count; i++) Destroy(Instance.playerList[i].attributes.gameObject);
+        Destroy(Instance.gameObject);
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
 using Sirenix.OdinInspector;
@@ -83,8 +84,13 @@ public class Attributes : MonoBehaviour, IPressurePlateListener
     [TitleGroup("Damage")] public int damagePriority = 1;
 
 
-    [TitleGroup("Interactions")] [PropertySpace(SpaceBefore = 5f, SpaceAfter = 10f)]
+    [TitleGroup("Interactions")]
+    [PropertySpace(SpaceBefore = 5f, SpaceAfter = 10f)]
+    [HorizontalGroup("Interactions/Interactions1")]
     public bool canInteract = false;
+
+    [HorizontalGroup("Interactions/Interactions1")]
+    public bool disablePressurePlates = false;
 
     [HorizontalGroup("Interactions/Interactions")]
     public bool hasInstantiatedData = false;
@@ -106,7 +112,7 @@ public class Attributes : MonoBehaviour, IPressurePlateListener
     [FoldoutGroup("Rendering", false)] public bool manuallyAddedRenderers = false;
 
     [FoldoutGroup("Rendering", false)] [ShowIf("manuallyAddedRenderers")]
-    public NormalRenderer[] renderers;
+    public List<NormalRenderer> renderers;
 
     [FoldoutGroup("Rendering", false)] [ReadOnly]
     public Material hurtMaterial;
@@ -175,8 +181,9 @@ public class Attributes : MonoBehaviour, IPressurePlateListener
         if (!manuallyAddedRenderers)
             renderers = GetComponentsInChildren<Renderer>()
                 .Where(renderer => renderer.GetComponent<TrailRenderer>() == null)
-                .Select(renderer => new NormalRenderer { renderer = renderer, material = renderer.material })
-                .ToArray();
+                .Where(renderer => renderer.GetComponent<Attributes>() == null)
+                .Select(renderer => new NormalRenderer { renderer = renderer, material = renderer.material }).ToList();
+
 
         if (objectModel == null)
         {
@@ -206,6 +213,8 @@ public class Attributes : MonoBehaviour, IPressurePlateListener
             attributeData.doubleDashAbility = GetComponentInChildren<DoubleDashAbility>();
             attributeData.chargeShot = GetComponentInChildren<ChargeSystem>();
             attributeData.playerInput = GetComponentInChildren<PlayerInput>();
+            attributeData.pickUpSystem = GetComponentInChildren<PickUpSystem>();
+            attributeData.playerIdentifier = GetComponentInChildren<PlayerIdentifier>();
         }
 
         if (hasSharedData)
@@ -251,11 +260,16 @@ public class Attributes : MonoBehaviour, IPressurePlateListener
 
         foreach (NormalRenderer renderer in renderers)
             renderer.renderer.material = renderer.material;
+
+        if (TryGetComponent(out ItemHolder itemHolder))
+            for (var i = 0; i < itemHolder.items.Count; i++)
+                itemHolder.items[i].ImmediateReset();
     }
 
     public void DeathEvent(Vector3 deathPos)
     {
         canDoDamage = false;
+        transform.SetParent(null);
         switch (onDeathBehaviour)
         {
             case OnDeathBehaviour.Fly:
@@ -290,7 +304,8 @@ public class Attributes : MonoBehaviour, IPressurePlateListener
                     if (!hasSharedData)
                         gameObject.SetActive(true);
 
-                    rb.AddForce((transform.position - deathPos).normalized * 10f, ForceMode.VelocityChange);
+                    rb.AddForce((transform.position - deathPos).normalized * (hasSharedData ? 2f : 10f),
+                        ForceMode.VelocityChange);
 
                     objectModel.transform.localRotation = Quaternion.identity;
                     objectModel.DOLocalRotate(new Vector3(0, 0, 360), .25f, RotateMode.FastBeyond360)
@@ -412,8 +427,7 @@ public class Attributes : MonoBehaviour, IPressurePlateListener
     private IEnumerator InvulnerabilityCoroutine()
     {
         canReceiveDamage = false;
-        foreach (NormalRenderer renderer in renderers)
-            renderer.renderer.material = hurtMaterial;
+        foreach (NormalRenderer renderer in renderers) renderer.renderer.material = hurtMaterial;
 
         yield return new WaitForSeconds(invulnerabilityTime);
 
@@ -421,6 +435,7 @@ public class Attributes : MonoBehaviour, IPressurePlateListener
         foreach (NormalRenderer renderer in renderers)
             renderer.renderer.material = renderer.material;
     }
+
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -446,6 +461,18 @@ public class Attributes : MonoBehaviour, IPressurePlateListener
 
 
     /*--- SHARED EVENTS ---*/
+
+    public void DistortView()
+    {
+        ScreenFXSystem.DistortView(0.3f);
+    }
+
+
+    public void FreezeFrames()
+    {
+        ScreenFXSystem.FreezeFrames(.3f);
+    }
+
 
     public void SyncEventsWithSharedData()
     {
@@ -475,11 +502,12 @@ public class Attributes : MonoBehaviour, IPressurePlateListener
     }
 
 
-    /*
-    private void OnCollisionStay(Collision collisionInfo)
+    private void OnCollisionStay(Collision collision)
     {
-        if (canInteract && collisionInfo.transform.TryGetComponent(out IGenericInteractable interactable))
-            interactable.Interact(transform.position);
+        if (!hasSharedData) return;
+
+        if (collision.transform.TryGetComponent(out Attributes otherAttributes))
+            if (otherAttributes.contactDamage)
+                TakeDamage(otherAttributes, collision.contacts[0].point);
     }
-    */
 }

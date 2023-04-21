@@ -14,17 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   campaign: {fileID: 11400000, guid: a36363c6493c2fc49a902af9627a51e9, type: 2}
   scene:
-    sceneAsset: {fileID: 102900000, guid: a0710068f1f467b4d87a16ca311f8bd5, type: 3}
+    sceneAsset: {fileID: 102900000, guid: b660cb2d4df76a743b603730c3bcb4f1, type: 3}
     required: 0
     buildIndex: -1
-  sceneName: Template
-  sceneInternalName: 
+  sceneName: refactoringScene
+  sceneInternalName: refactoringScene
   timeToWin: 25
   heartContainers: 0
-  deathCounter: 2
-  stars: 3
-  isThisLastOne: 0
-  index: 0
+  deathCounter: 0
+  stars: 0
+  isThisLastOne: 1
+  index: 4
   isBSide: 0
   hasBSide: 0
   bSideScene: {fileID: 0}

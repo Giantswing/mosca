@@ -5008,3 +5008,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d476b312438233f498c290258256d205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  transitionEvent:
+    _owner: {fileID: 3155901395702546916}
+    _ownerName: portal
+    _propertyPath: transitionEvent
+    _autoListen: 0
+    _multiIndex: 0
+    _smartEvent: {fileID: 11400000, guid: ec9f39c6c9736004f83f11db8d83416a, type: 2}
+    _smartMulti: {fileID: 0}
+    _useMulti: 0
+    _onEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  activated: 0

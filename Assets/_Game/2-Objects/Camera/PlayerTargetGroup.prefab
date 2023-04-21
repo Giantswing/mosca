@@ -1,5 +1,52 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &822345158
+GameObject:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 822345157}
+  - component: {fileID: 822345156}
+  m_Layer: 0
+  m_Name: NameContainer(EditorOnly)
+  m_TagString: EditorOnly
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &822345157
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 822345158}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 449045003168623294}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &822345156
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 822345158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 190d9e9918d0aaf48a103a2bb6995059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nameOverride: Shared Player Attributes
+  tooltipOverride: 
+  target: {fileID: 1306299229}
 --- !u!1 &449045003168623295
 GameObject:
   m_ObjectHideFlags: 0
@@ -11,6 +58,8 @@ GameObject:
   - component: {fileID: 449045003168623294}
   - component: {fileID: 449045003168623281}
   - component: {fileID: 8612776958667648114}
+  - component: {fileID: 1306299229}
+  - component: {fileID: 1607113701}
   m_Layer: 0
   m_Name: PlayerTargetGroup
   m_TagString: Untagged
@@ -29,7 +78,8 @@ Transform:
   m_LocalPosition: {x: 16.16, y: -54.26, z: 3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 822345157}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -45,13 +95,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5eb80d8e62d9d145bb50fb783c0f731, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_PositionMode: 0
+  m_PositionMode: 1
   m_RotationMode: 0
-  m_UpdateMethod: 2
-  m_Targets:
-  - target: {fileID: 0}
-    weight: 1
-    radius: 0
+  m_UpdateMethod: 1
+  m_Targets: []
 --- !u!114 &8612776958667648114
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64,5 +111,167 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7562dd053fe99794888a143ddfc22c43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _targets: []
-  _easeOut: 18
+  sharedPlayerData: {fileID: 11400000, guid: d1a4540c34fb99b448cc5633374af715, type: 2}
+  cameraTargets: []
+  virtualCamera: {fileID: 0}
+  _easeOut: 15
+  playerList: []
+  playerZoomOffset: 0
+  playerZoomOffsetTo: 0
+  playerZoomThreshold: 0.2
+  playerZoomInThreshold: 0.3
+  playerZoomSpeed: 15
+  numPlayersIn: 0
+  shouldZoomOut: 0
+  shouldZoomIn: 0
+  posOffsetSpeed: 1
+  aimOffsetSpeed: 1
+  cameraZoneOffsetSpeed: 0.45
+  cameraZoneZoomSpeed: 1.5
+  flipStrength: 1
+  playerPrefab: {fileID: 5584090998417839405, guid: 99c91bb5ce77efa4b802a479bbc7a142, type: 3}
+  _playerInputManager: {fileID: 0}
+  joinPlayerAction:
+    m_Name: Join Player
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 2e5fd285-490b-4cc6-a890-b8dbbf5f562d
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  spawnPoint: {fileID: 0}
+--- !u!114 &1306299229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 449045003168623295}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f39f189c377a7f4bb87558433538db5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  team: 0
+  speed: 0
+  acceleration: 0
+  HP: 0
+  maxHP: 0
+  invulnerabilityTime: 1
+  canReceiveDamage: 0
+  damage: 0
+  canDoDamage: 1
+  onlyExplosions: 0
+  explosive: 0
+  contactDamage: 1
+  onDeathBehaviour: 0
+  damagePriority: 1
+  canInteract: 0
+  disablePressurePlates: 0
+  hasInstantiatedData: 0
+  hasSharedData: 0
+  attributeDataPrefab: {fileID: 0}
+  attributeData: {fileID: 0}
+  sharedData: {fileID: 0}
+  objectModel: {fileID: 0}
+  manuallyAddedRenderers: 0
+  renderers: []
+  hurtMaterial: {fileID: 0}
+  onDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  onReceiveHit:
+    m_PersistentCalls:
+      m_Calls: []
+  onDidHit:
+    m_PersistentCalls:
+      m_Calls: []
+  onHeal:
+    m_PersistentCalls:
+      m_Calls: []
+  hasHitSound: 0
+  hitSound: 0
+  hasDeathSound: 0
+  deathSound: 0
+  hasBumpSound: 0
+  bumpSound: 0
+  hasHitFX: 0
+  hitFX: 0
+  hasDeathFX: 0
+  deathFX: 0
+  hasBumpFX: 0
+  bumpFX: 0
+  hardCollider: {fileID: 0}
+--- !u!114 &1607113701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 449045003168623295}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 621567455fd1c4ceb811cc8a00b6a1a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_NotificationBehavior: 2
+  m_MaxPlayerCount: -1
+  m_AllowJoining: 0
+  m_JoinBehavior: 1
+  m_PlayerJoinedEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8612776958667648114}
+        m_TargetAssemblyTypeName: TargetGroupControllerSystem, Flugi
+        m_MethodName: SetUpPlayer
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  m_PlayerLeftEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_JoinAction:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Join
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 79f67942-eed7-4f21-816f-b9145c4d46c8
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings:
+      - m_Name: 
+        m_Id: 73114b1a-fc87-42b0-8b56-ef1baa7607b0
+        m_Path: <Gamepad>/select
+        m_Interactions: Press(behavior=1)
+        m_Processors: 
+        m_Groups: 
+        m_Action: Join
+        m_Flags: 0
+      - m_Name: 
+        m_Id: 47da1be6-3b52-40f7-87bd-47a2c938bea8
+        m_Path: <Keyboard>/j
+        m_Interactions: Press(behavior=1)
+        m_Processors: 
+        m_Groups: 
+        m_Action: Join
+        m_Flags: 0
+      m_Flags: 0
+    m_Reference: {fileID: -2074409718558523214, guid: 0b2cbcc118471e84e969b52f5a6485e0, type: 3}
+  m_PlayerPrefab: {fileID: 5584090998417839405, guid: 99c91bb5ce77efa4b802a479bbc7a142, type: 3}
+  m_SplitScreen: 0
+  m_MaintainAspectRatioInSplitScreen: 0
+  m_FixedNumberOfSplitScreens: -1
+  m_SplitScreenRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1

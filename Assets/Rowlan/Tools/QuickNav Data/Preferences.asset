@@ -17,8 +17,32 @@ MonoBehaviour:
   - context: 0
     title: 
     unityObject: {fileID: 0}
-    objectGuid: GlobalObjectId_V1-2-b660cb2d4df76a743b603730c3bcb4f1-5584090997591407742-0
+    objectGuid: GlobalObjectId_V1-2-da1cdac6dce2ba2468e5d62a6ee0da0b-8062916686275699463-6040278
+  - context: 0
+    title: 
+    unityObject: {fileID: 0}
+    objectGuid: GlobalObjectId_V1-2-da1cdac6dce2ba2468e5d62a6ee0da0b-1887169207-904829654
+  - context: 0
+    title: 
+    unityObject: {fileID: 0}
+    objectGuid: GlobalObjectId_V1-2-da1cdac6dce2ba2468e5d62a6ee0da0b-4206558954623024780-904829654
+  - context: 0
+    title: 
+    unityObject: {fileID: 0}
+    objectGuid: GlobalObjectId_V1-2-da1cdac6dce2ba2468e5d62a6ee0da0b-4206558954623024780-1368325920
+  - context: 0
+    title: 
+    unityObject: {fileID: 0}
+    objectGuid: GlobalObjectId_V1-2-da1cdac6dce2ba2468e5d62a6ee0da0b-8023622830044985023-1513566971
+  - context: 0
+    title: 
+    unityObject: {fileID: 0}
+    objectGuid: GlobalObjectId_V1-2-da1cdac6dce2ba2468e5d62a6ee0da0b-8062916686275699463-6040278
   favorites:
+  - context: 1
+    title: 
+    unityObject: {fileID: 8062916686275699463, guid: c2927f2f2946aee4594677ee194214b3, type: 3}
+    objectGuid: GlobalObjectId_V1-1-c2927f2f2946aee4594677ee194214b3-8062916686275699463-0
   - context: 2
     title: Rewards
     unityObject: {fileID: 0}
@@ -137,6 +161,10 @@ MonoBehaviour:
     objectGuid: GlobalObjectId_V1-1-caf0874e6c3666c49ab0d52753bcefc7-2625934504131464498-0
   - context: 1
     title: 
+    unityObject: {fileID: 2033739525901106009, guid: ebfb00a7e75114e4d90b04a6776fe654, type: 3}
+    objectGuid: GlobalObjectId_V1-1-ebfb00a7e75114e4d90b04a6776fe654-2033739525901106009-0
+  - context: 1
+    title: 
     unityObject: {fileID: 6860605510871531306, guid: e9abe0eb43e95a94bb6dec0f64dc8c20, type: 3}
     objectGuid: GlobalObjectId_V1-1-e9abe0eb43e95a94bb6dec0f64dc8c20-6860605510871531306-0
   - context: 1
@@ -199,10 +227,6 @@ MonoBehaviour:
     title: 
     unityObject: {fileID: 9104996455489809032, guid: 931188d0c5f2103439b2c1de90dede4e, type: 3}
     objectGuid: GlobalObjectId_V1-1-931188d0c5f2103439b2c1de90dede4e-9104996455489809032-0
-  - context: 1
-    title: 
-    unityObject: {fileID: 9104996455489809032, guid: a4bca72a813cf1f4f98d6ba02aeb3b54, type: 3}
-    objectGuid: GlobalObjectId_V1-1-a4bca72a813cf1f4f98d6ba02aeb3b54-9104996455489809032-0
   - context: 1
     title: 
     unityObject: {fileID: 3581354328258126474, guid: b15c17abd94991d46809c7af526998d1, type: 3}

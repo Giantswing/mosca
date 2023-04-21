@@ -5315,6 +5315,7 @@ MonoBehaviour:
   xThreshold: 0
   flipDirection: 1
   flipSpeed: 0.5
+  inputDirection: {x: 0, y: 0, z: 0}
   canFlip: 1
 --- !u!114 &4780228799872477420
 MonoBehaviour:
@@ -5341,8 +5342,9 @@ MonoBehaviour:
   explosive: 0
   contactDamage: 1
   onDeathBehaviour: 0
-  damagePriority: 0
+  damagePriority: 3
   canInteract: 1
+  disablePressurePlates: 0
   hasInstantiatedData: 0
   hasSharedData: 0
   attributeDataPrefab: {fileID: 0}
@@ -5360,7 +5362,19 @@ MonoBehaviour:
       m_Calls: []
   onDidHit:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4780228799872477420}
+        m_TargetAssemblyTypeName: Attributes, Flugi
+        m_MethodName: DistortView
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onHeal:
     m_PersistentCalls:
       m_Calls: []
@@ -5798,7 +5812,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5584090996922478098}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.284, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6647,7 +6661,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5584090997611168600}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.35, z: 0}
   m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -12698,7 +12712,7 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.65
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!135 &5584090998417839421
 SphereCollider:
@@ -12726,7 +12740,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   team: 0
-  speed: 5
+  speed: 4
   acceleration: 30
   HP: 0
   maxHP: 3
@@ -12740,6 +12754,7 @@ MonoBehaviour:
   onDeathBehaviour: 0
   damagePriority: 0
   canInteract: 0
+  disablePressurePlates: 0
   hasInstantiatedData: 1
   hasSharedData: 1
   attributeDataPrefab: {fileID: 11400000, guid: 839e0aa633460334a807eb84fa462b7d, type: 2}
@@ -12783,9 +12798,45 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 5584090998417839395}
+        m_TargetAssemblyTypeName: Attributes, Flugi
+        m_MethodName: FreezeFrames
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 5584090998417839395}
+        m_TargetAssemblyTypeName: Attributes, Flugi
+        m_MethodName: DistortView
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onDidHit:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5584090998417839395}
+        m_TargetAssemblyTypeName: Attributes, Flugi
+        m_MethodName: DistortView
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onHeal:
     m_PersistentCalls:
       m_Calls: []
@@ -12832,6 +12883,18 @@ MonoBehaviour:
       - m_Target: {fileID: 5584090998417839399}
         m_TargetAssemblyTypeName: InputReceiver, Flugi
         m_MethodName: Move
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 5584090998417839397}
+        m_TargetAssemblyTypeName: FlipSystem, Flugi
+        m_MethodName: UpdateInputDirection
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -13107,9 +13170,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   flipTransform: {fileID: 0}
-  xThreshold: 4
+  xThreshold: 4.5
   flipDirection: 0
   flipSpeed: 0.4
+  inputDirection: {x: 0, y: 0, z: 0}
   canFlip: 1
 --- !u!114 &5584090998417839398
 MonoBehaviour:
@@ -13529,6 +13593,7 @@ MonoBehaviour:
   attributes: {fileID: 0}
   flipSystem: {fileID: 0}
   playerInput: {fileID: 0}
+  pickUpSystem: {fileID: 0}
 --- !u!114 &5539198111459306990
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13588,9 +13653,9 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 80
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -13623,7 +13688,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 0.83
       inSlope: 0
       outSlope: 0
       tangentMode: 0

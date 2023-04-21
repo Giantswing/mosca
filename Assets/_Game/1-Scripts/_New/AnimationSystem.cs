@@ -45,16 +45,19 @@ public class AnimationSystem : MonoBehaviour
         animator.SetFloat(value2, vector.y);
     }
 
+
     public void MicroAnimationCharge(Vector3 direction)
     {
+        attributes.objectModel.localPosition = Vector3.zero;
         attributes.objectModel
-                .DOLocalMoveX(attributes.objectModel.localPosition.x - 1.6f * flipSystem.flipDirection, .15f)
+                .DOLocalMoveX(attributes.objectModel.localPosition.x - 1f * flipSystem.flipDirection, .15f)
                 .onComplete +=
             () => { attributes.objectModel.DOLocalMoveX(0, .15f).SetEase(Ease.OutQuad); };
     }
 
     public void MicroAnimationForward()
     {
+        attributes.objectModel.localPosition = Vector3.zero;
         attributes.objectModel
                 .DOLocalMoveX(attributes.objectModel.localPosition.x + 1f * flipSystem.flipDirection, .35f)
                 .onComplete +=

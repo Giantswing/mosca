@@ -76,7 +76,7 @@ public class WinScreenScript : MonoBehaviour
 
     public void InitWinScreenAnimation()
     {
-        if (instanceLevelTransitionState == (int)LevelLoader.LevelTransitionState.DontLoadYet && !_alreadyInit)
+        if (!_alreadyInit)
         {
             _alreadyInit = true;
             StartCoroutine(StartWinScreenAnimationRoutine());
@@ -153,20 +153,22 @@ public class WinScreenScript : MonoBehaviour
         switch (menuAction)
         {
             case "restart_level":
+                TargetGroupControllerSystem.DestroyAllPickups();
                 DOTween.KillAll();
                 print(menuAction);
-                instanceLevelTransitionState.value = (int)LevelLoader.LevelTransitionState.Restart;
+                LevelLoadSystem.LoadLevel(LevelLoadSystem.LevelToLoad.Restart);
                 break;
             case "go_to_menu":
+                TargetGroupControllerSystem.CleanUp();
                 DOTween.KillAll();
                 print(menuAction);
-                instanceLevelTransitionState.value = (int)LevelLoader.LevelTransitionState.SpecificLevel;
-                LevelLoader.SceneToLoad = campaignData.levelSelectionScene;
+                LevelLoadSystem.LoadLevel(LevelLoadSystem.LevelToLoad.LevelSelection);
                 break;
             case "next_level":
+                TargetGroupControllerSystem.CleanUp();
                 DOTween.KillAll();
                 print(menuAction);
-                instanceLevelTransitionState.value = (int)LevelLoader.LevelTransitionState.NextLevel;
+                LevelLoadSystem.LoadLevel(LevelLoadSystem.LevelToLoad.NextLevel);
                 break;
         }
 

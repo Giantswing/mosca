@@ -2,6 +2,7 @@ using System;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(Attributes))]
 public class PlayerIdentifier : MonoBehaviour
@@ -13,6 +14,7 @@ public class PlayerIdentifier : MonoBehaviour
     public Attributes attributes;
     public FlipSystem flipSystem;
     public PlayerInput playerInput;
+    public PickUpSystem pickUpSystem;
 
     private void Awake()
     {
@@ -23,12 +25,14 @@ public class PlayerIdentifier : MonoBehaviour
         attributes = GetComponent<Attributes>();
         flipSystem = GetComponent<FlipSystem>();
         playerInput = GetComponent<PlayerInput>();
+        pickUpSystem = GetComponent<PickUpSystem>();
     }
 
-    private void Start()
+    public void ReInitialize()
     {
         if (TargetGroupControllerSystem.Instance.playerList.Count == 0)
         {
+            transform.position = TargetGroupControllerSystem.ReturnSpawnPoint().position;
             StartUpAnimation();
         }
         else
@@ -39,11 +43,22 @@ public class PlayerIdentifier : MonoBehaviour
                                  Vector3.right * 2f;
             DOVirtual.DelayedCall(0.05f, StartUpAnimation).SetUpdate(false);
         }
+
+        GetComponent<DashAbility>().RestoreSpeedBoost();
+        flipSystem.flipDirection = 1;
+    }
+
+    private void Start()
+    {
+        DontDestroyOnLoad(gameObject);
+
+        ReInitialize();
     }
 
 
     private void StartUpAnimation()
     {
+        print("doing animation");
         transform.localScale = Vector3.zero;
         DisableMovement();
         DOVirtual.DelayedCall(0.5f, () =>
@@ -77,6 +92,7 @@ public class PlayerIdentifier : MonoBehaviour
         movementSystem.enabled = true;
         dashAbility.enabled = true;
         chargeSystem.enabled = true;
+        flipSystem.enabled = true;
         //inputReceiver.enabled = true;
     }
 }

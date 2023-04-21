@@ -26,5 +26,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0192319309480e04ab5513d03514cc57, type: 2}
   - {fileID: 11400000, guid: 14b25bea0f259224a9e54dda770004fa, type: 2}
   - {fileID: 11400000, guid: eb4aa9ff9cfe0a14fa98a45501b2fb82, type: 2}
-  heartContainers: 3
-  heartContainerIDs: 
+  - {fileID: 11400000, guid: 86dcd06acb7e0814083b99136b70e926, type: 2}
+  heartContainers: 2
+  heartContainerIDs: d2040000a3080000

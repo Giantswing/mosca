@@ -73,6 +73,10 @@ public class PressurePlate : MonoBehaviour
     {
         if (canCheck && other.TryGetComponent(out IPressurePlateListener listener))
         {
+            if (other.TryGetComponent(out Attributes listenerAttributes))
+                if (listenerAttributes.disablePressurePlates)
+                    return;
+
             if (!targets.Contains(listener.transform))
                 targets.Add(other.transform);
 
@@ -89,6 +93,10 @@ public class PressurePlate : MonoBehaviour
     {
         if (other.TryGetComponent(out IPressurePlateListener listener))
         {
+            if (other.TryGetComponent(out Attributes listenerAttributes))
+                if (listenerAttributes.disablePressurePlates)
+                    return;
+
             if (targets.Contains(listener.transform))
                 targets.Remove(other.transform);
 

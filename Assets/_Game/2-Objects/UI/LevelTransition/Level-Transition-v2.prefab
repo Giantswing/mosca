@@ -354,6 +354,7 @@ MonoBehaviour:
         m_Calls: []
   startTransitionAudioEvent: {fileID: 11400000, guid: 7b2c629c38bbe1646949d19be2fe329c, type: 2}
   endTransitionAudioEvent: {fileID: 11400000, guid: 25f354438d5005b40b8980de197cfb6b, type: 2}
+  myState: 0
 --- !u!223 &3162354115926989452
 Canvas:
   m_ObjectHideFlags: 0

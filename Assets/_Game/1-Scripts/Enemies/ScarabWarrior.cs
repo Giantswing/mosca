@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using DG.Tweening;
 using Unity.Mathematics;
 using UnityEditor;
@@ -18,7 +19,7 @@ public class ScarabWarrior : MonoBehaviour
 
     #region External references
 
-    private STATS stats;
+    private Attributes attributes;
     private Rigidbody myRb;
     private float startingZDepth;
     [SerializeField] private GameObject shieldPrefab;
@@ -29,7 +30,6 @@ public class ScarabWarrior : MonoBehaviour
     [SerializeField] private Transform my3dModel;
     [SerializeField] private GameObject spearPrefab;
     [SerializeField] private CapsuleCollider myCollider;
-    private BoxCollider shieldCollider;
 
     #endregion
 
@@ -56,7 +56,7 @@ public class ScarabWarrior : MonoBehaviour
 
     private float rotDirectionTo = 1f;
     private float rotDirection;
-    public bool hasShield = true;
+    public bool hasShield = false;
 
     [SerializeField] private float maxRayDistance = 8f;
     public LayerMask ignoreLayerMask;
@@ -67,11 +67,13 @@ public class ScarabWarrior : MonoBehaviour
     private bool canISeePlayer = false;
 
     private Transform playerTransform;
+    private bool startChecking = false;
 
+    [SerializeField] private Collider shieldCollider;
 
     private void Awake()
     {
-        stats = GetComponent<STATS>();
+        attributes = GetComponent<Attributes>();
         myRb = GetComponent<Rigidbody>();
     }
 
@@ -85,10 +87,13 @@ public class ScarabWarrior : MonoBehaviour
         startPos = transform.position;
         my3dModel.DOLocalRotate(Vector3.zero, 0.7f, RotateMode.FastBeyond360);
 
-        InitializeShield();
+        //InitializeShield();
         InitializeSpears();
 
         TargetGroupControllerSystem.AddTarget(transform, 0, 0, 0);
+        Physics.IgnoreCollision(shieldCollider, myCollider);
+
+        DOVirtual.DelayedCall(1f, () => startChecking = true);
     }
 
     private void InitializeSpears()
@@ -97,16 +102,12 @@ public class ScarabWarrior : MonoBehaviour
         {
             Spear spear = Instantiate(spearPrefab).GetComponent<Spear>();
             spear.myCollider.enabled = false;
-            spear.parentCollider = myCollider;
-            spear.shieldCollider = shieldCollider;
             spear.zDepthTo = transform.position.z;
             spear.transform.parent = transform;
             spear.myScarabWarrior = this;
             spear.hasCollided = false;
 
-            if (hasShield)
-                Physics.IgnoreCollision(shieldCollider, spear.myCollider);
-
+            Physics.IgnoreCollision(shieldCollider, spear.myCollider);
             Physics.IgnoreCollision(myCollider, spear.myCollider);
 
             spear.gameObject.SetActive(false);
@@ -143,13 +144,23 @@ public class ScarabWarrior : MonoBehaviour
         shieldCollider = shieldTransform.GetComponent<BoxCollider>();
         Physics.IgnoreCollision(shieldTransform.GetComponent<Collider>(), myCollider);
 
-        STATS shieldStats = shieldTransform.GetComponent<STATS>();
-        shieldStats.ST_DeathEvent.AddListener(() => { LoseShield(); });
+
+        Attributes shieldAttributes = shieldTransform.GetComponent<Attributes>();
+        shieldAttributes.onDeath.AddListener(() => { LoseShield(); });
     }
+
+    private void LoseShield()
+    {
+        hasShield = false;
+    }
+
 
     private void Update()
     {
+        if (!startChecking) return;
+
         playerTransform = TargetGroupControllerSystem.ClosestPlayer(transform);
+
         rotDirection = Mathf.Lerp(rotDirection, rotDirectionTo, Time.deltaTime * 5f);
         distanceToTarget = Vector3.Distance(transform.position, playerTransform.position);
 
@@ -178,10 +189,10 @@ public class ScarabWarrior : MonoBehaviour
                 break;
         }
 
-        if (distanceToTarget > maxFollowDistance + 25f)
+        if (distanceToTarget > maxFollowDistance + 15f)
             TargetGroupControllerSystem.ModifyTarget(transform, 0, 0);
         else
-            TargetGroupControllerSystem.ModifyTarget(transform, 0.5f, 1);
+            TargetGroupControllerSystem.ModifyTarget(transform, 1.5f, 1);
     }
 
 
@@ -223,17 +234,6 @@ public class ScarabWarrior : MonoBehaviour
         KeepDistanceWithPlayer();
 
         if (timeSinceLastAttack > attackCooldown) Throw();
-
-
-        /*
-        var dir = (playerReference.playerTransform.position - transform.position).normalized;
-        var right = Vector3.Cross(dir, transform.right);
-
-        transform.RotateAround(playerReference.playerTransform.position, right,
-            rotSpeed * Time.deltaTime * rotDirection);
-
-        transform.position = new Vector3(transform.position.x, transform.position.y, startingZDepth);
-        */
     }
 
     private void KeepDistanceWithPlayer()
@@ -243,13 +243,13 @@ public class ScarabWarrior : MonoBehaviour
         if (canISeePlayer)
         {
             if (distanceToTarget > maxFollowDistance)
-                speedToGo = stats.ST_Speed;
+                speedToGo = attributes.speed;
 
-            else if (distanceToTarget < goBackDistance) speedToGo = -stats.ST_Speed * .6f;
+            else if (distanceToTarget < goBackDistance) speedToGo = -attributes.speed * .6f;
         }
         else
         {
-            speedToGo = stats.ST_Speed * 0.7f;
+            speedToGo = attributes.speed * 0.7f;
 
             if (transform.position.x > playerTransform.position.x)
                 dirToGo = -transform.up;
@@ -334,10 +334,6 @@ public class ScarabWarrior : MonoBehaviour
 
     /* METHODS ---------- */
 
-    public void LoseShield()
-    {
-        hasShield = false;
-    }
 
     private void GoBackToStartPos()
     {
@@ -461,11 +457,12 @@ public class ScarabWarrior : MonoBehaviour
         });
     }
 
+    /*
     public void DestroyShield()
     {
         if (hasShield)
             Destroy(shieldTransform.gameObject);
-    }
+    }*/
 
     public void Shake()
     {

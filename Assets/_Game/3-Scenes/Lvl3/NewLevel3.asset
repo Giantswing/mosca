@@ -21,8 +21,8 @@ MonoBehaviour:
   sceneInternalName: new-lvl3-scene
   timeToWin: 430
   heartContainers: 0
-  deathCounter: 42
-  stars: 2
+  deathCounter: 0
+  stars: 0
   isThisLastOne: 0
   index: 2
   isBSide: 0

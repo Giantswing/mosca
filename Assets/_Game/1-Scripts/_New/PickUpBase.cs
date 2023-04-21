@@ -15,7 +15,7 @@ public class PickUpBase : MonoBehaviour, IPickUp
     [HideInInspector] public Collider collider { get; set; }
     [HideInInspector] public Transform whoToFollow { get; set; }
     [HideInInspector] public Transform whoReceivesPickup { get; set; }
-    [HideInInspector] public bool isPickedUp { get; set; }
+    public bool isPickedUp { get; set; }
     [HideInInspector] public bool isFollowing { get; set; }
 
     protected Tweener _tweener;
@@ -90,10 +90,23 @@ public class PickUpBase : MonoBehaviour, IPickUp
         DOVirtual.DelayedCall(Random.Range(0.25f, 0.4f), StartFollowing);
     }
 
+    public void StartFollowingWithDelay()
+    {
+        DOVirtual.DelayedCall(Random.Range(0.5f, 1.35f), StartFollowing);
+    }
+
     public void StartFollowing()
     {
         isFollowing = true;
-        _tweener = transform.DOMove(whoToFollow.position, .2f, false).SetEase(Ease.OutCubic);
+        isPickedUp = true;
+
+        if (whoToFollow == null)
+        {
+            whoToFollow = TargetGroupControllerSystem.ClosestPlayer(transform);
+            whoReceivesPickup = whoToFollow;
+        }
+
+        _tweener = transform.DOMove(whoToFollow.position, .8f, false).SetEase(Ease.OutCirc);
 
         TimerTick.tickFrameFixed += Follow;
     }
@@ -145,11 +158,9 @@ public class PickUpBase : MonoBehaviour, IPickUp
             foreach (IPickUpEffect effect in effects)
                 effect.OnCollect(whoReceivesPickup);
 
-        if (!isHoldable)
-        {
-            DOTween.Kill(transform);
-            DOTween.Kill(displayObject);
-        }
+        DOTween.Kill(transform);
+
+        if (!isHoldable) DOTween.Kill(displayObject);
 
         if (destroyOnCollect) Destroy(gameObject);
     }

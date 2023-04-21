@@ -74,6 +74,9 @@ public class LevelLoadSystem : MonoBehaviour
 
         _asyncLoad.allowSceneActivation = false;
 
+        if (LevelTransitionScript.Instance.myState == LevelTransitionScript.TransitionState.VisibleAndFinished)
+            _asyncLoad.allowSceneActivation = true;
+
         LevelTransitionScript.StartTransition(() => { _asyncLoad.allowSceneActivation = true; });
     }
 }

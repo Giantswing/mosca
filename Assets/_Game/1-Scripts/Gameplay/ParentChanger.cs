@@ -6,7 +6,7 @@ using UnityEngine;
 public class EntityInside
 {
     public Transform entityTransform;
-    public STATS entityStats;
+    public Attributes entityAttributes;
 }
 
 public class ParentChanger : MonoBehaviour
@@ -57,11 +57,25 @@ public class ParentChanger : MonoBehaviour
         return listOfEntities.Count > 0;
     }
 
-    private void AddEntity(Transform other_transform, STATS other_stats)
+    public bool AreAllPlayersInside()
     {
-        listOfEntities.Add(new EntityInside { entityTransform = other_transform, entityStats = other_stats });
+        int playersInLevel = TargetGroupControllerSystem.Instance.playerList.Count;
+
+        var playersInside = 0;
+
+        for (var i = 0; i < listOfEntities.Count; i++)
+            if (listOfEntities[i].entityAttributes.GetComponent<PlayerIdentifier>())
+                playersInside++;
+
+        return playersInLevel == playersInside;
+    }
+
+
+    private void AddEntity(Transform other_transform, Attributes other_attributes)
+    {
+        listOfEntities.Add(new EntityInside { entityTransform = other_transform, entityAttributes = other_attributes });
         other_transform.parent = transform;
-        other_stats.IsInsideElevator = true;
+        //other_stats.IsInsideElevator = true;
     }
 
     private void RemoveEntity(Transform other_transform)
@@ -70,7 +84,7 @@ public class ParentChanger : MonoBehaviour
             if (listOfEntities[i].entityTransform == other_transform)
             {
                 listOfEntities[i].entityTransform.parent = null;
-                listOfEntities[i].entityStats.IsInsideElevator = false;
+                //listOfEntities[i].entityStats.IsInsideElevator = false;
                 listOfEntities.RemoveAt(i);
                 break;
             }
@@ -87,8 +101,10 @@ public class ParentChanger : MonoBehaviour
             otherStats.IsInsideElevator = true;
             */
             if (CheckIfEntityIsInside(other.transform)) return;
-            AddEntity(other.transform, other.GetComponent<STATS>());
-            _eventCaller.OnStartEvent?.Invoke();
+            AddEntity(other.transform, other.GetComponent<Attributes>());
+
+            if (AreAllPlayersInside())
+                _eventCaller.OnStartEvent?.Invoke();
         }
     }
 

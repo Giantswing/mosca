@@ -71,18 +71,15 @@ public class RewardScript : MonoBehaviour
 
 
                 Vector3 randomDir3D = new(Mathf.Cos(randomDir2D), Mathf.Sin(randomDir2D), 0);
-                reward.transform.DOMove(_position + randomDir3D * Random.Range(2.5F, 3.5F), Random.Range(0.35f, 0.5f))
-                    .onComplete += () =>
-                {
-                    PickUpBase pickUp = reward.GetComponent<PickUpBase>();
-                    pickUp.isPickedUp = true;
+                reward.transform.DOMove(_position + randomDir3D * Random.Range(2.5F, 3.5F), Random.Range(0.35f, 0.5f));
 
-                    Transform closestPlayer = TargetGroupControllerSystem.ClosestPlayer(transform);
-                    pickUp.whoToFollow = closestPlayer;
-                    pickUp.whoReceivesPickup = closestPlayer;
 
-                    pickUp.StartFollowing();
-                };
+                PickUpBase pickUp = reward.GetComponent<PickUpBase>();
+                Transform closestPlayer = TargetGroupControllerSystem.ClosestPlayer(transform);
+                pickUp.whoToFollow = closestPlayer;
+                pickUp.whoReceivesPickup = closestPlayer;
+
+                pickUp.StartFollowingWithDelay();
             }
         }
     }

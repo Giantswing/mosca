@@ -6,10 +6,10 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class ThrowablePickup : HoldablePickup, ICollisionIgnore
+public class ThrowablePickup : HoldablePickup, ICollisionIgnore, IPressurePlateListener
 {
     [Title("Throwable Properties")] public float throwForce = 10f;
-    [HideInInspector] public Collider hardCollider;
+    public Collider hardCollider;
     public UnityEvent OnThrow;
 
     protected override void Initialize()
@@ -37,5 +37,11 @@ public class ThrowablePickup : HoldablePickup, ICollisionIgnore
     public Collider GetCollider()
     {
         return hardCollider;
+    }
+
+    public override void ImmediateReset()
+    {
+        base.ImmediateReset();
+        hardCollider.enabled = false;
     }
 }

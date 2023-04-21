@@ -80,7 +80,7 @@ MonoBehaviour:
   - name: Reset
     FX: {fileID: 2218637419942722434, guid: d45eea7fb5f345f41b6ba467b01c07d8, type: 3}
     duration: 2
-    maxCount: 2
+    maxCount: 6
   - name: Heart Container
     FX: {fileID: 2709620181179541924, guid: 78d05463d28292d4f87cedf6631174c4, type: 3}
     duration: 5
