@@ -27,7 +27,7 @@ public class PickUpSystem : MonoBehaviour
         if (!enabled) return;
 
         int numOverlaps =
-            Physics.OverlapSphereNonAlloc(transform.position, pickupRange, colliders, 1,
+            Physics.OverlapSphereNonAlloc(transform.position, pickupRange, colliders, int.MaxValue,
                 QueryTriggerInteraction.Collide);
 
         for (var i = 0; i < numOverlaps; i++)

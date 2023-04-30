@@ -18,6 +18,7 @@ MonoBehaviour:
     - {fileID: 7181058524826200382, guid: 86175a2550f9e0c47840fccd955d116d, type: 3}
     - {fileID: 2044022496740575611, guid: 28eb0f4732389544ab19213cf1e06ccb, type: 3}
     - {fileID: 5123453007864149827, guid: fadb89f157b3c6a4a9b1913b97dfeb47, type: 3}
+    - {fileID: 8062916686275699463, guid: c2927f2f2946aee4594677ee194214b3, type: 3}
     objectsNames: []
   - name: _02-ENEMIES
     objects:
@@ -84,6 +85,8 @@ MonoBehaviour:
     - {fileID: 1189704060341639789, guid: 66ef2097876565a4cb79400630022c00, type: 3}
     - {fileID: 2260360674892169357, guid: e309d6a2360984f4e8e7d79336666048, type: 3}
     - {fileID: 2885765762046121824, guid: e0f034a51738c1147ba17e1c8a669269, type: 3}
+    - {fileID: 5485409253078758112, guid: ca856efeea6889a46a028480a28d592b, type: 3}
+    - {fileID: 8888920807350308526, guid: cd88ed1af9d43d24292ed886f83643ca, type: 3}
     objectsNames: []
   - name: _07-GAMEPLAY
     objects:
@@ -114,60 +117,6 @@ MonoBehaviour:
     objects: []
     objectsNames: []
   allGameObjects:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}

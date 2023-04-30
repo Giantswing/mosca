@@ -5246,6 +5246,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60cfd649c9a1cdf4181467af2510092f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sphereColliderRadius: 0.015
   pickUpArea: {fileID: 0}
   my3dModel: {fileID: 5584090997864804597}
   myMeshRenderer: {fileID: 5881862432118198510}
@@ -12657,7 +12658,7 @@ GameObject:
   - component: {fileID: 1682305247}
   - component: {fileID: 1169328848719718255}
   - component: {fileID: 1972694440}
-  m_Layer: 3
+  m_Layer: 17
   m_Name: Flugi
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -12712,7 +12713,7 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.65
+  m_Radius: 0.4
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!135 &5584090998417839421
 SphereCollider:

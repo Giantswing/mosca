@@ -21,13 +21,15 @@ public class DSwitcherScript : MonoBehaviour, IPressurePlateListener, IGenericIn
 
     private WaitForSeconds delay = new(0.5f);
 
+    private int toggleMode = 1;
+
     private Sequence _mySequence;
 
     private float endRot = 0;
 
     private void Start()
     {
-        var rot = Mathf.Round(transform.eulerAngles.z);
+        float rot = Mathf.Round(transform.eulerAngles.z);
         if (rot == 0 || rot % 180 == 0)
             isHorizontal = true;
         else
@@ -92,6 +94,34 @@ public class DSwitcherScript : MonoBehaviour, IPressurePlateListener, IGenericIn
         Rotate(-1);
     }
 
+    public void HitToggle()
+    {
+        if (toggleMode == 1)
+        {
+            Rotate(1);
+            toggleMode = -1;
+        }
+        else
+        {
+            Rotate(-1);
+            toggleMode = 1;
+        }
+    }
+
+    public void HitToggleReverse()
+    {
+        if (toggleMode == 1)
+        {
+            Rotate(-1);
+            toggleMode = -1;
+        }
+        else
+        {
+            Rotate(1);
+            toggleMode = 1;
+        }
+    }
+
     private void Rotate(int clockwise)
     {
         if (canBeActivated == false)
@@ -130,7 +160,7 @@ public class DSwitcherScript : MonoBehaviour, IPressurePlateListener, IGenericIn
     {
         Gizmos.color = Color.yellow;
         //draw a rectangle the same size as the model
-        var bounds = GetComponentInChildren<Renderer>().bounds.size;
+        Vector3 bounds = GetComponentInChildren<Renderer>().bounds.size;
 
         //rotate bounds 90 degrees
         (bounds.x, bounds.y) = (bounds.y, bounds.x);

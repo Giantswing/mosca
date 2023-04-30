@@ -81,7 +81,9 @@ public class TargetGroupControllerSystem : MonoBehaviour
         else
             Destroy(gameObject);
 
-        DontDestroyOnLoad(gameObject);
+        transform.parent = null;
+
+        DOVirtual.DelayedCall(0.1f, () => { DontDestroyOnLoad(gameObject); });
     }
 
 

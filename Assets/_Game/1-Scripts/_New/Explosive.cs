@@ -45,6 +45,7 @@ public class Explosive : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         if (!enabled) return;
-        if (rb.velocity.magnitude > magnitudeThreshold) Explode();
+        //if (rb.velocity.magnitude > magnitudeThreshold) Explode();
+        Explode();
     }
 }

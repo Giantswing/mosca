@@ -7,6 +7,7 @@ using UnityEngine.Events;
 
 public class Crown : MonoBehaviour, IPressurePlateListener
 {
+    [SerializeField] private float sphereColliderRadius = 0.015f;
     private Rigidbody myRb;
     private Collider myCol;
     private Transform originalParent;
@@ -69,6 +70,8 @@ public class Crown : MonoBehaviour, IPressurePlateListener
     private bool EnteredNoCrownArea = false;
     private int numCollisions = 0;
 
+    private SphereCollider sphereCollider;
+
 
     private void Awake()
     {
@@ -77,6 +80,8 @@ public class Crown : MonoBehaviour, IPressurePlateListener
         myTrail = GetComponentInChildren<TrailRenderer>();
         originalParent = transform.parent;
         originalScale = my3dModel.localScale;
+        sphereCollider = GetComponent<SphereCollider>();
+        sphereCollider.radius = sphereColliderRadius;
     }
 
     private void Start()
@@ -191,6 +196,9 @@ public class Crown : MonoBehaviour, IPressurePlateListener
     public void Throw(Vector3 dir, float strength)
     {
         if (!isGrabbed) return;
+
+        sphereCollider.radius = sphereColliderRadius;
+        DOTween.To(() => sphereCollider.radius, x => sphereCollider.radius = x, 0.04f, 0.5f);
 
 
         OnCrownThrow.Invoke();

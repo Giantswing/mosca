@@ -17,14 +17,14 @@ MonoBehaviour:
     sceneAsset: {fileID: 102900000, guid: da1cdac6dce2ba2468e5d62a6ee0da0b, type: 3}
     required: 0
     buildIndex: 6
-  sceneName: Sandbox
+  sceneName: Use your head
   sceneInternalName: sandboxTest
   timeToWin: 450
   heartContainers: 0
   deathCounter: 0
   stars: 0
-  isThisLastOne: 0
-  index: 3
+  isThisLastOne: 1
+  index: 0
   isBSide: 0
   hasBSide: 0
   bSideScene: {fileID: 0}

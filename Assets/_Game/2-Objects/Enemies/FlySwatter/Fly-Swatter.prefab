@@ -156,7 +156,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8854455516104376788}
   - component: {fileID: 530452080367351894}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: swatter_low
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -350,8 +350,8 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.2
-  m_Center: {x: 0.2, y: -0.3, z: 0}
+  m_Radius: 0.1
+  m_Center: {x: 0.2, y: -0.21, z: 0}
 --- !u!135 &4894665001899906163
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -423,13 +423,19 @@ MonoBehaviour:
   damage: 1
   canDoDamage: 1
   onlyExplosions: 0
-  explosiveDamage: 0
+  explosive: 0
+  contactDamage: 1
   onDeathBehaviour: 0
+  damagePriority: 1
   canInteract: 0
+  disablePressurePlates: 0
   hasInstantiatedData: 0
+  hasSharedData: 0
   attributeDataPrefab: {fileID: 0}
   attributeData: {fileID: 0}
+  sharedData: {fileID: 0}
   objectModel: {fileID: 0}
+  manuallyAddedRenderers: 0
   renderers: []
   hurtMaterial: {fileID: 0}
   onDeath:

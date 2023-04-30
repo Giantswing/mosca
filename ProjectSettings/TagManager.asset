@@ -40,9 +40,9 @@ TagManager:
   - CamB
   - FrostumOffset
   - SeeThroughEnemies
-  - 
-  - 
-  - 
+  - PlayerOnly
+  - LayerSetUpA
+  - LayerSetUpB
   - 
   - 
   - 

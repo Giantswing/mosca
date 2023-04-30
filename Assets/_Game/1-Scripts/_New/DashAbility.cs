@@ -54,6 +54,10 @@ public class DashAbility : MonoBehaviour
 
         if (directionIn.magnitude <= .25f)
         {
+            //clear the list first
+
+            interactables.Clear();
+
             int numOverlaps = Physics.OverlapSphereNonAlloc(transform.position, 2f, colliders);
             for (var i = 0; i < numOverlaps; i++)
             {

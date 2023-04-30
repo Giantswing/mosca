@@ -147,7 +147,7 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.02
+  m_Radius: 0.015
   m_Center: {x: 0.00000003083469, y: -9.973121e-10, z: 0.004428509}
 --- !u!96 &1332847837
 TrailRenderer:
@@ -269,6 +269,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60cfd649c9a1cdf4181467af2510092f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sphereColliderRadius: 0.0001
   pickUpArea: {fileID: 0}
   my3dModel: {fileID: 711158520}
   myMeshRenderer: {fileID: 0}
